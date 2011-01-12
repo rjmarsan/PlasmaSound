@@ -58,7 +58,7 @@ public class MSAPong extends PApplet implements MTCallback {
 
 
 
-final float FLUID_WIDTH = 45;
+final float FLUID_WIDTH = 80;
 
 float invWidth, invHeight;    // inverse of screen dimensions
 float aspectRatio, aspectRatio2;
@@ -102,7 +102,8 @@ public void setup() {
 }
 
 public void setupFluid() {
-  fluidSolver.enableRGB(true).setFadeSpeed(0.01f).setDeltaT(0.5f).setVisc(0.0001f);//.setSolverIterations(3);
+	  fluidSolver.enableRGB(true).setFadeSpeed(0.01f).setDeltaT(0.5f).setVisc(0.0001f).setSolverIterations(5);
+	  //fluidSolver.enableRGB(true).setFadeSpeed(0.01f).setDeltaT(1).setVisc(1).setSolverIterations(5);
 }
 
 public void debug() {
