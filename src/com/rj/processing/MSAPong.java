@@ -139,7 +139,7 @@ public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
 		float vy, float size) {
 	//if (!ready) return;
 	
-	float velocityScale = 10f;
+	float velocityScale = 30f;
 	float maxVel = 0.2f;
 //	float velocityScale = 30f;
 //	float maxVel = 0.2f;

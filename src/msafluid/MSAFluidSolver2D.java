@@ -105,18 +105,6 @@ public class MSAFluidSolver2D {
 		vOld = null;
 		
 		_isInited = false;
-		setup(NX, NY);
-	}
-
-	
-	/**
-	 * (OPTIONAL SETUP) re-initialize solver and setup number of cells
-	 * @param NX number of cells in X direction
-	 * @param NY number of cells in X direction
-	 * @return instance of MSAFluidSolver2D for further configuration
-	 */
-	public MSAFluidSolver2D setup(int NX, int NY) {
-		
 		setDeltaT(FLUID_DEFAULT_DT);
 		setFadeSpeed(FLUID_DEFAULT_FADESPEED  );
 		setSolverIterations(FLUID_DEFAULT_SOLVER_ITERATIONS);
@@ -137,6 +125,17 @@ public class MSAFluidSolver2D {
 		
 		reset();
 		enableRGB(false);
+	}
+
+	
+	/**
+	 * (OPTIONAL SETUP) re-initialize solver and setup number of cells
+	 * @param NX number of cells in X direction
+	 * @param NY number of cells in X direction
+	 * @return instance of MSAFluidSolver2D for further configuration
+	 */
+	public MSAFluidSolver2D setup(int NX, int NY) {
+		
 		return this;
 	}
 	
@@ -675,7 +674,7 @@ public class MSAFluidSolver2D {
 	}
 	
 	protected void diffuseUV(int b, float _diff) {
-		float a = _dt * _diff * _NX * _NY;
+		final float a = _dt * _diff * _NX * _NY;
 		linearSolverUV(b, a, 1.0f + 4 * a);
 	}
 	
@@ -765,53 +764,53 @@ public class MSAFluidSolver2D {
 	
 	protected void setBoundary(int b, float[] x) {
 		//return;
-		for (int i = 1; i <= _NX; i++) {
-			if(i<= _NY) {
-				x[((0) + (_NX + 2)  *(i))] = b == 1 ? -x[((1) + (_NX + 2)  *(i))] : x[((1) + (_NX + 2)  *(i))];
-				x[((_NX+1) + (_NX + 2)  *(i))] = b == 1 ? -x[((_NX) + (_NX + 2)  *(i))] : x[((_NX) + (_NX + 2)  *(i))];
-			}
-			
-			x[((i) + (_NX + 2)  *(0))] = b == 2 ? -x[((i) + (_NX + 2)  *(1))] : x[((i) + (_NX + 2)  *(1))];
-			x[((i) + (_NX + 2)  *(_NY+1))] = b == 2 ? -x[((i) + (_NX + 2)  *(_NY))] : x[((i) + (_NX + 2)  *(_NY))];
-		}
-		
-		x[((0) + (_NX + 2)  *(0))] = 0.5f * (x[((1) + (_NX + 2)  *(0))] + x[((0) + (_NX + 2)  *(1))]);
-		x[((0) + (_NX + 2)  *(_NY+1))] = 0.5f * (x[((1) + (_NX + 2)  *(_NY+1))] + x[((0) + (_NX + 2)  *(_NY))]);
-		x[((_NX+1) + (_NX + 2)  *(0))] = 0.5f * (x[((_NX) + (_NX + 2)  *(0))] + x[((_NX+1) + (_NX + 2)  *(1))]);
-		x[((_NX+1) + (_NX + 2)  *(_NY+1))] = 0.5f * (x[((_NX) + (_NX + 2)  *(_NY+1))] + x[((_NX+1) + (_NX + 2)  *(_NY))]);
+//		for (int i = 1; i <= _NX; i++) {
+//			if(i<= _NY) {
+//				x[((0) + (_NX + 2)  *(i))] = b == 1 ? -x[((1) + (_NX + 2)  *(i))] : x[((1) + (_NX + 2)  *(i))];
+//				x[((_NX+1) + (_NX + 2)  *(i))] = b == 1 ? -x[((_NX) + (_NX + 2)  *(i))] : x[((_NX) + (_NX + 2)  *(i))];
+//			}
+//			
+//			x[((i) + (_NX + 2)  *(0))] = b == 2 ? -x[((i) + (_NX + 2)  *(1))] : x[((i) + (_NX + 2)  *(1))];
+//			x[((i) + (_NX + 2)  *(_NY+1))] = b == 2 ? -x[((i) + (_NX + 2)  *(_NY))] : x[((i) + (_NX + 2)  *(_NY))];
+//		}
+//		
+//		x[((0) + (_NX + 2)  *(0))] = 0.5f * (x[((1) + (_NX + 2)  *(0))] + x[((0) + (_NX + 2)  *(1))]);
+//		x[((0) + (_NX + 2)  *(_NY+1))] = 0.5f * (x[((1) + (_NX + 2)  *(_NY+1))] + x[((0) + (_NX + 2)  *(_NY))]);
+//		x[((_NX+1) + (_NX + 2)  *(0))] = 0.5f * (x[((_NX) + (_NX + 2)  *(0))] + x[((_NX+1) + (_NX + 2)  *(1))]);
+//		x[((_NX+1) + (_NX + 2)  *(_NY+1))] = 0.5f * (x[((_NX) + (_NX + 2)  *(_NY+1))] + x[((_NX+1) + (_NX + 2)  *(_NY))]);
 	}
 	
 
 	protected void setBoundaryRGB(int bound) {
-		int index1, index2;
-		for (int i = 1; i <= _NX; i++) {
-			if(i<= _NY) {
-				index1 = ((0) + (_NX + 2)  *(i));
-				index2 = ((1) + (_NX + 2)  *(i));
-				r[index1] = bound == 1 ? -r[index2] : r[index2];
-				g[index1] = bound == 1 ? -g[index2] : g[index2];
-				b[index1] = bound == 1 ? -b[index2] : b[index2];
-				
-				index1 = ((_NX+1) + (_NX + 2)  *(i));
-				index2 = ((_NX) + (_NX + 2)  *(i));
-				r[index1] = bound == 1 ? -r[index2] : r[index2];
-				g[index1] = bound == 1 ? -g[index2] : g[index2];
-				b[index1] = bound == 1 ? -b[index2] : b[index2];
-			}
-			
-			index1 = ((i) + (_NX + 2)  *(0));
-			index2 = ((i) + (_NX + 2)  *(1));
-			r[index1] = bound == 2 ? -r[index2] : r[index2];
-			g[index1] = bound == 2 ? -g[index2] : g[index2];
-			b[index1] = bound == 2 ? -b[index2] : b[index2];
-			
-			index1 = ((i) + (_NX + 2)  *(_NY+1));
-			index2 = ((i) + (_NX + 2)  *(_NY));
-			r[index1] = bound == 2 ? -r[index2] : r[index2];
-			g[index1] = bound == 2 ? -g[index2] : g[index2];
-			b[index1] = bound == 2 ? -b[index2] : b[index2];
-			
-		}
+//		int index1, index2;
+//		for (int i = 1; i <= _NX; i++) {
+//			if(i<= _NY) {
+//				index1 = ((0) + (_NX + 2)  *(i));
+//				index2 = ((1) + (_NX + 2)  *(i));
+//				r[index1] = bound == 1 ? -r[index2] : r[index2];
+//				g[index1] = bound == 1 ? -g[index2] : g[index2];
+//				b[index1] = bound == 1 ? -b[index2] : b[index2];
+//				
+//				index1 = ((_NX+1) + (_NX + 2)  *(i));
+//				index2 = ((_NX) + (_NX + 2)  *(i));
+//				r[index1] = bound == 1 ? -r[index2] : r[index2];
+//				g[index1] = bound == 1 ? -g[index2] : g[index2];
+//				b[index1] = bound == 1 ? -b[index2] : b[index2];
+//			}
+//			
+//			index1 = ((i) + (_NX + 2)  *(0));
+//			index2 = ((i) + (_NX + 2)  *(1));
+//			r[index1] = bound == 2 ? -r[index2] : r[index2];
+//			g[index1] = bound == 2 ? -g[index2] : g[index2];
+//			b[index1] = bound == 2 ? -b[index2] : b[index2];
+//			
+//			index1 = ((i) + (_NX + 2)  *(_NY+1));
+//			index2 = ((i) + (_NX + 2)  *(_NY));
+//			r[index1] = bound == 2 ? -r[index2] : r[index2];
+//			g[index1] = bound == 2 ? -g[index2] : g[index2];
+//			b[index1] = bound == 2 ? -b[index2] : b[index2];
+//			
+//		}
 		
 		//	x[FLUID_IX(  0,   0)] = 0.5f * (x[FLUID_IX(1, 0  )] + x[FLUID_IX(  0, 1)]);
 		//	x[FLUID_IX(  0, _NY+1)] = 0.5f * (x[FLUID_IX(1, _NY+1)] + x[FLUID_IX(  0, _NY)]);
@@ -853,13 +852,13 @@ public class MSAFluidSolver2D {
 
 	
 	
-	protected float width;
-	protected float height;
-	protected float invWidth;
-	protected float invHeight;
+	final protected float width;
+	final protected float height;
+	final protected float invWidth;
+	final protected float invHeight;
 	
-	protected int		_NX, _NY, _numCells;
-	protected float	_invNX, _invNY, _invNumCells;
+	final protected int		_NX, _NY, _numCells;
+	final protected float	_invNX, _invNY, _invNumCells;
 	protected float	_dt;
 	protected boolean	_isInited;
 	protected boolean	_isRGB;				// for monochrome, only update r
