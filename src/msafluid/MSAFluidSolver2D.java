@@ -200,7 +200,7 @@ public class MSAFluidSolver2D {
 	public void randomizeColor() {
 		for(int i=0; i< getWidth(); i++) {
 			for(int j=0; j< getHeight(); j++) {
-				final int index = FLUID_IX(i, j);
+				final int index = ((i) + (_NX + 2)  *(j));
 				r[index] = rOld[index] = (float)Math.random();
 				if(_isRGB) {
 					g[index] = gOld[index] = (float)Math.random();
@@ -268,7 +268,7 @@ public class MSAFluidSolver2D {
 	public int getIndexForCellPosition(int i, int j) {
 		if(i < 1) i=1; else if(i > _NX) i = _NX;
 		if(j < 1) j=1; else if(j > _NY) j = _NY;
-		return FLUID_IX(i, j);
+		return ((i) + (_NX + 2)  *(j));
 	}
 	
 	/**
@@ -598,8 +598,8 @@ public class MSAFluidSolver2D {
 		
 		for (int i = 1; i <= _NX; i++) {
 			for (int j = 1; j <= _NY; j++) {
-				x = i - dt0 * du[FLUID_IX(i, j)];
-				y = j - dt0 * dv[FLUID_IX(i, j)];
+				x = i - dt0 * du[((i) + (_NX + 2)  *(j))];//
+				y = j - dt0 * dv[((i) + (_NX + 2)  *(j))];
 				
 				if (x > _NX + 0.5) x = _NX + 0.5f;
 				if (x < 0.5)     x = 0.5f;
@@ -618,8 +618,8 @@ public class MSAFluidSolver2D {
 				t1 = y - j0;
 				t0 = 1 - t1;
 				
-				_d[FLUID_IX(i, j)] = s0 * (t0 * d0[FLUID_IX(i0, j0)] + t1 * d0[FLUID_IX(i0, j1)])
-				+ s1 * (t0 * d0[FLUID_IX(i1, j0)] + t1 * d0[FLUID_IX(i1, j1)]);
+				_d[((i) + (_NX + 2)  *(j))] = s0 * (t0 * d0[((i0) + (_NX + 2)  *(j0))] + t1 * d0[((i0) + (_NX + 2)  *(j1))])
+				+ s1 * (t0 * d0[((i1) + (_NX + 2)  *(j0))] + t1 * d0[((i1) + (_NX + 2)  *(j1))]);
 				
 			}
 		}
@@ -634,8 +634,8 @@ public class MSAFluidSolver2D {
 		
 		for (int i = 1; i <= _NX; i++) {
 			for (int j = 1; j <= _NY; j++) {
-				x = i - dt0 * du[FLUID_IX(i, j)];
-				y = j - dt0 * dv[FLUID_IX(i, j)];
+				x = i - dt0 * du[((i) + (_NX + 2)  *(j))];
+				y = j - dt0 * dv[((i) + (_NX + 2)  *(j))];
 				
 				if (x > _NX + 0.5) x = _NX + 0.5f;
 				if (x < 0.5)     x = 0.5f;
@@ -654,9 +654,9 @@ public class MSAFluidSolver2D {
 				t1 = y - j0;
 				t0 = 1 - t1;
 				
-				r[FLUID_IX(i, j)] = s0 * (t0 * rOld[FLUID_IX(i0, j0)] + t1 * rOld[FLUID_IX(i0, j1)])	+ s1 * (t0 * rOld[FLUID_IX(i1, j0)] + t1 * rOld[FLUID_IX(i1, j1)]);
-				g[FLUID_IX(i, j)] = s0 * (t0 * gOld[FLUID_IX(i0, j0)] + t1 * gOld[FLUID_IX(i0, j1)])	+ s1 * (t0 * gOld[FLUID_IX(i1, j0)] + t1 * gOld[FLUID_IX(i1, j1)]);			
-				b[FLUID_IX(i, j)] = s0 * (t0 * bOld[FLUID_IX(i0, j0)] + t1 * bOld[FLUID_IX(i0, j1)])	+ s1 * (t0 * bOld[FLUID_IX(i1, j0)] + t1 * bOld[FLUID_IX(i1, j1)]);				
+				r[((i) + (_NX + 2)  *(j))] = s0 * (t0 * rOld[((i0) + (_NX + 2)  *(j0))] + t1 * rOld[((i0) + (_NX + 2)  *(j1))])	+ s1 * (t0 * rOld[((i1) + (_NX + 2)  *(j0))] + t1 * rOld[((i1) + (_NX + 2)  *(j1))]);
+				g[((i) + (_NX + 2)  *(j))] = s0 * (t0 * gOld[((i0) + (_NX + 2)  *(j0))] + t1 * gOld[((i0) + (_NX + 2)  *(j1))])	+ s1 * (t0 * gOld[((i1) + (_NX + 2)  *(j0))] + t1 * gOld[((i1) + (_NX + 2)  *(j1))]);			
+				b[((i) + (_NX + 2)  *(j))] = s0 * (t0 * bOld[((i0) + (_NX + 2)  *(j0))] + t1 * bOld[((i0) + (_NX + 2)  *(j1))])	+ s1 * (t0 * bOld[((i1) + (_NX + 2)  *(j0))] + t1 * bOld[((i1) + (_NX + 2)  *(j1))]);				
 			}
 		}
 		setBoundaryRGB(bound);
@@ -683,9 +683,9 @@ public class MSAFluidSolver2D {
 	protected void project(float[] x, float[] y, float[] p, float[] div)  {
 		for (int i = 1; i <= _NX; i++) {
 			for (int j = 1; j <= _NY; j++) {
-				div[FLUID_IX(i, j)] = (x[FLUID_IX(i+1, j)] - x[FLUID_IX(i-1, j)] + y[FLUID_IX(i, j+1)] - y[FLUID_IX(i, j-1)])
+				div[((i) + (_NX + 2)  *(j))] = (x[((i+1) + (_NX + 2)  *(j))] - x[((i-1) + (_NX + 2)  *(j))] + y[((i) + (_NX + 2)  *(j+1))] - y[((i) + (_NX + 2)  *(j-1))])
 				* - 0.5f / _NX;
-				p[FLUID_IX(i, j)] = 0;
+				p[((i) + (_NX + 2)  *(j))] = 0;
 			}
 		}
 		
@@ -696,8 +696,8 @@ public class MSAFluidSolver2D {
 		
 		for (int i = 1; i <= _NX; i++) {
 			for (int j = 1; j <= _NY; j++) {
-				x[FLUID_IX(i, j)] -= 0.5f * _NX * (p[FLUID_IX(i+1, j)] - p[FLUID_IX(i-1, j)]);
-				y[FLUID_IX(i, j)] -= 0.5f * _NX * (p[FLUID_IX(i, j+1)] - p[FLUID_IX(i, j-1)]);
+				x[((i) + (_NX + 2)  *(j))] -= 0.5f * _NX * (p[((i+1) + (_NX + 2)  *(j))] - p[((i-1) + (_NX + 2)  *(j))]);
+				y[((i) + (_NX + 2)  *(j))] -= 0.5f * _NX * (p[((i) + (_NX + 2)  *(j+1))] - p[((i) + (_NX + 2)  *(j-1))]);
 			}
 		}
 		
@@ -711,7 +711,7 @@ public class MSAFluidSolver2D {
 		for (int k = 0; k < _solverIterations; k++) {
 			for (int i = 1; i <= _NX; i++) {
 				for (int j = 1; j <= _NY; j++) {
-					x[FLUID_IX(i, j)] = (a * ( x[FLUID_IX(i-1, j)] + x[FLUID_IX(i+1, j)]  +   x[FLUID_IX(i, j-1)] + x[FLUID_IX(i, j+1)])  +  x0[FLUID_IX(i, j)]) / c;
+					x[((i) + (_NX + 2)  *(j))] = (a * ( x[((i-1) + (_NX + 2)  *(j))] + x[((i+1) + (_NX + 2)  *(j))]  +   x[((i) + (_NX + 2)  *(j-1))] + x[((i) + (_NX + 2)  *(j+1))])  +  x0[((i) + (_NX + 2)  *(j))]) / c;
 				}
 			}
 			setBoundary(b, x);
@@ -725,7 +725,7 @@ public class MSAFluidSolver2D {
 		for (int k = 0; k < _solverIterations; k++) {		// MEMO
 			for (int i = 1; i <= _NX; i++) {
 				for (int j = 1; j <= _NY; j++) {
-					index5 = FLUID_IX(i, j);
+					index5 = ((i) + (_NX + 2)  *(j));
 					index1 = index5 - 1;//FLUID_IX(i-1, j);
 					index2 = index5 + 1;//FLUID_IX(i+1, j);
 					index3 = index5 - (_NX + 2);//FLUID_IX(i, j-1);
@@ -746,7 +746,7 @@ public class MSAFluidSolver2D {
 		for (int k = 0; k < _solverIterations; k++) {		// MEMO
 			for (int i = 1; i <= _NX; i++) {
 				for (int j = 1; j <= _NY; j++) {
-					index5 = FLUID_IX(i, j);
+					index5 = ((i) + (_NX + 2)  *(j));
 					index1 = index5 - 1;//FLUID_IX(i-1, j);
 					index2 = index5 + 1;//FLUID_IX(i+1, j);
 					index3 = index5 - (_NX + 2);//FLUID_IX(i, j-1);
@@ -767,18 +767,18 @@ public class MSAFluidSolver2D {
 		//return;
 		for (int i = 1; i <= _NX; i++) {
 			if(i<= _NY) {
-				x[FLUID_IX(  0, i  )] = b == 1 ? -x[FLUID_IX(1, i)] : x[FLUID_IX(1, i)];
-				x[FLUID_IX(_NX+1, i  )] = b == 1 ? -x[FLUID_IX(_NX, i)] : x[FLUID_IX(_NX, i)];
+				x[((0) + (_NX + 2)  *(i))] = b == 1 ? -x[((1) + (_NX + 2)  *(i))] : x[((1) + (_NX + 2)  *(i))];
+				x[((_NX+1) + (_NX + 2)  *(i))] = b == 1 ? -x[((_NX) + (_NX + 2)  *(i))] : x[((_NX) + (_NX + 2)  *(i))];
 			}
 			
-			x[FLUID_IX(  i, 0  )] = b == 2 ? -x[FLUID_IX(i, 1)] : x[FLUID_IX(i, 1)];
-			x[FLUID_IX(  i, _NY+1)] = b == 2 ? -x[FLUID_IX(i, _NY)] : x[FLUID_IX(i, _NY)];
+			x[((i) + (_NX + 2)  *(0))] = b == 2 ? -x[((i) + (_NX + 2)  *(1))] : x[((i) + (_NX + 2)  *(1))];
+			x[((i) + (_NX + 2)  *(_NY+1))] = b == 2 ? -x[((i) + (_NX + 2)  *(_NY))] : x[((i) + (_NX + 2)  *(_NY))];
 		}
 		
-		x[FLUID_IX(  0,   0)] = 0.5f * (x[FLUID_IX(1, 0  )] + x[FLUID_IX(  0, 1)]);
-		x[FLUID_IX(  0, _NY+1)] = 0.5f * (x[FLUID_IX(1, _NY+1)] + x[FLUID_IX(  0, _NY)]);
-		x[FLUID_IX(_NX+1,   0)] = 0.5f * (x[FLUID_IX(_NX, 0  )] + x[FLUID_IX(_NX+1, 1)]);
-		x[FLUID_IX(_NX+1, _NY+1)] = 0.5f * (x[FLUID_IX(_NX, _NY+1)] + x[FLUID_IX(_NX+1, _NY)]);
+		x[((0) + (_NX + 2)  *(0))] = 0.5f * (x[((1) + (_NX + 2)  *(0))] + x[((0) + (_NX + 2)  *(1))]);
+		x[((0) + (_NX + 2)  *(_NY+1))] = 0.5f * (x[((1) + (_NX + 2)  *(_NY+1))] + x[((0) + (_NX + 2)  *(_NY))]);
+		x[((_NX+1) + (_NX + 2)  *(0))] = 0.5f * (x[((_NX) + (_NX + 2)  *(0))] + x[((_NX+1) + (_NX + 2)  *(1))]);
+		x[((_NX+1) + (_NX + 2)  *(_NY+1))] = 0.5f * (x[((_NX) + (_NX + 2)  *(_NY+1))] + x[((_NX+1) + (_NX + 2)  *(_NY))]);
 	}
 	
 
@@ -786,27 +786,27 @@ public class MSAFluidSolver2D {
 		int index1, index2;
 		for (int i = 1; i <= _NX; i++) {
 			if(i<= _NY) {
-				index1 = FLUID_IX(0, i);
-				index2 = FLUID_IX(1, i);
+				index1 = ((0) + (_NX + 2)  *(i));
+				index2 = ((1) + (_NX + 2)  *(i));
 				r[index1] = bound == 1 ? -r[index2] : r[index2];
 				g[index1] = bound == 1 ? -g[index2] : g[index2];
 				b[index1] = bound == 1 ? -b[index2] : b[index2];
 				
-				index1 = FLUID_IX(_NX+1, i );
-				index2 = FLUID_IX(_NX, i);
+				index1 = ((_NX+1) + (_NX + 2)  *(i));
+				index2 = ((_NX) + (_NX + 2)  *(i));
 				r[index1] = bound == 1 ? -r[index2] : r[index2];
 				g[index1] = bound == 1 ? -g[index2] : g[index2];
 				b[index1] = bound == 1 ? -b[index2] : b[index2];
 			}
 			
-			index1 = FLUID_IX(i, 0);
-			index2 = FLUID_IX(i, 1);
+			index1 = ((i) + (_NX + 2)  *(0));
+			index2 = ((i) + (_NX + 2)  *(1));
 			r[index1] = bound == 2 ? -r[index2] : r[index2];
 			g[index1] = bound == 2 ? -g[index2] : g[index2];
 			b[index1] = bound == 2 ? -b[index2] : b[index2];
 			
-			index1 = FLUID_IX(i, _NY+1);
-			index2 = FLUID_IX(i, _NY);
+			index1 = ((i) + (_NX + 2)  *(_NY+1));
+			index2 = ((i) + (_NX + 2)  *(_NY));
 			r[index1] = bound == 2 ? -r[index2] : r[index2];
 			g[index1] = bound == 2 ? -g[index2] : g[index2];
 			b[index1] = bound == 2 ? -b[index2] : b[index2];
@@ -873,13 +873,5 @@ public class MSAFluidSolver2D {
 	protected float	_avgDensity;			// this will hold the average color of the last frame (how full it is)
 	protected float	uniformity;			// this will hold the uniformity of the last frame (how uniform the color is);
 	protected float	_avgSpeed;
-	
-	// These were #defines in c++ version
-	protected int FLUID_IX(int i, int j)	{ return ((i) + (_NX + 2)  *(j)); }
-//	protected void ADD_SOURCE_UV()			{ addSource(u, uOld);	addSource(v, vOld); }
-//	protected void ADD_SOURCE_RGB()			{ addSource(r, rOld);	addSource(g, gOld);	addSource(b, bOld); }
-//	protected void DIFFUSE_RGB()			{ diffuse(0, r, rOld, 0);	diffuse(0, g, gOld, 0);	diffuse(0, b, bOld, 0); }
-//	protected void ADVECT_RGB()				{ advect(0, r, rOld, u, v);	advect(0, g, gOld, u, v);	advect(0, b, bOld, u, v); }
-//	protected void DIFFUSE_UV()				{ diffuse(0, u, uOld, visc);	diffuse(0, v, vOld, visc); }
 }
 
