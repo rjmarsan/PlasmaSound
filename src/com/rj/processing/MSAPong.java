@@ -78,7 +78,7 @@ public void setup() {
     //hint( ENABLE_OPENGL_4X_SMOOTH );    // Turn on 4X antialiasing
 	  hint(DISABLE_DEPTH_TEST);
 	  hint(DISABLE_OPENGL_ERROR_REPORT);
-    frameRate(30);
+    frameRate(60);
 
     invWidth = 1.0f/width;
     invHeight = 1.0f/height;
@@ -196,10 +196,10 @@ public void draw() {
     drawPong();
     //*/
     
-    stroke(128);
-    this.line(x, y, x2,y2);
+    //stroke(128);
+    //this.line(x, y, x2,y2);
     
-    println(this.frameRate+"");
+    if (this.frameCount % 10 == 0) println(this.frameRate+"");
 
 }
 
