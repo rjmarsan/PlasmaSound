@@ -69,7 +69,7 @@ PImage imgFluid;
 
 MTManager mtManager;
 
-
+boolean evenframe=true;
 //boolean drawFluid = true;
 
 public void setup() {
@@ -125,7 +125,7 @@ public void mouseMoved() {
     float mouseVelX = (mouseX - pmouseX) * invWidth;
     float mouseVelY = (mouseY - pmouseY) * invHeight;
 
-    addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY, (long)0);
+    addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY);
 }
 //mt version
 public boolean surfaceTouchEvent(MotionEvent me) {
@@ -161,7 +161,7 @@ public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
 	vy = vy * velocityScale;
 	
 	float siz = me.getSize(i);
-    addForce(x/width, y/height, vx/width, vy/height, (long)random(8));
+    addForce(x/width, y/height, vx/width, vy/height);
 	this.x=x;
 	this.y=y;
 	this.x2=x+vx*100;
@@ -176,18 +176,15 @@ public void draw() {
 
     colorMode(RGB, 1);  
 
-    if (this.frameCount % 2 == 0) {
-	    fluidSolver.update();
-	
-	
-	    imgFluid.loadPixels();
-	    int d = 2;
-	    final int numcells = fluidSolver.getNumCells();
-	    for(int i=0; i<numcells; i++) {
-	        imgFluid.pixels[i] = color(fluidSolver.r[i], fluidSolver.g[i], fluidSolver.b[i]);
-	    }  
-	    imgFluid.updatePixels();//  fastblur(imgFluid, 2);
-    }
+    if (evenframe) fluidSolver.update();
+    evenframe = !evenframe;
+
+    imgFluid.loadPixels();
+    int d = 2;
+    for(int i=0; i<fluidSolver.getNumCells(); i++) {
+        imgFluid.pixels[i] = color(fluidSolver.r[i] * d, fluidSolver.g[i] * d, fluidSolver.b[i] * d);
+    }  
+    imgFluid.updatePixels();//  fastblur(imgFluid, 2);
     
     image(imgFluid, 0, 0, width, height);
 
@@ -205,17 +202,12 @@ public void draw() {
 
 
 // add force and dye to fluid, and create particles
-public void addForce(float x, float y, float dx, float dy, long sesId) {
-//        if(x<0) x = 0; 
-//        else if(x>1) x = 1;
-//        if(y<0) y = 0; 
-//        else if(y>1) y = 1;
-
+public void addForce(float x, float y, float dx, float dy) {
         float colorMult = 5;
         colorMult=colorMult*y;
         float velocityMult = 30.0f;
 
-        int index = fluidSolver.getIndexForNormalizedPosition(x, y);
+        
 
         int drawColor;
 
@@ -225,16 +217,17 @@ public void addForce(float x, float y, float dx, float dy, long sesId) {
         	hue = 0;
         else
         	hue = 180;
-        //float hue = (sesId * 80+random(10)) % 360;
         drawColor = color(hue, 1, 1);
         colorMode(RGB, 1);  
-
-        fluidSolver.rOld[index]  += red(drawColor) * colorMult;
-        fluidSolver.gOld[index]  += green(drawColor) * colorMult;
-        fluidSolver.bOld[index]  += blue(drawColor) * colorMult;
-
-        fluidSolver.uOld[index] += dx * velocityMult;
-        fluidSolver.vOld[index] += dy * velocityMult;
+        for (int i=0; i<3; i++) {
+        	int index = fluidSolver.getIndexForNormalizedPosition(x+.01f*i, y);
+	        fluidSolver.rOld[index]  += red(drawColor) * colorMult;
+	        fluidSolver.gOld[index]  += green(drawColor) * colorMult;
+	        fluidSolver.bOld[index]  += blue(drawColor) * colorMult;
+	
+	        fluidSolver.uOld[index] += dx * velocityMult;
+	        fluidSolver.vOld[index] += dy * velocityMult;
+        }
         println("Forces being written: x:"+dx * velocityMult);
         println("Forces being written: y:"+dy * velocityMult);
         
