@@ -58,11 +58,7 @@ public class MSAPong extends PApplet implements MTCallback {
 
 
 
-<<<<<<< HEAD
 final float FLUID_WIDTH = 60;
-=======
-final float FLUID_WIDTH = 80;
->>>>>>> 0709a3b4faa7b8a7d83b72b0341dc3be86c3574a
 
 float invWidth, invHeight;    // inverse of screen dimensions
 float aspectRatio, aspectRatio2;
