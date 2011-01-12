@@ -102,7 +102,7 @@ public void setup() {
 }
 
 public void setupFluid() {
-	  fluidSolver.enableRGB(true).setFadeSpeed(0.01f).setDeltaT(0.5f).setVisc(0.0001f).setSolverIterations(5);
+	  fluidSolver.enableRGB(true).setFadeSpeed(0.01f).setDeltaT(0.5f).setVisc(0.0001f).setSolverIterations(2);
 	  //fluidSolver.enableRGB(true).setFadeSpeed(0.01f).setDeltaT(1).setVisc(1).setSolverIterations(5);
 }
 
@@ -125,7 +125,7 @@ public void mouseMoved() {
     float mouseVelX = (mouseX - pmouseX) * invWidth;
     float mouseVelY = (mouseY - pmouseY) * invHeight;
 
-    addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY, (long)(random(8)));
+    addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY, (long)0);
 }
 //mt version
 public boolean surfaceTouchEvent(MotionEvent me) {

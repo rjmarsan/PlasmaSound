@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.rj.processing" android:versionCode="1" android:versionName="1.0">
   <uses-sdk android:minSdkVersion="7"/>
-  <application android:label="MSAPong" android:icon="@drawable/icon" android:debuggable="true">
+  <application android:label="MSAPong" android:debuggable="true">
     <activity android:name=".MSAPong"
     		  android:screenOrientation="landscape">
       <intent-filter>
