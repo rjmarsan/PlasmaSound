@@ -64,7 +64,7 @@ public class MTManager {
 			vx = (x-prevPoint.x)*dt;
 			vy = (y-prevPoint.y)*dt;
 		}
-		points.add(index, new Point(x,y));
+		points.set(index, new Point(x,y));
 		
 		
 
