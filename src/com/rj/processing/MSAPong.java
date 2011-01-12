@@ -176,15 +176,18 @@ public void draw() {
 
     colorMode(RGB, 1);  
 
-    fluidSolver.update();
-
-
-    imgFluid.loadPixels();
-    int d = 2;
-    for(int i=0; i<fluidSolver.getNumCells(); i++) {
-        imgFluid.pixels[i] = color(fluidSolver.r[i] * d, fluidSolver.g[i] * d, fluidSolver.b[i] * d);
-    }  
-    imgFluid.updatePixels();//  fastblur(imgFluid, 2);
+    if (this.frameCount % 2 == 0) {
+	    fluidSolver.update();
+	
+	
+	    imgFluid.loadPixels();
+	    int d = 2;
+	    final int numcells = fluidSolver.getNumCells();
+	    for(int i=0; i<numcells; i++) {
+	        imgFluid.pixels[i] = color(fluidSolver.r[i], fluidSolver.g[i], fluidSolver.b[i]);
+	    }  
+	    imgFluid.updatePixels();//  fastblur(imgFluid, 2);
+    }
     
     image(imgFluid, 0, 0, width, height);
 
