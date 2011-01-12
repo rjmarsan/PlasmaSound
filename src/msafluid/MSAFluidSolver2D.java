@@ -51,19 +51,19 @@ import java.util.Arrays;
  * 
  */
 public class MSAFluidSolver2D {
-	public float[]	r;
-	public float[]	g;
-	public float[]	b;
+	public final float[]	r;
+	public final float[]	g;
+	public final float[]	b;
 	
-	public float[]	u;
-	public float[]	v;
+	public final float[]	u;
+	public final float[]	v;
 
-	public float[]	rOld;
-	public float[]	gOld;
-	public float[]	bOld;
+	public final float[]	rOld;
+	public final float[]	gOld;
+	public final float[]	bOld;
 	
-	public float[]	uOld;
-	public float[]	vOld;
+	public final float[]	uOld;
+	public final float[]	vOld;
 
 	public final String VERSION = "1.3.0";
 
@@ -90,19 +90,19 @@ public class MSAFluidSolver2D {
 	 * @param NY number of cells in Y direction
 	 */
 	public MSAFluidSolver2D(int NX, int NY) {
-		r    = null;
-		rOld = null;
-		
-		g    = null;
-		gOld = null;
-		
-		b    = null;
-		bOld = null;
-		
-		u    = null;
-		uOld = null;
-		v    = null;
-		vOld = null;
+//		r    = null;
+//		rOld = null;
+//		
+//		g    = null;
+//		gOld = null;
+//		
+//		b    = null;
+//		bOld = null;
+//		
+//		u    = null;
+//		uOld = null;
+//		v    = null;
+//		vOld = null;
 		
 		_isInited = false;
 		setDeltaT(FLUID_DEFAULT_DT);
@@ -123,7 +123,39 @@ public class MSAFluidSolver2D {
 		invWidth	= 1.0f/width;
 		invHeight	= 1.0f/height;
 		
+		
+		
+		r    = new float[_numCells];
+		rOld = new float[_numCells];
+
+		
+		g    = new float[_numCells];
+		gOld = new float[_numCells];
+		
+		b    = new float[_numCells];
+		bOld = new float[_numCells];
+		
+		u    = new float[_numCells];
+		uOld = new float[_numCells];
+		v    = new float[_numCells];
+		vOld = new float[_numCells];
+
+		_tmp = new float[_numCells];
+
+		
+		
+		
+		
 		reset();
+		
+		
+		
+
+		
+		
+		
+		
+		
 		enableRGB(false);
 	}
 
@@ -215,19 +247,19 @@ public class MSAFluidSolver2D {
 	public void destroy() {
 		_isInited = false;
 		
-		r    = null;
-		rOld = null;
-		
-		g    = null;
-		gOld = null;
-		
-		b    = null;
-		bOld = null;
-		
-		u    = null;
-		uOld = null;
-		v    = null;
-		vOld = null;
+//		r    = null;
+//		rOld = null;
+//		
+//		g    = null;
+//		gOld = null;
+//		
+//		b    = null;
+//		bOld = null;
+//		
+//		u    = null;
+//		uOld = null;
+//		v    = null;
+//		vOld = null;
 	}
 	
 	
@@ -238,24 +270,34 @@ public class MSAFluidSolver2D {
 		destroy();
 		_isInited = true;
 		
-		r    = new float[_numCells];
-		rOld = new float[_numCells];
+//		r    = new float[_numCells];
+		Arrays.fill(r, 0);
+//		rOld = new float[_numCells];
+		Arrays.fill(rOld, 0);
+
 		
-		g    = new float[_numCells];
-		gOld = new float[_numCells];
+//		g    = new float[_numCells];
+		Arrays.fill(g, 0);
+//		gOld = new float[_numCells];
+		Arrays.fill(gOld, 0);
 		
-		b    = new float[_numCells];
-		bOld = new float[_numCells];
+//		b    = new float[_numCells];
+		Arrays.fill(b, 0);
+//		bOld = new float[_numCells];
+		Arrays.fill(bOld, 0);
 		
-		u    = new float[_numCells];
-		uOld = new float[_numCells];
-		v    = new float[_numCells];
-		vOld = new float[_numCells];
-		
-		for (int i = 0; i < _numCells; i++) {
-			u[i] = uOld[i] = v[i] = vOld[i] = 0.0f;
-			r[i] = rOld[i] = g[i] = gOld[i] = b[i] = bOld[i] = 0;
-		}
+//		u    = new float[_numCells];
+		Arrays.fill(u, 0);
+//		uOld = new float[_numCells];
+		Arrays.fill(uOld, 0);
+//		v    = new float[_numCells];
+		Arrays.fill(v, 0);
+//		vOld = new float[_numCells];
+		Arrays.fill(vOld, 0);
+//		for (int i = 0; i < _numCells; i++) {
+//			u[i] = uOld[i] = v[i] = vOld[i] = 0.0f;
+//			r[i] = rOld[i] = g[i] = gOld[i] = b[i] = bOld[i] = 0;
+//		}
 	}
 	
 	/**
@@ -821,33 +863,64 @@ public class MSAFluidSolver2D {
 	
 	
 	protected void swapU() { 
-		_tmp = u; 
-		u = uOld; 
-		uOld = _tmp; 
+		System.arraycopy(u, 0, _tmp, 0, u.length);
+//		_tmp = u; 
+//		u = uOld; 
+		System.arraycopy(uOld, 0, u, 0, u.length);
+
+//		uOld = _tmp; 
+		System.arraycopy(_tmp, 0, uOld, 0, u.length);
+
 	}
 	protected void swapV(){ 
-		_tmp = v; 
-		v = vOld; 
-		vOld = _tmp; 
+//		_tmp = v; 
+//		v = vOld; 
+//		vOld = _tmp; 
+		
+		System.arraycopy(v, 0, _tmp, 0, v.length);
+		System.arraycopy(vOld, 0, v, 0, v.length);
+		System.arraycopy(_tmp, 0, vOld, 0, v.length);
+
+		
 	}
 	protected void swapR(){ 
-		_tmp = r;
-		r = rOld;
-		rOld = _tmp;
+//		_tmp = r;
+//		r = rOld;
+//		rOld = _tmp;
+		
+		System.arraycopy(r, 0, _tmp, 0, r.length);
+		System.arraycopy(rOld, 0, r, 0, r.length);
+		System.arraycopy(_tmp, 0, rOld, 0, r.length);
+
 	}
 	
 	protected void swapRGB(){ 
-		_tmp = r;
-		r = rOld;
-		rOld = _tmp;
+//		_tmp = r;
+//		r = rOld;
+//		rOld = _tmp;
 		
-		_tmp = g;
-		g = gOld;
-		gOld = _tmp;
+		System.arraycopy(r, 0, _tmp, 0, r.length);
+		System.arraycopy(rOld, 0, r, 0, r.length);
+		System.arraycopy(_tmp, 0, rOld, 0, r.length);
+
 		
-		_tmp = b;
-		b = bOld;
-		bOld = _tmp;
+//		_tmp = g;
+//		g = gOld;
+//		gOld = _tmp;
+		
+		System.arraycopy(g, 0, _tmp, 0, g.length);
+		System.arraycopy(gOld, 0, g, 0, g.length);
+		System.arraycopy(_tmp, 0, gOld, 0, g.length);
+
+		
+//		_tmp = b;
+//		b = bOld;
+//		bOld = _tmp;
+		
+		System.arraycopy(b, 0, _tmp, 0, b.length);
+		System.arraycopy(bOld, 0, b, 0, b.length);
+		System.arraycopy(_tmp, 0, bOld, 0, b.length);
+
 	}
 
 	

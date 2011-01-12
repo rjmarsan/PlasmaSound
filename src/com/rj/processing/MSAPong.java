@@ -195,6 +195,8 @@ public void draw() {
     
     stroke(128);
     this.line(x, y, x2,y2);
+    
+    println(this.frameRate+"");
 
 }
 
