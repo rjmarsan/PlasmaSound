@@ -206,7 +206,8 @@ public void addForce(float x, float y, float dx, float dy) {
         colorMult=colorMult*y;
         float velocityMult = 30.0f;
 
-        
+        if (dx > 1) dx = 1;
+        if (dy > 5) dy = 1;
 
         int drawColor;
 
@@ -219,13 +220,15 @@ public void addForce(float x, float y, float dx, float dy) {
         drawColor = color(hue, 1, 1);
         colorMode(RGB, 1);  
         for (int i=0; i<3; i++) {
-        	int index = fluidSolver.getIndexForNormalizedPosition(x+.01f*i, y);
-	        fluidSolver.rOld[index]  += red(drawColor) * colorMult;
-	        fluidSolver.gOld[index]  += green(drawColor) * colorMult;
-	        fluidSolver.bOld[index]  += blue(drawColor) * colorMult;
-	
-	        fluidSolver.uOld[index] += dx * velocityMult;
-	        fluidSolver.vOld[index] += dy * velocityMult;
+        	for (int j=0; j<1; j++) {
+	        	int index = fluidSolver.getIndexForNormalizedPosition(x+.01f*i, y+.01f*j);
+		        fluidSolver.rOld[index]  += red(drawColor) * colorMult;
+		        fluidSolver.gOld[index]  += green(drawColor) * colorMult;
+		        fluidSolver.bOld[index]  += blue(drawColor) * colorMult;
+		
+		        fluidSolver.uOld[index] += dx * velocityMult;
+		        fluidSolver.vOld[index] += dy * velocityMult;
+        	}
         }
         println("Forces being written: x:"+dx * velocityMult);
         println("Forces being written: y:"+dy * velocityMult);
@@ -242,6 +245,7 @@ class Ball{
   float vx=0;
   float vy=0;
   
+  float maxvel = 0.0f;
   
   float yPadding = 20;
   float upperBoundsY = yPadding;
@@ -252,22 +256,26 @@ class Ball{
   
   public void draw(MSAFluidSolver2D fluidSolver) {
     pushStyle();
-    fill(150,100,150,150);
+    float noiseScale = 0.01f;
+    float noiseVal = noise(x*noiseScale, y*noiseScale)*255;
+    fill(noiseVal,noiseVal,noiseVal,150);
     stroke(0);
     strokeWeight(3);
     int index = fluidSolver.getIndexForNormalizedPosition(x/width,y/height);
     float fluidvy = fluidSolver.v[index]*scalingFactor;
     float fluidvx = fluidSolver.u[index]*scalingFactor;
-    
+;
     float fluidvscale = 10;
-    if (abs(fluidvx + fluidvy) < 3) {
-      fluidvscale = 100;  //now it flys a lot better when you push it
-    }
+    //if (abs(fluidvx + fluidvy) < 3) {
+    //  fluidvscale = 100;  //now it flies a lot better when you push it
+    //}
     
+
     //fluidvscale = 100/abs(fluidvx + fluidvy+0.001); 
     vy = (fluidvy)/fluidvscale+(fluidvscale-1)*vy/fluidvscale;
     vx = (fluidvx)/fluidvscale+(fluidvscale-1)*vx/fluidvscale;
-      
+    if (vx > 200) vx = 200;
+    if (vy > 200) vy = 200;
     ellipse(x,y,30,30);
     popStyle();
     
