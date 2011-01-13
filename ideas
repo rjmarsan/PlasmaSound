@@ -1,0 +1,26 @@
+WE NEED A NAME!
+	PlasmaPong
+	MSAPong (it's based off the open source library MSAFluid)
+	FluidPong
+
+
+player/color selection
+	color is based on touch-start location, not just current touch location
+in-game ui
+	puck
+		metro's got ideas.
+	text
+		bi-directional
+	score markers
+		also bi-directional
+	rounds
+		indicate how many points to win
+pause/menu
+	processing? or not? not sure at all.	
+	* Single Player
+	* Multi Player
+	* Options
+	* Help
+	* DONATE
+network play1
+	maybe later, it'd have to paied/ad supported
