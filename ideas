@@ -1,3 +1,9 @@
+WE NEED A NAME!
+	PlasmaPong
+	MSAPong (it's based off the open source library MSAFluid)
+	FluidPong
+
+
 player/color selection
 	color is based on touch-start location, not just current touch location
 in-game ui
