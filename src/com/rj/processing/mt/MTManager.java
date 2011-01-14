@@ -22,6 +22,10 @@ public class MTManager {
 			time = System.currentTimeMillis();
 		}
 	}
+//	public class Cursor {
+//		public final Point firstPoint;
+////		public final ///seee where this is going later. when you wake up.
+//	}
 	public ArrayList<Point> points;
 	
 	public MTManager(MTCallback callback) {

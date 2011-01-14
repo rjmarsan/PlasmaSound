@@ -1,14 +1,16 @@
 package com.rj.processing;
 
-import com.rj.processing.mt.MTCallback;
-import com.rj.processing.mt.MTManager;
-
 import msafluid.MSAFluidSolver2D;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+
+import com.rj.processing.mt.MTCallback;
+import com.rj.processing.mt.MTManager;
+import com.rj.processing.pong.Ball;
+import com.rj.processing.pong.Game;
 
 public class MSAPong extends PApplet implements MTCallback {
 
@@ -63,7 +65,7 @@ final float FLUID_WIDTH = 60;
 float invWidth, invHeight;    // inverse of screen dimensions
 float aspectRatio, aspectRatio2;
 
-MSAFluidSolver2D fluidSolver;
+public MSAFluidSolver2D fluidSolver;
 
 PImage imgFluid;
 
@@ -71,6 +73,8 @@ MTManager mtManager;
 
 boolean evenframe=true;
 //boolean drawFluid = true;
+
+Game g;
 
 public void setup() {
        // use OPENGL rendering for bilinear filtering on texture
@@ -95,7 +99,8 @@ public void setup() {
     
     mtManager = new MTManager(this);
     
-    //BALL
+    //GAME CODE
+    g = new Game(this);
     initPong(); 
     
     debug();
@@ -180,7 +185,7 @@ public void draw() {
 
     imgFluid.loadPixels();
     int d = 2;
-    for(int i=0; i<fluidSolver.getNumCells(); i++) {
+    for(int i=0; i<fluidSolver.getNumCells(); i++) { //optimize here.
         imgFluid.pixels[i] = color(fluidSolver.r[i] * d, fluidSolver.g[i] * d, fluidSolver.b[i] * d);
     }  
     imgFluid.updatePixels();//  fastblur(imgFluid, 2);
@@ -238,244 +243,13 @@ public void addForce(float x, float y, float dx, float dy) {
 
 
 
-class Ball{
-  float x=width/2;
-  float y=height/2;
-  
-  float vx=0;
-  float vy=0;
-  
-  float maxvel = 0.0f;
-  
-  float yPadding = 20;
-  float upperBoundsY = yPadding;
-  float lowerBoundsY = height - yPadding;
-  
-  float scalingFactor = 500;
-  
-  
-  public void draw(MSAFluidSolver2D fluidSolver) {
-    pushStyle();
-    float noiseScale = 0.01f;
-    float noiseVal = noise(x*noiseScale, y*noiseScale)*255;
-    fill(noiseVal,noiseVal,noiseVal,150);
-    stroke(0);
-    strokeWeight(3);
-    int index = fluidSolver.getIndexForNormalizedPosition(x/width,y/height);
-    float fluidvy = fluidSolver.v[index]*scalingFactor;
-    float fluidvx = fluidSolver.u[index]*scalingFactor;
-;
-    float fluidvscale = 10;
-    //if (abs(fluidvx + fluidvy) < 3) {
-    //  fluidvscale = 100;  //now it flies a lot better when you push it
-    //}
-    
+	public void initPong() {
+		g.initPong();
+	}
 
-    //fluidvscale = 100/abs(fluidvx + fluidvy+0.001); 
-    vy = (fluidvy)/fluidvscale+(fluidvscale-1)*vy/fluidvscale;
-    vx = (fluidvx)/fluidvscale+(fluidvscale-1)*vx/fluidvscale;
-    if (vx > 200) vx = 200;
-    if (vy > 200) vy = 200;
-    ellipse(x,y,30,30);
-    popStyle();
-    
-    x = x+vx;
-    y = y+vy;
-    checkBounds();
-  }
-  public void checkBounds() {
-    if (x < 0) {
-      x=0;
-      vx = -vx;
-    }
-    else if (x > width) {
-      x=width;
-      vx = -vx;
-    }
-    if (y < upperBoundsY) {
-      y=upperBoundsY;
-      vy = -vy;
-    }
-    else if (y > lowerBoundsY) {
-      y=lowerBoundsY;
-      vy = -vy;
-    }
-
-  }
-  
-  
-  public void resetBall() {
-    x = width/2;
-    y = height/2;
-    vx = 0;
-    vy = 0;
-    scalingFactor = 500;
-  }
-}
-Ball b;
-PFont font;
-
-int goalBoarder = 70;
-int goalColor = color(150,150,150,150);
-
-
-int scoreP1 = 0;
-int scoreP2 = 0;
-
-int maxScore = 5;
-int waitPeriod = 60; //number of frames to keep the status message
-
-int justScored = 0;  //the frame it happened
-int lastScored = 0;  //the player who last scored
-int gameOver = 0;    //the frame it happened
-int initWait = 0;    //the frame it happened
-
-int eventFrame = -1;
-String statusMessage;
-
-public void initPong() {
-  //textMode(SHAPE);
-  textMode(MODEL);
-  b = new Ball();
-  //load font
-  font = loadFont("GillSans-Bold-48.vlw"); 
-  //font = loadFont("SansSerif-48.vlw"); 
-  textFont(font, 48);
-  textAlign(CENTER);
-  rectMode(CENTER);
-  initGameLogic();
-}
-
-public void initGameLogic() {
-  scoreP1 = 0;
-  scoreP2 = 0;
-  
-  justScored = 0;
-  lastScored = 0;
-  gameOver = 0;
-  initWait = 0;
- 
-  
- 
- 
-  
-  setStatus("Ready? Go!");
-}
-
-public void drawPong() {
-  pushStyle();
-  colorMode(RGB, 255,255,255,255);
-  fill(150,150,150,150);
-    
-  b.draw(fluidSolver);
-  drawStatusMessage();
-  drawScore();
-  drawGoals();
-  updateGameLogic();
-  popStyle();
-}
-
-public void setStatus(String s) {
-  println("New status at frame "+frameCount+": "+s);
-  eventFrame = frameCount;
-  statusMessage = s;
-}
-
-public void updateGameLogic() {
-  if (justScored == 0) {
-    if (b.x < goalBoarder) {
-      justScored = frameCount;
-      scoreP2 += 1;
-      lastScored = 1;
-      if (scoreP2 < maxScore) {
-        setStatus("Player "+lastScored+" Scores!");
-      }
-      else {
-        setStatus("Player "+lastScored+" wins!");
-        gameOver = frameCount;
-      }
-    }
-    else if (b.x > width-goalBoarder) {
-      justScored = frameCount;
-      scoreP1 += 1;
-      lastScored = 2;
-      if (scoreP1 < maxScore) {
-        setStatus("Player "+lastScored+" Scores!");
-      }
-      else {
-        setStatus("Player "+lastScored+" wins!");
-        gameOver = frameCount;
-      }
-      
-    }
-    
-  }
-  makeGameHarder();
-  resetPuck();
-  if (gameOver != 0) {
-    gameOver();
-  }
-}
-
-public void makeGameHarder() {
-  //b.scalingFactor += 2;
-  //fluidSolver.setVisc(fluidSolver.getVisc()/1.003f);
-  //println(fluidSolver.getVisc());
-}
-
-public void drawStatusMessage() {
-  if (eventFrame != -1) {
-    if (frameCount - eventFrame < waitPeriod) {
-      drawStatusText(statusMessage);
-      drawCountdownBar(eventFrame);
-    }
-    else {
-      eventFrame = -1;
-    }
-  }
-}
-
-public void gameOver() {
-  if (frameCount - gameOver > waitPeriod) {
-    initGameLogic();
-  }
-}
-
-public void resetPuck() {
-  if (justScored != 0 && frameCount - justScored > waitPeriod) {
-    b.resetBall();
-    justScored = 0;
-    resetFluid();
-  }
-  
-}
-
-public void resetFluid() {
-  setupFluid();
-  fluidSolver.reset();
-}
-
-public void drawScore() {
-  stroke(0);
-  text(scoreP1, 100,100);
-  text(scoreP2, width-100,100);
-}
-
-public void drawStatusText(String s) {
-  text(s,width/2, height/2);
-}
-public void drawCountdownBar( int frameSince ) {
-    rect(width/2,height/2+20,3*(waitPeriod - (frameCount - frameSince)), 10);
-}
- 
- 
-public void drawGoals() {
-  //for now
-  stroke(goalColor);
-  strokeWeight(3);
-  line(goalBoarder,goalBoarder,goalBoarder,height-goalBoarder);
-  line(width-goalBoarder,goalBoarder,width-goalBoarder,height-goalBoarder);
-}
+	public void drawPong() {
+		g.drawPong();
+	}
 
   public int sketchWidth() { return this.screenWidth; }
   public int sketchHeight() { return this.screenHeight; }
