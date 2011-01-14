@@ -9,7 +9,9 @@ public class Cursor {
 	public float velX=0;
 	public float velY=0;
 	
-	public static final float VEL_AVG = 3;
+	public static final float VEL_AVG = 4;
+	public static final float MAX_VEL = 1f;
+	public static final float MIN_VEL = -MAX_VEL;
 	
 	public Cursor(Point p, int curId) {
 		firstPoint = p;
@@ -25,7 +27,9 @@ public class Cursor {
 
 		
 		float rvx = (p.x - currentPoint.x) * dt;
+		rvx = Math.max(Math.min(rvx, MAX_VEL), MIN_VEL);
 		float rvy = (p.y - currentPoint.y) * dt;
+		rvy = Math.max(Math.min(rvy, MAX_VEL), MIN_VEL);
 		
 		if (velX*velX+velY*velY > 0.001f) {
 			velX = (velX*(VEL_AVG-1) + rvx) / VEL_AVG;

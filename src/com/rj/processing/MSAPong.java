@@ -185,8 +185,9 @@ public void draw() {
 
     imgFluid.loadPixels();
     int d = 2;
-    for(int i=0; i<fluidSolver.getNumCells(); i++) { //optimize here.
-        imgFluid.pixels[i] = color(fluidSolver.r[i] * d, fluidSolver.g[i] * d, fluidSolver.b[i] * d);
+    int cellcount = fluidSolver.getNumCells();
+    for(int i=0; i<cellcount; i++) { //optimize here.
+        imgFluid.pixels[i] = color(fluidSolver.r[i], fluidSolver.g[i], fluidSolver.b[i]);
     }  
     imgFluid.updatePixels();//  fastblur(imgFluid, 2);
     
@@ -235,6 +236,31 @@ public void addForce(float x, float y, float dx, float dy) {
 		        fluidSolver.vOld[index] += dy * velocityMult;
         	}
         }
+        //experimental code. interpolate between points.
+        //convert back to normal
+//        x = x * width;
+//        y = y * height;
+//        dx = dx * width/30f * 1000f/this.frameRate; //the 30 is a hack because this was usuallly called with dx * 30
+//        dy = dy * height/30f * 1000f/this.frameRate;
+//        
+//        float steps = (float)Math.sqrt(dx * dx + dy * dy);
+//        float stepX = dx/steps;
+//        float stepY = dy/steps;
+//
+//        float vx = x-dx;
+//        float vy = y-dy;
+//        for (float i=0; i < steps; i += 1f ) {
+//        	vx += stepX;
+//        	vy += stepY;
+//        	int index = fluidSolver.getIndexForNormalizedPosition(vx/width, vy/height);
+//	        fluidSolver.rOld[index]  += red(drawColor) * colorMult;
+//	        fluidSolver.gOld[index]  += green(drawColor) * colorMult;
+//	        fluidSolver.bOld[index]  += blue(drawColor) * colorMult;
+//	
+//	        fluidSolver.uOld[index] += dx/width * 1f;
+//	        fluidSolver.vOld[index] += dy/height * 1f;
+//        }
+        
         println("Forces being written: x:"+dx * velocityMult);
         println("Forces being written: y:"+dy * velocityMult);
         
