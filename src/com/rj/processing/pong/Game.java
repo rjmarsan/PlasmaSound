@@ -89,7 +89,7 @@ public class Game {
 			if (b.x < goalBoarder) {
 				justScored = p.frameCount;
 				scoreP2 += 1;
-				lastScored = 1;
+				lastScored = 2;
 				if (scoreP2 < maxScore) {
 					setStatus("Player " + lastScored + " Scores!");
 				} else {
@@ -99,7 +99,7 @@ public class Game {
 			} else if (b.x > width - goalBoarder) {
 				justScored = p.frameCount;
 				scoreP1 += 1;
-				lastScored = 2;
+				lastScored = 1;
 				if (scoreP1 < maxScore) {
 					setStatus("Player " + lastScored + " Scores!");
 				} else {
@@ -156,8 +156,8 @@ public class Game {
 
 	public void drawScore() {
 		p.stroke(0);
-		p.text(scoreP1, 100, 100);
-		p.text(scoreP2, width - 100, 100);
+		p.text(maxScore-scoreP2, 100, 100);
+		p.text(maxScore-scoreP1, width - 100, 100);
 	}
 
 	public void drawStatusText(String s) {
