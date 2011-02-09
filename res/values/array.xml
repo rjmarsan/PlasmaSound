@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="waveforms">
+<item>1.0</item>
+<item>2.0</item>
+<item>3.0</item>
+<item>4.0</item>
+</string-array>
+
+<string-array name="waveforms_display">
+<item>Sine</item>
+<item>Triangle</item>
+<item>Square</item>
+<item>Sawtooth</item>
+</string-array>
+
+
+
+
+
+</resources>
