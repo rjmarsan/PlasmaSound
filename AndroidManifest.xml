@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.rj.processing" android:versionCode="1" android:versionName="1.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.rj.processing.plasmatheremin" android:versionCode="1" android:versionName="1.0">
   <uses-sdk android:minSdkVersion="8"/>
-  <application android:label="MSAPong" android:icon="@drawable/icon">
-    <activity android:name=".MSAPong"
+  <application android:label="Plasma Theremin">
+    <activity android:name=".PlasmaTheremin"
     		  android:screenOrientation="landscape">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    
+        <activity
+            android:label="Plasma Theremin Audio Settings"
+            android:name=".PlasmaThereminAudioSettings"
+            android:exported="true">
+        </activity>
+    
   </application>
 </manifest>

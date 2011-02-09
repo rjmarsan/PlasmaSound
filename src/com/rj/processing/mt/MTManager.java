@@ -2,6 +2,7 @@ package com.rj.processing.mt;
 
 import java.util.ArrayList;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 
@@ -21,9 +22,29 @@ public class MTManager {
 	}
 
 	public void surfaceTouchEvent(MotionEvent me) {
-		int numPointers = me.getPointerCount();
-		for (int i = 0; i < numPointers; i++) {
-			touchEvent(me, i);
+		synchronized (cursors) {
+			int numPointers = me.getPointerCount();
+			if (numPointers == 0) {
+				//callback.touchEvent(me, 0, 0,0,0,0,0);
+			}
+			for (int i = 0; i < numPointers; i++) {
+				touchEvent(me, i);
+			}
+			if (me.getPointerCount() == 1 && me.getAction() == MotionEvent.ACTION_UP) {//if the final finger is lifted...
+				cursors.clear();
+			}
+			if (me.getPointerCount() < cursors.size()) {
+				for (int i = 0; i < cursors.size(); i++) {
+					int pointerId = me.getPointerId(i);
+					int index = me.findPointerIndex(pointerId);
+					if (index < 0) {
+						cursors.remove(i);
+					}
+					else if (pointerId != index && i >= 1) {
+						cursors.remove(i-1);
+					}
+				}
+			}
 		}
 	}
 	
@@ -80,11 +101,16 @@ public class MTManager {
 		long ctime = System.currentTimeMillis();
 		if (c != null && c.curId == pointerId && ctime - c.currentPoint.time < 100 ) {
 			c.updateCursor(new Point(x,y));
+
 		}
 		else {
 			c = new Cursor(new Point(x,y), pointerId);
 		}
 		cursors.set(index, c);
+		if (me.getAction() == MotionEvent.ACTION_UP) {
+			if (me.getPointerId(me.getActionIndex()) == pointerId)
+				cursors.remove(index);
+		}
 		
 		vx = c.velX;
 		vy = c.velY;
