@@ -166,7 +166,7 @@ public class Instrument {
 	public void updateSettings(SharedPreferences prefs, String preset) {
 		try {
 			float prefMidiMin = prefs.getInt(preset+MIDI_MIN, 70);
-			float prefMidiMax = prefs.getInt(preset+MIDI_MAX, 87);
+			float prefMidiMax = prefs.getInt(preset+MIDI_MAX, 86);
 			setMidiMin(prefMidiMin);
 			setMidiMax(prefMidiMax);
 			

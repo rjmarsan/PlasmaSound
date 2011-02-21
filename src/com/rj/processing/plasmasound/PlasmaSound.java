@@ -58,7 +58,7 @@ public void setup() {
     //Make the Instrument
     inst = new Instrument(pdman);
     inst.setPatch("simplesine4.pd");
-    inst.setMidiMin(65);
+    inst.setMidiMin(70);
     inst.setMidiMax(87);
     
 	readSettings();

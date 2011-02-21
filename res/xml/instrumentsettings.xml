@@ -36,7 +36,7 @@
             android:key="midimax"
             android:title="High Note"
             android:summary="High note of the scale"
-            android:defaultValue="87"
+            android:defaultValue="86"
             android:max="127" />
      <amir.android.icebreaking.SeekBarPreference  
             android:key="midimin"
