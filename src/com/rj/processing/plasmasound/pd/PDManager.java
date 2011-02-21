@@ -7,7 +7,7 @@
  * 
  */
 
-package com.rj.processing.plasmatheremin.pd;
+package com.rj.processing.plasmasound.pd;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import java.io.IOException;
 import org.puredata.android.io.AudioParameters;
 import org.puredata.android.io.PdAudio;
 import org.puredata.core.PdBase;
+import org.puredata.core.PdReceiver;
 import org.puredata.core.utils.IoUtils;
 import org.puredata.core.utils.PdUtils;
 
@@ -24,13 +25,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.rj.processing.plasmatheremin.PlasmaTheremin;
-import com.rj.processing.plasmatheremin.R;
+import com.rj.processing.plasmasound.PlasmaSound;
+import com.rj.processing.plasmasound.R;
 
 
 public class PDManager {
 	
-	final PlasmaTheremin p;
+
+
+	
+	final PlasmaSound p;
 	private static final int SAMPLE_RATE = 44100;
 	private static final String TAG = "Plasma Theremin";
 
@@ -48,8 +52,46 @@ public class PDManager {
 			}
 		});
 	}
+	
+	public class AudioStatListener implements PdReceiver{
+		public float audiolevel = 0f;
 
-	public PDManager(PlasmaTheremin p) {
+		@Override
+		public void print(String s) {	
+			Log.d("PDManager", "recieved print! "+s);
+
+		}
+
+		@Override
+		public void receiveBang(String source) {
+			Log.d("PDManager", "recieved bang! "+source);
+		}
+
+		@Override
+		public void receiveFloat(String source, float x) {
+			Log.d("PDManager", "recieved float! "+source+" : "+x);
+			if (source.equalsIgnoreCase("mainlevel")) {
+				audiolevel = x;
+			}
+		}
+		@Override
+		public void receiveList(String source, Object... args) {
+			Log.d("PDManager", "recieved list! "+source);
+		}
+		@Override
+		public void receiveMessage(String source, String symbol,
+				Object... args) {	
+			Log.d("PDManager", "recieved message! "+source);
+		}
+		@Override
+		public void receiveSymbol(String source, String symbol) {		
+			Log.d("PDManager", "recieved symbol! "+source);
+		}
+	};
+	
+	AudioStatListener reciever = new AudioStatListener();
+
+	public PDManager(PlasmaSound p) {
 		this.p = p;
 	}
 
@@ -69,7 +111,9 @@ public class PDManager {
 		try {
 			PdAudio.initAudio(SAMPLE_RATE, 0, nOut, 1, true);
 			PdAudio.startAudio(p);
-		} catch (IOException e) {
+//			PdBase.setReceiver(reciever);
+//			PdBase.subscribe("mainlevel");
+			} catch (IOException e) {
 			Log.e(TAG, e.toString());
 		}
 	}
@@ -100,6 +144,11 @@ public class PDManager {
 		}
 		return out;
 	}
+	
+	public float getVolumeLevel() {
+		return reciever.audiolevel;
+	}
+
 		
 
 	public void cleanup() {
@@ -107,5 +156,6 @@ public class PDManager {
 		PdAudio.stopAudio();
 		PdBase.release();
 	}
+	
 
 }

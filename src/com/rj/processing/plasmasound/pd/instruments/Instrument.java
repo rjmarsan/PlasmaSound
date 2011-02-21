@@ -1,4 +1,4 @@
-package com.rj.processing.plasmatheremin.pd.instruments;
+package com.rj.processing.plasmasound.pd.instruments;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +12,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import com.rj.processing.plasmatheremin.R;
-import com.rj.processing.plasmatheremin.pd.PDManager;
+import com.rj.processing.plasmasound.pd.PDManager;
+import com.rj.processing.plasmasound.R;
 
 public class Instrument {
 	private static final String MIDI_MIN = "midimin";
@@ -165,7 +165,7 @@ public class Instrument {
 	}
 	public void updateSettings(SharedPreferences prefs, String preset) {
 		try {
-			float prefMidiMin = prefs.getInt(preset+MIDI_MIN, 65);
+			float prefMidiMin = prefs.getInt(preset+MIDI_MIN, 70);
 			float prefMidiMax = prefs.getInt(preset+MIDI_MAX, 87);
 			setMidiMin(prefMidiMin);
 			setMidiMax(prefMidiMax);

@@ -1,4 +1,4 @@
-package com.rj.processing.plasmatheremin;
+package com.rj.processing.plasmasound;
 
 import processing.core.PApplet;
 import android.content.Intent;
@@ -12,12 +12,13 @@ import android.view.MotionEvent;
 
 import com.rj.processing.mt.MTCallback;
 import com.rj.processing.mt.MTManager;
-import com.rj.processing.plasmatheremin.pd.PDManager;
-import com.rj.processing.plasmatheremin.pd.instruments.Instrument;
-import com.rj.processing.plasmatheremin.visuals.Grid;
-import com.rj.processing.plasmatheremin.visuals.PlasmaFluid;
+import com.rj.processing.plasmasound.pd.PDManager;
+import com.rj.processing.plasmasound.pd.instruments.Instrument;
+import com.rj.processing.plasmasound.visuals.AudioStats;
+import com.rj.processing.plasmasound.visuals.Grid;
+import com.rj.processing.plasmasound.visuals.PlasmaFluid;
 
-public class PlasmaTheremin extends PApplet implements MTCallback {
+public class PlasmaSound extends PApplet implements MTCallback {
 
 public static final String SHARED_PREFERENCES_AUDIO = "shared_prefs_audio";
 
@@ -48,6 +49,7 @@ public void setup() {
     vis = new Visualization(this);
     vis.addVisual(new PlasmaFluid(this)); 
     vis.addVisual(new Grid(this)); 
+    vis.addVisual(new AudioStats(this)); 
     
     //PD Stuff
     pdman = new PDManager(this);
@@ -88,8 +90,8 @@ public boolean surfaceTouchEvent(MotionEvent me) {
 
 public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
 		float vy, float size) {
-	vis.touchEvent(me,i,x,y,vx,vy,size);
 	instTouchEvent(me, i, x, y, vx, vy, size);
+	vis.touchEvent(me,i,x,y,vx,vy,size);
 	
 }
 
@@ -114,11 +116,11 @@ public void instTouchEvent(MotionEvent me, int i, float x, float y, float vx,
 }
 
 public void instTouchFix(MotionEvent me) {
-	Log.d("PlasmaTheremin", "Pointer Count: "+me.getPointerCount());
+//	Log.d("PlasmaTheremin", "Pointer Count: "+me.getPointerCount());
 	for (int i1 = 0; i1 < me.getPointerCount()+2; i1++) {
 		int pointerId = me.getPointerId(i1);
 		int index1 = me.findPointerIndex(pointerId);
-		Log.d("PlasmaTheremin", "pointer id: "+pointerId+" index:"+index1);
+//		Log.d("PlasmaTheremin", "pointer id: "+pointerId+" index:"+index1);
 		if (index1 < 0) {
 			if (inst!=null) inst.touchUp(me, i1+1, 0, 0);
 		}
@@ -166,7 +168,7 @@ public void onDestroy() {
 @Override
 public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(com.rj.processing.plasmatheremin.R.menu.main_menu, menu);
+    inflater.inflate(com.rj.processing.plasmasound.R.menu.main_menu, menu);
     return true;
 }
 
@@ -178,7 +180,7 @@ public boolean onCreateOptionsMenu(Menu menu) {
 @Override
 public boolean onMenuItemSelected(int featureId, MenuItem item) {
     switch (item.getItemId()) {
-    case com.rj.processing.plasmatheremin.R.id.instrument_settings:
+    case com.rj.processing.plasmasound.R.id.instrument_settings:
         instrumentSettings();
         return true;
     default:
@@ -198,12 +200,12 @@ public void onActivityResult(int i, int j, Intent res) {
 }
 
     public void readSettings() {
-        SharedPreferences mPrefs = PlasmaTheremin.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
+        SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
     	if (inst!=null) inst.updateSettings(mPrefs);
     }
     
     public void savePreset(String name) {
-        SharedPreferences mPrefs = PlasmaTheremin.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
+        SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
         //something
     }
     

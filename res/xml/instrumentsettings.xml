@@ -42,7 +42,7 @@
             android:key="midimin"
             android:title="Low Note"
             android:summary="Low note of the scale"
-            android:defaultValue="65"
+            android:defaultValue="70"
             android:max="127" />
      
 

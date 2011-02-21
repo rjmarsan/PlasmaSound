@@ -1,17 +1,17 @@
-package com.rj.processing.plasmatheremin.visuals;
+package com.rj.processing.plasmasound.visuals;
 
 import processing.core.PApplet;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmatheremin.PlasmaTheremin;
+import com.rj.processing.plasmasound.PlasmaSound;
 
 public class Grid extends Visual{
 	private int num_lines = 10;
 	private float crosshair_size = 100;
 	
 	
-	public Grid(PlasmaTheremin p) {
+	public Grid(PlasmaSound p) {
 		super(p);
 	}
 

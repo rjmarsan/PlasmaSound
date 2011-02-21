@@ -1,4 +1,4 @@
-package com.rj.processing.plasmatheremin;
+package com.rj.processing.plasmasound;
 
 /*
  * Copyright (C) 2009 Google Inc.
@@ -18,6 +18,8 @@ package com.rj.processing.plasmatheremin;
 
 
 
+import com.rj.processing.plasmasound.R;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -29,7 +31,7 @@ public class PlasmaThereminAudioSettings extends PreferenceActivity {
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         getPreferenceManager().setSharedPreferencesName(
-                PlasmaTheremin.SHARED_PREFERENCES_AUDIO);
+                PlasmaSound.SHARED_PREFERENCES_AUDIO);
         addPreferencesFromResource(R.xml.instrumentsettings);
     }
 

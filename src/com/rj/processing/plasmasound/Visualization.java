@@ -1,17 +1,17 @@
-package com.rj.processing.plasmatheremin;
+package com.rj.processing.plasmasound;
 
 import java.util.ArrayList;
 
 import android.view.MotionEvent;
 
-import com.rj.processing.plasmatheremin.visuals.Visual;
+import com.rj.processing.plasmasound.visuals.Visual;
 
 public class Visualization {
-	final PlasmaTheremin p;
+	final PlasmaSound p;
 	
 	ArrayList<Visual> visuals;
 
-	public Visualization(PlasmaTheremin p) {
+	public Visualization(PlasmaSound p) {
 		this.p = p;
 		visuals = new ArrayList<Visual>();
 	}

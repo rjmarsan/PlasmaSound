@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.rj.processing.plasmatheremin" android:versionCode="1" android:versionName="1.0">
+<manifest package="com.rj.processing.plasmasound" android:versionCode="1" android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-sdk android:minSdkVersion="8"/>
-  <application android:label="Plasma Theremin">
-    <activity android:name=".PlasmaTheremin"
+  <application android:label="Plasma Sound">
+    <activity android:name=".PlasmaSound"
     		  android:screenOrientation="landscape">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -11,10 +11,12 @@
     </activity>
     
         <activity
-            android:label="Plasma Theremin Audio Settings"
+            android:label="Plasma Sound Audio Settings"
             android:name=".PlasmaThereminAudioSettings"
             android:exported="true">
         </activity>
     
   </application>
+  
+  <permission android:name="android.permission.WAKE_LOCK"></permission>
 </manifest>
