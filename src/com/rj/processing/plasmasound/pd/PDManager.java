@@ -17,7 +17,6 @@ import org.puredata.android.io.PdAudio;
 import org.puredata.core.PdBase;
 import org.puredata.core.PdReceiver;
 import org.puredata.core.utils.IoUtils;
-import org.puredata.core.utils.PdUtils;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -131,13 +130,14 @@ public class PDManager {
 	}
 
 	
-	public String openPatch(String patch) {
+	public int openPatch(String patch) {
 		File dir = p.getFilesDir();
 		File patchFile = new File(dir, patch);
-		String out=null;
+		int out=-1;
 		try {
 			IoUtils.extractZipResource(p.getResources().openRawResource(R.raw.patch), dir, true);
-			out = PdUtils.openPatch(patchFile.getAbsolutePath());
+//			out = PdUtils.openPatch(patchFile.getAbsolutePath());
+			out = PdBase.openPatch(patchFile.getAbsolutePath());
 		} catch (IOException e) {
 			Log.e(TAG, e.toString() + "; exiting now");
 			finish();

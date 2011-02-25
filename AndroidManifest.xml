@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest package="com.rj.processing.plasmasound" android:versionCode="1" android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="com.rj.processing.plasmasound" android:versionCode="2" android:versionName="1.0.1" xmlns:android="http://schemas.android.com/apk/res/android"
+android:installLocation="preferExternal">
   <uses-sdk android:minSdkVersion="8"/>
-  <application android:label="Plasma Sound">
+  <application android:label="Plasma Sound" android:icon="@drawable/icon">
     <activity android:name=".PlasmaSound"
     		  android:screenOrientation="landscape">
       <intent-filter>

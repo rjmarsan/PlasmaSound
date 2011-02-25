@@ -27,21 +27,27 @@ public class MTManager {
 			if (numPointers == 0) {
 				//callback.touchEvent(me, 0, 0,0,0,0,0);
 			}
-			for (int i = 0; i < numPointers; i++) {
+			int min = numPointers;//Math.min(2, numPointers); //haha. that should fix the weird 3finger bug.
+			for (int i = 0; i < min; i++) {
 				touchEvent(me, i);
 			}
-			if (me.getPointerCount() == 1 && me.getAction() == MotionEvent.ACTION_UP) {//if the final finger is lifted...
+			if (numPointers == 1 && me.getAction() == MotionEvent.ACTION_UP) {//if the final finger is lifted...
 				cursors.clear();
 			}
-			if (me.getPointerCount() < cursors.size()) {
+			if (numPointers < cursors.size()) {
 				for (int i = 0; i < cursors.size(); i++) {
-					int pointerId = me.getPointerId(i);
-					int index = me.findPointerIndex(pointerId);
-					if (index < 0) {
+					if (numPointers <= i) {
 						cursors.remove(i);
 					}
-					else if (pointerId != index && i >= 1) {
-						cursors.remove(i-1);
+					else {
+						int pointerId = me.getPointerId(i);
+						int index = me.findPointerIndex(pointerId);
+						if (index < 0) {
+							cursors.remove(i);
+						}
+						else if (pointerId != index && i >= 1) {
+							cursors.remove(i-1);
+						}
 					}
 				}
 			}

@@ -1,19 +1,12 @@
 package com.rj.processing.plasmasound.pd.instruments;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.puredata.android.io.PdAudio;
 import org.puredata.core.PdBase;
-import org.puredata.core.utils.IoUtils;
-import org.puredata.core.utils.PdUtils;
 
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MotionEvent;
 
 import com.rj.processing.plasmasound.pd.PDManager;
-import com.rj.processing.plasmasound.R;
 
 public class Instrument {
 	private static final String MIDI_MIN = "midimin";
@@ -37,7 +30,7 @@ public class Instrument {
 	
 	
 	
-	private String patch;
+	private int patch;
 	private String patchName;
 	
 	public float midiMin = 0;
@@ -194,7 +187,8 @@ public class Instrument {
 	
 	
 	public void cleanup() {
-		PdUtils.closePatch(patch);
+//		PdUtils.closePatch(patch);
+		PdBase.closePatch(patch);
 	}
 
 
