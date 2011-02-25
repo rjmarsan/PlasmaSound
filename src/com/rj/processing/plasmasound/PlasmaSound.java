@@ -3,8 +3,10 @@ package com.rj.processing.plasmasound;
 import processing.core.PApplet;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +43,6 @@ Runnable readyrunnable = new Runnable() {
 	}
 };
 
-
 public int sketchWidth() { return this.screenWidth; }
 public int sketchHeight() { return this.screenHeight; }
 public String sketchRenderer() { return PApplet.OPENGL; }
@@ -74,35 +75,43 @@ public void setup() {
     vis.addVisual(new Grid(this)); 
     vis.addVisual(new AudioStats(this)); 
     
-    //PD Stuff
-    pdman = new PDManager(this);
-    pdready = false;
-    pdman.onResume(readyrunnable);
-    
-    //Make the Instrument
-    inst = new Instrument(pdman);
-    inst.setPatch("simplesine4.pd");
-    inst.setMidiMin(70);
-    inst.setMidiMax(87);
-    
-	readSettings();
-
+    asyncSetup.execute(new Void[0]);
     debug();
-    
-    
-    alldonesetup();
 }
+AsyncTask<Void,Void,Void> asyncSetup = new AsyncTask<Void,Void,Void>() {
+	@Override
+	protected Void doInBackground(Void... params) {
+		Log.v("PlasmaSoundSetup", "creating pd");
+	    //PD Stuff
+	    pdman = new PDManager(PlasmaSound.this);
+		Log.v("PlasmaSoundSetup", "launching pd");
+	    pdready = false;
+	    pdman.onResume();
+	    
+		Log.v("PlasmaSoundSetup", "Starting instrument");
+	    //Make the Instrument
+	    inst = new Instrument(pdman);
+		Log.v("PlasmaSoundSetup", "setting instrument patch");
+	    inst.setPatch("simplesine4.pd");
+	    inst.setMidiMin(70);
+	    inst.setMidiMax(87);
+	    
+		Log.v("PlasmaSoundSetup", "Reading settings");
+		readSettings();	    
+		Log.v("PlasmaSoundSetup", "Done!");
+		return null;
+	}
+	@Override
+	protected void onPostExecute(Void params) {
+		pdready = true;
+		loadingview.setVisibility(View.GONE);
+		loadingview = null;
+
+	}
+};
 
 
-private void alldonesetup() {
-	runOnUiThread(new Runnable() {
-		public void run() {
-			loadingview.setVisibility(View.GONE);
-			
-			loadingview = null;
-		}
-	});
-}
+
 public void debug() {
 	  // Place this inside your setup() method
 	  DisplayMetrics dm = new DisplayMetrics();
@@ -120,13 +129,15 @@ public void debug() {
 public boolean surfaceTouchEvent(MotionEvent me) {
 	if (mtManager != null) mtManager.surfaceTouchEvent(me);
 	
-	instTouchFix(me);
+	if (pdready)
+		instTouchFix(me);
 	return super.surfaceTouchEvent(me);
 }
 
 public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
 		float vy, float size) {
-	instTouchEvent(me, i, x, y, vx, vy, size);
+	if (pdready)
+		instTouchEvent(me, i, x, y, vx, vy, size);
 	vis.touchEvent(me,i,x,y,vx,vy,size);
 	
 }

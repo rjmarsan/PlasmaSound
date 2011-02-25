@@ -19,10 +19,16 @@ public class Grid extends Visual{
 	public void drawVis() {
 		p.rectMode(PApplet.CORNER);
 
-		float num_lines = p.inst.midiMax-p.inst.midiMin;
+		float midiMax = 86;
+		float midiMin = 70;
+		if (p.inst != null && p.inst.ready) {
+			midiMax = p.inst.midiMax;
+			midiMin = p.inst.midiMin;
+		}
+		float num_lines = midiMax-midiMin;
 		float spacing = width/((float)num_lines);
 		for (int i=0;i<num_lines;i++) {
-			int space = (int) ((i+p.inst.midiMin) % 12);
+			int space = (int) ((i+midiMin) % 12);
 			if (space == 0) {
 				p.stroke(200, 100);
 				p.fill(100,100);
@@ -40,7 +46,11 @@ public class Grid extends Visual{
 		}
 		synchronized (p.mtManager.cursors) {
 			p.stroke(255,0,0,180);
-			if (!p.inst.quantize) {
+			boolean quantize = false;
+			if (p.inst != null && p.inst.ready) {
+				quantize = p.inst.quantize;
+			}
+			if (!quantize) {
 				for (Cursor c : p.mtManager.cursors) {
 					if (c != null && c.currentPoint != null) {
 						p.line(c.currentPoint.x-crosshair_size, c.currentPoint.y, c.currentPoint.x+crosshair_size, c.currentPoint.y);

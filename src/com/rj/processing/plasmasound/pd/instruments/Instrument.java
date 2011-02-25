@@ -27,6 +27,7 @@ public class Instrument {
 	private static final float WAVEFORM_SQUARE = 3.0f;
 	private static final float WAVEFORM_SAW = 4.0f;
 	
+	private static final int MAX_INDEX = 4;
 	
 	
 	
@@ -42,7 +43,7 @@ public class Instrument {
 	public boolean vol_y = true;
 	public boolean filt_y = false;
 	
-	private boolean ready = false;
+	public boolean ready = false;
 	
 	public Instrument(PDManager p) {
 		this.p = p;
@@ -50,10 +51,10 @@ public class Instrument {
 	
 	public void setPatch(String patch) {
 		patchName = patch;
-		new Thread(new Runnable() { public void run() {
+//		new Thread(new Runnable() { public void run() {
 			initInstrument();
 			ready = true;
-		}}).start();
+//		}}).start();
 	}
 	
 	public void initInstrument() {
@@ -61,12 +62,12 @@ public class Instrument {
 	}
 	
 	public void touchUp(MotionEvent me, int index, float x, float y) {
-		if (ready) {
+		if (ready && index <= MAX_INDEX) {
 			setVolume(0, index);
 		}
 	}
 	public void touchMove(MotionEvent me, int index, float x, float y) {
-		if (ready) {
+		if (ready && index <= MAX_INDEX) {
 			setPitch(x, index);
 			if (vol_y)
 				setVolume(1-y, index);
@@ -79,7 +80,7 @@ public class Instrument {
 		}
 	}
 	public void touchDown(MotionEvent me, int index, float x, float y) {
-		if (ready) {
+		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
 			setPitch(x, index);
 			if (vol_y)
