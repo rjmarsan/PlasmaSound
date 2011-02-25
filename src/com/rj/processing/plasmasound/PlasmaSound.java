@@ -3,12 +3,14 @@ package com.rj.processing.plasmasound;
 import processing.core.PApplet;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 
 import com.rj.processing.mt.MTCallback;
 import com.rj.processing.mt.MTManager;
@@ -32,15 +34,36 @@ public Instrument inst;
 
 
 boolean touchupdated = false;
+boolean pdready = false;
+Runnable readyrunnable = new Runnable() {
+	public void run() {
+		pdready = true;
+	}
+};
 
 
 public int sketchWidth() { return this.screenWidth; }
 public int sketchHeight() { return this.screenHeight; }
 public String sketchRenderer() { return PApplet.OPENGL; }
 
+
+View loadingview;
+
+public void onCreate(Bundle savedinstance) {
+	super.onCreate(savedinstance);
+	loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreen, null);
+	this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+}
+
+
+
+
 public void setup() {
 	hint(DISABLE_DEPTH_TEST);
 	hint(DISABLE_OPENGL_ERROR_REPORT);
+	hint(PApplet.DISABLE_ACCURATE_TEXTURES);
+	hint(PApplet.DISABLE_DEPTH_MASK);
+	hint(PApplet.DISABLE_DEPTH_SORT);
     frameRate(60);
 
     mtManager = new MTManager(this);
@@ -53,7 +76,8 @@ public void setup() {
     
     //PD Stuff
     pdman = new PDManager(this);
-    pdman.onResume();
+    pdready = false;
+    pdman.onResume(readyrunnable);
     
     //Make the Instrument
     inst = new Instrument(pdman);
@@ -64,9 +88,21 @@ public void setup() {
 	readSettings();
 
     debug();
+    
+    
+    alldonesetup();
 }
 
 
+private void alldonesetup() {
+	runOnUiThread(new Runnable() {
+		public void run() {
+			loadingview.setVisibility(View.GONE);
+			
+			loadingview = null;
+		}
+	});
+}
 public void debug() {
 	  // Place this inside your setup() method
 	  DisplayMetrics dm = new DisplayMetrics();
@@ -147,7 +183,8 @@ public void draw() {
 @Override
 protected void onResume() {
 	super.onResume();
-	if (pdman != null) pdman.onResume();
+    pdready = false;
+	if (pdman != null) pdman.onResume(readyrunnable);
 	readSettings();
 }
 

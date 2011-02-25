@@ -95,26 +95,30 @@ public class PDManager {
 	}
 
 	
-	public void onResume() {
-		if (AudioParameters.suggestSampleRate() < SAMPLE_RATE) {
-			toast("required sample rate not available; exiting");
-			finish();
-			return;
-		}
-		int nOut = Math.min(AudioParameters.suggestOutputChannels(), 2);
-		if (nOut == 0) {
-			toast("audio output not available; exiting");
-			finish();
-			return;
-		}
-		try {
-			PdAudio.initAudio(SAMPLE_RATE, 0, nOut, 1, true);
-			PdAudio.startAudio(p);
-//			PdBase.setReceiver(reciever);
-//			PdBase.subscribe("mainlevel");
-			} catch (IOException e) {
-			Log.e(TAG, e.toString());
-		}
+	public void onResume(final Runnable callback) {
+		new Thread(new Runnable() { 
+			public void run() {
+				if (AudioParameters.suggestSampleRate() < SAMPLE_RATE) {
+					toast("required sample rate not available; exiting");
+					finish();
+					return;
+				}
+				int nOut = Math.min(AudioParameters.suggestOutputChannels(), 2);
+				if (nOut == 0) {
+					toast("audio output not available; exiting");
+					finish();
+					return;
+				}
+				try {
+					PdAudio.initAudio(SAMPLE_RATE, 0, nOut, 1, true);
+					PdAudio.startAudio(p);
+		//			PdBase.setReceiver(reciever);
+		//			PdBase.subscribe("mainlevel");
+					} catch (IOException e) {
+					Log.e(TAG, e.toString());
+				}
+				callback.run();
+			}}).start();
 	}
 	
 	public void onPause() {

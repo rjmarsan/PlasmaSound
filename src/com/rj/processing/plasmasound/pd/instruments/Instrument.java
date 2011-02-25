@@ -42,13 +42,18 @@ public class Instrument {
 	public boolean vol_y = true;
 	public boolean filt_y = false;
 	
+	private boolean ready = false;
+	
 	public Instrument(PDManager p) {
 		this.p = p;
 	}
 	
 	public void setPatch(String patch) {
 		patchName = patch;
-		initInstrument();
+		new Thread(new Runnable() { public void run() {
+			initInstrument();
+			ready = true;
+		}}).start();
 	}
 	
 	public void initInstrument() {
@@ -56,35 +61,43 @@ public class Instrument {
 	}
 	
 	public void touchUp(MotionEvent me, int index, float x, float y) {
-		setVolume(0, index);
+		if (ready) {
+			setVolume(0, index);
+		}
 	}
 	public void touchMove(MotionEvent me, int index, float x, float y) {
-		setPitch(x, index);
-		if (vol_y)
-			setVolume(1-y, index);
-		else
-			setVolume(1, index);
-		if (filt_y)
-			setFilter(1-y, index);
-		else
-			setFilter(1, index);
+		if (ready) {
+			setPitch(x, index);
+			if (vol_y)
+				setVolume(1-y, index);
+			else
+				setVolume(1, index);
+			if (filt_y)
+				setFilter(1-y, index);
+			else
+				setFilter(1, index);
+		}
 	}
 	public void touchDown(MotionEvent me, int index, float x, float y) {
-		setVolume(1);
-		setPitch(x, index);
-		if (vol_y)
-			setVolume(1-y, index);
-		else
-			setVolume(1, index);
-		if (filt_y)
-			setFilter(1-y, index);
-		else
-			setFilter(1, index);
+		if (ready) {
+			setVolume(1);
+			setPitch(x, index);
+			if (vol_y)
+				setVolume(1-y, index);
+			else
+				setVolume(1, index);
+			if (filt_y)
+				setFilter(1-y, index);
+			else
+				setFilter(1, index);
+		}
 	}
 	public void allUp() {
-		setVolume(0);
-		for (int i=0;i<4;i++) {
-			setVolume(0, i);
+		if (ready) {
+			setVolume(0);
+			for (int i=0;i<4;i++) {
+				setVolume(0, i);
+			}
 		}
 	}
 	
