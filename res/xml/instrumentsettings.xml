@@ -44,52 +44,6 @@
             android:summary="Low note of the scale"
             android:defaultValue="70"
             android:max="127" />
-     
 
-     <amir.android.icebreaking.SeekBarPreference  
- 		android:key="delay_time"
-        android:title="Delay Time"
-        android:summary="Time of Delay (in 10ths of a second)"
-        android:dialogMessage="Something duration"
-        android:defaultValue="10"
-        android:text="/100 seconds"
-        android:max="200"
-        />  
-     <amir.android.icebreaking.SeekBarPreference  
-        android:key="delay_feedback"
-        android:defaultValue="32"
-        android:title="Delay Feedback"
-        android:summary="percent volume of the delay"
-        android:text="/100" />   
-
-
-    <CheckBoxPreference
-            android:key="filter_y"
-            android:title="Y-Axis Filter"
-            android:summary="set filter to be controlled by Y-Axis (max will be setting below)"
-            android:defaultValue="false"
-            />   
-     <amir.android.icebreaking.SeekBarPreference  
-        android:key="filter"
-        android:defaultValue="80"
-        android:title="Filter"
-        android:summary="cutoff of the low-pass filter"
-        android:text="/100" />  
-     
-     
-     <CheckBoxPreference
-            android:key="volume_y"
-            android:title="Y-Axis Volume"
-            android:summary="set volume to be controlled by Y-Axis (max will be setting below)"
-            android:defaultValue="true"
-            />    
-     <amir.android.icebreaking.SeekBarPreference  
-        android:key="volume"
-        android:defaultValue="80"
-        android:title="Volume"
-        android:summary="volume of each touch"
-        android:text="/100" />  
-     
-     
 
 </PreferenceScreen>

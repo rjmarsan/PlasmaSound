@@ -14,7 +14,7 @@ public abstract class Effect {
 	
 	protected HashMap<String, Parameter> params;
 	
-	boolean yenabled = true;
+	boolean yenabled = false;
 	String[] yenabledlist = {};
 	boolean enabled = true;
 	
@@ -27,6 +27,12 @@ public abstract class Effect {
 	}
 	
 	public void touchUp(MotionEvent me, int index, float x, float y) {
+		if (yenabled && enabled && index <= MAX_INDEX) {
+			for (String effect : yenabledlist) {
+				Parameter p = params.get(effect);
+				p.pushValueNaive(0, index);
+			}
+		}
 	}
 	public void touchMove(MotionEvent me, int index, float x, float y) {
 		if (yenabled && enabled && index <= MAX_INDEX) {
@@ -37,6 +43,15 @@ public abstract class Effect {
 		}
 	}
 	public void touchDown(MotionEvent me, int index, float x, float y) {
+		for (Parameter param : params.values()) {
+			param.pushDefaultNaive(index);
+		}
+		if (yenabled && enabled && index <= MAX_INDEX) {
+			for (String effect : yenabledlist) {
+				Parameter p = params.get(effect);
+				p.pushValueNaive(1-y, index);
+			}
+		}
 	}
 	public void allUp() {
 	}

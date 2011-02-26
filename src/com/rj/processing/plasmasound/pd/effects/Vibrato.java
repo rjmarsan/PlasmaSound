@@ -14,15 +14,18 @@ public  class Vibrato extends Effect {
 		params = new HashMap<String, Parameter>();
 		Parameter vibspeed = new Parameter(SPEED, false);
 		vibspeed.setMinMax(0f, 20f);
+		vibspeed.setDefault(0.4f);
 		params.put(SPEED, vibspeed );
-		Parameter vibdepth = new Parameter(SPEED, false);
+		Parameter vibdepth = new Parameter(DEPTH, false);
 		vibdepth.setMinMax(0f, 127f);
+		vibdepth.setDefault(0f);
 		params.put(DEPTH, vibdepth );
 		
 		this.yenabledlist = new String[] {
 				SPEED,
 				DEPTH,
 		};
+		this.yenabled = false;
 
 	}
 

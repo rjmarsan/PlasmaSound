@@ -40,6 +40,7 @@ boolean pdready = false;
 Runnable readyrunnable = new Runnable() {
 	public void run() {
 		pdready = true;
+		Log.v("PlasmaSoundReadyRunnable", "Destroying popup!");
 		loadingview.setVisibility(View.GONE);
 	}
 };
@@ -104,6 +105,7 @@ AsyncTask<Void,Void,Void> asyncSetup = new AsyncTask<Void,Void,Void>() {
 	}
 	@Override
 	protected void onPostExecute(Void params) {
+		Log.v("PlasmaSoundSetup", "Destroying popup!");
 		pdready = true;
 		loadingview.setVisibility(View.GONE);
 //		loadingview = null;
@@ -146,6 +148,7 @@ public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
 public void instTouchEvent(MotionEvent me, int i, float x, float y, float vx,
 		float vy, float size) {
 	int index = me.getPointerId(i) + 1;//1 indexed.  0 is tougher.. actually I just forgot.
+	if (index <= 0) return; //it's an invalid request
 	//me.getPointerId(index)
 	if (me.getAction() == me.ACTION_DOWN) {
 		if (inst!=null) inst.touchDown(me, index, x/width, y/height);
@@ -158,6 +161,7 @@ public void instTouchEvent(MotionEvent me, int i, float x, float y, float vx,
 	}
 	
 	if (me.getPointerCount() == 1 && me.getAction() == me.ACTION_UP) {//if the final finger is lifted...
+		System.out.println("All up!");
 		if (inst!=null) inst.allUp();
 	}	
 
@@ -239,6 +243,9 @@ public boolean onMenuItemSelected(int featureId, MenuItem item) {
     case com.rj.processing.plasmasound.R.id.instrument_settings:
         instrumentSettings();
         return true;
+    case com.rj.processing.plasmasound.R.id.effects_settings:
+        effectSettings();
+        return true;
     default:
         return super.onOptionsItemSelected(item);
     }
@@ -246,6 +253,10 @@ public boolean onMenuItemSelected(int featureId, MenuItem item) {
 
 public void instrumentSettings() {
 	Intent i = new Intent(this, PlasmaThereminAudioSettings.class);
+	this.startActivity(i);
+}
+public void effectSettings() {
+	Intent i = new Intent(this, PlasmaThereminEffectsSettings.class);
 	this.startActivity(i);
 }
 

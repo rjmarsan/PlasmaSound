@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.view.MotionEvent;
 
 import com.rj.processing.plasmasound.pd.PDManager;
+import com.rj.processing.plasmasound.pd.effects.Delay;
 import com.rj.processing.plasmasound.pd.effects.Effect;
+import com.rj.processing.plasmasound.pd.effects.Filter;
 import com.rj.processing.plasmasound.pd.effects.Vibrato;
 import com.rj.processing.plasmasound.pd.effects.Volume;
 
@@ -57,6 +59,8 @@ public class Instrument {
 		volume = new Volume();
 		effects.add(volume);
 		effects.add(new Vibrato());
+		effects.add(new Delay());
+		effects.add(new Filter());
 	}
 	
 	public void setPatch(String patch) {
@@ -74,7 +78,7 @@ public class Instrument {
 	public void touchUp(MotionEvent me, int index, float x, float y) {
 		if (ready && index <= MAX_INDEX) {
 			for (Effect e : effects) {
-				e.touchMove(me, index, x, 0);
+				e.touchUp(me, index, x, 0);
 			}
 		}
 	}
@@ -91,16 +95,16 @@ public class Instrument {
 			setVolume(1);
 			setPitch(x, index);
 			for (Effect e : effects) {
-				e.touchMove(me, index, x, y);
+				e.touchDown(me, index, x, y);
 			}
 		}
 	}
 	public void allUp() {
 		if (ready) {
 			setVolume(0);
-			for (int index=0; index<MAX_INDEX; index++) {
+			for (int index=1; index<=MAX_INDEX; index++) {
 				for (Effect e : effects) {
-					e.touchMove(null, index, 0, 0);
+					e.touchUp(null, index, 0, 0);
 				}
 			}
 		}
@@ -113,6 +117,7 @@ public class Instrument {
 	public void setMidiMax(float val) {
 		this.midiMax = val;
 	}
+	
 	private void sendMessage(String s, float val) {
 		PdBase.sendFloat(s, val);
 	}
@@ -134,25 +139,13 @@ public class Instrument {
 	}
 	
 	public void setVolume(float amp) {
-//		sendMessage("amp", amp);
 		volume.setVolume(amp);
 	}
-//	public void setVolume(float amp, int index) {
-//		amp = amp*maxVol;
-//		sendMessage("amp", amp, index);
-//	}
 	
 	
 	public void setWaveform(float waveform) {
 		sendMessage("inssel", waveform);
 	}
-	
-	public void setFilter(float filter, int index) {
-		filter = filter*20f;
-		filter = filter*maxFilt;
-		sendMessage("filt", filter, index);
-	}
-	
 	
 	
 	public void updateSettings(SharedPreferences prefs) {
@@ -163,13 +156,7 @@ public class Instrument {
 			float prefMidiMin = prefs.getInt(preset+MIDI_MIN, 70);
 			float prefMidiMax = prefs.getInt(preset+MIDI_MAX, 86);
 			setMidiMin(prefMidiMin);
-			setMidiMax(prefMidiMax);
-			
-//			float prefDelayTime = prefs.getInt(preset+DELAY_TIME, 10);
-//			float prefDelayFeedback = prefs.getInt(preset+DELAY_FEEDBACK, 40);
-//			setParam1(prefDelayTime);
-//			setParam2(prefDelayFeedback);
-			
+			setMidiMax(prefMidiMax);			
 			
 			String s_waveform = prefs.getString(preset+WAVEFORM, "1.0");
 			Float waveform = Float.parseFloat(s_waveform);
