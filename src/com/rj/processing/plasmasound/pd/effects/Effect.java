@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasound.pd.instruments.Parameter;
 
 public abstract class Effect {	
@@ -26,7 +27,7 @@ public abstract class Effect {
 	public void initEffect() {
 	}
 	
-	public void touchUp(MotionEvent me, int index, float x, float y) {
+	public void touchUp(MotionEvent me, int index, float x, float y, Cursor c) {
 		if (yenabled && enabled && index <= MAX_INDEX) {
 			for (String effect : yenabledlist) {
 				Parameter p = params.get(effect);
@@ -34,7 +35,7 @@ public abstract class Effect {
 			}
 		}
 	}
-	public void touchMove(MotionEvent me, int index, float x, float y) {
+	public void touchMove(MotionEvent me, int index, float x, float y, Cursor c) {
 		if (yenabled && enabled && index <= MAX_INDEX) {
 			for (String effect : yenabledlist) {
 				Parameter p = params.get(effect);
@@ -42,7 +43,7 @@ public abstract class Effect {
 			}
 		}
 	}
-	public void touchDown(MotionEvent me, int index, float x, float y) {
+	public void touchDown(MotionEvent me, int index, float x, float y, Cursor c) {
 		for (Parameter param : params.values()) {
 			param.pushDefaultNaive(index);
 		}

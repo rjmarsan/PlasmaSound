@@ -18,7 +18,7 @@ android:installLocation="preferExternal">
         </activity>
         <activity
             android:label="Plasma Sound Effects Settings"
-            android:name=".PlasmaThereminEffectsSettings"
+            android:name="PlasmaThereminEffectsSettings"
             android:exported="true">
         </activity>
     

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.view.MotionEvent;
 
+import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasound.visuals.Visual;
 
 public class Visualization {
@@ -37,7 +38,7 @@ public class Visualization {
 	}
 
 	public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
-			float vy, float size) {
+			float vy, float size, Cursor c) {
 		for (Visual v : visuals) {
 			v.touchEvent(me, i, x, y, vx, vy, size);
 		}

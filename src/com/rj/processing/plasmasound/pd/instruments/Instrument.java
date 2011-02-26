@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasound.pd.PDManager;
 import com.rj.processing.plasmasound.pd.effects.Delay;
 import com.rj.processing.plasmasound.pd.effects.Effect;
@@ -76,29 +77,33 @@ public class Instrument {
 		patch = p.openPatch(patchName);
 	}
 	
-	public void touchUp(MotionEvent me, int index, float x, float y) {
+	public void touchUp(MotionEvent me, int index, float x, float y, Cursor c) {
+		Log.d("Instrument", "TOUCH UP!!!!!! : "+index);
+		index ++;
 		if (ready && index <= MAX_INDEX) {
 			for (Effect e : effects) {
-				e.touchUp(me, index, x, 0);
+				e.touchUp(me, index, x, 0, c);
 			}
 		}
 	}
-	public void touchMove(MotionEvent me, int index, float x, float y) {
+	public void touchMove(MotionEvent me, int index, float x, float y, Cursor c) {
+		index ++;
 		if (ready && index <= MAX_INDEX) {
 			setPitch(x, index);
 			for (Effect e : effects) {
-				e.touchMove(me, index, x, y);
+				e.touchMove(me, index, x, y, c);
 			}
 		}
 	}
-	public void touchDown(MotionEvent me, int index, float x, float y) {
-		Log.d("Instrument", "TOUCH DOWN!!!!!!");
+	public void touchDown(MotionEvent me, int index, float x, float y, Cursor c) {
+		Log.d("Instrument", "TOUCH DOWN!!!!!!: "+index);
+		index ++;
 		
 		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
 			setPitch(x, index);
 			for (Effect e : effects) {
-				e.touchDown(me, index, x, y);
+				e.touchDown(me, index, x, y, c);
 			}
 		}
 	}
@@ -107,7 +112,7 @@ public class Instrument {
 			setVolume(0);
 			for (int index=1; index<=MAX_INDEX; index++) {
 				for (Effect e : effects) {
-					e.touchUp(null, index, 0, 0);
+					e.touchUp(null, index, 0, 0, null);
 				}
 			}
 		}

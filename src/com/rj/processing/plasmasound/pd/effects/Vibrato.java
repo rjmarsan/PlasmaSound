@@ -17,8 +17,8 @@ public  class Vibrato extends Effect {
 		vibspeed.setDefaultNaive(0.4f);
 		params.put(SPEED, vibspeed );
 		Parameter vibdepth = new Parameter(DEPTH, false);
-		vibdepth.setMinMax(0f, 127f);
-		vibdepth.setDefault(100f);
+		vibdepth.setMinMax(0f, 100f);
+		vibdepth.setDefault(0f);
 		params.put(DEPTH, vibdepth );
 		
 		this.yenabledlist = new String[] {
