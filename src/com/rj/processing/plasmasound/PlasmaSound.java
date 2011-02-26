@@ -37,11 +37,20 @@ public Instrument inst;
 
 boolean touchupdated = false;
 boolean pdready = false;
+boolean startingup = true;
 Runnable readyrunnable = new Runnable() {
 	public void run() {
-		pdready = true;
-		Log.v("PlasmaSoundReadyRunnable", "Destroying popup!");
-		loadingview.setVisibility(View.GONE);
+		if (startingup == false) {
+			pdready = false;
+			if (pdman != null) {
+				pdman.onResume();
+			
+			
+				pdready = true;
+				Log.v("PlasmaSoundReadyRunnable", "Destroying popup!");
+			}
+			runOnUiThread(new Runnable() { public void run() {loadingview.setVisibility(View.GONE);}});
+		}
 	}
 };
 
@@ -83,6 +92,7 @@ public void setup() {
 AsyncTask<Void,Void,Void> asyncSetup = new AsyncTask<Void,Void,Void>() {
 	@Override
 	protected Void doInBackground(Void... params) {
+		startingup = true;
 		Log.v("PlasmaSoundSetup", "creating pd");
 	    //PD Stuff
 	    pdman = new PDManager(PlasmaSound.this);
@@ -107,6 +117,7 @@ AsyncTask<Void,Void,Void> asyncSetup = new AsyncTask<Void,Void,Void>() {
 	protected void onPostExecute(Void params) {
 		Log.v("PlasmaSoundSetup", "Destroying popup!");
 		pdready = true;
+		startingup = false;
 		loadingview.setVisibility(View.GONE);
 //		loadingview = null;
 
@@ -192,7 +203,7 @@ public void draw() {
 	
 	    vis.drawVisuals();
 	    
-	    if (this.frameCount % 100 == 0) println(this.frameRate+"");
+//	    if (this.frameCount % 100 == 0) println(this.frameRate+"");
 	}
 
 }
@@ -205,9 +216,11 @@ protected void onResume() {
 	super.onResume();
 	if (loadingview == null)
 		loadingview = this.findViewById(com.rj.processing.plasmasound.R.id.loadingview);
-	loadingview.setVisibility(View.GONE);
-    pdready = false;
-	if (pdman != null) pdman.onResume(readyrunnable);
+	loadingview.setVisibility(View.VISIBLE);
+	if (pdready == true) {
+	    pdready = false;
+		if (pdman != null) pdman.onResume(readyrunnable);
+	}
 	readSettings();
 }
 

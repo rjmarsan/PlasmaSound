@@ -26,9 +26,6 @@ public  class Filter extends Effect {
 	
 
 
-	public void updateSettings(SharedPreferences prefs, String preset) {
-		
-	}
 	
 
 

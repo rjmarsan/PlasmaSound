@@ -35,9 +35,6 @@ public  class Delay extends Effect {
 		params.get(DELAY_TIME).pushValue(val);
 	}
 
-	public void updateSettings(SharedPreferences prefs, String preset) {
-		
-	}
 	
 
 

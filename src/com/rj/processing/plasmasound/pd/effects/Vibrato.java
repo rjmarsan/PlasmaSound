@@ -13,12 +13,12 @@ public  class Vibrato extends Effect {
 	public Vibrato() {
 		params = new HashMap<String, Parameter>();
 		Parameter vibspeed = new Parameter(SPEED, false);
-		vibspeed.setMinMax(0f, 20f);
-		vibspeed.setDefault(0.4f);
+		vibspeed.setMinMax(0f, 100f);
+		vibspeed.setDefaultNaive(0.4f);
 		params.put(SPEED, vibspeed );
 		Parameter vibdepth = new Parameter(DEPTH, false);
 		vibdepth.setMinMax(0f, 127f);
-		vibdepth.setDefault(0f);
+		vibdepth.setDefault(100f);
 		params.put(DEPTH, vibdepth );
 		
 		this.yenabledlist = new String[] {
@@ -30,10 +30,6 @@ public  class Vibrato extends Effect {
 	}
 
 
-	public void updateSettings(SharedPreferences prefs, String preset) {
-		
-	}
-	
 
 
 }

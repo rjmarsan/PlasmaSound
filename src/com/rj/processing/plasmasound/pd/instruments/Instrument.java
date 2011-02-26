@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.puredata.core.PdBase;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.rj.processing.plasmasound.pd.PDManager;
@@ -91,6 +92,8 @@ public class Instrument {
 		}
 	}
 	public void touchDown(MotionEvent me, int index, float x, float y) {
+		Log.d("Instrument", "TOUCH DOWN!!!!!!");
+		
 		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
 			setPitch(x, index);

@@ -1,13 +1,13 @@
 package com.rj.processing.plasmasound.pd.effects;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.puredata.core.PdBase;
+import android.content.SharedPreferences;
+import android.util.Log;
+import android.view.MotionEvent;
 
 import com.rj.processing.plasmasound.pd.instruments.Parameter;
-
-import android.content.SharedPreferences;
-import android.view.MotionEvent;
 
 public abstract class Effect {	
 	private static final int MAX_INDEX = 4;
@@ -61,7 +61,26 @@ public abstract class Effect {
 	public void updateSettings(SharedPreferences prefs) {
 		updateSettings(prefs, "");
 	}
-	public abstract void updateSettings(SharedPreferences prefs, String preset);
+	public void updateSettings(SharedPreferences prefs, String preset) {
+		ArrayList<String> yList = new ArrayList<String>();
+		for (Parameter p : params.values()) {
+			if (prefs.getBoolean(p.getName()+"_y", false)) {
+				Log.d("EffectsSettings", "Adding :"+p.getName()+ " to ylist");
+				yList.add(p.getName());
+			}
+			float newval = (float)(prefs.getInt(p.getName(), -1))/100f;
+			Log.d("EffectsSettings", "Value for :"+p.getName()+ " : " + newval);
+			if (newval >= 0)
+				p.setDefaultNaive(newval);
+		}
+		this.yenabledlist = new String[yList.size()];
+		for (int i=0; i<yenabledlist.length;i++) {
+			yenabledlist[i] = yList.get(i);
+		}
+		if (yList.size() > 0) {
+			this.yenabled = true;
+		}
+	}
 	
 
 

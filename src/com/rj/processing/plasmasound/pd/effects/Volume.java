@@ -34,10 +34,6 @@ public  class Volume extends Effect {
 	}
 
 
-	public void updateSettings(SharedPreferences prefs, String preset) {
-		
-	}
-	
 
 
 }
