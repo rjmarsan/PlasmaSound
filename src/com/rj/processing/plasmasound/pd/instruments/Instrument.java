@@ -1,12 +1,16 @@
 package com.rj.processing.plasmasound.pd.instruments;
 
+import java.util.ArrayList;
+
 import org.puredata.core.PdBase;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.rj.processing.plasmasound.pd.PDManager;
+import com.rj.processing.plasmasound.pd.effects.Effect;
+import com.rj.processing.plasmasound.pd.effects.Vibrato;
+import com.rj.processing.plasmasound.pd.effects.Volume;
 
 public class Instrument {
 	private static final String MIDI_MIN = "midimin";
@@ -30,6 +34,9 @@ public class Instrument {
 	private static final int MAX_INDEX = 4;
 	
 	
+	private ArrayList<Effect> effects = new ArrayList<Effect>();
+	private Volume volume;
+	
 	
 	private int patch;
 	private String patchName;
@@ -47,6 +54,9 @@ public class Instrument {
 	
 	public Instrument(PDManager p) {
 		this.p = p;
+		volume = new Volume();
+		effects.add(volume);
+		effects.add(new Vibrato());
 	}
 	
 	public void setPatch(String patch) {
@@ -63,41 +73,35 @@ public class Instrument {
 	
 	public void touchUp(MotionEvent me, int index, float x, float y) {
 		if (ready && index <= MAX_INDEX) {
-			setVolume(0, index);
+			for (Effect e : effects) {
+				e.touchMove(me, index, x, 0);
+			}
 		}
 	}
 	public void touchMove(MotionEvent me, int index, float x, float y) {
 		if (ready && index <= MAX_INDEX) {
 			setPitch(x, index);
-			if (vol_y)
-				setVolume(1-y, index);
-			else
-				setVolume(1, index);
-			if (filt_y)
-				setFilter(1-y, index);
-			else
-				setFilter(1, index);
+			for (Effect e : effects) {
+				e.touchMove(me, index, x, y);
+			}
 		}
 	}
 	public void touchDown(MotionEvent me, int index, float x, float y) {
 		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
 			setPitch(x, index);
-			if (vol_y)
-				setVolume(1-y, index);
-			else
-				setVolume(1, index);
-			if (filt_y)
-				setFilter(1-y, index);
-			else
-				setFilter(1, index);
+			for (Effect e : effects) {
+				e.touchMove(me, index, x, y);
+			}
 		}
 	}
 	public void allUp() {
 		if (ready) {
 			setVolume(0);
-			for (int i=0;i<4;i++) {
-				setVolume(0, i);
+			for (int index=0; index<MAX_INDEX; index++) {
+				for (Effect e : effects) {
+					e.touchMove(null, index, 0, 0);
+				}
 			}
 		}
 	}
@@ -130,12 +134,13 @@ public class Instrument {
 	}
 	
 	public void setVolume(float amp) {
-		sendMessage("amp", amp);
+//		sendMessage("amp", amp);
+		volume.setVolume(amp);
 	}
-	public void setVolume(float amp, int index) {
-		amp = amp*maxVol;
-		sendMessage("amp", amp, index);
-	}
+//	public void setVolume(float amp, int index) {
+//		amp = amp*maxVol;
+//		sendMessage("amp", amp, index);
+//	}
 	
 	
 	public void setWaveform(float waveform) {
@@ -146,23 +151,6 @@ public class Instrument {
 		filter = filter*20f;
 		filter = filter*maxFilt;
 		sendMessage("filt", filter, index);
-	}
-	
-	
-	public void setParam1(float amp) {
-		sendMessage("param1", amp);
-	}
-	public void setParam1(float amp, int index) {
-		sendMessage("param1", amp, index);
-	}
-	public void setParam2(float amp) {
-		sendMessage("param2", amp);
-	}
-	public void setParam3(float amp) {
-		sendMessage("param3", amp);
-	}
-	public void setParam3(float amp, int index) {
-		sendMessage("param3", amp, index);
 	}
 	
 	
@@ -177,10 +165,10 @@ public class Instrument {
 			setMidiMin(prefMidiMin);
 			setMidiMax(prefMidiMax);
 			
-			float prefDelayTime = prefs.getInt(preset+DELAY_TIME, 10);
-			float prefDelayFeedback = prefs.getInt(preset+DELAY_FEEDBACK, 40);
-			setParam1(prefDelayTime);
-			setParam2(prefDelayFeedback);
+//			float prefDelayTime = prefs.getInt(preset+DELAY_TIME, 10);
+//			float prefDelayFeedback = prefs.getInt(preset+DELAY_FEEDBACK, 40);
+//			setParam1(prefDelayTime);
+//			setParam2(prefDelayFeedback);
 			
 			
 			String s_waveform = prefs.getString(preset+WAVEFORM, "1.0");
@@ -194,6 +182,10 @@ public class Instrument {
 			
 			maxVol = prefs.getInt(preset+VOLUME, 80)/100f;
 			maxFilt = prefs.getInt(preset+FILTER, 80)/100f;
+			
+			for (Effect e : effects) {
+				e.updateSettings(prefs, preset);
+			}
 		
 		} catch (Exception e) { e.printStackTrace(); }
 	}

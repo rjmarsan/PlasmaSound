@@ -36,6 +36,7 @@ public class MTManager {
 			}
 			if (numPointers < cursors.size()) {
 				for (int i = 0; i < cursors.size(); i++) {
+					try {
 					if (numPointers <= i) {
 						cursors.remove(i);
 					}
@@ -49,6 +50,7 @@ public class MTManager {
 							cursors.remove(i-1);
 						}
 					}
+					} catch (ArrayIndexOutOfBoundsException e) {}
 				}
 			}
 		}

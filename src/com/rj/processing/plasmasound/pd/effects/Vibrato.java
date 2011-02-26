@@ -26,9 +26,6 @@ public  class Vibrato extends Effect {
 
 	}
 
-	
-	public void initEffect() {
-	}
 
 	public void updateSettings(SharedPreferences prefs, String preset) {
 		

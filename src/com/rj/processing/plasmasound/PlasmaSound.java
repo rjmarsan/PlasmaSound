@@ -40,6 +40,7 @@ boolean pdready = false;
 Runnable readyrunnable = new Runnable() {
 	public void run() {
 		pdready = true;
+		loadingview.setVisibility(View.GONE);
 	}
 };
 
@@ -105,7 +106,7 @@ AsyncTask<Void,Void,Void> asyncSetup = new AsyncTask<Void,Void,Void>() {
 	protected void onPostExecute(Void params) {
 		pdready = true;
 		loadingview.setVisibility(View.GONE);
-		loadingview = null;
+//		loadingview = null;
 
 	}
 };
@@ -165,26 +166,30 @@ public void instTouchEvent(MotionEvent me, int i, float x, float y, float vx,
 public void instTouchFix(MotionEvent me) {
 //	Log.d("PlasmaTheremin", "Pointer Count: "+me.getPointerCount());
 	for (int i1 = 0; i1 < me.getPointerCount()+2; i1++) {
-		int pointerId = me.getPointerId(i1);
-		int index1 = me.findPointerIndex(pointerId);
-//		Log.d("PlasmaTheremin", "pointer id: "+pointerId+" index:"+index1);
-		if (index1 < 0) {
-			if (inst!=null) inst.touchUp(me, i1+1, 0, 0);
-		}
-		else if (pointerId != index1) {
-			if (inst!=null) inst.touchUp(me, i1, 0, 0);
-		}
+		try {
+			int pointerId = me.getPointerId(i1);
+			int index1 = me.findPointerIndex(pointerId);
+	//		Log.d("PlasmaTheremin", "pointer id: "+pointerId+" index:"+index1);
+			if (index1 < 0) {
+				if (inst!=null) inst.touchUp(me, i1+1, 0, 0);
+			}
+			else if (pointerId != index1) {
+				if (inst!=null) inst.touchUp(me, i1, 0, 0);
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {}
 	}
 }
 
 
 
 public void draw() {
-    background(0);
-
-    vis.drawVisuals();
-    
-    if (this.frameCount % 100 == 0) println(this.frameRate+"");
+	if (pdready) {
+	    background(0);
+	
+	    vis.drawVisuals();
+	    
+	    if (this.frameCount % 100 == 0) println(this.frameRate+"");
+	}
 
 }
 
@@ -194,6 +199,9 @@ public void draw() {
 @Override
 protected void onResume() {
 	super.onResume();
+	if (loadingview == null)
+		loadingview = this.findViewById(com.rj.processing.plasmasound.R.id.loadingview);
+	loadingview.setVisibility(View.GONE);
     pdready = false;
 	if (pdman != null) pdman.onResume(readyrunnable);
 	readSettings();

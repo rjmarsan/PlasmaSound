@@ -14,7 +14,7 @@ public abstract class Effect {
 	
 	protected HashMap<String, Parameter> params;
 	
-	boolean yenabled = false;
+	boolean yenabled = true;
 	String[] yenabledlist = {};
 	boolean enabled = true;
 	
@@ -32,7 +32,7 @@ public abstract class Effect {
 		if (yenabled && enabled && index <= MAX_INDEX) {
 			for (String effect : yenabledlist) {
 				Parameter p = params.get(effect);
-				p.pushValueNaive(y, index);
+				p.pushValueNaive(1-y, index);
 			}
 		}
 	}
