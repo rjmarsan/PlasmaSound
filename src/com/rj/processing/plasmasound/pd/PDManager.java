@@ -132,6 +132,7 @@ public class PDManager {
 	}
 	
 	public void finish() {
+		Log.d(TAG, "Finishing for some reason");
 		cleanup();
 	}
 
@@ -145,6 +146,7 @@ public class PDManager {
 //			out = PdUtils.openPatch(patchFile.getAbsolutePath());
 			out = PdBase.openPatch(patchFile.getAbsolutePath());
 		} catch (IOException e) {
+			e.printStackTrace();
 			Log.e(TAG, e.toString() + "; exiting now");
 			finish();
 		}

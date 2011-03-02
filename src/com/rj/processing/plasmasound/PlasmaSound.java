@@ -158,19 +158,19 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	}
 	@Override
 	public void touchDown(Cursor c) {
-		if (inst!=null) inst.touchDown(null, c.curId, c.currentPoint.x/width, c.currentPoint.y/height, c);
+		if (inst!=null) inst.touchDown(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 		
 	}
 	@Override
 	public void touchMoved(Cursor c) {
-		if (inst!=null) inst.touchMove(null, c.curId, c.currentPoint.x/width, c.currentPoint.y/height, c);
+		if (inst!=null) inst.touchMove(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	
 	}
 	@Override
 	public void touchUp(Cursor c) {
-		if (inst!=null) inst.touchUp(null, c.curId, c.currentPoint.x/width, c.currentPoint.y/height, c);
+		if (inst!=null) inst.touchUp(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	}
 	

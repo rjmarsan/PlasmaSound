@@ -88,11 +88,11 @@ public class Parameter {
 	}
 	public void pushNormalValue(float value) {
 		PdBase.sendFloat(getParamName(), value);
-		System.out.println("Setting "+this.name+" to:"+value);
+//		System.out.println("Setting "+this.name+" to:"+value);
 	}
 	public void pushNormalValue(float value, int num) {
 		PdBase.sendFloat(getParamName(num), value);
-		System.out.println("Setting "+this.name+"["+num+"] to:"+value);
+//		System.out.println("Setting "+this.name+"["+num+"] to:"+value);
 	}
 	public void pushValue(float abnormal) {
 		float value = normalizeValue(abnormal);

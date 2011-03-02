@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
+import com.rj.processing.mt.Point;
 import com.rj.processing.plasmasound.pd.PDManager;
 import com.rj.processing.plasmasound.pd.effects.Delay;
 import com.rj.processing.plasmasound.pd.effects.Effect;
@@ -38,8 +39,8 @@ public class Instrument {
 	private static final int MAX_INDEX = 4;
 	
 	
-	private ArrayList<Effect> effects = new ArrayList<Effect>();
-	private Volume volume;
+	final private ArrayList<Effect> effects = new ArrayList<Effect>();
+	final private Volume volume;
 	
 	
 	private int patch;
@@ -77,8 +78,10 @@ public class Instrument {
 		patch = p.openPatch(patchName);
 	}
 	
-	public void touchUp(MotionEvent me, int index, float x, float y, Cursor c) {
-		Log.d("Instrument", "TOUCH UP!!!!!! : "+index);
+	public void touchUp(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
+//		Log.d("Instrument", "TOUCH UP!!!!!! : "+index);
+		x=x/width;
+		y=y/height;
 		index ++;
 		if (ready && index <= MAX_INDEX) {
 			for (Effect e : effects) {
@@ -86,22 +89,26 @@ public class Instrument {
 			}
 		}
 	}
-	public void touchMove(MotionEvent me, int index, float x, float y, Cursor c) {
+	public void touchMove(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
+		x=x/width;
+		y=y/height;
 		index ++;
 		if (ready && index <= MAX_INDEX) {
-			setPitch(x, index);
+			setPitch(x, index, c, width);
 			for (Effect e : effects) {
 				e.touchMove(me, index, x, y, c);
 			}
 		}
 	}
-	public void touchDown(MotionEvent me, int index, float x, float y, Cursor c) {
-		Log.d("Instrument", "TOUCH DOWN!!!!!!: "+index);
+	public void touchDown(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
+//		Log.d("Instrument", "TOUCH DOWN!!!!!!: "+index);
+		x=x/width;
+		y=y/height;
 		index ++;
 		
 		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
-			setPitch(x, index);
+			setPitch(x, index, c, width);
 			for (Effect e : effects) {
 				e.touchDown(me, index, x, y, c);
 			}
@@ -119,39 +126,44 @@ public class Instrument {
 	}
 	
 	
-	public void setMidiMin(float val) {
+	public void setMidiMin(final float val) {
 		this.midiMin = val;
 	}
-	public void setMidiMax(float val) {
+	public void setMidiMax(final float val) {
 		this.midiMax = val;
 	}
 	
-	private void sendMessage(String s, float val) {
+	private void sendMessage(final String s,final  float val) {
 		PdBase.sendFloat(s, val);
 	}
-	private void sendMessage(String s, float val, int index) {
+	private void sendMessage(final String s,final  float val,final  int index) {
 		PdBase.sendFloat(s+index, val);
 	}
 	
-	public void setPitch(float val) {
+	public void setPitch(final float val) {
 		float pitch = midiMin + (val * (midiMax-midiMin));
 		if (quantize)
 			pitch = (float)Math.floor(pitch);
 		sendMessage("pitch", pitch);
 	}
-	public void setPitch(float val, int index) {
+	public void setPitch(final float val,final int index,final Cursor c, final float width) {
 		float pitch = midiMin + (val * (midiMax-midiMin));
-		if (quantize)
-			pitch = (float)Math.floor(pitch);
+		if (quantize) {
+			final int firstClosestX = (int) (c.firstPoint.x/width * (midiMax-midiMin));
+			final int lastClosestX = (int) (c.currentPoint.x/width * (midiMax-midiMin));
+			if (firstClosestX == lastClosestX) {
+				pitch = (float)Math.floor(pitch); //too close! round!
+			} 
+		}
 		sendMessage("pitch", pitch, index);
 	}
 	
-	public void setVolume(float amp) {
+	public void setVolume(final float amp) {
 		volume.setVolume(amp);
 	}
 	
 	
-	public void setWaveform(float waveform) {
+	public void setWaveform(final float waveform) {
 		sendMessage("inssel", waveform);
 	}
 	

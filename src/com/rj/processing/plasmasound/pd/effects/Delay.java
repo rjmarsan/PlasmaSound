@@ -13,7 +13,7 @@ public  class Delay extends Effect {
 	public Delay() {
 		params = new HashMap<String, Parameter>();
 		Parameter delaytime = new Parameter(DELAY_TIME, true);
-		delaytime.setMinMax(0f, 100f);
+		delaytime.setMinMax(0f, 10f);
 		delaytime.setDefaultNaive(0.3f);
 		params.put(DELAY_TIME, delaytime );
 		Parameter feedback = new Parameter(DELAY_FEEDBACK, true);
