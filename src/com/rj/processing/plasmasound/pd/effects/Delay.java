@@ -2,8 +2,6 @@ package com.rj.processing.plasmasound.pd.effects;
 
 import java.util.HashMap;
 
-import android.content.SharedPreferences;
-
 import com.rj.processing.plasmasound.pd.instruments.Parameter;
 
 public  class Delay extends Effect {	
@@ -12,11 +10,11 @@ public  class Delay extends Effect {
 	
 	public Delay() {
 		params = new HashMap<String, Parameter>();
-		Parameter delaytime = new Parameter(DELAY_TIME, true);
+		final Parameter delaytime = new Parameter(DELAY_TIME, true);
 		delaytime.setMinMax(0f, 10f);
 		delaytime.setDefaultNaive(0.3f);
 		params.put(DELAY_TIME, delaytime );
-		Parameter feedback = new Parameter(DELAY_FEEDBACK, true);
+		final Parameter feedback = new Parameter(DELAY_FEEDBACK, true);
 		feedback.setMinMax(0f, 100f);
 		feedback.setDefaultNaive(0.3f);
 		params.put(DELAY_FEEDBACK, feedback );
@@ -26,12 +24,12 @@ public  class Delay extends Effect {
 
 	}
 	
-	public void setDelay(float value) {
+	public void setDelay(final float value) {
 		
 	}
 
 	
-	public void setVolume(float val) {
+	public void setVolume(final float val) {
 		params.get(DELAY_TIME).pushValue(val);
 	}
 

@@ -2,6 +2,8 @@ package com.rj.processing.plasmasound;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
@@ -12,34 +14,34 @@ public class Visualization {
 	
 	ArrayList<Visual> visuals;
 
-	public Visualization(PlasmaSound p) {
+	public Visualization(final PlasmaSound p) {
 		this.p = p;
 		visuals = new ArrayList<Visual>();
 	}
 	
-	public void addVisual(Visual vis) {
+	public void addVisual(final Visual vis) {
 		visuals.add(vis);
 	}
 	
-	public void removeVisuals(Visual vis) {
+	public void removeVisuals(final Visual vis) {
 		visuals.remove(vis);
 	}
 
 
 	public void drawVisuals() {
 		p.pushStyle();
-		p.colorMode(p.RGB, 255);
+		p.colorMode(PApplet.RGB, 255);
 		
-		for (Visual v : visuals) {
+		for (final Visual v : visuals) {
 			v.drawVis();
 		}
 		
 		p.popStyle();		
 	}
 
-	public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
-			float vy, float size, Cursor c) {
-		for (Visual v : visuals) {
+	public void touchEvent(final MotionEvent me, final int i, final float x, final float y, final float vx,
+			final float vy, final float size, final Cursor c) {
+		for (final Visual v : visuals) {
 			v.touchEvent(me, i, x, y, vx, vy, size);
 		}
 	}

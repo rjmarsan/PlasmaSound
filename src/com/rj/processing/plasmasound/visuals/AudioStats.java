@@ -6,7 +6,7 @@ import com.rj.processing.plasmasound.PlasmaSound;
 
 public class AudioStats extends Visual{	
 	
-	public AudioStats(PlasmaSound p) {
+	public AudioStats(final PlasmaSound p) {
 		super(p);
 	}
 
@@ -23,8 +23,8 @@ public class AudioStats extends Visual{
 	}
 
 	@Override
-	public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
-			float vy, float size) {
+	public void touchEvent(final MotionEvent me, final int i, final float x, final float y, final float vx,
+			final float vy, final float size) {
 	}
 	  
 	  

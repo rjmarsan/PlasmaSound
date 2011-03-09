@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import org.puredata.core.PdBase;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.mt.Point;
 import com.rj.processing.plasmasound.pd.PDManager;
 import com.rj.processing.plasmasound.pd.effects.Delay;
 import com.rj.processing.plasmasound.pd.effects.Effect;
@@ -57,7 +55,7 @@ public class Instrument {
 	
 	public boolean ready = false;
 	
-	public Instrument(PDManager p) {
+	public Instrument(final PDManager p) {
 		this.p = p;
 		volume = new Volume();
 		effects.add(volume);
@@ -66,7 +64,7 @@ public class Instrument {
 		effects.add(new Filter());
 	}
 	
-	public void setPatch(String patch) {
+	public void setPatch(final String patch) {
 		patchName = patch;
 //		new Thread(new Runnable() { public void run() {
 			initInstrument();
@@ -84,7 +82,7 @@ public class Instrument {
 		y=y/height;
 		index ++;
 		if (ready && index <= MAX_INDEX) {
-			for (Effect e : effects) {
+			for (final Effect e : effects) {
 				e.touchUp(me, index, x, 0, c);
 			}
 		}
@@ -95,7 +93,7 @@ public class Instrument {
 		index ++;
 		if (ready && index <= MAX_INDEX) {
 			setPitch(x, index, c, width);
-			for (Effect e : effects) {
+			for (final Effect e : effects) {
 				e.touchMove(me, index, x, y, c);
 			}
 		}
@@ -109,7 +107,7 @@ public class Instrument {
 		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
 			setPitch(x, index, c, width);
-			for (Effect e : effects) {
+			for (final Effect e : effects) {
 				e.touchDown(me, index, x, y, c);
 			}
 		}
@@ -118,7 +116,7 @@ public class Instrument {
 		if (ready) {
 			setVolume(0);
 			for (int index=1; index<=MAX_INDEX; index++) {
-				for (Effect e : effects) {
+				for (final Effect e : effects) {
 					e.touchUp(null, index, 0, 0, null);
 				}
 			}
@@ -168,18 +166,18 @@ public class Instrument {
 	}
 	
 	
-	public void updateSettings(SharedPreferences prefs) {
+	public void updateSettings(final SharedPreferences prefs) {
 		updateSettings(prefs, "");
 	}
-	public void updateSettings(SharedPreferences prefs, String preset) {
+	public void updateSettings(final SharedPreferences prefs, final String preset) {
 		try {
-			float prefMidiMin = prefs.getInt(preset+MIDI_MIN, 70);
-			float prefMidiMax = prefs.getInt(preset+MIDI_MAX, 86);
+			final float prefMidiMin = prefs.getInt(preset+MIDI_MIN, 70);
+			final float prefMidiMax = prefs.getInt(preset+MIDI_MAX, 86);
 			setMidiMin(prefMidiMin);
 			setMidiMax(prefMidiMax);			
 			
-			String s_waveform = prefs.getString(preset+WAVEFORM, "1.0");
-			Float waveform = Float.parseFloat(s_waveform);
+			final String s_waveform = prefs.getString(preset+WAVEFORM, "1.0");
+			final Float waveform = Float.parseFloat(s_waveform);
 			setWaveform(waveform);
 			
 			quantize = prefs.getBoolean(preset+QUANTIZE, false);
@@ -190,11 +188,11 @@ public class Instrument {
 			maxVol = prefs.getInt(preset+VOLUME, 80)/100f;
 			maxFilt = prefs.getInt(preset+FILTER, 80)/100f;
 			
-			for (Effect e : effects) {
+			for (final Effect e : effects) {
 				e.updateSettings(prefs, preset);
 			}
 		
-		} catch (Exception e) { e.printStackTrace(); }
+		} catch (final Exception e) { e.printStackTrace(); }
 	}
 	
 	

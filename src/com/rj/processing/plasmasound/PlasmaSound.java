@@ -62,7 +62,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 	View loadingview;
 	
-	public void onCreate(Bundle savedinstance) {
+	public void onCreate(final Bundle savedinstance) {
 		super.onCreate(savedinstance);
 		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreen, null);
 		this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
@@ -70,7 +70,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 	
 	
-	
+	@Override
 	public void setup() {
 		hint(DISABLE_DEPTH_TEST);
 		hint(DISABLE_OPENGL_ERROR_REPORT);
@@ -93,7 +93,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	}
 	AsyncTask<Void,Void,Void> asyncSetup = new AsyncTask<Void,Void,Void>() {
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Void doInBackground(final Void... params) {
 			startingup = true;
 			Log.v("PlasmaSoundSetup", "creating pd");
 		    //PD Stuff
@@ -116,7 +116,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 			return null;
 		}
 		@Override
-		protected void onPostExecute(Void params) {
+		protected void onPostExecute(final Void params) {
 			Log.v("PlasmaSoundSetup", "Destroying popup!");
 			pdready = true;
 			startingup = false;
@@ -130,10 +130,10 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 	public void debug() {
 		  // Place this inside your setup() method
-		  DisplayMetrics dm = new DisplayMetrics();
+		  final DisplayMetrics dm = new DisplayMetrics();
 		  getWindowManager().getDefaultDisplay().getMetrics(dm);
-		  float density = dm.density; 
-		  int densityDpi = dm.densityDpi;
+		  final float density = dm.density; 
+		  final int densityDpi = dm.densityDpi;
 		  println("density is " + density); 
 		  println("densityDpi is " + densityDpi);
 		  
@@ -142,7 +142,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 	
 	//mt version
-	public boolean surfaceTouchEvent(MotionEvent me) {
+	public boolean surfaceTouchEvent(final MotionEvent me) {
 		if (mtManager != null) mtManager.surfaceTouchEvent(me);
 		
 	//	if (pdready)
@@ -152,31 +152,31 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 
 	@Override
-	public void touchAllUp(Cursor c) {
+	public void touchAllUp(final Cursor c) {
 		if (inst!=null) inst.allUp();
 		
 	}
 	@Override
-	public void touchDown(Cursor c) {
+	public void touchDown(final Cursor c) {
 		if (inst!=null) inst.touchDown(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 		
 	}
 	@Override
-	public void touchMoved(Cursor c) {
+	public void touchMoved(final Cursor c) {
 		if (inst!=null) inst.touchMove(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	
 	}
 	@Override
-	public void touchUp(Cursor c) {
+	public void touchUp(final Cursor c) {
 		if (inst!=null) inst.touchUp(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	}
 	
 	
 	
-	
+	@Override
 	public void draw() {
 		if (pdready) {
 		    background(0);
@@ -219,8 +219,8 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
+	public boolean onCreateOptionsMenu(final Menu menu) {
+	    final MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(com.rj.processing.plasmasound.R.menu.main_menu, menu);
 	    return true;
 	}
@@ -231,7 +231,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	 */
 	
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
 	    switch (item.getItemId()) {
 	    case com.rj.processing.plasmasound.R.id.instrument_settings:
 	        instrumentSettings();
@@ -245,27 +245,27 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	}
 	
 	public void instrumentSettings() {
-		Intent i = new Intent(this, PlasmaThereminAudioSettings.class);
+		final Intent i = new Intent(this, PlasmaThereminAudioSettings.class);
 		this.startActivity(i);
 	}
 	public void effectSettings() {
-		Intent i = new Intent(this, PlasmaThereminEffectsSettings.class);
+		final Intent i = new Intent(this, PlasmaThereminEffectsSettings.class);
 		this.startActivity(i);
 	}
 	
 	@Override
-	public void onActivityResult(int i, int j, Intent res) {
+	public void onActivityResult(final int i, final int j, final Intent res) {
 		super.onActivityResult(i, j, res);
 		readSettings();
 	}
 
     public void readSettings() {
-        SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
+        final SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
     	if (inst!=null) inst.updateSettings(mPrefs);
     }
     
-    public void savePreset(String name) {
-        SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
+    public void savePreset(final String name) {
+        final SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
         //something
     }
 

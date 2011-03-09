@@ -2,7 +2,6 @@ package com.rj.processing.plasmasound.pd.effects;
 
 import java.util.HashMap;
 
-import android.content.SharedPreferences;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
@@ -16,7 +15,7 @@ public  class Volume extends Effect {
 	
 	public Volume() {
 		params = new HashMap<String, Parameter>();
-		Parameter ampglobal = new Parameter(AMP_GLOBAL, true);
+		final Parameter ampglobal = new Parameter(AMP_GLOBAL, true);
 		ampglobal.setMinMax(0f, 1f);
 		ampglobal.setDefault(0.9f);
 		params.put(AMP_GLOBAL, ampglobal );
@@ -33,12 +32,12 @@ public  class Volume extends Effect {
 	}
 
 	
-	public void setVolume(float val) {
+	public void setVolume(final float val) {
 		params.get(AMP_GLOBAL).pushValue(val);
 	}
 
 
-	public void touchUp(MotionEvent me, int index, float x, float y, Cursor c) {
+	public void touchUp(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
 		amp.pushValue(0, index);
 	}
 

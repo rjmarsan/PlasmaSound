@@ -7,11 +7,11 @@ import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasound.PlasmaSound;
 
 public class Grid extends Visual{
-	private int num_lines = 10;
-	private float crosshair_size = 100;
+	private final int num_lines = 10;
+	private final float crosshair_size = 100;
 	
 	
-	public Grid(PlasmaSound p) {
+	public Grid(final PlasmaSound p) {
 		super(p);
 	}
 
@@ -25,10 +25,10 @@ public class Grid extends Visual{
 			midiMax = p.inst.midiMax;
 			midiMin = p.inst.midiMin;
 		}
-		float num_lines = midiMax-midiMin;
-		float spacing = width/((float)num_lines);
+		final float num_lines = midiMax-midiMin;
+		final float spacing = width/(num_lines);
 		for (int i=0;i<num_lines;i++) {
-			int space = (int) ((i+midiMin) % 12);
+			final int space = (int) ((i+midiMin) % 12);
 			if (space == 0) {
 				p.stroke(200, 100);
 				p.fill(100,100);
@@ -51,7 +51,7 @@ public class Grid extends Visual{
 				quantize = p.inst.quantize;
 			}
 			if (!quantize) {
-				for (Cursor c : p.mtManager.cursors) {
+				for (final Cursor c : p.mtManager.cursors) {
 					if (c != null && c.currentPoint != null) {
 						p.line(c.currentPoint.x-crosshair_size, c.currentPoint.y, c.currentPoint.x+crosshair_size, c.currentPoint.y);
 						p.line(c.currentPoint.x, c.currentPoint.y-crosshair_size, c.currentPoint.x, c.currentPoint.y+crosshair_size);
@@ -60,10 +60,10 @@ public class Grid extends Visual{
 			}
 			else {
 				p.fill(255,0,0,50);
-				for (Cursor c : p.mtManager.cursors) {
+				for (final Cursor c : p.mtManager.cursors) {
 					if (c != null && c.currentPoint != null) {
-						float x = c.currentPoint.x;
-						int s = (int) (x/spacing);
+						final float x = c.currentPoint.x;
+						final int s = (int) (x/spacing);
 						p.rect(spacing*s, 0, spacing, p.height);
 					}
 				}
@@ -72,8 +72,8 @@ public class Grid extends Visual{
 	}
 
 	@Override
-	public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
-			float vy, float size) {
+	public void touchEvent(final MotionEvent me, final int i, final float x, final float y, final float vx,
+			final float vy, final float size) {
 	}
 	  
 	  

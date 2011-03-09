@@ -125,7 +125,7 @@ public class MSAFluidSolver2DINT {
 	 * @param NX number of cells in X direction
 	 * @param NY number of cells in Y direction
 	 */
-	public MSAFluidSolver2DINT(int NX, int NY) {
+	public MSAFluidSolver2DINT(final int NX, final int NY) {
 		
 		_isInited = false;
 		setDeltaT(FLUID_DEFAULT_DT_T, FLUID_DEFAULT_DT_B);
@@ -184,7 +184,7 @@ public class MSAFluidSolver2DINT {
 	 * @param NY number of cells in X direction
 	 * @return instance of MSAFluidSolver2D for further configuration
 	 */
-	public MSAFluidSolver2DINT setup(int NX, int NY) {
+	public MSAFluidSolver2DINT setup(final int NX, final int NY) {
 		
 		return this;
 	}
@@ -195,7 +195,7 @@ public class MSAFluidSolver2DINT {
 	 * @param dt timestep
 	 * @return instance of MSAFluidSolver2D for further configuration
 	 */
-	public MSAFluidSolver2DINT setDeltaT(int dt_t, int dt_b) {
+	public MSAFluidSolver2DINT setDeltaT(final int dt_t, final int dt_b) {
 		_dt_t = dt_t;
 		_dt_b = dt_b;
 		return this;	
@@ -207,7 +207,7 @@ public class MSAFluidSolver2DINT {
 	 * @param fadeSpeed (0...1)
 	 * @return instance of MSAFluidSolver2D for further configuration
 	 */
-	public MSAFluidSolver2DINT setFadeSpeed(int fadeSpeed_t, int fadeSpeed_b) {
+	public MSAFluidSolver2DINT setFadeSpeed(final int fadeSpeed_t, final int fadeSpeed_b) {
 		_fadeSpeed_t = fadeSpeed_t;
 		_fadeSpeed_b = fadeSpeed_b;
 		return this;	
@@ -219,7 +219,7 @@ public class MSAFluidSolver2DINT {
 	 * @param solverIterations
 	 * @return instance of MSAFluidSolver2D for further configuration
 	 */	
-	public MSAFluidSolver2DINT setSolverIterations(int solverIterations) {
+	public MSAFluidSolver2DINT setSolverIterations(final int solverIterations) {
 		_solverIterations = solverIterations;
 		return this;	
 	}
@@ -229,7 +229,7 @@ public class MSAFluidSolver2DINT {
 	 * @param isRGB true or false
 	 * @return instance of MSAFluidSolver2D for further configuration
 	 */		
-	public MSAFluidSolver2DINT enableRGB(boolean isRGB) {
+	public MSAFluidSolver2DINT enableRGB(final boolean isRGB) {
 		_isRGB = isRGB;
 		return this;
 	}
@@ -239,7 +239,7 @@ public class MSAFluidSolver2DINT {
 	 * @param newVisc
 	 * @return instance of MSAFluidSolver2D for further configuration
 	 */		
-	public MSAFluidSolver2DINT setVisc(int newVisc_T, int newVisc_B) {
+	public MSAFluidSolver2DINT setVisc(final int newVisc_T, final int newVisc_B) {
 		visc_t = newVisc_T;
 		visc_b = newVisc_B;
 		return this;
@@ -309,7 +309,7 @@ public class MSAFluidSolver2DINT {
 	 * @param y 0...1 normalized y position
 	 * @return cell index (to be used in r, g, b, u, v arrays)
 	 */		
-	public int getIndexForNormalizedPosition(float x, float y) {
+	public int getIndexForNormalizedPosition(final float x, final float y) {
 		return getIndexForCellPosition((int)Math.floor(x * (_NX+2)), (int)Math.floor(y * (_NY+2)));
 	}
 
@@ -353,35 +353,35 @@ public class MSAFluidSolver2DINT {
 	
 	
 	
-	public void addForceAtPos(float x, float y, float vx, float vy) {
-		int i = (int) (x * _NX + 2);
-		int j = (int) (y * _NY + 2);
+	public void addForceAtPos(final float x, final float y, final float vx, final float vy) {
+		final int i = (int) (x * _NX + 2);
+		final int j = (int) (y * _NY + 2);
 		if(i<1 || i>_NX || j<1 || j>_NY) return;
 		addForceAtCell(i, j, vx, vy);
 	}
 	
-	public void addForceAtPosInterp(float x, float y, float vx, float vy) {
-		float rI = x * _NX + 2;
-		float rJ = y * _NY + 2;
-		int i1 = (int) (x * _NX + 2);
-		int i2 = (rI - i1 < 0) ? (int) (x * _NX + 3) : (int) (x* _NX + 1);
-		int j1 = (int) (y * _NY + 2);
-		int j2 = (rJ - j1 < 0) ? (int) (y * _NY + 3) : (int) (y* _NY + 1);
+	public void addForceAtPosInterp(final float x, final float y, final float vx, final float vy) {
+		final float rI = x * _NX + 2;
+		final float rJ = y * _NY + 2;
+		final int i1 = (int) (x * _NX + 2);
+		final int i2 = (rI - i1 < 0) ? (int) (x * _NX + 3) : (int) (x* _NX + 1);
+		final int j1 = (int) (y * _NY + 2);
+		final int j2 = (rJ - j1 < 0) ? (int) (y * _NY + 3) : (int) (y* _NY + 1);
 		
-		float diffx = (1-(rI-i1));
-		float diffy = (1-(rJ-j1));
+		final float diffx = (1-(rI-i1));
+		final float diffy = (1-(rJ-j1));
 		
-		float vx1 = vx * diffx*diffy;
-		float vy1 = vy * diffy*diffx;
+		final float vx1 = vx * diffx*diffy;
+		final float vy1 = vy * diffy*diffx;
 		
-		float vx2 = vx * (1-diffx)*diffy;
-		float vy2 = vy * diffy*(1-diffx);
+		final float vx2 = vx * (1-diffx)*diffy;
+		final float vy2 = vy * diffy*(1-diffx);
 		
-		float vx3 = vx * diffx*(1-diffy);
-		float vy3 = vy * (1-diffy)*diffx;
+		final float vx3 = vx * diffx*(1-diffy);
+		final float vy3 = vy * (1-diffy)*diffx;
 		
-		float vx4 = vx * (1-diffx)*(1-diffy);
-		float vy4 = vy * (1-diffy)*(1-diffx);
+		final float vx4 = vx * (1-diffx)*(1-diffy);
+		final float vy4 = vy * (1-diffy)*(1-diffx);
 		
 		/*
 D/MSAFluidSolver(13634): Adding force 1 (orig:dx2.1063147 dy:-0.9879706  ): [49,19]: dx: 0.026681103  dy:-0.012514818 diffx:0.0930748 diffy:0.13609695
@@ -404,9 +404,9 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 
 	}
 	
-	public void addForceAtCell(int i, int j, float vx, float vy) {
+	public void addForceAtCell(final int i, final int j, final float vx, final float vy) {
 		//	if(safeToRun()){
-		int index = ((i) + (_NX + 2)  *(j));
+		final int index = ((i) + (_NX + 2)  *(j));
 		uOld[index] += vx;
 		vOld[index] += vy;
 		//		unlock();
@@ -414,16 +414,16 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	}
 	
 	
-	public void addColorAtPos(float x, float y, float r, float g, float b) {
-		int i = (int) (x * _NX + 1);
-		int j = (int) (y * _NY + 1);
+	public void addColorAtPos(final float x, final float y, final float r, final float g, final float b) {
+		final int i = (int) (x * _NX + 1);
+		final int j = (int) (y * _NY + 1);
 		if(i<0 || i>_NX+1 || j<0 || j>_NY+1) return;
 		addColorAtCell(i, j, r, g, b);	
 	}
 	
-	public void addColorAtCell(int i, int j, float r, float g, float b) {
+	public void addColorAtCell(final int i, final int j, final float r, final float g, final float b) {
 		//	if(safeToRun()){
-		int index = ((i) + (_NX + 2)  *(j));
+		final int index = ((i) + (_NX + 2)  *(j));
 		rOld[index] += r;
 		if(_isRGB) {
 			gOld[index] += g;
@@ -606,14 +606,14 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	
 	
 	
-	protected void addSource(int[] x, int[] x0) {
+	protected void addSource(final int[] x, final int[] x0) {
 		for (int i = 0; i < _numCells; i++) {
 			x[i] += (_dt_t * x0[i]) / _dt_b;
 		}
 	}
 	
 	
-	protected void advect(int b, int[] _d, int[] d0, int[] du, int[] dv) {
+	protected void advect(final int b, final int[] _d, final int[] d0, final int[] du, final int[] dv) {
 		int i0, j0, i1, j1;
 		int x, y, s0, t0, s1, t1, dt0_t, dt0_b;
 		
@@ -628,13 +628,13 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 				if (x > _NX + 1) x = _NX; //eeeh?
 				if (x < 1)     x = 1;
 				
-				i0 = (int) x;
+				i0 = x;
 				i1 = i0 + 1;
 				
 				if (y > _NY + 1) y = _NY; //eeeeeh?
 				if (y < 1)     y = 1;
 				
-				j0 = (int) y;
+				j0 = y;
 				j1 = j0 + 1;
 				
 				s1 = x - i0;
@@ -649,7 +649,7 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 		}
 	}
 	
-	protected void advectRGB(int bound, int[] du, int[] dv) {
+	protected void advectRGB(final int bound, final int[] du, final int[] dv) {
 		int i0, j0, i1, j1;
 		int x, y, s0, t0, s1, t1, dt0_t, dt0_b;
 		
@@ -664,13 +664,13 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 				if (x > _NX + 1) x = _NX; //ehhh?
 				if (x < 1)     x = 1;
 				
-				i0 = (int) x;
+				i0 = x;
 				i1 = i0 + 1;
 				
 				if (y > _NY + 1) y = _NY; //ehhh?
 				if (y < 1)     y = 1;
 				
-				j0 = (int) y;
+				j0 = y;
 				j1 = j0 + 1;
 				
 				s1 = x - i0;
@@ -688,21 +688,21 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	
 	
 	
-	protected void diffuse(int b, int[] c, int[] c0, int _diff_t, int _diff_b) {
-		int a = (_dt_t * _diff_t * _NX * _NY)/(_dt_b*_diff_b);
+	protected void diffuse(final int b, final int[] c, final int[] c0, final int _diff_t, final int _diff_b) {
+		final int a = (_dt_t * _diff_t * _NX * _NY)/(_dt_b*_diff_b);
 		Log.d("FluidSimINT", "diffuse, a:"+a);
 		linearSolver(b, c, c0, a, 1 + 4 * a);
 	}
 	
-	protected void diffuseRGB(int b, int _diff_t, int _diff_b) {
-		int a_t = (_dt_t * _diff_t * _NX * _NY);
-		int a_b = (_dt_b * _diff_b);
+	protected void diffuseRGB(final int b, final int _diff_t, final int _diff_b) {
+		final int a_t = (_dt_t * _diff_t * _NX * _NY);
+		final int a_b = (_dt_b * _diff_b);
 		Log.d("FluidSimINT", "diffuseRGB, a_t:"+a_t);
 		Log.d("FluidSimINT", "diffuseRGB, a_b:"+a_b);
 		linearSolverRGB(b, a_t, a_b + 4 * a_t, a_b);
 	}
 	
-	protected void diffuseUV(int b, int _diff_t, int _diff_b) {
+	protected void diffuseUV(final int b, final int _diff_t, final int _diff_b) {
 		final int a_t = (_dt_t * _diff_t * _NX * _NY);
 		final int a_b = (_dt_b*_diff_b);
 		Log.d("FluidSimINT", "diffuseUV, a_t:"+a_t);
@@ -711,7 +711,7 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	}
 	
 	
-	protected void project(int[] x, int[] y, int[] p, int[] div)  {
+	protected void project(final int[] x, final int[] y, final int[] p, final int[] div)  {
 		for (int i = 1; i <= _NX; i++) {
 			for (int j = 1; j <= _NY; j++) {
 				div[((i) + (_NX + 2)  *(j))] = (x[((i+1) + (_NX + 2)  *(j))] - x[((i-1) + (_NX + 2)  *(j))] + y[((i) + (_NX + 2)  *(j+1))] - y[((i) + (_NX + 2)  *(j-1))])
@@ -734,7 +734,7 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	
 	
 	
-	protected void linearSolver(int b, int[] x, int[] x0, int a, int c) {
+	protected void linearSolver(final int b, final int[] x, final int[] x0, final int a, final int c) {
 		for (int k = 0; k < _solverIterations; k++) {
 			for (int i = 1; i <= _NX; i++) {
 				for (int j = 1; j <= _NY; j++) {
@@ -746,7 +746,7 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	
 	//#define LINEAR_SOLVE_EQ	(x, x0)			(a * ( x[] + x[]  +  x[] + x[])  +  x0[]) / c;
 	
-	protected void linearSolverRGB(int bound, int a_t, int c, int a_b) {
+	protected void linearSolverRGB(final int bound, final int a_t, final int c, final int a_b) {
 		int index1, index2, index3, index4, index5;
 		for (int k = 0; k < _solverIterations; k++) {		// MEMO
 			for (int i = 1; i <= _NX; i++) {
@@ -767,7 +767,7 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 		}
 	}
 	
-	protected void linearSolverUV(int bound, int a_t, int c, int a_b) {
+	protected void linearSolverUV(final int bound, final int a_t, final int c, final int a_b) {
 		int index1, index2, index3, index4, index5;
 		for (int k = 0; k < _solverIterations; k++) {		// MEMO
 			for (int i = 1; i <= _NX; i++) {
@@ -789,14 +789,14 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	
 	
 	
-	protected void setBoundary(int b, float[] x) {
+	protected void setBoundary(final int b, final float[] x) {
 	}
 	
 
-	protected void setBoundaryRGB(int bound) {
+	protected void setBoundaryRGB(final int bound) {
 	}
 	
-	public int FLUID_IX(int i, int j) {
+	public int FLUID_IX(final int i, final int j) {
 		return ((i) + (_NX + 2)  *(j));
 	}
 	

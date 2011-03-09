@@ -18,10 +18,7 @@ import org.puredata.core.PdBase;
 import org.puredata.core.PdReceiver;
 import org.puredata.core.utils.IoUtils;
 
-import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.rj.processing.plasmasound.PlasmaSound;
@@ -56,41 +53,41 @@ public class PDManager {
 		public float audiolevel = 0f;
 
 		@Override
-		public void print(String s) {	
+		public void print(final String s) {	
 			Log.d("PDManager", "recieved print! "+s);
 
 		}
 
 		@Override
-		public void receiveBang(String source) {
+		public void receiveBang(final String source) {
 			Log.d("PDManager", "recieved bang! "+source);
 		}
 
 		@Override
-		public void receiveFloat(String source, float x) {
+		public void receiveFloat(final String source, final float x) {
 			Log.d("PDManager", "recieved float! "+source+" : "+x);
 			if (source.equalsIgnoreCase("mainlevel")) {
 				audiolevel = x;
 			}
 		}
 		@Override
-		public void receiveList(String source, Object... args) {
+		public void receiveList(final String source, final Object... args) {
 			Log.d("PDManager", "recieved list! "+source);
 		}
 		@Override
-		public void receiveMessage(String source, String symbol,
-				Object... args) {	
+		public void receiveMessage(final String source, final String symbol,
+				final Object... args) {	
 			Log.d("PDManager", "recieved message! "+source);
 		}
 		@Override
-		public void receiveSymbol(String source, String symbol) {		
+		public void receiveSymbol(final String source, final String symbol) {		
 			Log.d("PDManager", "recieved symbol! "+source);
 		}
 	};
 	
 	AudioStatListener reciever = new AudioStatListener();
 
-	public PDManager(PlasmaSound p) {
+	public PDManager(final PlasmaSound p) {
 		this.p = p;
 	}
 
@@ -107,7 +104,7 @@ public class PDManager {
 			finish();
 			return;
 		}
-		int nOut = Math.min(AudioParameters.suggestOutputChannels(), 2);
+		final int nOut = Math.min(AudioParameters.suggestOutputChannels(), 2);
 		if (nOut == 0) {
 			toast("audio output not available; exiting");
 			finish();
@@ -118,7 +115,7 @@ public class PDManager {
 			PdAudio.startAudio(p);
 //			PdBase.setReceiver(reciever);
 //			PdBase.subscribe("mainlevel");
-			} catch (IOException e) {
+			} catch (final IOException e) {
 			Log.e(TAG, e.toString());
 		}
 	}
@@ -137,15 +134,15 @@ public class PDManager {
 	}
 
 	
-	public int openPatch(String patch) {
-		File dir = p.getFilesDir();
-		File patchFile = new File(dir, patch);
+	public int openPatch(final String patch) {
+		final File dir = p.getFilesDir();
+		final File patchFile = new File(dir, patch);
 		int out=-1;
 		try {
 			IoUtils.extractZipResource(p.getResources().openRawResource(R.raw.patch), dir, true);
 //			out = PdUtils.openPatch(patchFile.getAbsolutePath());
 			out = PdBase.openPatch(patchFile.getAbsolutePath());
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 			Log.e(TAG, e.toString() + "; exiting now");
 			finish();

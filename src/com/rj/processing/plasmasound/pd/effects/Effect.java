@@ -27,29 +27,29 @@ public abstract class Effect {
 	public void initEffect() {
 	}
 	
-	public void touchUp(MotionEvent me, int index, float x, float y, Cursor c) {
+	public void touchUp(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
 		if (yenabled && enabled && index <= MAX_INDEX) {
-			for (String effect : yenabledlist) {
-				Parameter p = params.get(effect);
+			for (final String effect : yenabledlist) {
+				final Parameter p = params.get(effect);
 				p.pushValueNaive(0, index);
 			}
 		}
 	}
-	public void touchMove(MotionEvent me, int index, float x, float y, Cursor c) {
+	public void touchMove(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
 		if (yenabled && enabled && index <= MAX_INDEX) {
-			for (String effect : yenabledlist) {
-				Parameter p = params.get(effect);
+			for (final String effect : yenabledlist) {
+				final Parameter p = params.get(effect);
 				p.pushValueNaive(1-y, index);
 			}
 		}
 	}
-	public void touchDown(MotionEvent me, int index, float x, float y, Cursor c) {
-		for (Parameter param : params.values()) {
+	public void touchDown(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
+		for (final Parameter param : params.values()) {
 			param.pushDefaultNaive(index);
 		}
 		if (yenabled && enabled && index <= MAX_INDEX) {
-			for (String effect : yenabledlist) {
-				Parameter p = params.get(effect);
+			for (final String effect : yenabledlist) {
+				final Parameter p = params.get(effect);
 				p.pushValueNaive(1-y, index);
 			}
 		}
@@ -59,17 +59,17 @@ public abstract class Effect {
 	
 	
 	
-	public void updateSettings(SharedPreferences prefs) {
+	public void updateSettings(final SharedPreferences prefs) {
 		updateSettings(prefs, "");
 	}
-	public void updateSettings(SharedPreferences prefs, String preset) {
-		ArrayList<String> yList = new ArrayList<String>();
-		for (Parameter p : params.values()) {
+	public void updateSettings(final SharedPreferences prefs, final String preset) {
+		final ArrayList<String> yList = new ArrayList<String>();
+		for (final Parameter p : params.values()) {
 			if (prefs.getBoolean(p.getName()+"_y", false)) {
 				Log.d("EffectsSettings", "Adding :"+p.getName()+ " to ylist");
 				yList.add(p.getName());
 			}
-			float newval = (float)(prefs.getInt(p.getName(), -1))/100f;
+			final float newval = (prefs.getInt(p.getName(), -1))/100f;
 			Log.d("EffectsSettings", "Value for :"+p.getName()+ " : " + newval);
 			if (newval >= 0)
 				p.setDefaultNaive(newval);

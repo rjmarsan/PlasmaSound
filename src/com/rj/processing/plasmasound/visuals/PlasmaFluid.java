@@ -17,7 +17,7 @@ public class PlasmaFluid extends Visual {
 	PImage imgFluid;
 
 
-	public PlasmaFluid(PlasmaSound p) {
+	public PlasmaFluid(final PlasmaSound p) {
 		super(p);
 		initVis();
 	}
@@ -30,7 +30,7 @@ public class PlasmaFluid extends Visual {
 		fluidSolver.enableRGB(true).setFadeSpeed(0.01f).setDeltaT(0.5f).setVisc(0.0001f).setSolverIterations(3);
 	    
 	    // create image to hold fluid picture
-	    imgFluid = p.createImage(fluidSolver.getWidth(), fluidSolver.getHeight(), p.RGB);
+	    imgFluid = p.createImage(fluidSolver.getWidth(), fluidSolver.getHeight(), p.ARGB);
 	}
 
 	public void initVis() {
@@ -58,7 +58,7 @@ public class PlasmaFluid extends Visual {
 	    fluidSolver.update();
 	    
 	    imgFluid.loadPixels();
-	    int cellcount = fluidSolver.getNumCells();
+	    final int cellcount = fluidSolver.getNumCells();
 	    for(int i=0; i<cellcount; i++) { //optimize here.
 	        imgFluid.pixels[i] = p.color(fluidSolver.r[i], fluidSolver.g[i], fluidSolver.b[i]);
 	    }  
@@ -69,15 +69,15 @@ public class PlasmaFluid extends Visual {
 	
 	
 	
-	public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
-			float vy, float size) {
+	public void touchEvent(final MotionEvent me, final int i, final float x, final float y, final float vx,
+			final float vy, final float size) {
 		fluidTouchEvent(me,i,x,y,vx,vy,size);
 	}
 
-	private void fluidTouchEvent(MotionEvent me, int i, float x, float y, float vx,
-			float vy, float size) {
+	private void fluidTouchEvent(final MotionEvent me, final int i, final float x, final float y, float vx,
+			float vy, final float size) {
 		
-		float velocityScale = 30f;
+		final float velocityScale = 30f;
 		
 		//PApplet.println(""+vx+","+vy);
 		vx = vx * velocityScale;
@@ -87,10 +87,10 @@ public class PlasmaFluid extends Visual {
 	}
 	
 	// add force and dye to fluid, and create particles
-	public void addForce(float x, float y, float dx, float dy) {
+	public void addForce(final float x, final float y, float dx, float dy) {
 	        float colorMult = 5;
 	        colorMult=colorMult*y;
-	        float velocityMult = 30.0f;
+	        final float velocityMult = 30.0f;
 
 	        if (dx > 1) dx = 1;
 	        if (dy > 5) dy = 1;
@@ -98,12 +98,12 @@ public class PlasmaFluid extends Visual {
 	        int drawColor;
 
 	        p.colorMode(p.HSB, 360, 1, 1);
-	        float hue = ((x + y) * 180 + p.frameCount) % 360;
+	        final float hue = ((x + y) * 180 + p.frameCount) % 360;
 	        drawColor = p.color(hue, 1, 1);
 	        p.colorMode(PApplet.RGB, 255);  
 	        for (int i=0; i<3; i++) {
 	        	for (int j=0; j<1; j++) {
-		        	int index = fluidSolver.getIndexForNormalizedPosition(x+.01f*i, y+.01f*j);
+		        	final int index = fluidSolver.getIndexForNormalizedPosition(x+.01f*i, y+.01f*j);
 			        fluidSolver.rOld[index]  += p.red(drawColor) * colorMult;
 			        fluidSolver.gOld[index]  += p.green(drawColor) * colorMult;
 			        fluidSolver.bOld[index]  += p.blue(drawColor) * colorMult;

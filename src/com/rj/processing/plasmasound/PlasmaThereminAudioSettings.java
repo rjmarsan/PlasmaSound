@@ -18,17 +18,13 @@ package com.rj.processing.plasmasound;
 
 
 
-import com.rj.processing.plasmasound.R;
-
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.util.Log;
 
 public class PlasmaThereminAudioSettings extends PreferenceActivity {
 
     @Override
-    protected void onCreate(Bundle icicle) {
+    protected void onCreate(final Bundle icicle) {
         super.onCreate(icicle);
         getPreferenceManager().setSharedPreferencesName(
                 PlasmaSound.SHARED_PREFERENCES_AUDIO);

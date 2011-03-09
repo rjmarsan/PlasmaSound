@@ -43,11 +43,11 @@ public class SeekBarPreference extends Preference implements
 	private int mDefault = 0;
 	private TextView monitorBox;
 
-	public SeekBarPreference(Context context) {
+	public SeekBarPreference(final Context context) {
 		super(context);
 	}
 
-	public SeekBarPreference(Context context, AttributeSet attrs) {
+	public SeekBarPreference(final Context context, final AttributeSet attrs) {
 		super(context, attrs);
 		maximum = attrs.getAttributeIntValue(androidns, "max", 100);
 		minimum = attrs.getAttributeIntValue(androidns, "min", 0);
@@ -57,29 +57,29 @@ public class SeekBarPreference extends Preference implements
 	    mDefault = attrs.getAttributeIntValue(androidns,"defaultValue", 0);
 	}
 
-	public SeekBarPreference(Context context, AttributeSet attrs, int defStyle) {
+	public SeekBarPreference(final Context context, final AttributeSet attrs, final int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
 	@Override
-	protected View onCreateView(ViewGroup parent) {
+	protected View onCreateView(final ViewGroup parent) {
 	    if (shouldPersist())
 	        oldValue = getPersistedInt(mDefault);
 
 		
-		RelativeLayout layout = new RelativeLayout(getContext());
+		final RelativeLayout layout = new RelativeLayout(getContext());
 		layout.setPadding(15, 5, 15, 5);
 
 		
 		
 		//setup title
-		RelativeLayout.LayoutParams titleparams = new RelativeLayout.LayoutParams(
+		final RelativeLayout.LayoutParams titleparams = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		titleparams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		titleparams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
-		TextView title = new TextView(getContext());
+		final TextView title = new TextView(getContext());
 		title.setText(getTitle());
 		title.setTextSize(24);
 		title.setTextColor(Color.WHITE);
@@ -90,13 +90,13 @@ public class SeekBarPreference extends Preference implements
 		
 		
 		//setup description
-		RelativeLayout.LayoutParams descriptionparams = new RelativeLayout.LayoutParams(
+		final RelativeLayout.LayoutParams descriptionparams = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		descriptionparams.addRule(RelativeLayout.ALIGN_BASELINE, title.getId());
 		descriptionparams.addRule(RelativeLayout.RIGHT_OF, title.getId());
 
-		TextView description = new TextView(getContext());
+		final TextView description = new TextView(getContext());
 		description.setText(this.description);
 		description.setTextSize(16);
 		description.setPadding(10, 0, 0, 0);
@@ -108,12 +108,12 @@ public class SeekBarPreference extends Preference implements
 		
 		
 		//setup submonitor text
-		RelativeLayout.LayoutParams submonitorParams = new RelativeLayout.LayoutParams(
+		final RelativeLayout.LayoutParams submonitorParams = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		submonitorParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
-		TextView subMonitorBox = new TextView(getContext());
+		final TextView subMonitorBox = new TextView(getContext());
 		subMonitorBox.setTextSize(16);
 		subMonitorBox.setText(this.subtext);
 		subMonitorBox.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
@@ -123,7 +123,7 @@ public class SeekBarPreference extends Preference implements
 		
 		
 		//setup monitor text
-		RelativeLayout.LayoutParams monitorparams = new RelativeLayout.LayoutParams(
+		final RelativeLayout.LayoutParams monitorparams = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		monitorparams.addRule(RelativeLayout.LEFT_OF, subMonitorBox.getId());
@@ -142,13 +142,13 @@ public class SeekBarPreference extends Preference implements
 		
 		
 		//setup slider
-		RelativeLayout.LayoutParams sliderparaams = new RelativeLayout.LayoutParams(
+		final RelativeLayout.LayoutParams sliderparaams = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.FILL_PARENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		sliderparaams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		sliderparaams.addRule(RelativeLayout.BELOW, title.getId());
 
-		SeekBar bar = new SeekBar(getContext());
+		final SeekBar bar = new SeekBar(getContext());
 		bar.setMax(maximum + minimum);
 		bar.setProgress((int) this.oldValue);
 		bar.setLayoutParams(sliderparaams);
@@ -170,17 +170,17 @@ public class SeekBarPreference extends Preference implements
 	}
 
 	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress,
-			boolean fromUser) {
+	public void onProgressChanged(final SeekBar seekBar, final int progress,
+			final boolean fromUser) {
 		this.monitorBox.setText(progress + "");
 	}
 
 	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
+	public void onStartTrackingTouch(final SeekBar seekBar) {
 	}
 
 	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
+	public void onStopTrackingTouch(final SeekBar seekBar) {
 		int progress = seekBar.getProgress();
 		progress = Math.round(((float) progress) / interval) * interval;
 
@@ -199,15 +199,15 @@ public class SeekBarPreference extends Preference implements
 	}
 
 	@Override
-	protected Object onGetDefaultValue(TypedArray ta, int index) {
+	protected Object onGetDefaultValue(final TypedArray ta, final int index) {
 
-		int dValue = (int) ta.getInt(index, 50);
+		final int dValue = ta.getInt(index, 50);
 
 		return validateValue(dValue);
 	}
 
 	@Override
-	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+	protected void onSetInitialValue(final boolean restoreValue, final Object defaultValue) {
 
 //		int temp = restoreValue ? getPersistedInt(50) : (Integer) defaultValue;
 //
@@ -234,9 +234,9 @@ public class SeekBarPreference extends Preference implements
 		return value;
 	}
 
-	private void updatePreference(int newValue) {
+	private void updatePreference(final int newValue) {
 
-		SharedPreferences.Editor editor = getEditor();
+		final SharedPreferences.Editor editor = getEditor();
 		editor.putInt(getKey(), newValue);
 		editor.commit();
 	}

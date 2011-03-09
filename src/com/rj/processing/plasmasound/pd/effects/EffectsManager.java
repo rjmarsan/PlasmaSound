@@ -6,7 +6,7 @@ public class EffectsManager {
 
 	public ArrayList<Effect> effects = new ArrayList<Effect>();
 	
-	public void addEffect(Effect effect) {
+	public void addEffect(final Effect effect) {
 		this.effects.add(effect);
 	}
 	
