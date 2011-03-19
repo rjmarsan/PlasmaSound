@@ -12,6 +12,8 @@ import com.rj.processing.plasmasound.pd.PDManager;
 import com.rj.processing.plasmasound.pd.effects.Delay;
 import com.rj.processing.plasmasound.pd.effects.Effect;
 import com.rj.processing.plasmasound.pd.effects.Filter;
+import com.rj.processing.plasmasound.pd.effects.Reverb;
+import com.rj.processing.plasmasound.pd.effects.Tremolo;
 import com.rj.processing.plasmasound.pd.effects.Vibrato;
 import com.rj.processing.plasmasound.pd.effects.Volume;
 
@@ -21,7 +23,10 @@ public class Instrument {
 	private static final String DELAY_TIME = "delay_time";
 	private static final String DELAY_FEEDBACK = "delay_feedback";
 	private static final String WAVEFORM = "waveform";
-	private static final String QUANTIZE = "quantize_note";
+	private static final String QUANTIZE = "quantize_note_list";
+	private static final String QUAT_CONTINUOUS = "continuous";
+	private static final String QUAT_QUANTIZE = "quantize";
+	private static final String QUAT_SLIDE = "slide";
 	private static final String VOLUME = "volume";
 	private static final String VOLUME_Y = "volume_y";
 	private static final String FILTER = "filter";
@@ -46,8 +51,11 @@ public class Instrument {
 	
 	public float midiMin = 0;
 	public float midiMax = 127;
-	public boolean quantize = false;
-	
+	public static int NCONTINUOUS = 0;
+	public static int NQUANTIZE = 1;
+	public static int NSLIDE = 2;
+	public int quantize = NCONTINUOUS;
+
 	public float maxVol = 1;
 	public float maxFilt = 1;
 	public boolean vol_y = true;
@@ -60,7 +68,9 @@ public class Instrument {
 		volume = new Volume();
 		effects.add(volume);
 		effects.add(new Vibrato());
+		effects.add(new Tremolo());
 		effects.add(new Delay());
+		effects.add(new Reverb());
 		effects.add(new Filter());
 	}
 	
@@ -139,21 +149,30 @@ public class Instrument {
 	}
 	
 	public void setPitch(final float val) {
-		float pitch = midiMin + (val * (midiMax-midiMin));
-		if (quantize)
+		float pitch = midiMin + ((val+(1/(2*midiMax-2*midiMin))) * (midiMax-midiMin));
+		if (quantize != NCONTINUOUS)
 			pitch = (float)Math.floor(pitch);
 		sendMessage("pitch", pitch);
 	}
 	public void setPitch(final float val,final int index,final Cursor c, final float width) {
 		float pitch = midiMin + (val * (midiMax-midiMin));
-		if (quantize) {
-			final int firstClosestX = (int) (c.firstPoint.x/width * (midiMax-midiMin));
-			final int lastClosestX = (int) (c.currentPoint.x/width * (midiMax-midiMin));
-			if (firstClosestX == lastClosestX) {
-				pitch = (float)Math.floor(pitch); //too close! round!
+		if (quantize != NCONTINUOUS) {
+			if (quantize == NQUANTIZE || isCursorSnapped(c, width)) {
+				pitch = (float)Math.round(pitch); //too close! round!
 			} 
 		}
 		sendMessage("pitch", pitch, index);
+	}
+	public boolean isCursorSnapped(final Cursor c, final float width) {
+		final float spacing = (midiMax-midiMin)/width;
+		final int firstClosestX = Math.round((c.firstPoint.x) * spacing);
+		final int lastClosestX = Math.round((c.currentPoint.x) * spacing);
+		if (firstClosestX == lastClosestX) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public void setVolume(final float amp) {
@@ -180,7 +199,12 @@ public class Instrument {
 			final Float waveform = Float.parseFloat(s_waveform);
 			setWaveform(waveform);
 			
-			quantize = prefs.getBoolean(preset+QUANTIZE, false);
+			String quantval = prefs.getString(preset+QUANTIZE, QUAT_CONTINUOUS);
+			if (quantval.equalsIgnoreCase(QUAT_QUANTIZE)) {
+				quantize = NQUANTIZE;
+			} else if (quantval.equalsIgnoreCase(QUAT_SLIDE)) {
+				quantize = NSLIDE;
+			}
 			
 			vol_y = prefs.getBoolean(preset+VOLUME_Y, true);
 			filt_y = prefs.getBoolean(preset+FILTER_Y, false);

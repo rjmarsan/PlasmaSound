@@ -3,8 +3,10 @@ package com.rj.processing.plasmasound;
 import processing.core.PApplet;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -106,7 +108,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 		    //Make the Instrument
 		    inst = new Instrument(pdman);
 			Log.v("PlasmaSoundSetup", "setting instrument patch");
-		    inst.setPatch("simplesine4.pd");
+		    inst.setPatch("simplesine4.2.pd");
 		    inst.setMidiMin(70);
 		    inst.setMidiMax(87);
 		    

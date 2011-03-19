@@ -15,6 +15,18 @@
 </string-array>
 
 
+<string-array name="quantize">
+<item>continuous</item>
+<item>quantize</item>
+<item>slide</item>
+</string-array>
+
+<string-array name="quantize_display">
+<item>Continuous Values</item>
+<item>Quantize notes (round)</item>
+<item>Slide notes (first value is rounded)</item>
+</string-array>
+
 
 
 

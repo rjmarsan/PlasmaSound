@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasound.PlasmaSound;
+import com.rj.processing.plasmasound.pd.instruments.Instrument;
 
 public class Grid extends Visual{
 	private final int num_lines = 10;
@@ -46,11 +47,11 @@ public class Grid extends Visual{
 		}
 		synchronized (p.mtManager.cursors) {
 			p.stroke(255,0,0,180);
-			boolean quantize = false;
+			int quantize = Instrument.NCONTINUOUS;
 			if (p.inst != null && p.inst.ready) {
 				quantize = p.inst.quantize;
 			}
-			if (!quantize) {
+			if (quantize == Instrument.NCONTINUOUS) {
 				for (final Cursor c : p.mtManager.cursors) {
 					if (c != null && c.currentPoint != null) {
 						p.line(c.currentPoint.x-crosshair_size, c.currentPoint.y, c.currentPoint.x+crosshair_size, c.currentPoint.y);
@@ -62,9 +63,14 @@ public class Grid extends Visual{
 				p.fill(255,0,0,50);
 				for (final Cursor c : p.mtManager.cursors) {
 					if (c != null && c.currentPoint != null) {
-						final float x = c.currentPoint.x;
-						final int s = (int) (x/spacing);
-						p.rect(spacing*s, 0, spacing, p.height);
+						if (quantize == Instrument.NQUANTIZE || p.inst.isCursorSnapped(c,width)) {
+							final float x = c.currentPoint.x+spacing/2;
+							final int s = (int) (x/spacing);
+							p.rect(spacing*s-spacing/2f, 0, spacing, p.height);
+						} else {
+							p.line(c.currentPoint.x-crosshair_size, c.currentPoint.y, c.currentPoint.x+crosshair_size, c.currentPoint.y);
+							p.line(c.currentPoint.x, c.currentPoint.y-crosshair_size, c.currentPoint.x, c.currentPoint.y+crosshair_size);
+						}
 					}
 				}
 			}
