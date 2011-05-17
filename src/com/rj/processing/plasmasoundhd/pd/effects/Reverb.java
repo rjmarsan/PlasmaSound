@@ -1,8 +1,8 @@
-package com.rj.processing.plasmasound.pd.effects;
+package com.rj.processing.plasmasoundhd.pd.effects;
 
 import java.util.HashMap;
 
-import com.rj.processing.plasmasound.pd.instruments.Parameter;
+import com.rj.processing.plasmasoundhd.pd.instruments.Parameter;
 
 public  class Reverb extends Effect {	
 	public final static String REVERB_TIME = "revebrtime";

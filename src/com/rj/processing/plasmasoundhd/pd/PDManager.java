@@ -7,7 +7,7 @@
  * 
  */
 
-package com.rj.processing.plasmasound.pd;
+package com.rj.processing.plasmasoundhd.pd;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +21,8 @@ import org.puredata.core.utils.IoUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.rj.processing.plasmasound.PlasmaSound;
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.PlasmaSound;
+import com.rj.processing.plasmasoundhd.R;
 
 
 public class PDManager {

@@ -1,4 +1,4 @@
-package com.rj.processing.plasmasound.pd.instruments;
+package com.rj.processing.plasmasoundhd.pd.instruments;
 
 import org.puredata.core.PdBase;
 

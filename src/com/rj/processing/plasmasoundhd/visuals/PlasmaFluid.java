@@ -1,11 +1,11 @@
-package com.rj.processing.plasmasound.visuals;
+package com.rj.processing.plasmasoundhd.visuals;
 
 import msafluid.MSAFluidSolver2D;
 import processing.core.PApplet;
 import processing.core.PImage;
 import android.view.MotionEvent;
 
-import com.rj.processing.plasmasound.PlasmaSound;
+import com.rj.processing.plasmasoundhd.PlasmaSound;
 
 public class PlasmaFluid extends Visual {
 

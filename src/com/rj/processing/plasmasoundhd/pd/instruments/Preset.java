@@ -1,12 +1,12 @@
-package com.rj.processing.plasmasound.pd.instruments;
+package com.rj.processing.plasmasoundhd.pd.instruments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.widget.EditText;
 
-import com.rj.processing.plasmasound.PlasmaSound;
-import com.rj.processing.plasmasound.Utils;
+import com.rj.processing.plasmasoundhd.PlasmaSound;
+import com.rj.processing.plasmasoundhd.Utils;
 
 public class Preset {
 	public static String PRESETS = "PRESETS";
@@ -15,7 +15,13 @@ public class Preset {
 		SharedPreferences s = p.getSharedPreferences(PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
 		Object o = Utils.stringToObject(s.getString(PRESETS, ""));
 		try {
-			final String[] items = (String[])o;
+			String[] nofinalitems = null;
+			if (o instanceof String[]) {
+				nofinalitems = (String[]) o;
+			} else {
+				nofinalitems = new String[]{};
+			}
+			final String[] items = nofinalitems;
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(p);
 			builder.setTitle("Pick a saved instance");
@@ -73,7 +79,8 @@ public class Preset {
 	}
 	
 	public void loadPreset(PlasmaSound p, Instrument e, String preset) {
-		
+		SharedPreferences s = p.getSharedPreferences(PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+		e.updateSettings(null, preset);
 	}
 	
 	public void savePreset(PlasmaSound p, Instrument e, String preset) {

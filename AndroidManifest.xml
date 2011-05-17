@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest package="com.rj.processing.plasmasound" android:versionCode="4" android:versionName="1.0.3" xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest package="com.rj.processing.plasmasoundhd" android:versionCode="4" android:versionName="1.0.3" xmlns:android="http://schemas.android.com/apk/res/android"
 android:installLocation="preferExternal">
-  <uses-sdk android:minSdkVersion="8"/>
-  <application android:label="Plasma Sound" android:icon="@drawable/icon">
+  <uses-sdk android:minSdkVersion="11"/>
+  <application android:label="Plasma Sound HD" android:icon="@drawable/icon">
     <activity android:name=".PlasmaSound"
     		  android:screenOrientation="landscape">
       <intent-filter>
@@ -18,7 +18,7 @@ android:installLocation="preferExternal">
         </activity>
         <activity
             android:label="Plasma Sound Effects Settings"
-            android:name="PlasmaThereminEffectsSettings"
+            android:name="com.rj.processing.plasmasoundhdhd.PlasmaThereminEffectsSettings"
             android:exported="true">
         </activity>
     

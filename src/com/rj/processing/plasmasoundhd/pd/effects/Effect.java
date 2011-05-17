@@ -1,4 +1,4 @@
-package com.rj.processing.plasmasound.pd.effects;
+package com.rj.processing.plasmasoundhd.pd.effects;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmasound.pd.instruments.Parameter;
+import com.rj.processing.plasmasoundhd.pd.instruments.Parameter;
 
 public abstract class Effect {	
 	private static final int MAX_INDEX = 4;

@@ -2,4 +2,6 @@
 <resources>
     <string name="instrument_settings">Instrument</string>
     <string name="effects_settings">Effects</string>
+    <string name="save_settings">Save</string>
+    <string name="load_settings">Load</string>
 </resources>

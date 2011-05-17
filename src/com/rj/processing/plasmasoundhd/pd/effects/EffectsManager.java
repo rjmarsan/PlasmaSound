@@ -1,4 +1,4 @@
-package com.rj.processing.plasmasound.pd.effects;
+package com.rj.processing.plasmasoundhd.pd.effects;
 
 import java.util.ArrayList;
 

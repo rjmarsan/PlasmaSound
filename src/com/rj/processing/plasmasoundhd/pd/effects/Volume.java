@@ -1,11 +1,11 @@
-package com.rj.processing.plasmasound.pd.effects;
+package com.rj.processing.plasmasoundhd.pd.effects;
 
 import java.util.HashMap;
 
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmasound.pd.instruments.Parameter;
+import com.rj.processing.plasmasoundhd.pd.instruments.Parameter;
 
 public  class Volume extends Effect {	
 	public final static String AMP_GLOBAL = "ampglob";

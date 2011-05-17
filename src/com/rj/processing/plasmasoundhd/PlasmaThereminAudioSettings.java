@@ -1,4 +1,4 @@
-package com.rj.processing.plasmasound;
+package com.rj.processing.plasmasoundhd;
 
 /*
  * Copyright (C) 2009 Google Inc.

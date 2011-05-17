@@ -1,8 +1,8 @@
-package com.rj.processing.plasmasound.visuals;
+package com.rj.processing.plasmasoundhd.visuals;
 
 import android.view.MotionEvent;
 
-import com.rj.processing.plasmasound.PlasmaSound;
+import com.rj.processing.plasmasoundhd.PlasmaSound;
 
 public abstract class Visual {
 	final PlasmaSound p;

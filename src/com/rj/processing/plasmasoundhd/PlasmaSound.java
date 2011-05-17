@@ -1,12 +1,10 @@
-package com.rj.processing.plasmasound;
+package com.rj.processing.plasmasoundhd;
 
 import processing.core.PApplet;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -19,11 +17,12 @@ import android.view.ViewGroup.LayoutParams;
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.MTManager;
 import com.rj.processing.mt.TouchListener;
-import com.rj.processing.plasmasound.pd.PDManager;
-import com.rj.processing.plasmasound.pd.instruments.Instrument;
-import com.rj.processing.plasmasound.visuals.AudioStats;
-import com.rj.processing.plasmasound.visuals.Grid;
-import com.rj.processing.plasmasound.visuals.PlasmaFluid;
+import com.rj.processing.plasmasoundhd.pd.PDManager;
+import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
+import com.rj.processing.plasmasoundhd.pd.instruments.Preset;
+import com.rj.processing.plasmasoundhd.visuals.AudioStats;
+import com.rj.processing.plasmasoundhd.visuals.Grid;
+import com.rj.processing.plasmasoundhd.visuals.PlasmaFluid;
 
 public class PlasmaSound extends PApplet implements TouchListener {
 
@@ -36,6 +35,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	public Visualization vis;
 	public PDManager pdman;
 	public Instrument inst;
+	public Preset preset;
 	
 	
 	boolean touchupdated = false;
@@ -66,7 +66,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 	public void onCreate(final Bundle savedinstance) {
 		super.onCreate(savedinstance);
-		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreen, null);
+		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasoundhd.R.layout.loadingscreen, null);
 		this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 	
@@ -83,6 +83,9 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 	    mtManager = new MTManager();
 	    mtManager.addTouchListener(this);
+	    
+	    preset = new Preset();
+	    
 	    
 	    //VISUALS CODE
 	    vis = new Visualization(this);
@@ -197,7 +200,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	protected void onResume() {
 		super.onResume();
 		if (loadingview == null)
-			loadingview = this.findViewById(com.rj.processing.plasmasound.R.id.loadingview);
+			loadingview = this.findViewById(com.rj.processing.plasmasoundhd.R.id.loadingview);
 		loadingview.setVisibility(View.VISIBLE);
 		if (pdready == true) {
 		    pdready = false;
@@ -223,7 +226,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 	    final MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(com.rj.processing.plasmasound.R.menu.main_menu, menu);
+	    inflater.inflate(com.rj.processing.plasmasoundhd.R.menu.main_menu, menu);
 	    return true;
 	}
 	
@@ -235,12 +238,19 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
 	    switch (item.getItemId()) {
-	    case com.rj.processing.plasmasound.R.id.instrument_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.instrument_settings:
 	        instrumentSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.effects_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.effects_settings:
 	        effectSettings();
 	        return true;
+	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
+	        preset.showSaveMenu(this);
+	        return true;
+	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
+	        preset.showLoadMenu(this);
+	        return true;
+
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }

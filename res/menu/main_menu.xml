@@ -5,4 +5,8 @@
           android:title="@string/instrument_settings" />
       <item android:id="@+id/effects_settings"
           android:title="@string/effects_settings" />
+      <item android:id="@+id/save_settings"
+          android:title="@string/save_settings" />
+      <item android:id="@+id/load_settings"
+          android:title="@string/load_settings" />
 </menu>

@@ -1,4 +1,4 @@
-package com.rj.processing.plasmasound;
+package com.rj.processing.plasmasoundhd;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

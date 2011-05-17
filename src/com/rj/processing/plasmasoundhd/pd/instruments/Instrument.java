@@ -1,4 +1,4 @@
-package com.rj.processing.plasmasound.pd.instruments;
+package com.rj.processing.plasmasoundhd.pd.instruments;
 
 import java.util.ArrayList;
 
@@ -8,14 +8,14 @@ import android.content.SharedPreferences;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmasound.pd.PDManager;
-import com.rj.processing.plasmasound.pd.effects.Delay;
-import com.rj.processing.plasmasound.pd.effects.Effect;
-import com.rj.processing.plasmasound.pd.effects.Filter;
-import com.rj.processing.plasmasound.pd.effects.Reverb;
-import com.rj.processing.plasmasound.pd.effects.Tremolo;
-import com.rj.processing.plasmasound.pd.effects.Vibrato;
-import com.rj.processing.plasmasound.pd.effects.Volume;
+import com.rj.processing.plasmasoundhd.pd.PDManager;
+import com.rj.processing.plasmasoundhd.pd.effects.Delay;
+import com.rj.processing.plasmasoundhd.pd.effects.Effect;
+import com.rj.processing.plasmasoundhd.pd.effects.Filter;
+import com.rj.processing.plasmasoundhd.pd.effects.Reverb;
+import com.rj.processing.plasmasoundhd.pd.effects.Tremolo;
+import com.rj.processing.plasmasoundhd.pd.effects.Vibrato;
+import com.rj.processing.plasmasoundhd.pd.effects.Volume;
 
 public class Instrument {
 	private static final String MIDI_MIN = "midimin";

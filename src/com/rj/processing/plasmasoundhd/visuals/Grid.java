@@ -1,11 +1,11 @@
-package com.rj.processing.plasmasound.visuals;
+package com.rj.processing.plasmasoundhd.visuals;
 
 import processing.core.PApplet;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmasound.PlasmaSound;
-import com.rj.processing.plasmasound.pd.instruments.Instrument;
+import com.rj.processing.plasmasoundhd.PlasmaSound;
+import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
 public class Grid extends Visual{
 	private final int num_lines = 10;

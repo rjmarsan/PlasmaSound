@@ -1,4 +1,4 @@
-package com.rj.processing.plasmasound;
+package com.rj.processing.plasmasoundhd;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import processing.core.PApplet;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmasound.visuals.Visual;
+import com.rj.processing.plasmasoundhd.visuals.Visual;
 
 public class Visualization {
 	final PlasmaSound p;
