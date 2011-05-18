@@ -5,11 +5,14 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -284,6 +287,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 				fragment.setVisibility(View.GONE);
 			} else {
 				fragment.setVisibility(View.VISIBLE);
+				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
 			}
 		}
 	}
@@ -296,6 +300,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 				fragment.setVisibility(View.GONE);
 			} else {
 				fragment.setVisibility(View.VISIBLE);
+				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
 			}
 		}
 	}
@@ -325,6 +330,18 @@ public class PlasmaSound extends PApplet implements TouchListener {
         //something
     }
 
+    @Override
+    public void onBackPressed() {
+		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+		System.out.println("fragment1" +fragment.isShown()+ "   fragment2:"+fragment2.isShown());
+		if (fragment.isShown() || fragment2.isShown()) {
+			System.out.println("Hiding fragments");
+			hideBoth();
+		} else {
+			//super.onBackPressed();
+		}
+    }
     
 
 }

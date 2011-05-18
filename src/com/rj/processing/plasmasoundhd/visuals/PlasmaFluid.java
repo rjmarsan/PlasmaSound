@@ -10,7 +10,7 @@ import com.rj.processing.plasmasoundhd.PlasmaSound;
 public class PlasmaFluid extends Visual {
 
 	
-	final float FLUID_WIDTH = 40;
+	final float FLUID_WIDTH = 90;
 
 	public MSAFluidSolver2D fluidSolver;
 
@@ -77,7 +77,7 @@ public class PlasmaFluid extends Visual {
 	private void fluidTouchEvent(final MotionEvent me, final int i, final float x, final float y, float vx,
 			float vy, final float size) {
 		
-		final float velocityScale = 30f;
+		final float velocityScale = 50f;
 		
 		//PApplet.println(""+vx+","+vy);
 		vx = vx * velocityScale;

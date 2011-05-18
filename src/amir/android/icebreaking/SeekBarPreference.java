@@ -81,12 +81,13 @@ public class SeekBarPreference extends Preference implements
 
 		final TextView title = new TextView(getContext());
 		title.setText(getTitle());
-		title.setTextSize(24);
+		title.setTextSize(18);
 		title.setTextColor(Color.WHITE);
 		title.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
 		title.setGravity(Gravity.LEFT);
 		title.setLayoutParams(titleparams);
 		title.setId(TITLE_ID);
+		title.setPadding(58, 0, 0, 0);
 		
 		
 		//setup description
@@ -98,9 +99,9 @@ public class SeekBarPreference extends Preference implements
 
 		final TextView description = new TextView(getContext());
 		description.setText(this.description);
-		description.setTextSize(16);
+		description.setTextSize(14);
 		description.setPadding(10, 0, 0, 0);
-		description.setTextColor(Color.GRAY);
+		description.setTextColor(Color.LTGRAY);
 		description.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
 		description.setGravity(Gravity.LEFT);
 		description.setLayoutParams(descriptionparams);

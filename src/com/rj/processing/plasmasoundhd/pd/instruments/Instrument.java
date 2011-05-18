@@ -39,7 +39,7 @@ public class Instrument {
 	private static final float WAVEFORM_SQUARE = 3.0f;
 	private static final float WAVEFORM_SAW = 4.0f;
 	
-	private static final int MAX_INDEX = 4;
+	private static final int MAX_INDEX = 8;
 	
 	
 	final private ArrayList<Effect> effects = new ArrayList<Effect>();
