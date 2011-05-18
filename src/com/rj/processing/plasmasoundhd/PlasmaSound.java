@@ -266,12 +266,12 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	    case com.rj.processing.plasmasoundhd.R.id.effects_settings:
 	        effectSettings();
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
-	        preset.showSaveMenu(this);
-	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
-	        preset.showLoadMenu(this);
-	        return true;
+//	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
+//	        preset.showSaveMenu(this);
+//	        return true;
+//	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
+//	        preset.showLoadMenu(this);
+//	        return true;
 
 	    default:
 	        return super.onOptionsItemSelected(item);
