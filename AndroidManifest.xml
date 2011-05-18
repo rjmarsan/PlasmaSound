@@ -2,6 +2,8 @@
 <manifest package="com.rj.processing.plasmasoundhd" android:versionCode="4" android:versionName="1.0.3" xmlns:android="http://schemas.android.com/apk/res/android"
 android:installLocation="preferExternal">
   <uses-sdk android:minSdkVersion="11"/>
+  <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+  
   <application android:label="Plasma Sound HD" android:icon="@drawable/icon">
     <activity android:name=".PlasmaSound"
     		  android:screenOrientation="landscape">
@@ -24,5 +26,4 @@ android:installLocation="preferExternal">
     
   </application>
   
-  <permission android:name="android.permission.WAKE_LOCK"></permission>
 </manifest>

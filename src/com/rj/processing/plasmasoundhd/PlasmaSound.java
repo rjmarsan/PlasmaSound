@@ -1,10 +1,12 @@
 package com.rj.processing.plasmasoundhd;
 
 import processing.core.PApplet;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -37,6 +39,7 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	public Instrument inst;
 	public Preset preset;
 	
+	PowerManager.WakeLock wl;
 	
 	boolean touchupdated = false;
 	boolean pdready = false;
@@ -199,6 +202,9 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "PlasmaSoundHDLock");
+		wl.acquire();
 		if (loadingview == null)
 			loadingview = this.findViewById(com.rj.processing.plasmasoundhd.R.id.loadingview);
 		loadingview.setVisibility(View.VISIBLE);
@@ -213,12 +219,14 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	protected void onPause() {
 		super.onPause();
 		if (pdman != null) pdman.onPause();
+		wl.release();
 	}
 	
 	@Override
 	public void onDestroy() {
 		if (pdman != null) pdman.cleanup();
 		super.onDestroy();
+		wl.release();
 	}
 	
 	
