@@ -1,6 +1,7 @@
 package com.rj.processing.plasmasoundhd;
 
 import processing.core.PApplet;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -66,11 +67,21 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	
 	
 	View loadingview;
+	View preferenceview;
 	
 	public void onCreate(final Bundle savedinstance) {
 		super.onCreate(savedinstance);
+		setupActionBar();
 		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasoundhd.R.layout.loadingscreen, null);
-		this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		this.addContentView(loadingview, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		preferenceview = this.getLayoutInflater().inflate(com.rj.processing.plasmasoundhd.R.layout.prefsoverlay, null);
+		this.addContentView(preferenceview, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		hideBoth();
+	}
+	private void setupActionBar() {
+		ActionBar actionBar = getActionBar();
+		if (actionBar == null) return;
+		System.out.println("Action bar: "+actionBar);
 	}
 	
 	
@@ -265,12 +276,37 @@ public class PlasmaSound extends PApplet implements TouchListener {
 	}
 	
 	public void instrumentSettings() {
-		final Intent i = new Intent(this, PlasmaThereminAudioSettings.class);
-		this.startActivity(i);
+		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+		if (fragment != null && fragment2 != null) {
+			fragment2.setVisibility(View.GONE);
+			if (fragment.isShown()) {
+				fragment.setVisibility(View.GONE);
+			} else {
+				fragment.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 	public void effectSettings() {
-		final Intent i = new Intent(this, PlasmaThereminEffectsSettings.class);
-		this.startActivity(i);
+		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+		if (fragment != null && fragment2 != null) {
+			fragment2.setVisibility(View.GONE);
+			if (fragment.isShown()) {
+				fragment.setVisibility(View.GONE);
+			} else {
+				fragment.setVisibility(View.VISIBLE);
+			}
+		}
+	}
+	
+	public void hideBoth() {
+		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+		if (fragment != null && fragment2 != null) {
+			fragment2.setVisibility(View.GONE);
+			fragment.setVisibility(View.GONE);
+		}
 	}
 	
 	@Override

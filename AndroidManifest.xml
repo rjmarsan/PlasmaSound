@@ -4,26 +4,16 @@ android:installLocation="preferExternal">
   <uses-sdk android:minSdkVersion="11"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
   
-  <application android:label="Plasma Sound HD" android:icon="@drawable/icon">
+  <application android:label="Plasma Sound HD" android:icon="@drawable/icon" android:hardwareAccelerated="true">
     <activity android:name=".PlasmaSound"
+    		  android:theme="@android:style/Theme.Holo"
     		  android:screenOrientation="landscape">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    
-        <activity
-            android:label="Plasma Sound Audio Settings"
-            android:name=".PlasmaThereminAudioSettings"
-            android:exported="true">
-        </activity>
-        <activity
-            android:label="Plasma Sound Effects Settings"
-            android:name="com.rj.processing.plasmasoundhdhd.PlasmaThereminEffectsSettings"
-            android:exported="true">
-        </activity>
-    
+        
   </application>
   
 </manifest>
