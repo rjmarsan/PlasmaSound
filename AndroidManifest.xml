@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest package="com.rj.processing.plasmasoundhd" android:versionCode="5" android:versionName="1.0.4" xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest package="com.rj.processing.plasmasoundhd" android:versionCode="6" android:versionName="1.0.5" xmlns:android="http://schemas.android.com/apk/res/android"
 android:installLocation="preferExternal">
   <uses-sdk android:minSdkVersion="11"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
