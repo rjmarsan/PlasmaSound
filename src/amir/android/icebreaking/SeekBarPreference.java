@@ -8,21 +8,24 @@ package amir.android.icebreaking;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.preference.Preference;
 import android.util.AttributeSet;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.rj.processing.plasmasoundhd.R;
+
 public class SeekBarPreference extends Preference implements
-		OnSeekBarChangeListener {
+		OnSeekBarChangeListener, OnCheckedChangeListener {
 	private static final String androidns = "http://schemas.android.com/apk/res/android";
+	private static final String psndns = "http://schemas.rjmarsan.com/apk/res/plasmasound";
 
 	
 	private static final int TITLE_ID = 1;
@@ -38,6 +41,8 @@ public class SeekBarPreference extends Preference implements
 	public int interval = 1;
 	public String description = "";
 	public String subtext = "";
+	boolean yEnabled;
+	private SeekBar bar;
 
 	private float oldValue = 50;
 	private int mDefault = 0;
@@ -55,6 +60,7 @@ public class SeekBarPreference extends Preference implements
 		description = attrs.getAttributeValue(androidns, "summary");
 		subtext = attrs.getAttributeValue(androidns, "text");
 	    mDefault = attrs.getAttributeIntValue(androidns,"defaultValue", 0);
+	    yEnabled = attrs.getAttributeBooleanValue(psndns,"yenabled", false);
 	}
 
 	public SeekBarPreference(final Context context, final AttributeSet attrs, final int defStyle) {
@@ -66,107 +72,38 @@ public class SeekBarPreference extends Preference implements
 	    if (shouldPersist())
 	        oldValue = getPersistedInt(mDefault);
 
-		
-		final RelativeLayout layout = new RelativeLayout(getContext());
-		layout.setPadding(15, 5, 15, 5);
+	    
+		  LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		  ViewGroup viewgroup = (ViewGroup)inflater.inflate(R.layout.prefs_seekbar, null);
+		  
+		  TextView title = (TextView)viewgroup.findViewById(R.id.title);
+		  TextView description = (TextView)viewgroup.findViewById(R.id.subtext);
+		  TextView subMonitorBox = (TextView)viewgroup.findViewById(R.id.unitstext);
+		  monitorBox = (TextView)viewgroup.findViewById(R.id.valuetext);
+		  bar = (SeekBar)viewgroup.findViewById(R.id.seekbar);
+		  ToggleButton yaxis = (ToggleButton)viewgroup.findViewById(R.id.toggleyaxis);
+		  if (yEnabled)  {
+			  boolean enabled = getSharedPreferences().getBoolean(getKey()+"_y", false);
+			  yaxis.setChecked(enabled);
+			  bar.setEnabled(!enabled);
+			  yaxis.setOnCheckedChangeListener(this);
+			  yaxis.setVisibility(View.VISIBLE);
+		  } else {
+			  yaxis.setVisibility(View.INVISIBLE);
+		  }
 
-		
-		
-		//setup title
-		final RelativeLayout.LayoutParams titleparams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		titleparams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		titleparams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-
-		final TextView title = new TextView(getContext());
 		title.setText(getTitle());
-		title.setTextSize(18);
-		title.setTextColor(Color.WHITE);
-		title.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-		title.setGravity(Gravity.LEFT);
-		title.setLayoutParams(titleparams);
-		title.setId(TITLE_ID);
-		title.setPadding(58, 0, 0, 0);
-		
-		
-		//setup description
-		final RelativeLayout.LayoutParams descriptionparams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		descriptionparams.addRule(RelativeLayout.ALIGN_BASELINE, title.getId());
-		descriptionparams.addRule(RelativeLayout.RIGHT_OF, title.getId());
-
-		final TextView description = new TextView(getContext());
 		description.setText(this.description);
-		description.setTextSize(14);
-		description.setPadding(10, 0, 0, 0);
-		description.setTextColor(Color.LTGRAY);
-		description.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-		description.setGravity(Gravity.LEFT);
-		description.setLayoutParams(descriptionparams);
-		description.setId(DESCRIPTION_ID);
-		
-		
-		//setup submonitor text
-		final RelativeLayout.LayoutParams submonitorParams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		submonitorParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-
-		final TextView subMonitorBox = new TextView(getContext());
-		subMonitorBox.setTextSize(16);
 		subMonitorBox.setText(this.subtext);
-		subMonitorBox.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-		subMonitorBox.setLayoutParams(submonitorParams);
-		subMonitorBox.setPadding(2, 5, 0, 0);
-		subMonitorBox.setId(SUBMONITOR_ID);
-		
-		
-		//setup monitor text
-		final RelativeLayout.LayoutParams monitorparams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		monitorparams.addRule(RelativeLayout.LEFT_OF, subMonitorBox.getId());
-		monitorparams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-
-		this.monitorBox = new TextView(getContext());
-		this.monitorBox.setTextSize(22);
-		this.monitorBox.setTextColor(Color.WHITE);
-		this.monitorBox.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-		this.monitorBox.setLayoutParams(monitorparams);
-		this.monitorBox.setPadding(2, 5, 0, 0);
-		this.monitorBox.setId(MONITOR_ID);
-		
-		//set the submonitor box on the baseline of the monitor box
-		submonitorParams.addRule(RelativeLayout.ALIGN_BASELINE, this.monitorBox.getId());
-		
-		
-		//setup slider
-		final RelativeLayout.LayoutParams sliderparaams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.FILL_PARENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		sliderparaams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-		sliderparaams.addRule(RelativeLayout.BELOW, title.getId());
-
-		final SeekBar bar = new SeekBar(getContext());
 		bar.setMax(maximum + minimum);
 		bar.setProgress((int) this.oldValue);
-		bar.setLayoutParams(sliderparaams);
 		bar.setOnSeekBarChangeListener(this);
-		bar.setId(SLIDER_ID);
-		
-		
+//		
+//		
 		this.monitorBox.setText(bar.getProgress() + "");
-
-		layout.addView(title);
-		layout.addView(bar);
-		layout.addView(description);
-		layout.addView(subMonitorBox);
-		layout.addView(this.monitorBox);
-		layout.setId(android.R.id.widget_frame);
-
-		return layout;
+//
+		
+		return viewgroup;
 		
 	}
 
@@ -241,5 +178,19 @@ public class SeekBarPreference extends Preference implements
 		editor.putInt(getKey(), newValue);
 		editor.commit();
 	}
+	
+	private void updatePreferenceY(boolean enabled) {
+
+		final SharedPreferences.Editor editor = getEditor();
+		editor.putBoolean(getKey()+"_y", enabled);
+		editor.commit();
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		updatePreferenceY(isChecked);
+		bar.setEnabled(!isChecked);
+	}
+
 
 }

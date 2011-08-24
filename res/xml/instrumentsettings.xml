@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:psnd="http://schemas.rjmarsan.com/apk/res/plasmasound"
         android:title="Settings"
         android:key="plasmatheremin_audio_settings">
 
@@ -24,7 +24,8 @@
             android:summary="Method of rounding note to nearest note"
             android:defaultValue="continuous"
             android:entries="@array/quantize_display"
-            android:entryValues="@array/quantize" />
+            android:entryValues="@array/quantize"
+            />
 
      <ListPreference
             android:key="waveform"
