@@ -86,19 +86,39 @@ public class Parameter {
 	public String getParamName(final int num) {
 		return name+num;
 	}
+	/**
+	 * Push a value that's already been put within the range of the output
+	 * @param value
+	 */
 	public void pushNormalValue(final float value) {
 		PdBase.sendFloat(getParamName(), value);
-//		System.out.println("Setting "+this.name+" to:"+value);
+		System.out.println("Setting "+this.name+" to:"+value);
 	}
+	/**
+	 * Push a value thata's already been put within the range of the output, to a specific channel
+	 * @param value
+	 * @param num
+	 */
 	public void pushNormalValue(final float value, final int num) {
 		PdBase.sendFloat(getParamName(num), value);
-//		System.out.println("Setting "+this.name+"["+num+"] to:"+value);
+		System.out.println("Setting "+this.name+"["+num+"] to:"+value);
 	}
+	
+	/**
+	 * Push a single value, to be normalized to the range of the output
+	 * @param abnormal
+	 */
 	public void pushValue(final float abnormal) {
 		final float value = normalizeValue(abnormal);
 //		setValue(value);
 		pushNormalValue(value);
 	}
+	
+	/**
+	 * Push a single value to a channel, to be normalized to the range of the output
+	 * @param abnormal
+	 * @param num
+	 */
 	public void pushValue(final float abnormal, final int num) {
 		final float value = normalizeValue(abnormal);
 //		setValue(value);

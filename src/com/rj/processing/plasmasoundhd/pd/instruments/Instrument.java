@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
+import com.rj.processing.plasmasoundhd.pd.effects.ASDR;
 import com.rj.processing.plasmasoundhd.pd.effects.Delay;
 import com.rj.processing.plasmasoundhd.pd.effects.Effect;
 import com.rj.processing.plasmasoundhd.pd.effects.Filter;
@@ -68,6 +69,7 @@ public class Instrument {
 		volume = new Volume();
 		effects.add(volume);
 		effects.add(new Vibrato());
+		effects.add(new ASDR());
 		effects.add(new Tremolo());
 		effects.add(new Delay());
 		effects.add(new Reverb());
@@ -124,7 +126,8 @@ public class Instrument {
 	}
 	public void allUp() {
 		if (ready) {
-			setVolume(0);
+			//setVolume(0);
+			//no.
 			for (int index=1; index<=MAX_INDEX; index++) {
 				for (final Effect e : effects) {
 					e.touchUp(null, index, 0, 0, null);

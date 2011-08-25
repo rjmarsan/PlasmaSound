@@ -48,5 +48,23 @@
             android:defaultValue="70"
             android:max="127" />
 
+     <amir.android.icebreaking.SeekBarPreference  
+            android:key="attack"
+            android:title="Attack"
+            android:summary="attack of the note (in milliseconds)"
+            android:defaultValue="10"
+            android:max="2000"
+            android:text="/1000" 
+        	psnd:yenabled="true" />
+
+     <amir.android.icebreaking.SeekBarPreference  
+            android:key="decay"
+            android:title="Decay"
+            android:summary="release of the note on (in milliseconds)"
+            android:defaultValue="10"
+            android:max="2000"
+            android:text="/1000" 
+        	psnd:yenabled="true" />
+
 
 </PreferenceScreen>

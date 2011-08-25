@@ -11,7 +11,7 @@ import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.pd.instruments.Parameter;
 
 public abstract class Effect {	
-	private static final int MAX_INDEX = 4;
+	protected static final int MAX_INDEX = 8;
 	
 	protected HashMap<String, Parameter> params;
 	
@@ -45,8 +45,9 @@ public abstract class Effect {
 	}
 	public void touchDown(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
 		for (final Parameter param : params.values()) {
-			param.pushDefaultNaive(index);
-		}
+			if (!param.isGlobal())
+				param.pushDefaultNaive(index);
+		} 
 		if (yenabled && enabled && index <= MAX_INDEX) {
 			for (final String effect : yenabledlist) {
 				final Parameter p = params.get(effect);
@@ -69,7 +70,7 @@ public abstract class Effect {
 				Log.d("EffectsSettings", "Adding :"+p.getName()+ " to ylist");
 				yList.add(p.getName());
 			}
-			final float newval = (prefs.getInt(p.getName(), -1))/100f;
+			final float newval = (prefs.getInt(p.getName(), 0))/100f;
 			Log.d("EffectsSettings", "Value for :"+p.getName()+ " : " + newval);
 			if (newval >= 0)
 				p.setDefaultNaive(newval);

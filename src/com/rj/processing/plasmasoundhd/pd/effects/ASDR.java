@@ -21,33 +21,33 @@ public  class ASDR extends Effect {
 	public ASDR() {
 		params = new HashMap<String, Parameter>();
 		attack = new Parameter(ATTACK, false);
-		attack.setMinMax(0f, 10f);
-		attack.setDefault(0.9f);
+		attack.setMinMax(0f, 100);
+		attack.setDefault(100);
 		params.put(ATTACK, attack );
 
 		sustain = new Parameter(SUSTAIN, false);
-		sustain.setMinMax(0f, 10f);
-		sustain.setDefault(0.9f);
+		sustain.setMinMax(0f, 100);
+		sustain.setDefault(100);
 		params.put(SUSTAIN, sustain );
 
 		decay = new Parameter(DECAY, false);
-		decay.setMinMax(0f, 10f);
-		decay.setDefault(0.9f);
+		decay.setMinMax(0f, 100);
+		decay.setDefault(100);
 		params.put(DECAY, decay );
 
 		release = new Parameter(RELEASE, false);
-		release.setMinMax(0f, 10f);
-		release.setDefault(0.9f);
+		release.setMinMax(0f, 100);
+		release.setDefault(100);
 		params.put(RELEASE, release );
 
 		this.yenabledlist = new String[] {
-				ATTACK,
-				SUSTAIN,
-				DECAY,
-				RELEASE
+//				ATTACK,
+//				SUSTAIN,
+//				DECAY,
+//				RELEASE
 		};
 		this.yenabled = false;
-
+  
 	}
 
 	

@@ -10,9 +10,11 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.preference.Preference;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -23,19 +25,11 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.rj.processing.plasmasoundhd.R;
 
 public class SeekBarPreference extends Preference implements
-		OnSeekBarChangeListener, OnCheckedChangeListener {
+		OnSeekBarChangeListener, OnCheckedChangeListener, OnClickListener {
 	private static final String androidns = "http://schemas.android.com/apk/res/android";
 	private static final String psndns = "http://schemas.rjmarsan.com/apk/res/plasmasound";
 
-	
-	private static final int TITLE_ID = 1;
-	private static final int MONITOR_ID = 2;
-	private static final int SLIDER_ID = 3;
-	private static final int SUBMONITOR_ID = 4;
-	private static final int DESCRIPTION_ID = 5;
-	
-	
-	
+		
 	public int maximum = 100;
 	public int minimum = 0;
 	public int interval = 1;
@@ -43,6 +37,7 @@ public class SeekBarPreference extends Preference implements
 	public String subtext = "";
 	boolean yEnabled;
 	private SeekBar bar;
+	private ToggleButton yaxis;
 
 	private float oldValue = 50;
 	private int mDefault = 0;
@@ -69,6 +64,7 @@ public class SeekBarPreference extends Preference implements
 
 	@Override
 	protected View onCreateView(final ViewGroup parent) {
+		Log.d("SeekBar", "MAKING NEW VIEW preference: "+getTitle()+" ");
 	    if (shouldPersist())
 	        oldValue = getPersistedInt(mDefault);
 
@@ -81,12 +77,16 @@ public class SeekBarPreference extends Preference implements
 		  TextView subMonitorBox = (TextView)viewgroup.findViewById(R.id.unitstext);
 		  monitorBox = (TextView)viewgroup.findViewById(R.id.valuetext);
 		  bar = (SeekBar)viewgroup.findViewById(R.id.seekbar);
-		  ToggleButton yaxis = (ToggleButton)viewgroup.findViewById(R.id.toggleyaxis);
+		  boolean enabled = getSharedPreferences().getBoolean(getKey()+"_y", false);
+		  Log.d("Preference", getTitle()+ "   enabled at start: "+enabled + "   y enabled: "+yEnabled);
+		  if (yaxis != null)
+			  enabled = yaxis.isChecked();
+		  yaxis = (ToggleButton)viewgroup.findViewById(R.id.toggleyaxis);
 		  if (yEnabled)  {
-			  boolean enabled = getSharedPreferences().getBoolean(getKey()+"_y", false);
 			  yaxis.setChecked(enabled);
-			  bar.setEnabled(!enabled);
+			  setBarState(!enabled);
 			  yaxis.setOnCheckedChangeListener(this);
+			  yaxis.setOnClickListener(this);
 			  yaxis.setVisibility(View.VISIBLE);
 		  } else {
 			  yaxis.setVisibility(View.INVISIBLE);
@@ -177,19 +177,45 @@ public class SeekBarPreference extends Preference implements
 		final SharedPreferences.Editor editor = getEditor();
 		editor.putInt(getKey(), newValue);
 		editor.commit();
+		
 	}
 	
 	private void updatePreferenceY(boolean enabled) {
 
 		final SharedPreferences.Editor editor = getEditor();
 		editor.putBoolean(getKey()+"_y", enabled);
+		//editor.commit();
 		editor.commit();
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		updatePreferenceY(isChecked);
-		bar.setEnabled(!isChecked);
+	public void onCheckedChanged(CompoundButton buttonView,final boolean isChecked) {
+		Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
+		if (buttonView == yaxis) {
+			updatePreferenceY(isChecked);
+			setBarState(!isChecked);
+		}
+	}
+	
+	public void setBarState(boolean isEnabled) {
+//		bar.setFocusable(isEnabled);
+//		//bar.requestFocus();
+//		bar.setClickable(isEnabled);
+		Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
+		bar.setEnabled(isEnabled);
+//		bar.invalidate();
+//		
+//		bar.setVisibility(View.INVISIBLE);
+	}
+
+	@Override
+	public void onClick(View arg0) {
+//		Log.d("SeekBar", "preference: "+getTitle()+" click "+arg0);
+//		if (arg0 == yaxis) {
+//			Log.d("SeekBar", "preference: "+getTitle()+" click!");
+//			updatePreferenceY(yaxis.isChecked());
+//			setBarState(!yaxis.isChecked());
+//		}		
 	}
 
 
