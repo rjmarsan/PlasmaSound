@@ -24,16 +24,6 @@ public  class Delay extends Effect {
 
 	}
 	
-	public void setDelay(final float value) {
-		
-	}
-
-	
-	public void setVolume(final float val) {
-		params.get(DELAY_TIME).pushValue(val);
-	}
-
-	
 
 
 }

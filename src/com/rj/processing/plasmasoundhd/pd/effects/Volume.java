@@ -14,15 +14,16 @@ public  class Volume extends Effect {
 	public final static String OFF = "noteoff";
 	
 	public Parameter amp; 
+	public Parameter ampglobal;
 	public Parameter on;
 	public Parameter off;
 	
 	public Volume() {
 		params = new HashMap<String, Parameter>();
-		final Parameter ampglobal = new Parameter(AMP_GLOBAL, true);
+		ampglobal = new Parameter(AMP_GLOBAL, true);
 		ampglobal.setMinMax(0f, 1f);
 		ampglobal.setDefault(0.9f);
-		params.put(AMP_GLOBAL, ampglobal );
+		//params.put(AMP_GLOBAL, ampglobal );
 		amp = new Parameter(AMP, false);
 		amp.setMinMax(0f, 1f);
 		amp.setDefault(0.9f);
@@ -47,7 +48,7 @@ public  class Volume extends Effect {
 
 	
 	public void setVolume(final float val) {
-		params.get(AMP_GLOBAL).pushValue(val);
+		ampglobal.pushValue(val);
 	}
 
 

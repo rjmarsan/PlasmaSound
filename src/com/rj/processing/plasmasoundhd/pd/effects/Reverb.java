@@ -23,17 +23,7 @@ public  class Reverb extends Effect {
 		this.yenabled = false;
 
 	}
-	
-	public void setREVERB(final float value) {
 		
-	}
-
-	
-	public void setVolume(final float val) {
-		params.get(REVERB_TIME).pushValue(val);
-	}
-
-	
 
 
 }

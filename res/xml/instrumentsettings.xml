@@ -55,7 +55,7 @@
             android:defaultValue="10"
             android:max="2000"
             android:text="/1000" 
-        	psnd:yenabled="true" />
+        	psnd:yenabled="false" />
 
      <amir.android.icebreaking.SeekBarPreference  
             android:key="decay"
@@ -64,7 +64,7 @@
             android:defaultValue="10"
             android:max="2000"
             android:text="/1000" 
-        	psnd:yenabled="true" />
+        	psnd:yenabled="false" />
 
 
 </PreferenceScreen>

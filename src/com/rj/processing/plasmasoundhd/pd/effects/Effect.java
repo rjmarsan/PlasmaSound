@@ -45,7 +45,7 @@ public abstract class Effect {
 	}
 	public void touchDown(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
 		for (final Parameter param : params.values()) {
-			if (!param.isGlobal())
+//			if (!param.isGlobal())
 				param.pushDefaultNaive(index);
 		} 
 		if (yenabled && enabled && index <= MAX_INDEX) {
