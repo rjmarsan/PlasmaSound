@@ -63,7 +63,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	    key = attrs.getAttributeValue(psndns, "key" );
 	    
 	    View v = onCreateView(this);
-	    Log.d("SeekBar", "Added view : "+v);
+	    //Log.d("SeekBar", "Added view : "+v);
 
 	}
 	
@@ -96,7 +96,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	}
 
 	protected View onCreateView(final ViewGroup parent) {
-		Log.d("SeekBar", "MAKING NEW VIEW preference: "+getTitle()+" ");
+		//Log.d("SeekBar", "MAKING NEW VIEW preference: "+getTitle()+" ");
 	    if (shouldPersist())
 	        oldValue = getPersistedInt(mDefault);
 
@@ -110,7 +110,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 		  monitorBox = (TextView)viewgroup.findViewById(R.id.valuetext);
 		  bar = (SeekBar)viewgroup.findViewById(R.id.seekbar);
 		  boolean enabled = getSharedPreferences().getBoolean(getKey()+"_y", false);
-		  Log.d("Preference", getTitle()+ "   enabled at start: "+enabled + "   y enabled: "+yEnabled);
+		  //Log.d("Preference", getTitle()+ "   enabled at start: "+enabled + "   y enabled: "+yEnabled);
 		  if (yaxis != null)
 			  enabled = yaxis.isChecked();
 		  yaxis = (ToggleButton)viewgroup.findViewById(R.id.toggleyaxis);
@@ -177,7 +177,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView,final boolean isChecked) {
-		Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
+		//Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
 		if (buttonView == yaxis) {
 			updatePreferenceY(isChecked);
 			setBarState(!isChecked);
@@ -185,7 +185,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	}
 	
 	public void setBarState(boolean isEnabled) {
-		Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
+		//Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
 		bar.setEnabled(isEnabled);
 	}
 

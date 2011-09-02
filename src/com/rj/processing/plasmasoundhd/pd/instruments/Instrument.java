@@ -21,8 +21,6 @@ import com.rj.processing.plasmasoundhd.pd.effects.Volume;
 public class Instrument {
 	private static final String MIDI_MIN = "midimin";
 	private static final String MIDI_MAX = "midimax";
-	private static final String DELAY_TIME = "delay_time";
-	private static final String DELAY_FEEDBACK = "delay_feedback";
 	private static final String WAVEFORM = "waveform";
 	private static final String QUANTIZE = "quantize_note_list";
 	private static final String QUAT_CONTINUOUS = "continuous";
@@ -35,10 +33,6 @@ public class Instrument {
 	final PDManager p;
 	
 	
-	private static final float WAVEFORM_SINE = 1.0f;
-	private static final float WAVEFORM_TRIANGLE = 2.0f;
-	private static final float WAVEFORM_SQUARE = 3.0f;
-	private static final float WAVEFORM_SAW = 4.0f;
 	
 	private static final int MAX_INDEX = 8;
 	

@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest package="com.rj.processing.plasmasoundhd" android:versionCode="6" android:versionName="1.0.5" xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest package="com.rj.processing.plasmasoundhd" android:versionCode="7" android:versionName="1.0.6" xmlns:android="http://schemas.android.com/apk/res/android"
 android:installLocation="preferExternal">
-  <uses-sdk android:minSdkVersion="11"/>
+  <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="8"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
   
   <application android:label="Plasma Sound HD" android:icon="@drawable/icon" android:hardwareAccelerated="true">
-    <activity android:name=".PlasmaSound"
-    		  android:theme="@android:style/Theme.Holo"
-    		  android:screenOrientation="landscape">
+  
+    <activity android:name="com.rj.processing.plasmasoundhd.Launcher"
+    		  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="sensorLandscape"
+    		  android:configChanges="orientation">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    
+    <activity android:name="com.rj.processing.plasmasoundhd.PlasmaSound"
+    		  android:theme="@android:style/Theme.Holo" android:screenOrientation="sensorLandscape"
+    		  android:configChanges="orientation">
+    </activity>
+    <activity android:name="com.rj.processing.plasmasound.PlasmaSound"
+    		  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="landscape"
+    		  android:configChanges="orientation">
+    </activity>    
+    
+    <activity android:name="com.rj.processing.plasmasound.PlasmaThereminEffectsSettings"
+    		  android:screenOrientation="sensor"
+    		  android:configChanges="orientation">
+    </activity>    
+    <activity android:name="com.rj.processing.plasmasound.PlasmaThereminAudioSettings"
+    		  android:screenOrientation="sensor"
+    		  android:configChanges="orientation">
+    </activity>    
+    
         
   </application>
   

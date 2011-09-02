@@ -67,11 +67,11 @@ public abstract class Effect {
 		final ArrayList<String> yList = new ArrayList<String>();
 		for (final Parameter p : params.values()) {
 			if (prefs.getBoolean(p.getName()+"_y", false)) {
-				Log.d("EffectsSettings", "Adding :"+p.getName()+ " to ylist");
+				//Log.d("EffectsSettings", "Adding :"+p.getName()+ " to ylist");
 				yList.add(p.getName());
 			}
-			final float newval = (prefs.getInt(p.getName(), 0))/100f;
-			Log.d("EffectsSettings", "Value for :"+p.getName()+ " : " + newval);
+			final float newval = (prefs.getInt(p.getName(), -1))/100f;
+			//Log.d("EffectsSettings", "Value for :"+p.getName()+ " : " + newval);
 			if (newval >= 0)
 				p.setDefaultNaive(newval);
 		}

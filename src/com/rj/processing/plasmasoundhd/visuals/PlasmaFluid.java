@@ -5,19 +5,20 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import android.view.MotionEvent;
 
+import com.rj.processing.plasmasoundhd.Launcher;
 import com.rj.processing.plasmasoundhd.PlasmaSound;
 
 public class PlasmaFluid extends Visual {
 
 	
-	final float FLUID_WIDTH = 90;
+	final float FLUID_WIDTH = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? 40 : 90;
 
 	public MSAFluidSolver2D fluidSolver;
 
 	PImage imgFluid;
 
 
-	public PlasmaFluid(final PlasmaSound p) {
+	public PlasmaFluid(final PApplet p) {
 		super(p);
 		initVis();
 	}

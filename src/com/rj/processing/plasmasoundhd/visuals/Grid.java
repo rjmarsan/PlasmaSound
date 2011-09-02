@@ -4,16 +4,18 @@ import processing.core.PApplet;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmasoundhd.PlasmaSound;
+import com.rj.processing.plasmasoundhd.PlasmaActivity;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
 public class Grid extends Visual{
 	private final int num_lines = 10;
 	private final float crosshair_size = 100;
+	PlasmaActivity pp;
 	
 	
-	public Grid(final PlasmaSound p) {
+	public Grid(final PApplet p, PlasmaActivity pp) {
 		super(p);
+		this.pp = pp;
 	}
 
 	@Override
@@ -22,9 +24,9 @@ public class Grid extends Visual{
 
 		float midiMax = 86;
 		float midiMin = 70;
-		if (p.inst != null && p.inst.ready) {
-			midiMax = p.inst.midiMax;
-			midiMin = p.inst.midiMin;
+		if (pp.getInst() != null && pp.getInst().ready) {
+			midiMax = pp.getInst().midiMax;
+			midiMin = pp.getInst().midiMin;
 		}
 		final float num_lines = midiMax-midiMin;
 		final float spacing = width/(num_lines);
@@ -45,14 +47,14 @@ public class Grid extends Visual{
 			}
 
 		}
-		synchronized (p.mtManager.cursors) {
+		synchronized (pp.getMTManager().cursors) {
 			p.stroke(255,0,0,180);
 			int quantize = Instrument.NCONTINUOUS;
-			if (p.inst != null && p.inst.ready) {
-				quantize = p.inst.quantize;
+			if (pp.getInst() != null && pp.getInst().ready) {
+				quantize = pp.getInst().quantize;
 			}
 			if (quantize == Instrument.NCONTINUOUS) {
-				for (final Cursor c : p.mtManager.cursors) {
+				for (final Cursor c : pp.getMTManager().cursors) {
 					if (c != null && c.currentPoint != null) {
 						p.line(c.currentPoint.x-crosshair_size, c.currentPoint.y, c.currentPoint.x+crosshair_size, c.currentPoint.y);
 						p.line(c.currentPoint.x, c.currentPoint.y-crosshair_size, c.currentPoint.x, c.currentPoint.y+crosshair_size);
@@ -61,9 +63,9 @@ public class Grid extends Visual{
 			}
 			else {
 				p.fill(255,0,0,50);
-				for (final Cursor c : p.mtManager.cursors) {
+				for (final Cursor c : pp.getMTManager().cursors) {
 					if (c != null && c.currentPoint != null) {
-						if (quantize == Instrument.NQUANTIZE || p.inst.isCursorSnapped(c,width)) {
+						if (quantize == Instrument.NQUANTIZE || pp.getInst().isCursorSnapped(c,width)) {
 							final float x = c.currentPoint.x+spacing/2;
 							final int s = (int) (x/spacing);
 							p.rect(spacing*s-spacing/2f, 0, spacing, p.height);

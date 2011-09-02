@@ -56,11 +56,12 @@ public  class Volume extends Effect {
 	public void touchDown(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
 		super.touchDown(me, index, x, y, c);
 		on.pushValue(1,index);
+		setVolume(1);
 	}
  	
 	@Override
 	public void touchUp(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
-		//super.touchUp(me, index, x, y, c);
+		super.touchUp(me, index, x, y, c);
 		off.pushValue(1, index);
 		//amp.pushValue(0, index);
 	}

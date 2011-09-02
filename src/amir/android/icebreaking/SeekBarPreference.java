@@ -64,7 +64,7 @@ public class SeekBarPreference extends Preference implements
 
 	@Override
 	protected View onCreateView(final ViewGroup parent) {
-		Log.d("SeekBar", "MAKING NEW VIEW preference: "+getTitle()+" ");
+		//Log.d("SeekBar", "MAKING NEW VIEW preference: "+getTitle()+" ");
 	    if (shouldPersist())
 	        oldValue = getPersistedInt(mDefault);
 
@@ -78,7 +78,7 @@ public class SeekBarPreference extends Preference implements
 		  monitorBox = (TextView)viewgroup.findViewById(R.id.valuetext);
 		  bar = (SeekBar)viewgroup.findViewById(R.id.seekbar);
 		  boolean enabled = getSharedPreferences().getBoolean(getKey()+"_y", false);
-		  Log.d("Preference", getTitle()+ "   enabled at start: "+enabled + "   y enabled: "+yEnabled);
+		  //Log.d("Preference", getTitle()+ "   enabled at start: "+enabled + "   y enabled: "+yEnabled);
 		  if (yaxis != null)
 			  enabled = yaxis.isChecked();
 		  yaxis = (ToggleButton)viewgroup.findViewById(R.id.toggleyaxis);
@@ -190,7 +190,7 @@ public class SeekBarPreference extends Preference implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView,final boolean isChecked) {
-		Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
+		//Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
 		if (buttonView == yaxis) {
 			updatePreferenceY(isChecked);
 			setBarState(!isChecked);
@@ -201,7 +201,7 @@ public class SeekBarPreference extends Preference implements
 //		bar.setFocusable(isEnabled);
 //		//bar.requestFocus();
 //		bar.setClickable(isEnabled);
-		Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
+		//Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
 		bar.setEnabled(isEnabled);
 //		bar.invalidate();
 //		

@@ -1,12 +1,11 @@
 package com.rj.processing.plasmasoundhd.visuals;
 
+import processing.core.PApplet;
 import android.view.MotionEvent;
-
-import com.rj.processing.plasmasoundhd.PlasmaSound;
 
 public class AudioStats extends Visual{	
 	
-	public AudioStats(final PlasmaSound p) {
+	public AudioStats(final PApplet p) {
 		super(p);
 	}
 

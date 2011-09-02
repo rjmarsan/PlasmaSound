@@ -3,18 +3,17 @@ package com.rj.processing.plasmasoundhd;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.visuals.Visual;
 
 public class Visualization {
-	final PlasmaSound p;
+	final PApplet p;
 	
 	ArrayList<Visual> visuals;
 
-	public Visualization(final PlasmaSound p) {
+	public Visualization(final PApplet p) {
 		this.p = p;
 		visuals = new ArrayList<Visual>();
 	}

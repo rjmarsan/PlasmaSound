@@ -92,7 +92,7 @@ public class Parameter {
 	 */
 	public void pushNormalValue(final float value) {
 		PdBase.sendFloat(getParamName(), value);
-		System.out.println("Setting "+this.name+" to:"+value);
+		//System.out.println("Setting "+this.name+" to:"+value);
 	}
 	/**
 	 * Push a value thata's already been put within the range of the output, to a specific channel
@@ -101,7 +101,7 @@ public class Parameter {
 	 */
 	public void pushNormalValue(final float value, final int num) {
 		PdBase.sendFloat(getParamName(num), value);
-		System.out.println("Setting "+this.name+"["+num+"] to:"+value);
+		//System.out.println("Setting "+this.name+"["+num+"] to:"+value);
 	}
 	
 	/**

@@ -18,6 +18,7 @@ import org.puredata.core.PdBase;
 import org.puredata.core.PdReceiver;
 import org.puredata.core.utils.IoUtils;
 
+import processing.core.PApplet;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ public class PDManager {
 
 
 	
-	final PlasmaSound p;
+	final PApplet p;
 	private static final int SAMPLE_RATE = 44100;
 	private static final String TAG = "Plasma Theremin";
 
@@ -87,7 +88,7 @@ public class PDManager {
 	
 	AudioStatListener reciever = new AudioStatListener();
 
-	public PDManager(final PlasmaSound p) {
+	public PDManager(final PApplet p) {
 		this.p = p;
 	}
 
