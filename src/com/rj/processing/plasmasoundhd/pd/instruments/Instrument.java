@@ -2,6 +2,7 @@ package com.rj.processing.plasmasoundhd.pd.instruments;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
 import org.puredata.core.PdBase;
 
 import android.content.SharedPreferences;
@@ -46,6 +47,7 @@ public class Instrument {
 	
 	public float midiMin = 0;
 	public float midiMax = 127;
+	public float waveform = 1;
 	public static int NCONTINUOUS = 0;
 	public static int NQUANTIZE = 1;
 	public static int NSLIDE = 2;
@@ -178,6 +180,7 @@ public class Instrument {
 	
 	
 	public void setWaveform(final float waveform) {
+		this.waveform = waveform;
 		sendMessage("inssel", waveform);
 	}
 	
@@ -215,6 +218,64 @@ public class Instrument {
 		
 		} catch (final Exception e) { e.printStackTrace(); }
 	}
+	
+	public void updateSettingsFromJSON(JSONObject prefs) {
+		try {
+			final float prefMidiMin = prefs.has(MIDI_MIN) ? prefs.getInt(MIDI_MIN) : 70;
+			final float prefMidiMax = prefs.has(MIDI_MAX) ? prefs.getInt(MIDI_MAX) : 86;
+			setMidiMin(prefMidiMin);
+			setMidiMax(prefMidiMax);			
+			
+			final String s_waveform = prefs.has(WAVEFORM) ? prefs.getString(WAVEFORM) : "1.0";
+			final Float waveform = Float.parseFloat(s_waveform);
+			setWaveform(waveform);
+			
+			String quantval = prefs.has(QUANTIZE) ?  prefs.getString(QUANTIZE) : QUAT_CONTINUOUS;
+			if (quantval.equalsIgnoreCase(QUAT_QUANTIZE)) {
+				quantize = NQUANTIZE;
+			} else if (quantval.equalsIgnoreCase(QUAT_SLIDE)) {
+				quantize = NSLIDE;
+			}
+			
+			vol_y = prefs.has(VOLUME_Y) ? prefs.getBoolean(VOLUME_Y):  true;
+			filt_y = prefs.has(FILTER_Y) ?  prefs.getBoolean(FILTER_Y) : false;
+			
+			maxVol = prefs.has(VOLUME) ?  prefs.getInt(VOLUME)/100f : 80f/100f;
+			maxFilt = prefs.has(FILTER) ? prefs.getInt(FILTER)/100f : 80f/100f;
+			
+			for (final Effect e : effects) {
+				e.updateSettingsFromJSON(prefs);
+			}
+		
+		} catch (final Exception e) { e.printStackTrace(); }
+	}
+	
+	public JSONObject saveSettingsToJSON(JSONObject prefs) {
+		try {
+			prefs.put(MIDI_MIN, this.midiMin);
+			prefs.put(MIDI_MAX, this.midiMax);
+	
+			prefs.put(WAVEFORM, this.waveform);
+
+			prefs.put(QUANTIZE, this.quantize);
+			
+			prefs.put(VOLUME_Y, this.vol_y);
+			prefs.put(FILTER_Y, this.filt_y);
+
+			prefs.put(VOLUME, this.maxVol);
+			prefs.put(FILTER, this.maxFilt);
+			
+			for (final Effect e : effects) {
+				e.saveSettingsToJSON(prefs);
+			}	
+			
+			return prefs;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	
 	
 	

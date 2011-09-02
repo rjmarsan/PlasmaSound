@@ -3,6 +3,9 @@ package com.rj.processing.plasmasoundhd.pd.effects;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -84,6 +87,48 @@ public abstract class Effect {
 		}
 	}
 	
+	public void updateSettingsFromJSON(final JSONObject prefs)  {
+		final ArrayList<String> yList = new ArrayList<String>();
+		try {
+			for (final Parameter p : params.values()) {
+				if (prefs.has(p.getName()+"_y") && prefs.getBoolean(p.getName()+"_y")) {
+					//Log.d("EffectsSettings", "Adding :"+p.getName()+ " to ylist");
+					yList.add(p.getName());
+				}
+				final float newval = prefs.has(p.getName()) ? prefs.getInt(p.getName())/100f : -1;
+				//Log.d("EffectsSettings", "Value for :"+p.getName()+ " : " + newval);
+				if (newval >= 0)
+					p.setDefaultNaive(newval);
+			}
+		} catch ( JSONException j) {
+			j.printStackTrace();
+		}
+		this.yenabledlist = new String[yList.size()];
+		for (int i=0; i<yenabledlist.length;i++) {
+			yenabledlist[i] = yList.get(i);
+		}
+		if (yList.size() > 0) {
+			this.yenabled = true;
+		}
+	}
+	
+	
+	public JSONObject saveSettingsToJSON(final JSONObject prefs)  {
+		try {
+			for (final Parameter p : params.values()) {
+				prefs.put(p.getName(), p.getLastValue());
+				prefs.put(p.getName()+"_y", false);
+			}
+			for (String name : yenabledlist) {
+				prefs.put(name+"_y", true);
+			}
+		} catch ( JSONException j) {
+			j.printStackTrace();
+		}
+		return prefs;
+	}
+	
+
 
 
 }

@@ -21,6 +21,7 @@ import com.rj.processing.plasmasoundhd.PlasmaActivity;
 import com.rj.processing.plasmasoundhd.Visualization;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
+import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 import com.rj.processing.plasmasoundhd.visuals.Grid;
 import com.rj.processing.plasmasoundhd.visuals.PlasmaFluid;
@@ -37,6 +38,7 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	public Visualization vis;
 	public PDManager pdman;
 	public Instrument inst;
+	public JSONPresets presets = new JSONPresets();
 	
 	
 	boolean touchupdated = false;
@@ -242,6 +244,13 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	    case com.rj.processing.plasmasoundhd.R.id.effects_settings:
 	        effectSettings();
 	        return true;
+	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
+	        saveSettings();
+	        return true;
+	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
+	        loadSettings();
+	        return true;
+
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
@@ -255,6 +264,12 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 		final Intent i = new Intent(this, PlasmaThereminEffectsSettings.class);
 		this.startActivity(i);
 	}
+	public void saveSettings() {
+		this.presets.showSaveMenu(this, this);
+	}
+	public void loadSettings() {
+		this.presets.showLoadMenu(this, this);
+	}
 	
 	@Override
 	public void onActivityResult(final int i, final int j, final Intent res) {
@@ -266,11 +281,7 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
         final SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
     	if (inst!=null) inst.updateSettings(mPrefs);
     }
-    
-    public void savePreset(final String name) {
-        final SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
-        //something
-    }
+
     
 	@Override
 	public Instrument getInst() {

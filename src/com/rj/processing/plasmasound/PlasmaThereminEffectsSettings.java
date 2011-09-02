@@ -30,7 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class PlasmaThereminEffectsSettings extends PreferenceActivity {
+public class PlasmaThereminEffectsSettings extends Activity {
 //
 //    @Override
 //    protected void onCreate(final Bundle icicle) {
@@ -50,8 +50,6 @@ public class PlasmaThereminEffectsSettings extends PreferenceActivity {
     @Override
     public void onCreate(final Bundle icicle) {
         super.onCreate(icicle);
-        getPreferenceManager().setSharedPreferencesName(
-        PlasmaSound.SHARED_PREFERENCES_AUDIO);
         this.setContentView(R.layout.effectsettings);
     }
     

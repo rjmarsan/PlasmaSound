@@ -13,6 +13,7 @@ public class Parameter {
 	//continuous parameters
 	float min = 0;
 	float max = 1;
+	float lastVal;
 	
 	float defaultval = 0;
 	
@@ -109,6 +110,7 @@ public class Parameter {
 	 * @param abnormal
 	 */
 	public void pushValue(final float abnormal) {
+		lastVal = abnormal;
 		final float value = normalizeValue(abnormal);
 //		setValue(value);
 		pushNormalValue(value);
@@ -120,6 +122,7 @@ public class Parameter {
 	 * @param num
 	 */
 	public void pushValue(final float abnormal, final int num) {
+		lastVal = abnormal;
 		final float value = normalizeValue(abnormal);
 //		setValue(value);
 		pushNormalValue(value, num);
@@ -146,6 +149,14 @@ public class Parameter {
 		pushNormalValue(defaultval);
 	}
 	
+	
+	public float getLastValue() {
+		return this.lastVal;
+	}
+	
+	public float getDefaultValue() {
+		return this.defaultval;
+	}
 	
 
 }
