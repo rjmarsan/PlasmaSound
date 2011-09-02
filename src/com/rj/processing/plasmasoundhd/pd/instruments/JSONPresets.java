@@ -121,18 +121,28 @@ public class JSONPresets {
 	public void showLoadMenu(final Context c, final PlasmaActivity p) {
 		try {
 			final String[] items = getPresetNames(c);
+			int selection = -1;
+			int i=0;
+			for (String item : items) {
+				if (currentsetting != null && item.equals(currentsetting.get("name"))) {
+					selection = i;
+				}
+				i++;
+			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
 			builder.setTitle("Pick a saved instance");
-			builder.setItems(items, new DialogInterface.OnClickListener() {
+			AlertDialog alert;
+			builder.setSingleChoiceItems(items, selection, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
 			        loadPreset(c,p.getInst(), items[item]);
+			        dialog.dismiss();
 			    }
 			});
-			AlertDialog alert = builder.create();
+			alert = builder.create();
 			alert.show();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
