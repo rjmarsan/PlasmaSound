@@ -38,7 +38,6 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	public Visualization vis;
 	public PDManager pdman;
 	public Instrument inst;
-	public JSONPresets presets = new JSONPresets();
 	
 	
 	boolean touchupdated = false;
@@ -265,10 +264,10 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 		this.startActivity(i);
 	}
 	public void saveSettings() {
-		this.presets.showSaveMenu(this, this);
+		JSONPresets.getPresets().showSaveMenu(this, this);
 	}
 	public void loadSettings() {
-		this.presets.showLoadMenu(this, this);
+		JSONPresets.getPresets().showLoadMenu(this, this);
 	}
 	
 	@Override

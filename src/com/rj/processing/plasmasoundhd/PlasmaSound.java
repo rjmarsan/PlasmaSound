@@ -22,6 +22,7 @@ import com.rj.processing.mt.MTManager;
 import com.rj.processing.mt.TouchListener;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
+import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
 import com.rj.processing.plasmasoundhd.pd.instruments.Preset;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 import com.rj.processing.plasmasoundhd.visuals.Grid;
@@ -39,7 +40,6 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	public Visualization vis;
 	public PDManager pdman;
 	public Instrument inst;
-	public Preset preset;
 	
 	PowerManager.WakeLock wl;
 	
@@ -65,7 +65,8 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	public int sketchWidth() { return this.screenWidth; }
 	public int sketchHeight() { return this.screenHeight; }
 	public String sketchRenderer() { return PApplet.OPENGL; }
-	
+	  public boolean keepTitlebar() { return true; }
+
 	
 	View loadingview;
 	View preferenceview;
@@ -99,7 +100,6 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	    mtManager = new MTManager();
 	    mtManager.addTouchListener(this);
 	    
-	    preset = new Preset();
 	    
 	    
 	    //VISUALS CODE
@@ -264,12 +264,12 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	    case com.rj.processing.plasmasoundhd.R.id.effects_settings:
 	        effectSettings();
 	        return true;
-//	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
-//	        preset.showSaveMenu(this);
-//	        return true;
-//	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
-//	        preset.showLoadMenu(this);
-//	        return true;
+	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
+	        saveSettings();
+	        return true;
+	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
+	        loadSettings();
+	        return true;
 
 	    default:
 	        return super.onOptionsItemSelected(item);
@@ -311,6 +311,15 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 			fragment.setVisibility(View.GONE);
 		}
 	}
+	
+	
+	public void saveSettings() {
+		JSONPresets.getPresets().showSaveMenu(this, this);
+	}
+	public void loadSettings() {
+		JSONPresets.getPresets().showLoadMenu(this, this);
+	}
+
 	
 	@Override
 	public void onActivityResult(final int i, final int j, final Intent res) {

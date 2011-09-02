@@ -16,6 +16,7 @@ public class Parameter {
 	float lastVal;
 	
 	float defaultval = 0;
+	float defaultvalnaive = 0;
 	
 	public Parameter(final String name, final boolean global) {
 		this(name, global, 0f);
@@ -70,14 +71,19 @@ public class Parameter {
 	
 	public void setDefault(final float val) {
 		this.defaultval = val;
+		this.defaultvalnaive = denormalizeValue(val);
 	}
 	public void setDefaultNaive(final float val) {
 		this.defaultval = normalizeValue(val);
+		this.defaultvalnaive = val;
 	}
 	
 	//a number between 0 and 1, will be converted to normal numers
 	public float normalizeValue(final float value) {
 		return this.min + value*this.getRange();
+	}
+	public float denormalizeValue(final float value) {
+		return (value - this.min)/this.getRange();
 	}
 	
 	
@@ -93,7 +99,7 @@ public class Parameter {
 	 */
 	public void pushNormalValue(final float value) {
 		PdBase.sendFloat(getParamName(), value);
-		//System.out.println("Setting "+this.name+" to:"+value);
+		System.out.println("Setting "+this.name+" to:"+value);
 	}
 	/**
 	 * Push a value thata's already been put within the range of the output, to a specific channel
@@ -102,7 +108,7 @@ public class Parameter {
 	 */
 	public void pushNormalValue(final float value, final int num) {
 		PdBase.sendFloat(getParamName(num), value);
-		//System.out.println("Setting "+this.name+"["+num+"] to:"+value);
+		System.out.println("Setting "+this.name+"["+num+"] to:"+value);
 	}
 	
 	/**
@@ -157,6 +163,11 @@ public class Parameter {
 	public float getDefaultValue() {
 		return this.defaultval;
 	}
+	
+	public float getDefaultValueNaive() {
+		return this.defaultvalnaive;
+	}
+
 	
 
 }

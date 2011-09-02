@@ -79,7 +79,15 @@ public class SeekBarPreferenceView extends LinearLayout implements
 		return true;
 	}
 	private int getPersistedInt(int mdefault) {
-		return getSharedPreferences().getInt(getKey(), mdefault);
+		try  {
+			return (int)getSharedPreferences().getInt(getKey(), mdefault);
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				return (int)getSharedPreferences().getFloat(getKey(), mdefault);
+			} catch (Exception ee) { ee.printStackTrace(); }
+		}
+		return mdefault;
 	}
 	private SharedPreferences getSharedPreferences() {
 		return getContext().getSharedPreferences(PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
@@ -97,8 +105,6 @@ public class SeekBarPreferenceView extends LinearLayout implements
 
 	protected View onCreateView(final ViewGroup parent) {
 		//Log.d("SeekBar", "MAKING NEW VIEW preference: "+getTitle()+" ");
-	    if (shouldPersist())
-	        oldValue = getPersistedInt(mDefault);
 
 	    
 		  LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -109,30 +115,15 @@ public class SeekBarPreferenceView extends LinearLayout implements
 		  TextView subMonitorBox = (TextView)viewgroup.findViewById(R.id.unitstext);
 		  monitorBox = (TextView)viewgroup.findViewById(R.id.valuetext);
 		  bar = (SeekBar)viewgroup.findViewById(R.id.seekbar);
-		  boolean enabled = getSharedPreferences().getBoolean(getKey()+"_y", false);
-		  //Log.d("Preference", getTitle()+ "   enabled at start: "+enabled + "   y enabled: "+yEnabled);
-		  if (yaxis != null)
-			  enabled = yaxis.isChecked();
 		  yaxis = (ToggleButton)viewgroup.findViewById(R.id.toggleyaxis);
-		  if (yEnabled)  {
-			  yaxis.setChecked(enabled);
-			  setBarState(!enabled);
-			  yaxis.setOnCheckedChangeListener(this);
-			  yaxis.setVisibility(View.VISIBLE);
-		  } else {
-			  yaxis.setVisibility(View.INVISIBLE);
-		  }
 
-		title.setText(getTitle());
-		description.setText(this.description);
-		subMonitorBox.setText(this.subtext);
-		bar.setMax(maximum + minimum);
-		bar.setProgress((int) this.oldValue);
-		bar.setOnSeekBarChangeListener(this);
-//		
-//		
-		this.monitorBox.setText(bar.getProgress() + "");
-//
+		  notifyChange();
+		  
+		  
+			title.setText(getTitle());
+			description.setText(this.description);
+			subMonitorBox.setText(this.subtext);
+
 		
 		return viewgroup;
 		
@@ -196,5 +187,31 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	    super.onLayout(changed,l, t, r, b);
 	}
 
+	
+	
+	public void notifyChange() {
+	    if (shouldPersist())
+	        oldValue = getPersistedInt(mDefault);
+
+		  boolean enabled = getSharedPreferences().getBoolean(getKey()+"_y", false);
+		  //Log.d("Preference", getTitle()+ "   enabled at start: "+enabled + "   y enabled: "+yEnabled);
+		  if (yaxis != null)
+			  enabled = yaxis.isChecked();
+		  if (yEnabled)  {
+			  yaxis.setChecked(enabled);
+			  setBarState(!enabled);
+			  yaxis.setOnCheckedChangeListener(this);
+			  yaxis.setVisibility(View.VISIBLE);
+		  } else {
+			  yaxis.setVisibility(View.INVISIBLE);
+		  }
+
+		bar.setMax(maximum + minimum);
+		bar.setProgress((int) this.oldValue);
+		bar.setOnSeekBarChangeListener(this);
+//		
+//		
+		this.monitorBox.setText(bar.getProgress() + "");
+	}
 
 }

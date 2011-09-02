@@ -5,9 +5,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,25 +24,40 @@ import com.rj.processing.plasmasoundhd.PlasmaActivity;
 public class JSONPresets {
 	public static String PRESETS = "PRESETS";
 	public static String JSON_FILENAME = "presets.json";
-
+	public static interface PresetListener {
+		public void presetChanged(JSONObject preset);
+	}
 	
 	
 	
 	private static JSONPresets singleton;
 	public static JSONPresets getPresets() {
-		if (singleton != null) {
+		if (singleton == null) {
 			singleton = new JSONPresets();
 		}
 		return singleton;
 	}
 
-	
+	private ArrayList<PresetListener> listeners;
 	
 	
 	private JSONObject currentsetting;
 	
 	
 	
+	public JSONPresets() {
+		listeners = new ArrayList<PresetListener>();
+	}
+	public void addListener(PresetListener listen) {
+		this.listeners.add(listen);
+	}
+	public void removeListener(PresetListener listen) {
+		this.listeners.remove(listen);
+	}
+	public void notifyListeners(JSONObject preset) {
+		Log.d("Presets", "Notifying all "+listeners.size()+" listeners");
+		for (PresetListener  l : listeners) l.presetChanged(preset);
+	}
 	
 	public JSONObject getCurrent() {
 		if (currentsetting == null) {
@@ -56,6 +71,21 @@ public class JSONPresets {
 		}
 		return currentsetting;
 	}
+	
+	/**
+	 * This is like getCurrent, but will fill in the default with the sharedPreferences if there is no
+	 * @param c
+	 * @return
+	 */
+	public JSONObject getCurrent(Context c) {
+		if (currentsetting == null) {
+			JSONObject newsetting = new JSONObject();
+			newsetting = readFromPreferences(c);
+			currentsetting = newsetting;
+		}
+		return currentsetting;
+	}
+
 	
 	
 	
@@ -117,17 +147,42 @@ public class JSONPresets {
 			        savePreset(c,p.getInst(), items[item]);
 			    }
 			});
-			builder.setNeutralButton("New", new DialogInterface.OnClickListener() {  
+			builder.setPositiveButton("New", new DialogInterface.OnClickListener() {  
 				public void onClick(DialogInterface dialog, int whichButton) {  
 					showSaveAsMenu(c, p);
 				}
 				}); 
+			builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {  
+				public void onClick(DialogInterface dialog, int whichButton) {  
+					showDeleteMenu(c, p);
+				}
+				}); 
+
 			AlertDialog alert = builder.create();
 			alert.show();
 		} catch (Exception e) {
 			
 		}
 	}
+	
+	public void showDeleteMenu(final Context c, final PlasmaActivity p) {
+		try {
+			final String[] items = getPresetNames(c);
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(c);
+			builder.setTitle("Pick a preset to delete.  WARNING: IT'S FINAL");
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {
+			        deletePreset(c,p.getInst(), items[item]);
+			    }
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
+		} catch (Exception e) {
+			
+		}
+	}
+
 	
 	public void showSaveAsMenu(final Context c, final PlasmaActivity p ) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(c);
@@ -149,13 +204,19 @@ public class JSONPresets {
 	public void loadDefault(Context c, Instrument e) {
 		JSONObject jpreset = getDefaultPreset(c);
 		currentsetting = jpreset;
-		e.updateSettingsFromJSON(jpreset);
+		final SharedPreferences mPrefs = c.getSharedPreferences(
+				PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+		e.updateSettingsFromJSON(jpreset, true, mPrefs);
+		this.notifyListeners(jpreset);
 	}
 	
 	public void loadPreset(Context c, Instrument e, String preset) {
 		JSONObject jpreset = getPresetFromName(preset, c);
 		currentsetting = jpreset;
-		e.updateSettingsFromJSON(jpreset);
+		final SharedPreferences mPrefs = c.getSharedPreferences(
+				PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+		e.updateSettingsFromJSON(jpreset, true, mPrefs);
+		this.notifyListeners(jpreset);
 	}
 	
 	public void savePreset(Context c, Instrument e, String preset) {
@@ -163,17 +224,29 @@ public class JSONPresets {
 			JSONObject presetsobj = getPresets(c);
 			if (presetsobj == null) {
 				presetsobj = new JSONObject();
-				JSONArray presets = new JSONArray();
+				JSONObject presets = new JSONObject();
 				presetsobj.put("presets", presets);
 			}
 			if (currentsetting != null) {
 				presetsobj.put("default", currentsetting.getString("name"));
 			}
-			JSONArray presets = presetsobj.getJSONArray("presets");
+			JSONObject presets = presetsobj.getJSONObject("presets");
 			JSONObject presetobj = new JSONObject();
 			presetobj.put("name", preset);
 			presetobj = e.saveSettingsToJSON(presetobj);
-			presets.put(presetobj);
+			presets.put(preset, presetobj);
+			writePresets(presetsobj, c);
+		} catch (Exception j ) {
+			j.printStackTrace();
+		}
+	}
+	
+
+	public void deletePreset(Context c, Instrument e, String preset) {
+		try {
+			JSONObject presetsobj = getPresets(c);
+			JSONObject presets = presetsobj.getJSONObject("presets");
+			presets.remove(preset);
 			writePresets(presetsobj, c);
 		} catch (Exception j ) {
 			j.printStackTrace();
@@ -203,6 +276,7 @@ public class JSONPresets {
 		    BufferedInputStream f = new BufferedInputStream(new FileInputStream(jsonFile));
 		    f.read(buffer);		
 			String jsonString = new String(buffer);
+			Log.d("Presets", "Presets:\n" +jsonString);
 			JSONObject object = new JSONObject(jsonString);
 			return object;
 		} catch (Exception e) {
@@ -246,13 +320,8 @@ public class JSONPresets {
 		try {
 			JSONObject presetobj = getPresets(context);
 			if (presetobj == null) return null;
-			JSONArray presets = presetobj.getJSONArray("presets");
-			for (int i=0; i<presets.length(); i++) {
-				JSONObject preset = presets.getJSONObject(i);
-				if (name.equals(preset.getString("name"))) {
-					return preset;
-				}
-			}
+			JSONObject presets = presetobj.getJSONObject("presets");
+			return presets.getJSONObject(name);
 		} catch (JSONException j ) {
 			j.printStackTrace();
 		}
@@ -263,11 +332,15 @@ public class JSONPresets {
 		try {
 			JSONObject presetobj = getPresets(context);
 			if (presetobj == null) return null;
-			JSONArray presets = presetobj.getJSONArray("presets");
+			JSONObject presets = presetobj.getJSONObject("presets");
 			String[] presetnames = new String[presets.length()];
-			for (int i=0; i<presets.length(); i++) {
-				JSONObject preset = presets.getJSONObject(i);
+			int i = 0;
+			Iterator iter = presets.keys();
+			while (iter.hasNext()) {
+				String key = (String)iter.next();
+				JSONObject preset = presets.getJSONObject(key);
 				presetnames[i] = preset.getString("name");
+				i++;
 			}
 		return presetnames;
 		} catch (JSONException j) {

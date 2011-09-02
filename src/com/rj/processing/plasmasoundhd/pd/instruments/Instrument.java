@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.puredata.core.PdBase;
 
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
@@ -27,10 +28,6 @@ public class Instrument {
 	private static final String QUAT_CONTINUOUS = "continuous";
 	private static final String QUAT_QUANTIZE = "quantize";
 	private static final String QUAT_SLIDE = "slide";
-	private static final String VOLUME = "volume";
-	private static final String VOLUME_Y = "volume_y";
-	private static final String FILTER = "filter";
-	private static final String FILTER_Y = "filter_y";
 	final PDManager p;
 	
 	
@@ -52,12 +49,8 @@ public class Instrument {
 	public static int NQUANTIZE = 1;
 	public static int NSLIDE = 2;
 	public int quantize = NCONTINUOUS;
+	public String quantval;
 
-	public float maxVol = 1;
-	public float maxFilt = 1;
-	public boolean vol_y = true;
-	public boolean filt_y = false;
-	
 	public boolean ready = false;
 	
 	public Instrument(final PDManager p) {
@@ -206,46 +199,46 @@ public class Instrument {
 				quantize = NSLIDE;
 			}
 			
-			vol_y = prefs.getBoolean(preset+VOLUME_Y, true);
-			filt_y = prefs.getBoolean(preset+FILTER_Y, false);
-			
-			maxVol = prefs.getInt(preset+VOLUME, 80)/100f;
-			maxFilt = prefs.getInt(preset+FILTER, 80)/100f;
-			
 			for (final Effect e : effects) {
 				e.updateSettings(prefs, preset);
 			}
 		
 		} catch (final Exception e) { e.printStackTrace(); }
 	}
-	
 	public void updateSettingsFromJSON(JSONObject prefs) {
+		updateSettingsFromJSON(prefs, false, null);
+	}
+	
+	public void updateSettingsFromJSON(JSONObject prefs, boolean savetoshared, SharedPreferences sprefs) {
 		try {
+			Editor edit = sprefs.edit();
 			final float prefMidiMin = prefs.has(MIDI_MIN) ? prefs.getInt(MIDI_MIN) : 70;
+			if (savetoshared) edit.putInt(MIDI_MIN, (int)prefMidiMin);
 			final float prefMidiMax = prefs.has(MIDI_MAX) ? prefs.getInt(MIDI_MAX) : 86;
+			if (savetoshared) edit.putInt(MIDI_MAX, (int)prefMidiMax);
 			setMidiMin(prefMidiMin);
 			setMidiMax(prefMidiMax);			
 			
 			final String s_waveform = prefs.has(WAVEFORM) ? prefs.getString(WAVEFORM) : "1.0";
 			final Float waveform = Float.parseFloat(s_waveform);
+			if (savetoshared) edit.putString(WAVEFORM, s_waveform);
 			setWaveform(waveform);
 			
-			String quantval = prefs.has(QUANTIZE) ?  prefs.getString(QUANTIZE) : QUAT_CONTINUOUS;
+			quantval = prefs.has(QUANTIZE) ?  prefs.getString(QUANTIZE) : QUAT_CONTINUOUS;
 			if (quantval.equalsIgnoreCase(QUAT_QUANTIZE)) {
 				quantize = NQUANTIZE;
 			} else if (quantval.equalsIgnoreCase(QUAT_SLIDE)) {
 				quantize = NSLIDE;
 			}
+			if (savetoshared) edit.putString(QUANTIZE, quantval);
+
 			
-			vol_y = prefs.has(VOLUME_Y) ? prefs.getBoolean(VOLUME_Y):  true;
-			filt_y = prefs.has(FILTER_Y) ?  prefs.getBoolean(FILTER_Y) : false;
-			
-			maxVol = prefs.has(VOLUME) ?  prefs.getInt(VOLUME)/100f : 80f/100f;
-			maxFilt = prefs.has(FILTER) ? prefs.getInt(FILTER)/100f : 80f/100f;
 			
 			for (final Effect e : effects) {
-				e.updateSettingsFromJSON(prefs);
+				e.updateSettingsFromJSON(prefs, savetoshared, edit);
 			}
+			
+			if (savetoshared) edit.commit();
 		
 		} catch (final Exception e) { e.printStackTrace(); }
 	}
@@ -255,18 +248,13 @@ public class Instrument {
 			prefs.put(MIDI_MIN, this.midiMin);
 			prefs.put(MIDI_MAX, this.midiMax);
 	
-			prefs.put(WAVEFORM, this.waveform);
+			prefs.put(WAVEFORM, this.waveform+"");
 
-			prefs.put(QUANTIZE, this.quantize);
+			prefs.put(QUANTIZE, this.quantval+"");
 			
-			prefs.put(VOLUME_Y, this.vol_y);
-			prefs.put(FILTER_Y, this.filt_y);
-
-			prefs.put(VOLUME, this.maxVol);
-			prefs.put(FILTER, this.maxFilt);
 			
 			for (final Effect e : effects) {
-				e.saveSettingsToJSON(prefs);
+				prefs = e.saveSettingsToJSON(prefs);
 			}	
 			
 			return prefs;
