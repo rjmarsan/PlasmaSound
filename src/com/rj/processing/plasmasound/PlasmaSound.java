@@ -90,7 +90,7 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	    vis = new Visualization(this);
 	    vis.addVisual(new PlasmaFluid(this)); 
 	    vis.addVisual(new Grid(this, this)); 
-	    vis.addVisual(new AudioStats(this)); 
+	    vis.addVisual(new AudioStats(this, this)); 
 	    
 	    asyncSetup.execute(new Void[0]);
 	    debug();
@@ -289,6 +289,10 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	@Override
 	public MTManager getMTManager() {
 		return mtManager;
+	}
+	@Override
+	public PDManager getPD() {
+		return pdman;
 	}
 
     

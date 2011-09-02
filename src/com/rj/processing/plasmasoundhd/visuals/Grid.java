@@ -1,6 +1,8 @@
 package com.rj.processing.plasmasoundhd.visuals;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PImage;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
@@ -8,45 +10,44 @@ import com.rj.processing.plasmasoundhd.PlasmaActivity;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
 public class Grid extends Visual{
-	private final int num_lines = 10;
 	private final float crosshair_size = 100;
+	private final static int NUM_DASHES = 9;
 	PlasmaActivity pp;
+	//PImage dashed;
+	PGraphics cache;
+	PImage cacheImage;
+	float midiMax;
+	float midiMin;
 	
 	
 	public Grid(final PApplet p, PlasmaActivity pp) {
 		super(p);
 		this.pp = pp;
+		//dashed = p.loadImage("dashed.png");
 	}
 
 	@Override
 	public void drawVis() {
-		p.rectMode(PApplet.CORNER);
-
-		float midiMax = 86;
-		float midiMin = 70;
-		if (pp.getInst() != null && pp.getInst().ready) {
-			midiMax = pp.getInst().midiMax;
-			midiMin = pp.getInst().midiMin;
+		float midiMax = pp.getInst().midiMax;
+		float midiMin = pp.getInst().midiMin;
+		if (cacheImage == null || this.midiMin != midiMin || this.midiMax != midiMax) {
+			cache = p.createGraphics((int)width, (int)height, PApplet.A2D);
+			//p.println("NEW IMAGE NEW GIRD NEW GRID NEW GRID NEW GRID ");
+			cache.beginDraw();
+			//cache.background(0, 0, 0, 0);
+			drawVis(cache);
+			cache.endDraw();
+			if (cacheImage != null) cacheImage.delete();
+			cacheImage = cache.get();
+			this.midiMin = midiMin;
+			this.midiMax = midiMax;
 		}
+		p.image(cacheImage, 0, 0);
+		
+		
 		final float num_lines = midiMax-midiMin;
 		final float spacing = width/(num_lines);
-		for (int i=0;i<num_lines;i++) {
-			final int space = (int) ((i+midiMin) % 12);
-			if (space == 0) {
-				p.stroke(200, 100);
-				p.fill(100,100);
-				//p.line(spacing*i, 0, spacing*i, height);
-				p.rect(spacing*i, 0, 2, height);
 
-			} else if (space == 1 || space == 3 || space == 6 || space == 8 || space == 10) {//a black note! 
-				p.stroke(100, 100);
-				p.line(spacing * i, 0, spacing * i, height);
-			} else {
-				p.stroke(200, 100);
-				p.line(spacing * i, 0, spacing * i, height);
-			}
-
-		}
 		synchronized (pp.getMTManager().cursors) {
 			p.stroke(255,0,0,180);
 			int quantize = Instrument.NCONTINUOUS;
@@ -76,6 +77,40 @@ public class Grid extends Visual{
 					}
 				}
 			}
+		}
+
+	}
+	
+	public void drawVis(PGraphics p) {
+		p.rectMode(PApplet.CORNER);
+
+		float midiMax = 86;
+		float midiMin = 70;
+		if (pp.getInst() != null && pp.getInst().ready) {
+			midiMax = pp.getInst().midiMax;
+			midiMin = pp.getInst().midiMin;
+		}
+		final float num_lines = midiMax-midiMin;
+		final float spacing = width/(num_lines);
+		for (int i=0;i<num_lines;i++) {
+			final int space = (int) ((i+midiMin) % 12);
+			if (space == 0) {
+				p.fill(200,100);
+				p.noStroke();
+				//p.line(spacing*i, 0, spacing*i, height);
+				p.rect(spacing*i, 0, 3, height);
+
+			} else if (space == 1 || space == 3 || space == 6 || space == 8 || space == 10) {//a black note! 
+				p.stroke(100, 100);
+				for (int q = 0; q<NUM_DASHES; q++) {
+					p.line(spacing * i, q*(height/NUM_DASHES)-20, spacing * i, (q+1)*(height/NUM_DASHES));
+					//p.image(dashed, spacing * i, 0);
+				}
+			} else {
+				p.stroke(183, 100);
+				p.line(spacing * i, 0, spacing * i, height);
+			}
+
 		}
 	}
 

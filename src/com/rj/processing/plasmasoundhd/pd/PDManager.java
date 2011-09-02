@@ -61,28 +61,28 @@ public class PDManager {
 
 		@Override
 		public void receiveBang(final String source) {
-			Log.d("PDManager", "recieved bang! "+source);
+			//Log.d("PDManager", "recieved bang! "+source);
 		}
 
 		@Override
 		public void receiveFloat(final String source, final float x) {
-			Log.d("PDManager", "recieved float! "+source+" : "+x);
+			//Log.d("PDManager", "recieved float! "+source+" : "+x);
 			if (source.equalsIgnoreCase("mainlevel")) {
 				audiolevel = x;
 			}
 		}
 		@Override
 		public void receiveList(final String source, final Object... args) {
-			Log.d("PDManager", "recieved list! "+source);
+			//Log.d("PDManager", "recieved list! "+source);
 		}
 		@Override
 		public void receiveMessage(final String source, final String symbol,
 				final Object... args) {	
-			Log.d("PDManager", "recieved message! "+source);
+			//Log.d("PDManager", "recieved message! "+source);
 		}
 		@Override
 		public void receiveSymbol(final String source, final String symbol) {		
-			Log.d("PDManager", "recieved symbol! "+source);
+			//Log.d("PDManager", "recieved symbol! "+source);
 		}
 	};
 	
@@ -114,8 +114,8 @@ public class PDManager {
 		try {
 			PdAudio.initAudio(SAMPLE_RATE, 0, nOut, 1, true);
 			PdAudio.startAudio(p);
-//			PdBase.setReceiver(reciever);
-//			PdBase.subscribe("mainlevel");
+			PdBase.setReceiver(reciever);
+			PdBase.subscribe("mainlevel");
 			} catch (final IOException e) {
 			Log.e(TAG, e.toString());
 		}

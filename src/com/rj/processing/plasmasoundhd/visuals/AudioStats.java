@@ -3,22 +3,31 @@ package com.rj.processing.plasmasoundhd.visuals;
 import processing.core.PApplet;
 import android.view.MotionEvent;
 
+import com.rj.processing.plasmasoundhd.PlasmaActivity;
+
 public class AudioStats extends Visual{	
-	
-	public AudioStats(final PApplet p) {
-		super(p);
+	PlasmaActivity pa;
+	public AudioStats(final PApplet c, PlasmaActivity p) {
+		super(c);
+		this.pa = p;
 	}
 
 	@Override
 	public void drawVis() {
 		
 		/** Not yet! **/
-//		p.pushStyle();
-//		p.rectMode(PApplet.CORNER);
-//		p.fill(100);
-//		p.stroke(150);
-//		p.rect(width/2, height/2, 20, p.pdman.getVolumeLevel()+1);
-//		p.popStyle();
+		p.pushStyle();
+		p.rectMode(PApplet.CORNER);
+		float level = pa.getPD().getVolumeLevel();
+		if (level < 90) {
+			p.fill(120, 100);
+			p.stroke(120, 100);
+		} else {
+			p.fill(200, 20, 20, 100);
+			p.stroke(200, 20, 20, 100);
+		}
+		p.rect(width-40, 20, 30, level*1.5f);
+		p.popStyle();
 	}
 
 	@Override
