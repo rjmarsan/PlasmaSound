@@ -102,15 +102,15 @@ public abstract class Effect {
 			for (final Parameter p : params.values()) {
 				if (prefs.has(p.getName() + "_y")
 						&& prefs.getBoolean(p.getName() + "_y")) {
-					Log.d("EffectsSettings", "Adding :" + p.getName()
-							+ " to ylist");
+//					Log.d("EffectsSettings", "Adding :" + p.getName()
+//							+ " to ylist");
 					yList.add(p.getName());
 					if (savetoshared)
 						edit.putBoolean(p.getName() + "_y", true);
 				}
 				final float newval = prefs.has(p.getName()) ? (float)prefs.getDouble(p.getName()) / 100f : -1;
-				Log.d("EffectsSettings", "Value for :" + p.getName() + " : "
-						+ newval);
+				//Log.d("EffectsSettings", "Value for :" + p.getName() + " : "
+				//		+ newval);
 				if (newval >= 0)
 					p.setDefaultNaive(newval);
 				if (savetoshared && prefs.has(p.getName()))
