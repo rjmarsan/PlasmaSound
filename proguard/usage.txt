@@ -82,11 +82,10 @@ com.rj.processing.mt.R$xml
 com.rj.processing.plasmasound.PlasmaSound:
     public static final java.lang.String SHARED_PREFERENCES_AUDIO
     public static final java.lang.String PATCH_PATH
-    271:273:public void savePreset(java.lang.String)
 com.rj.processing.plasmasoundhd.PlasmaSound:
     public static final java.lang.String SHARED_PREFERENCES_AUDIO
     public static final java.lang.String PATCH_PATH
-    327:329:public void savePreset(java.lang.String)
+    337:339:public void savePreset(java.lang.String)
 com.rj.processing.plasmasoundhd.PlasmaThereminAudioSettings
 com.rj.processing.plasmasoundhd.PlasmaThereminEffectsSettings
 com.rj.processing.plasmasoundhd.R
@@ -107,14 +106,13 @@ com.rj.processing.plasmasoundhd.pd.PDManager:
     private static final int SAMPLE_RATE
     private static final java.lang.String TAG
     129:130:public void onDestroy()
-    155:155:public float getVolumeLevel()
 com.rj.processing.plasmasoundhd.pd.PDManager$AudioStatListener:
-    58:60:public void print(java.lang.String)
-    64:65:public void receiveBang(java.lang.String)
-    69:73:public void receiveFloat(java.lang.String,float)
-    76:77:public void receiveList(java.lang.String,java.lang.Object[])
-    81:82:public void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[])
-    85:86:public void receiveSymbol(java.lang.String,java.lang.String)
+    60:60:public void print(java.lang.String)
+    65:65:public void receiveBang(java.lang.String)
+    70:73:public void receiveFloat(java.lang.String,float)
+    77:77:public void receiveList(java.lang.String,java.lang.Object[])
+    82:82:public void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[])
+    86:86:public void receiveSymbol(java.lang.String,java.lang.String)
 com.rj.processing.plasmasoundhd.pd.effects.ASDR:
     public static final java.lang.String ATTACK
     public static final java.lang.String SUSTAIN
@@ -125,9 +123,9 @@ com.rj.processing.plasmasoundhd.pd.effects.Delay:
     public static final java.lang.String DELAY_FEEDBACK
 com.rj.processing.plasmasoundhd.pd.effects.Effect:
     protected static final int MAX_INDEX
-    28:28:public void initEffect()
-    59:59:public void allUp()
-    64:65:public void updateSettings(android.content.SharedPreferences)
+    31:31:public void initEffect()
+    68:68:public void allUp()
+    71:72:public void updateSettings(android.content.SharedPreferences)
 com.rj.processing.plasmasoundhd.pd.effects.EffectsManager
 com.rj.processing.plasmasoundhd.pd.effects.Filter:
     public static final java.lang.String FILT
@@ -153,29 +151,32 @@ com.rj.processing.plasmasoundhd.pd.instruments.Instrument:
     private static final java.lang.String QUAT_CONTINUOUS
     private static final java.lang.String QUAT_QUANTIZE
     private static final java.lang.String QUAT_SLIDE
-    private static final java.lang.String VOLUME
-    private static final java.lang.String VOLUME_Y
-    private static final java.lang.String FILTER
-    private static final java.lang.String FILTER_Y
     private static final int MAX_INDEX
-    149:153:public void setPitch(float)
-    223:224:public void cleanup()
+    144:148:public void setPitch(float)
+    209:210:public void updateSettingsFromJSON(org.json.JSONObject)
+    272:273:public void cleanup()
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets:
+    52:53:public void addListener(com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$PresetListener)
+    55:56:public void removeListener(com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$PresetListener)
+    81:86:public org.json.JSONObject getCurrent(android.content.Context)
+    93:114:public org.json.JSONObject readFromPreferences(android.content.Context)
 com.rj.processing.plasmasoundhd.pd.instruments.Parameter:
     public static final int CONTINUOUS
-    51:51:public float getMin()
-    55:55:public float getMax()
-    59:60:public void setEnabled(boolean)
-    63:63:public boolean isEnabled()
-com.rj.processing.plasmasoundhd.pd.instruments.Preset:
-    15:38:public void showLoadMenu(com.rj.processing.plasmasoundhd.PlasmaSound)
-    41:63:public void showSaveMenu(com.rj.processing.plasmasoundhd.PlasmaSound)
-    66:79:public void showSaveAsMenu(com.rj.processing.plasmasoundhd.PlasmaSound)
-    82:84:public void loadPreset(com.rj.processing.plasmasoundhd.PlasmaSound,com.rj.processing.plasmasoundhd.pd.instruments.Instrument,java.lang.String)
-    88:88:public void savePreset(com.rj.processing.plasmasoundhd.PlasmaSound,com.rj.processing.plasmasoundhd.pd.instruments.Instrument,java.lang.String)
+    53:53:public float getMin()
+    57:57:public float getMax()
+    61:62:public void setEnabled(boolean)
+    65:65:public boolean isEnabled()
+    160:160:public float getLastValue()
+    164:164:public float getDefaultValue()
+com.rj.processing.plasmasoundhd.pd.instruments.Preset
 com.rj.processing.plasmasoundhd.pd.instruments.Preset$1
 com.rj.processing.plasmasoundhd.pd.instruments.Preset$2
 com.rj.processing.plasmasoundhd.pd.instruments.Preset$3
 com.rj.processing.plasmasoundhd.pd.instruments.Preset$4
+com.rj.processing.plasmasoundhd.visuals.Grid:
+    private static final int NUM_DASHES
+com.rj.processing.plasmasoundhd.waveform.Waveform:
+    6:8:public Waveform(float[])
 msafluid.MSAFluidSolver2D:
     static final float FLUID_DEFAULT_NX
     static final float FLUID_DEFAULT_NY
@@ -252,7 +253,6 @@ org.puredata.core.PdBase:
     206:209:public static synchronized int readArray(float[],int,java.lang.String,int,int)
     224:227:public static synchronized int writeArray(java.lang.String,int,float[],int,int)
     public static synchronized native boolean exists(java.lang.String)
-    247:255:public static synchronized int subscribe(java.lang.String)
     265:269:public static synchronized void unsubscribe(java.lang.String)
     316:320:public static synchronized void closePatch(int)
     public static synchronized native int sendBang(java.lang.String)
@@ -268,7 +268,6 @@ org.puredata.core.PdBase:
     public static synchronized native int sendSysex(int,int)
     public static synchronized native int sendSysRealTime(int,int)
     private static native int finishList(java.lang.String)
-    private static native long bindSymbol(java.lang.String)
     private static native int readArrayNative(float[],int,java.lang.String,int,int)
     private static native int writeArrayNative(java.lang.String,int,float[],int,int)
 org.puredata.core.PdMidiReceiver:
@@ -349,7 +348,6 @@ processing.core.PApplet:
     1325:1326:public void size(int,int)
     1330:1331:public void size(int,int,java.lang.String)
     1367:1443:public void size(int,int,java.lang.String,java.lang.String)
-    1497:1512:public processing.core.PGraphics createGraphics(int,int,java.lang.String)
     1599:1604:public processing.core.PImage createImage(int,int,processing.core.PTexture$Parameters)
     1872:1886:public synchronized void redraw()
     1890:1893:public synchronized void loop()
@@ -368,8 +366,6 @@ processing.core.PApplet:
     2453:2454:public static void open(java.lang.String)
     2464:2464:public static java.lang.Process open(java.lang.String[])
     2470:2473:public static java.lang.Process exec(java.lang.String[])
-    2486:2487:public void die(java.lang.String)
-    2495:2497:public void die(java.lang.String,java.lang.Exception)
     2564:2579:public void method(java.lang.String)
     2583:2589:public void thread(java.lang.String)
     2604:2605:public void save(java.lang.String)
@@ -441,7 +437,6 @@ processing.core.PApplet:
     3613:3618:public processing.core.PShape3D createShape(int,int,int)
     3627:3627:public processing.core.PShape3D createShape(processing.core.PShape)
     3635:3644:public processing.core.PShape3D createShape(processing.core.PShape,int)
-    3655:3663:public processing.core.PFont loadFont(java.lang.String)
     3676:3676:public processing.core.PFont createFont(java.lang.String,float)
     3681:3681:public processing.core.PFont createFont(java.lang.String,float,boolean)
     3864:3878:public java.io.BufferedReader createReader(java.lang.String)
@@ -450,8 +445,6 @@ processing.core.PApplet:
     3923:3923:public java.io.PrintWriter createWriter(java.lang.String)
     3933:3944:public static java.io.PrintWriter createWriter(java.io.File)
     3958:3962:public static java.io.PrintWriter createWriter(java.io.OutputStream)
-    4003:4012:public java.io.InputStream createInput(java.lang.String)
-    4022:4173:public java.io.InputStream createInputRaw(java.lang.String)
     4178:4191:public static java.io.InputStream createInput(java.io.File)
     4197:4204:public byte[] loadBytes(java.lang.String)
     4210:4224:public static byte[] loadBytes(java.io.InputStream)
@@ -470,7 +463,6 @@ processing.core.PApplet:
     4473:4474:public void saveStrings(java.lang.String,java.lang.String[])
     4479:4491:public static void saveStrings(java.io.File,java.lang.String[])
     4496:4503:public static void saveStrings(java.io.OutputStream,java.lang.String[])
-    4524:4539:public java.lang.String sketchPath(java.lang.String)
     4544:4544:public java.io.File sketchFile(java.lang.String)
     4562:4567:public java.lang.String savePath(java.lang.String)
     4575:4575:public java.io.File saveFile(java.lang.String)
@@ -701,7 +693,6 @@ processing.core.PApplet:
     7341:7342:public void smooth()
     7346:7347:public void noSmooth()
     7351:7352:public void imageMode(int)
-    7356:7357:public void image(processing.core.PImage,float,float)
     7368:7369:public void image(processing.core.PImage,float,float,float,float,int,int,int,int)
     7373:7374:public void shapeMode(int)
     7378:7379:public void shape(processing.core.PShape)
@@ -710,10 +701,8 @@ processing.core.PApplet:
     7393:7394:public void shape(processing.core.PShape,float,float,float,float)
     7398:7399:public void shape(processing.core.PShape,float,float,float,float,float,float)
     7403:7404:public void textAlign(int)
-    7408:7409:public void textAlign(int,int)
     7413:7413:public float textAscent()
     7418:7418:public float textDescent()
-    7423:7424:public void textFont(processing.core.PFont)
     7428:7429:public void textFont(processing.core.PFont,float)
     7433:7434:public void textLeading(float)
     7443:7444:public void textSize(float)
@@ -723,7 +712,6 @@ processing.core.PApplet:
     7463:7464:public void text(char,float,float)
     7468:7469:public void text(char,float,float,float)
     7473:7474:public void text(java.lang.String)
-    7478:7479:public void text(java.lang.String,float,float)
     7483:7484:public void text(java.lang.String,float,float,float)
     7488:7489:public void text(java.lang.String,float,float,float,float)
     7493:7494:public void text(java.lang.String,float,float,float,float,float)
@@ -782,8 +770,6 @@ processing.core.PApplet:
     7777:7778:public void strokeWeight(float)
     7782:7783:public void strokeJoin(int)
     7787:7788:public void strokeCap(int)
-    7792:7793:public void noStroke()
-    7797:7798:public void stroke(int)
     7807:7808:public void stroke(float)
     7812:7813:public void stroke(float,float)
     7817:7818:public void stroke(float,float,float)
@@ -875,53 +861,21 @@ processing.core.PConstants
 processing.core.PFont:
     protected boolean typefaceSearched
     protected static android.graphics.Typeface[] typefaces
-    protected processing.core.PApplet parent
-    protected int maxTexWidth
-    protected int maxTexHeight
-    protected int offsetX
-    protected int offsetY
-    protected int lineHeight
-    protected int currentTex
-    protected int lastTex
     177:178:public PFont(android.graphics.Typeface,int,boolean)
-    279:335:public PFont(java.io.InputStream)
     339:342:public void delete()
     355:384:public void save(java.io.OutputStream)
-    392:426:protected void addGlyph(char)
     430:430:public java.lang.String getName()
     435:435:public java.lang.String getPostScriptName()
     443:444:public void setTypeface(android.graphics.Typeface)
-    469:470:public processing.core.PFont$Glyph getGlyph(char)
-    479:495:protected int index(char)
-    504:511:protected int indexActual(char)
-    516:529:protected int indexHunt(int,int,int)
     538:538:public float kern(char,char)
-    564:569:public float width(char)
     643:644:public static java.lang.String[] list()
-    690:702:public void initTexture(processing.core.PApplet,int,int)
-    708:746:public boolean addTexture()
-    750:751:public void setFirstTexture()
-    754:758:public void setTexture(int)
-    763:766:public void addAllGlyphsToTexture()
-    770:775:public void updateGlyphsTexCoords()
 processing.core.PFont$Glyph:
-    processing.core.PFont$Glyph$TextureInfo texture
     799:794:protected PFont$Glyph(processing.core.PFont)
-    804:803:protected PFont$Glyph(processing.core.PFont,java.io.DataInputStream)
-    808:827:protected void readHeader(java.io.DataInputStream)
     831:838:protected void writeHeader(java.io.DataOutputStream)
-    842:861:protected void readBitmap(java.io.DataInputStream)
     865:871:protected void writeBitmap(java.io.DataOutputStream)
-    947:1006:protected void addToTexture()
-    784:784:static processing.core.PFont access$0(processing.core.PFont$Glyph)
-processing.core.PFont$Glyph$TextureInfo
 processing.core.PFramebuffer:
     65:66:PFramebuffer(processing.core.PApplet)
-    69:70:PFramebuffer(processing.core.PApplet,int,int)
     114:115:public void setColorBuffers(processing.core.PTexture[])
-    240:241:public void disableDepthTest()
-    292:294:public void readPixels()
-    297:301:public void getPixels(int[])
     304:304:public java.nio.IntBuffer getPixelBuffer()
 processing.core.PGraphics:
     public int pixelCount
@@ -942,9 +896,6 @@ processing.core.PGraphics:
     protected float[][] curveVertices
     protected static final float SINCOS_PRECISION
     protected static final int SINCOS_LENGTH
-    protected float textX
-    protected float textY
-    protected float textZ
     protected int textBreakCount
     protected int[] textBreakStart
     protected int[] textBreakStop
@@ -1001,21 +952,17 @@ processing.core.PGraphics:
     2094:2100:public void curve(float,float,float,float,float,float,float,float)
     2107:2113:public void curve(float,float,float,float,float,float,float,float,float,float,float,float)
     2132:2140:protected void splineForward(int,processing.core.PMatrix3D)
-    2191:2208:public void image(processing.core.PImage,float,float)
     2337:2349:public void shape(processing.core.PShape)
     2356:2369:public void shape(processing.core.PShape,float,float)
     2373:2374:public void shape(processing.core.PShape,float,float,float)
     2378:2402:public void shape(processing.core.PShape,float,float,float,float)
     2406:2407:public void shape(processing.core.PShape,float,float,float,float,float,float)
     2420:2421:public void textAlign(int)
-    2589:2590:public float textWidth(char)
     2599:2623:public float textWidth(java.lang.String)
-    2634:2639:protected float textWidthImpl(char[],int,int)
     2650:2651:public void text(char)
     2660:2680:public void text(char,float,float)
     2692:2698:public void text(char,float,float,float)
     2705:2706:public void text(java.lang.String)
-    2716:2766:public void text(java.lang.String,float,float)
     2778:2784:public void text(java.lang.String,float,float,float)
     2801:2915:public void text(java.lang.String,float,float,float,float)
     2924:2984:private boolean textSentence(char[],int,int,float,float)
@@ -1025,11 +972,6 @@ processing.core.PGraphics:
     3020:3021:public void text(int,float,float,float)
     3032:3033:public void text(float,float,float)
     3037:3038:public void text(float,float,float,float)
-    3054:3062:protected void textLineAlignImpl(char[],int,int,float,float)
-    3070:3079:protected void textLineImpl(char[],int,int,float,float)
-    3083:3110:protected void textCharImpl(char,float,float)
-    3117:3148:protected void textCharModelImpl(processing.core.PImage,float,float,float,float,int,int)
-    3154:3199:protected void textCharScreenImpl(processing.core.PImage,int,int,int,int)
     3234:3235:public void translate(float,float)
     3242:3243:public void translate(float,float,float)
     3256:3257:public void rotate(float)
@@ -1148,8 +1090,6 @@ processing.core.PGraphicsAndroid2D:
     798:799:public void sphere(float)
     822:822:public void bezierDetail(int)
     851:851:public void curveDetail(int)
-    1093:1101:protected float textWidthImpl(char[],int,int)
-    1125:1179:protected void textLineImpl(char[],int,int,float,float)
     1217:1218:public void translate(float,float)
     1225:1226:public void rotate(float)
     1230:1231:public void rotateX(float)
@@ -1175,8 +1115,6 @@ processing.core.PGraphicsAndroid2D:
     1761:1766:public void updatePixels(int,int,int,int)
     1770:1771:public void resize(int,int)
     1784:1788:public int get(int,int)
-    1796:1808:public processing.core.PImage getImpl(int,int,int,int)
-    1813:1813:public processing.core.PImage get()
     1827:1861:public void set(int,int,processing.core.PImage)
     1913:1914:public void mask(int[])
     1918:1919:public void mask(processing.core.PImage)
@@ -1240,13 +1178,6 @@ processing.core.PGraphicsAndroid3D:
     3151:3152:public void shape(processing.core.PShape3D)
     3155:3155:public void shape(processing.core.PShape3D,float,float)
     3158:3162:public void shape(processing.core.PShape3D,float,float,float)
-    3213:3262:protected void textLineImpl(char[],int,int,float,float)
-    3265:3297:protected void textCharImpl(char,float,float)
-    3301:3361:protected void textCharModelImpl(processing.core.PFont$Glyph$TextureInfo,float,float,float,float)
-    3365:3377:protected void textCharScreenImpl(processing.core.PFont$Glyph$TextureInfo,int,int,int,int)
-    3380:3392:protected void allocateTextModel()
-    3395:3413:protected void renderTextModel()
-    3416:3428:protected void expandTextBuffers()
     3463:3464:public void translate(float,float)
     3472:3482:public void translate(float,float,float)
     3491:3492:public void rotate(float)
@@ -1297,8 +1228,6 @@ processing.core.PGraphicsAndroid3D:
     5547:5548:public void updateTexture()
     5555:5556:public void resize(int,int)
     5563:5571:public int get(int,int)
-    5579:5587:protected processing.core.PImage getImpl(int,int,int,int)
-    5591:5591:public processing.core.PImage get()
     5622:5630:public void set(int,int,processing.core.PImage)
     5692:5693:public void mask(int[])
     5696:5697:public void mask(processing.core.PImage)
@@ -1364,7 +1293,6 @@ processing.core.PImage:
     237:250:public void loadTexture(processing.core.PTexture$Parameters)
     254:259:public void setTexture(processing.core.PTexture)
     268:271:public void updateTexture()
-    280:281:protected void textureToPixels()
     285:289:protected void reloadTexture()
     318:320:protected void createTexParams(processing.core.PTexture$Parameters)
     333:335:public void setCache(java.lang.Object,java.lang.Object)
@@ -1376,9 +1304,6 @@ processing.core.PImage:
     437:438:public void updatePixels(int,int,int,int)
     518:547:public void resize(int,int)
     575:594:public int get(int,int)
-    603:615:public processing.core.PImage get(int,int,int,int)
-    626:646:protected processing.core.PImage getImpl(int,int,int,int)
-    655:663:public processing.core.PImage get()
     689:725:public void set(int,int,processing.core.PImage)
     734:762:protected void setImpl(int,int,int,int,int,int,processing.core.PImage)
     785:796:public void mask(int[])
@@ -1789,8 +1714,6 @@ processing.core.PTexture:
     226:227:public void set(processing.core.PTexture)
     231:232:public void set(processing.core.PTexture,int,int,int,int)
     241:242:public void set(int[],int)
-    342:378:public void get(int[])
-    388:389:public void put(processing.core.PTexture)
     393:394:public void put(processing.core.PTexture,int,int,int,int)
     435:435:protected int getGLFormat()
     444:444:protected int getGLMinFilter()
@@ -1799,11 +1722,6 @@ processing.core.PTexture:
     469:469:protected int getGLWrapT()
     477:477:protected boolean usingMipmaps()
     513:514:protected void setFlippedX(boolean)
-    555:575:protected void flipArrayOnX(int[],int)
-    584:597:protected void flipArrayOnY(int[],int)
-    838:868:protected void convertToARGB(int[],int[])
-    937:963:protected void copyTexels(processing.core.PTexture,int,int,int,int,boolean)
-    974:976:protected void bind()
     979:981:protected void unbind()
     986:1010:protected void copyObject(processing.core.PTexture)
     1018:1052:public processing.core.PTexture$Parameters getParameters()
