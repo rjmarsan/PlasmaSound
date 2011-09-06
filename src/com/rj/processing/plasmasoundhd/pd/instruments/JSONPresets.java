@@ -121,6 +121,15 @@ public class JSONPresets {
 	public void showLoadMenu(final Context c, final PlasmaActivity p) {
 		try {
 			final String[] items = getPresetNames(c);
+			if (items == null || items.length <= 0) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(c);
+				builder.setTitle("No saved instances");
+				builder.setPositiveButton("OK", null);
+				AlertDialog alert;
+				alert = builder.create();
+				alert.show();
+				return;
+			}
 			int selection = -1;
 			int i=0;
 			for (String item : items) {
@@ -149,6 +158,10 @@ public class JSONPresets {
 	public void showSaveMenu(final Context c, final PlasmaActivity p) {
 		try {
 			final String[] items = getPresetNames(c);
+			if (items == null || items.length <= 0) {
+				showSaveAsMenu(c, p);
+				return;
+			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
 			builder.setTitle("Pick a saved instance");
@@ -211,13 +224,15 @@ public class JSONPresets {
 	}
 	
 	
-	public void loadDefault(Context c, Instrument e) {
+	public JSONObject loadDefault(Context c, Instrument e) {
 		JSONObject jpreset = getDefaultPreset(c);
+		if (jpreset == null) return null;
 		currentsetting = jpreset;
 		final SharedPreferences mPrefs = c.getSharedPreferences(
 				PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
 		e.updateSettingsFromJSON(jpreset, true, mPrefs);
 		this.notifyListeners(jpreset);
+		return jpreset;
 	}
 	
 	public void loadPreset(Context c, Instrument e, String preset) {
@@ -227,6 +242,7 @@ public class JSONPresets {
 				PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
 		e.updateSettingsFromJSON(jpreset, true, mPrefs);
 		this.notifyListeners(jpreset);
+		updateDefault(c);
 	}
 	
 	public void savePreset(Context c, Instrument e, String preset) {

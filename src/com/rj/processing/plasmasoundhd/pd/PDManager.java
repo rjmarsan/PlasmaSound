@@ -55,7 +55,7 @@ public class PDManager {
 
 		@Override
 		public void print(final String s) {	
-			Log.d("PDManager", "recieved print! "+s);
+			//Log.d("PDManager", "recieved print! "+s);
 
 		}
 

@@ -34,15 +34,15 @@ public class AudioStats extends Visual{
 			p.fill(200, 20, 20, 100);
 			p.stroke(200, 20, 20, 100);
 		}
-		p.rect(width-40, 45, 30, level*1.5f);
+		p.rect(10, 45, 30, level*1.5f);
 		
 		p.fill(200, 140);
 		p.stroke(200, 140);
-		p.textAlign(PApplet.RIGHT, PApplet.TOP);
+		p.textAlign(PApplet.LEFT, PApplet.TOP);
 		if (JSONPresets.getPresets().getCurrent() != null) {
 			try {
 				String name = JSONPresets.getPresets().getCurrent().getString("name");
-				p.text("Preset: "+name, width-10, 10);
+				p.text("Preset: "+name, 10, 10);
 				
 				
 			} catch (JSONException e) {

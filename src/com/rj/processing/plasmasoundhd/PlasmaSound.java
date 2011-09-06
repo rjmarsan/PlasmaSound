@@ -131,7 +131,8 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 		    inst.setMidiMax(87);
 		    
 			Log.v("PlasmaSoundSetup", "Reading settings");
-			readSettings();	    
+			if (JSONPresets.getPresets().loadDefault(PlasmaSound.this, inst) == null) //if there is no defaults
+				readSettings();	    
 			Log.v("PlasmaSoundSetup", "Done!");
 			return null;
 		}
