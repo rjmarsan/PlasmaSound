@@ -80,7 +80,13 @@ public abstract class Effect {
 				// " to ylist");
 				yList.add(p.getName());
 			}
-			final float newval = (prefs.getInt(p.getName(), -1)) / 100f;
+
+			float newval = -1;
+			try {	
+				newval = (prefs.getInt(p.getName(), -1)) / 100f;
+			} catch (ClassCastException e) {
+				newval = (Float.parseFloat(prefs.getString(p.getName(), "0.0"))) / 100f;
+			}
 			// Log.d("EffectsSettings", "Value for :"+p.getName()+ " : " +
 			// newval);
 			if (newval >= 0)

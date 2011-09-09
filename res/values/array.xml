@@ -28,6 +28,23 @@
 </string-array>
 
 
+<string-array name="sequencer_scaletypes">
+<item>00.0</item>
+<item>10.0</item>
+<item>20.0</item>
+<item>30.0</item>
+<item>40.0</item>
+</string-array>
+
+<string-array name="sequencer_scalenames">
+<item>Major</item>
+<item>Minor</item>
+<item>Pentatonic</item>
+<item>Whole Notes</item>
+<item>Half Notes</item>
+</string-array>
+
+
 
 
 </resources>

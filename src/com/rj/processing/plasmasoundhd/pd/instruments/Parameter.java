@@ -3,6 +3,7 @@ package com.rj.processing.plasmasoundhd.pd.instruments;
 import org.puredata.core.PdBase;
 
 public class Parameter {
+	boolean DEBUGGG = true;
 	String name;
 	public final static int CONTINUOUS = 0;  //any value from min to max
 	
@@ -99,7 +100,7 @@ public class Parameter {
 	 */
 	public void pushNormalValue(final float value) {
 		PdBase.sendFloat(getParamName(), value);
-		//System.out.println("Setting "+this.name+" to:"+value);
+		if (DEBUGGG) System.out.println("Setting "+this.name+" to:"+value);
 	}
 	/**
 	 * Push a value thata's already been put within the range of the output, to a specific channel
@@ -108,7 +109,7 @@ public class Parameter {
 	 */
 	public void pushNormalValue(final float value, final int num) {
 		PdBase.sendFloat(getParamName(num), value);
-		//System.out.println("Setting "+this.name+"["+num+"] to:"+value);
+		if (DEBUGGG) System.out.println("Setting "+this.name+"["+num+"] to:"+value);
 	}
 	
 	/**

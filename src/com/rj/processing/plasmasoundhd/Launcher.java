@@ -25,7 +25,7 @@ public class Launcher extends Activity {
 		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );        
 		    this.startActivityForResult(intent, 1);
 		} else if (getUIType() == GINGERBREAD_PHONE){
-			Intent intent = new Intent(this, com.rj.processing.plasmasound.PlasmaSound.class);
+			Intent intent = new Intent(this, com.rj.processing.plasmasoundhd.PlasmaSound.class);
 		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );        
 		    this.startActivityForResult(intent, 1);
 		}

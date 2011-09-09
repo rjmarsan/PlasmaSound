@@ -10,12 +10,14 @@ import android.content.SharedPreferences.Editor;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasoundhd.Launcher;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.effects.ASDR;
 import com.rj.processing.plasmasoundhd.pd.effects.Delay;
 import com.rj.processing.plasmasoundhd.pd.effects.Effect;
 import com.rj.processing.plasmasoundhd.pd.effects.Filter;
 import com.rj.processing.plasmasoundhd.pd.effects.Reverb;
+import com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff;
 import com.rj.processing.plasmasoundhd.pd.effects.Tremolo;
 import com.rj.processing.plasmasoundhd.pd.effects.Vibrato;
 import com.rj.processing.plasmasoundhd.pd.effects.Volume;
@@ -32,11 +34,12 @@ public class Instrument {
 	
 	
 	
-	private static final int MAX_INDEX = 8;
+	public static final int MAX_INDEX = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? 4 : 8; //phones support 4 touches, tablets support 8
 	
 	
 	final private ArrayList<Effect> effects = new ArrayList<Effect>();
 	final private Volume volume;
+	final public SequencerStuff sequencer;
 	
 	
 	private int patch;
@@ -56,7 +59,9 @@ public class Instrument {
 	public Instrument(final PDManager p) {
 		this.p = p;
 		volume = new Volume();
+		sequencer = new SequencerStuff();
 		effects.add(volume);
+		effects.add(sequencer);
 		effects.add(new Vibrato());
 		effects.add(new ASDR());
 		effects.add(new Tremolo());
@@ -156,6 +161,7 @@ public class Instrument {
 		sendMessage("pitch", pitch, index);
 	}
 	public boolean isCursorSnapped(final Cursor c, final float width) {
+		if (c == null) return false;
 		final float spacing = (midiMax-midiMin)/width;
 		final int firstClosestX = Math.round((c.firstPoint.x) * spacing);
 		final int lastClosestX = Math.round((c.currentPoint.x) * spacing);
