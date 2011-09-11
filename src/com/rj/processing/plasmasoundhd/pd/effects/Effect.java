@@ -120,7 +120,7 @@ public abstract class Effect {
 				if (newval >= 0)
 					p.setDefaultNaive(newval);
 				if (savetoshared && prefs.has(p.getName()))
-					edit.putInt(p.getName(), (int)prefs.getDouble(p.getName()));
+					saveJSONParameterToPrefs(prefs, edit, p);
 			}
 		} catch (JSONException j) {
 			j.printStackTrace();
@@ -134,11 +134,24 @@ public abstract class Effect {
 		}
 	}
 
+	protected void saveJSONParameterToPrefs(final JSONObject prefs, Editor edit, final Parameter p) throws JSONException {
+		edit.putInt(p.getName(), (int)prefs.getDouble(p.getName()));
+	}
+
+	
+	public void saveSetting(Parameter p, JSONObject prefs) {
+		try {
+			prefs.put(p.getName(), p.getDefaultValueNaive() * 100f);
+			prefs.put(p.getName() + "_y", false);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public JSONObject saveSettingsToJSON(final JSONObject prefs) {
 		try {
 			for (final Parameter p : params.values()) {
-				prefs.put(p.getName(), p.getDefaultValueNaive() * 100f);
-				prefs.put(p.getName() + "_y", false);
+				saveSetting(p, prefs);
 			}
 			if (this.yenabled) {
 				for (String name : yenabledlist) {

@@ -36,8 +36,6 @@ org.puredata.core.PdBase: void closeFile(long)
 org.puredata.core.PdBase: int getDollarZero(long)
 org.puredata.core.PdBase: int readArrayNative(float[],int,java.lang.String,int,int)
 org.puredata.core.PdBase: int writeArrayNative(java.lang.String,int,float[],int,int)
-com.hlidskialf.android.preference.SeekBarPreference
-com.hlidskialf.android.preference.SeekBarPreference: SeekBarPreference(android.content.Context,android.util.AttributeSet)
 amir.android.icebreaking.SeekBarPreference
 amir.android.icebreaking.SeekBarPreference: SeekBarPreference(android.content.Context,android.util.AttributeSet)
 amir.android.icebreaking.SeekBarPreferenceView
@@ -53,11 +51,21 @@ com.noisepages.nettoyeur.bluetooth.midi.BluetoothMidiService$State: com.noisepag
 processing.core.PApplet
 com.rj.processing.plasmasound.PlasmaSound
 com.rj.processing.plasmasoundhd.WaveformEditor
+com.rj.processing.plasmasoundhd.PDActivity
+com.rj.processing.plasmasoundhd.SequencerActivity
 com.rj.processing.plasmasoundhd.PlasmaSound
 com.rj.processing.plasmasound.PlasmaThereminEffectsSettings
 com.rj.processing.plasmasoundhd.Launcher
 com.noisepages.nettoyeur.bluetooth.DeviceListActivity
+com.rj.processing.plasmasound.PlasmaThereminSequencerSettings
 com.rj.processing.plasmasound.PlasmaThereminAudioSettings
 org.puredata.android.service.PdPreferences
+com.rj.processing.plasmasoundhd.PlasmaThereminEffectsSettings
+com.rj.processing.plasmasoundhd.PlasmaThereminSequencerSettings
+com.rj.processing.plasmasoundhd.PlasmaThereminAudioSettings
+amir.android.icebreaking.SeekBarPreferenceView
+processing.core.PApplet$SketchSurfaceView2D
+processing.core.PApplet$SketchSurfaceView3D
+amir.android.icebreaking.SeekBarPreference
 org.puredata.android.service.PdService
 com.noisepages.nettoyeur.bluetooth.midi.BluetoothMidiService

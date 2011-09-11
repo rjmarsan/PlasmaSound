@@ -1,5 +1,6 @@
 package com.rj.processing.plasmasoundhd.sequencer;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff;
@@ -30,14 +31,16 @@ public class Sequencer {
 	
 	public class SequenceThread extends Thread {
 		public boolean sequenceKeepRunning = true;
-
+		
 		@Override
 		public void run() {
+			long lastpause = SystemClock.uptimeMillis();
+			int count = 0;
+
 			while(sequenceKeepRunning && grid != null) {
 				for (int i=0; i<grid.length; i++) {
 					
 					currentRow = i;
-					int count = 0;
 					int countInternal = count;
 
 					for (int j=0; j<grid[i].length; j++) {
@@ -50,7 +53,10 @@ public class Sequencer {
 					try {
 						float bpm = Sequencer.this.bpm;
 						if (instrument != null) bpm = instrument.sequencer.bpm.getDefaultValue();
-						if (sequenceKeepRunning) Thread.sleep((long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/));
+						long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
+						long waitedtime = SystemClock.uptimeMillis() - lastpause;
+						if (sequenceKeepRunning && waittime - waitedtime > 0) Thread.sleep(waittime - waitedtime);
+						lastpause = SystemClock.uptimeMillis();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -149,6 +155,11 @@ public class Sequencer {
 			float[][] grid = new float[width][];
 			for (int i=0; i<width; i++) {
 				grid[i] = new float[height];
+				for (int j=0; j<height; j++) {
+					if (i < this.grid.length && j < this.grid[i].length) {
+						grid[i][j] = this.grid[i][j];
+					}
+				}
 			}
 			this.grid = grid;
 			if (restart) start();

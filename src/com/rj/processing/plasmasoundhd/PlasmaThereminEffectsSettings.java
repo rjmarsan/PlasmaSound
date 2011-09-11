@@ -63,7 +63,7 @@ public class PlasmaThereminEffectsSettings extends Fragment implements OnSharedP
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	((PlasmaSound)getActivity()).readSettings();
+    	((PDActivity)getActivity()).readSettings();
     }
 
 	@Override

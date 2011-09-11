@@ -17,11 +17,11 @@ public  class Tremolo extends Effect {
 		final Parameter tremdepth = new Parameter(DEPTH, false);
 		tremdepth.setMinMax(0f, 100f);
 		tremdepth.setDefault(0f);
-		//params.put(DEPTH, tremdepth );
+		params.put(DEPTH, tremdepth );
 		
 		this.yenabledlist = new String[] {
 				SPEED,
-		//		DEPTH,
+				DEPTH,
 		};
 		this.yenabled = false;
 

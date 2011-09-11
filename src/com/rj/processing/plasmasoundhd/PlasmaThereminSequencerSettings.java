@@ -14,14 +14,14 @@ import android.widget.ListView;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets.PresetListener;
 
-public class PlasmaThereminAudioSettings extends PreferenceFragment implements OnSharedPreferenceChangeListener, PresetListener {
+public class PlasmaThereminSequencerSettings extends PreferenceFragment implements OnSharedPreferenceChangeListener, PresetListener {
 
     @Override
     public void onCreate(final Bundle icicle) {
         super.onCreate(icicle);
         getPreferenceManager().setSharedPreferencesName(
                 PlasmaSound.SHARED_PREFERENCES_AUDIO);
-        addPreferencesFromResource(R.xml.instrumentsettings);
+        addPreferencesFromResource(R.xml.sequencersettings);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 

@@ -109,14 +109,14 @@ public class SequencerActivity extends PDActivity {
 			
 			
 			if (sequencer.currentRow == i) {
-				p.fill(50);
+				p.fill(30);
 				p.noStroke();
 				p.rect(i*barwidth, 0, barwidth, screenHeight);
 			}
 			
 			for (int j=0; j<grid[i].length; j++) {
 				if (grid[i][j] <= 0) {
-					p.fill(100, 100);
+					p.fill(100, 30);
 					p.stroke(170);
 				}  else {
 					p.fill(200,30,30, 100);

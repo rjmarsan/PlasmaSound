@@ -4,16 +4,16 @@
       <item android:id="@+id/sequencer" android:icon="@drawable/ic_menu_sequencer"
           android:title="@string/sequencer"
           android:showAsAction="ifRoom|withText" />
-      <item android:id="@+id/instrument_settings" android:icon="@drawable/ic_menu_edit"
+      <item android:id="@+id/instrument_settings" android:icon="@drawable/ic_menu_keyboard_settings"
           android:title="@string/instrument_settings"
           android:showAsAction="ifRoom|withText" />
-      <item android:id="@+id/effects_settings" android:icon="@drawable/ic_menu_preferences"
+      <item android:id="@+id/effects_settings" android:icon="@drawable/ic_menu_effects_settings"
           android:title="@string/effects_settings"
           android:showAsAction="ifRoom|withText" />
       <item android:id="@+id/save_settings" android:icon="@drawable/ic_menu_save"
           android:title="@string/save_settings"
-          android:showAsAction="ifRoom|withText" />
+          android:showAsAction="ifRoom" />
       <item android:id="@+id/load_settings" android:icon="@drawable/ic_menu_upload"
           android:title="@string/load_settings"
-          android:showAsAction="ifRoom|withText" />
+          android:showAsAction="ifRoom" />
 </menu>

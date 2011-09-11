@@ -2,6 +2,11 @@ package com.rj.processing.plasmasoundhd.pd.effects;
 
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.SharedPreferences.Editor;
+
 import com.rj.processing.plasmasoundhd.pd.instruments.NonPDParameter;
 import com.rj.processing.plasmasoundhd.pd.instruments.Parameter;
 
@@ -51,6 +56,14 @@ public  class SequencerStuff extends Effect {
 		};
 		this.yenabled = false;
   
+	}
+	
+	@Override
+	protected void saveJSONParameterToPrefs(final JSONObject prefs, Editor edit, final Parameter p) throws JSONException {
+		if (p.getName().equals(scale.getName())) 
+			edit.putString(p.getName(), (int)prefs.getDouble(p.getName())+".0");
+		else
+			super.saveJSONParameterToPrefs(prefs, edit, p);
 	}
 
 	

@@ -1,6 +1,9 @@
-amir.android.icebreaking.SeekBarPreference
-amir.android.icebreaking.SeekBarPreferenceView
-com.hlidskialf.android.preference.SeekBarPreference
+amir.android.icebreaking.SeekBarPreference:
+    private static final java.lang.String androidns
+    private static final java.lang.String psndns
+amir.android.icebreaking.SeekBarPreferenceView:
+    private static final java.lang.String androidns
+    private static final java.lang.String psndns
 com.noisepages.nettoyeur.bluetooth.BluetoothSppConnection:
     private static final java.lang.String TAG
     private final android.bluetooth.BluetoothAdapter btAdapter
@@ -82,12 +85,11 @@ com.rj.processing.mt.R$xml
 com.rj.processing.plasmasound.PlasmaSound:
     public static final java.lang.String SHARED_PREFERENCES_AUDIO
     public static final java.lang.String PATCH_PATH
-com.rj.processing.plasmasoundhd.PlasmaSound:
+    264:266:public void waveformEditor()
+com.rj.processing.plasmasoundhd.PDActivity:
     public static final java.lang.String SHARED_PREFERENCES_AUDIO
-    public static final java.lang.String PATCH_PATH
-    337:339:public void savePreset(java.lang.String)
-com.rj.processing.plasmasoundhd.PlasmaThereminAudioSettings
-com.rj.processing.plasmasoundhd.PlasmaThereminEffectsSettings
+    public static final java.lang.String SHARED_PREFERENCES_APPSTUFF
+    340:342:public void waveformEditor()
 com.rj.processing.plasmasoundhd.R
 com.rj.processing.plasmasoundhd.R$array
 com.rj.processing.plasmasoundhd.R$attr
@@ -132,6 +134,12 @@ com.rj.processing.plasmasoundhd.pd.effects.Filter:
 com.rj.processing.plasmasoundhd.pd.effects.Reverb:
     public static final java.lang.String REVERB_TIME
     public static final java.lang.String REVERB_FEEDBACK
+com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff:
+    public static final java.lang.String LOWNOTE
+    public static final java.lang.String STEPS
+    public static final java.lang.String BPM
+    public static final java.lang.String NOTES
+    public static final java.lang.String SCALE
 com.rj.processing.plasmasoundhd.pd.effects.Tremolo:
     public static final java.lang.String SPEED
     public static final java.lang.String DEPTH
@@ -151,28 +159,29 @@ com.rj.processing.plasmasoundhd.pd.instruments.Instrument:
     private static final java.lang.String QUAT_CONTINUOUS
     private static final java.lang.String QUAT_QUANTIZE
     private static final java.lang.String QUAT_SLIDE
-    private static final int MAX_INDEX
-    144:148:public void setPitch(float)
-    209:210:public void updateSettingsFromJSON(org.json.JSONObject)
-    272:273:public void cleanup()
+    149:153:public void setPitch(float)
+    215:216:public void updateSettingsFromJSON(org.json.JSONObject)
+    278:279:public void cleanup()
 com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets:
-    52:53:public void addListener(com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$PresetListener)
-    55:56:public void removeListener(com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$PresetListener)
     81:86:public org.json.JSONObject getCurrent(android.content.Context)
     93:114:public org.json.JSONObject readFromPreferences(android.content.Context)
+com.rj.processing.plasmasoundhd.pd.instruments.NonPDParameter:
+    30:30:public float getLastValue()
 com.rj.processing.plasmasoundhd.pd.instruments.Parameter:
     public static final int CONTINUOUS
-    53:53:public float getMin()
-    57:57:public float getMax()
-    61:62:public void setEnabled(boolean)
-    65:65:public boolean isEnabled()
-    160:160:public float getLastValue()
-    164:164:public float getDefaultValue()
+    54:54:public float getMin()
+    58:58:public float getMax()
+    62:63:public void setEnabled(boolean)
+    66:66:public boolean isEnabled()
+    161:161:public float getLastValue()
 com.rj.processing.plasmasoundhd.pd.instruments.Preset
 com.rj.processing.plasmasoundhd.pd.instruments.Preset$1
 com.rj.processing.plasmasoundhd.pd.instruments.Preset$2
 com.rj.processing.plasmasoundhd.pd.instruments.Preset$3
 com.rj.processing.plasmasoundhd.pd.instruments.Preset$4
+com.rj.processing.plasmasoundhd.sequencer.Sequencer:
+    181:182:public void setTempo(float)
+    185:186:public void setMode(int)
 com.rj.processing.plasmasoundhd.visuals.Grid:
     private static final int NUM_DASHES
 com.rj.processing.plasmasoundhd.waveform.Waveform:
@@ -781,7 +790,6 @@ processing.core.PApplet:
     7852:7853:public void tint(float,float,float)
     7857:7858:public void tint(float,float,float,float)
     7862:7863:public void noFill()
-    7867:7868:public void fill(int)
     7877:7878:public void fill(float)
     7882:7883:public void fill(float,float)
     7887:7888:public void fill(float,float,float)
