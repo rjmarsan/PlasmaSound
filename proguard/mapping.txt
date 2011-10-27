@@ -164,10 +164,10 @@ com.rj.processing.plasmasound.PlasmaSound -> com.rj.processing.plasmasound.Plasm
     java.lang.Runnable readyrunnable -> s
     android.view.View loadingview -> o
     android.os.AsyncTask asyncSetup -> t
-    int sketchWidth() -> k
-    int sketchHeight() -> l
-    java.lang.String sketchRenderer() -> m
-    boolean keepTitlebar() -> i
+    int sketchWidth() -> l
+    int sketchHeight() -> m
+    java.lang.String sketchRenderer() -> d
+    boolean keepTitlebar() -> j
     void onCreate(android.os.Bundle) -> onCreate
     void setup() -> b
     boolean surfaceTouchEvent(android.view.MotionEvent) -> a
@@ -182,10 +182,10 @@ com.rj.processing.plasmasound.PlasmaSound -> com.rj.processing.plasmasound.Plasm
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onMenuItemSelected(int,android.view.MenuItem) -> onMenuItemSelected
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    void readSettings() -> d
-    com.rj.processing.plasmasoundhd.pd.instruments.Instrument getInst() -> g
-    com.rj.processing.mt.MTManager getMTManager() -> f
-    com.rj.processing.plasmasoundhd.pd.PDManager getPD() -> h
+    void readSettings() -> e
+    com.rj.processing.plasmasoundhd.pd.instruments.Instrument getInst() -> h
+    com.rj.processing.mt.MTManager getMTManager() -> g
+    com.rj.processing.plasmasoundhd.pd.PDManager getPD() -> i
 com.rj.processing.plasmasound.PlasmaSound$1 -> com.rj.processing.plasmasound.a:
     com.rj.processing.plasmasound.PlasmaSound this$0 -> a
     void run() -> run
@@ -224,12 +224,12 @@ com.rj.processing.plasmasoundhd.PDActivity -> com.rj.processing.plasmasoundhd.PD
     android.view.View loadingview -> p
     android.view.View preferenceview -> t
     android.os.AsyncTask asyncSetup -> u
-    int sketchWidth() -> k
-    int sketchHeight() -> l
-    java.lang.String sketchRenderer() -> m
-    boolean keepTitlebar() -> i
-    boolean loadPresets() -> d
-    int getMenu() -> e
+    int sketchWidth() -> l
+    int sketchHeight() -> m
+    java.lang.String sketchRenderer() -> d
+    boolean keepTitlebar() -> j
+    boolean loadPresets() -> e
+    int getMenu() -> f
     void onCreate(android.os.Bundle) -> onCreate
     void setup() -> b
     boolean surfaceTouchEvent(android.view.MotionEvent) -> a
@@ -240,21 +240,21 @@ com.rj.processing.plasmasoundhd.PDActivity -> com.rj.processing.plasmasoundhd.PD
     void draw() -> c
     void onResume() -> onResume
     void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    void plzBeLandscape() -> C
+    void plzBeLandscape() -> B
     void onPause() -> onPause
     void onDestroy() -> onDestroy
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onMenuItemSelected(int,android.view.MenuItem) -> onMenuItemSelected
-    void hideBoth() -> D
+    void hideBoth() -> C
     void onBackPressed() -> onBackPressed
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    void readSettings() -> B
+    void readSettings() -> A
     void onStop() -> onStop
     void onStart() -> onStart
     void presetChanged$41803e97() -> a
-    com.rj.processing.plasmasoundhd.pd.instruments.Instrument getInst() -> g
-    com.rj.processing.mt.MTManager getMTManager() -> f
-    com.rj.processing.plasmasoundhd.pd.PDManager getPD() -> h
+    com.rj.processing.plasmasoundhd.pd.instruments.Instrument getInst() -> h
+    com.rj.processing.mt.MTManager getMTManager() -> g
+    com.rj.processing.plasmasoundhd.pd.PDManager getPD() -> i
 com.rj.processing.plasmasoundhd.PDActivity$1 -> com.rj.processing.plasmasoundhd.a:
     com.rj.processing.plasmasoundhd.PDActivity this$0 -> a
     void run() -> run
@@ -272,9 +272,9 @@ com.rj.processing.plasmasoundhd.PDActivity$4 -> com.rj.processing.plasmasoundhd.
     com.rj.processing.plasmasoundhd.PDActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
 com.rj.processing.plasmasoundhd.PlasmaActivity -> com.rj.processing.plasmasoundhd.e:
-    com.rj.processing.mt.MTManager getMTManager() -> f
-    com.rj.processing.plasmasoundhd.pd.instruments.Instrument getInst() -> g
-    com.rj.processing.plasmasoundhd.pd.PDManager getPD() -> h
+    com.rj.processing.mt.MTManager getMTManager() -> g
+    com.rj.processing.plasmasoundhd.pd.instruments.Instrument getInst() -> h
+    com.rj.processing.plasmasoundhd.pd.PDManager getPD() -> i
 com.rj.processing.plasmasoundhd.PlasmaSound -> com.rj.processing.plasmasoundhd.PlasmaSound:
     com.rj.processing.plasmasoundhd.Visualization vis -> q
     void setup() -> b
@@ -309,14 +309,15 @@ com.rj.processing.plasmasoundhd.PlasmaThereminSequencerSettings -> com.rj.proces
     void presetChanged$41803e97() -> a
 com.rj.processing.plasmasoundhd.SequencerActivity -> com.rj.processing.plasmasoundhd.SequencerActivity:
     com.rj.processing.plasmasoundhd.sequencer.Sequencer sequencer -> q
-    boolean loadPresets() -> d
-    int getMenu() -> e
+    java.lang.String sketchRenderer() -> d
+    boolean loadPresets() -> e
+    int getMenu() -> f
     void setup() -> b
     void onPause() -> onPause
     void onStart() -> onStart
     void onResume() -> onResume
     void presetChanged$41803e97() -> a
-    void updateSequencer() -> C
+    void updateSequencer() -> B
     void touchAllUp$5bb818bf() -> a_
     void touchDown(com.rj.processing.mt.Cursor) -> a
     void touchMoved(com.rj.processing.mt.Cursor) -> c
@@ -333,10 +334,10 @@ com.rj.processing.plasmasoundhd.WaveformEditor -> com.rj.processing.plasmasoundh
     com.rj.processing.plasmasoundhd.waveform.Waveform waveform -> l
     com.rj.processing.plasmasoundhd.waveform.Waveform originalWave -> m
     boolean redraw -> n
-    int sketchWidth() -> k
-    int sketchHeight() -> l
-    java.lang.String sketchRenderer() -> m
-    boolean keepTitlebar() -> i
+    int sketchWidth() -> l
+    int sketchHeight() -> m
+    java.lang.String sketchRenderer() -> d
+    boolean keepTitlebar() -> j
     void onCreate(android.os.Bundle) -> onCreate
     void setup() -> b
     boolean surfaceTouchEvent(android.view.MotionEvent) -> a
@@ -352,10 +353,18 @@ com.rj.processing.plasmasoundhd.WaveformEditor -> com.rj.processing.plasmasoundh
     void onDestroy() -> onDestroy
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onMenuItemSelected(int,android.view.MenuItem) -> onMenuItemSelected
-com.rj.processing.plasmasoundhd.pd.PDManager -> com.rj.processing.plasmasoundhd.a.a:
+com.rj.processing.plasmasoundhd.pd.AudioStatListener -> com.rj.processing.plasmasoundhd.pd.AudioStatListener:
+    float audiolevel -> a
+    void print(java.lang.String) -> print
+    void receiveBang(java.lang.String) -> receiveBang
+    void receiveFloat(java.lang.String,float) -> receiveFloat
+    void receiveList(java.lang.String,java.lang.Object[]) -> receiveList
+    void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[]) -> receiveMessage
+    void receiveSymbol(java.lang.String,java.lang.String) -> receiveSymbol
+com.rj.processing.plasmasoundhd.pd.PDManager -> com.rj.processing.plasmasoundhd.pd.PDManager:
     processing.core.PApplet p -> a
     android.widget.Toast toast -> b
-    com.rj.processing.plasmasoundhd.pd.PDManager$AudioStatListener reciever -> c
+    com.rj.processing.plasmasoundhd.pd.AudioStatListener reciever -> c
     void toast(java.lang.String) -> b
     void onResume(java.lang.Runnable) -> a
     void onResume() -> a
@@ -364,24 +373,21 @@ com.rj.processing.plasmasoundhd.pd.PDManager -> com.rj.processing.plasmasoundhd.
     float getVolumeLevel() -> b
     android.widget.Toast access$0(com.rj.processing.plasmasoundhd.pd.PDManager) -> a
     void access$1(com.rj.processing.plasmasoundhd.pd.PDManager,android.widget.Toast) -> a
-com.rj.processing.plasmasoundhd.pd.PDManager$1 -> com.rj.processing.plasmasoundhd.a.d:
+com.rj.processing.plasmasoundhd.pd.PDManager$1 -> com.rj.processing.plasmasoundhd.pd.b:
     com.rj.processing.plasmasoundhd.pd.PDManager this$0 -> a
     java.lang.String val$msg -> b
     void run() -> run
-com.rj.processing.plasmasoundhd.pd.PDManager$2 -> com.rj.processing.plasmasoundhd.a.c:
+com.rj.processing.plasmasoundhd.pd.PDManager$2 -> com.rj.processing.plasmasoundhd.pd.a:
     com.rj.processing.plasmasoundhd.pd.PDManager this$0 -> a
     java.lang.Runnable val$callback -> b
     void run() -> run
-com.rj.processing.plasmasoundhd.pd.PDManager$AudioStatListener -> com.rj.processing.plasmasoundhd.a.b:
-    float audiolevel -> a
-    com.rj.processing.plasmasoundhd.pd.PDManager this$0 -> b
-com.rj.processing.plasmasoundhd.pd.effects.ASDR -> com.rj.processing.plasmasoundhd.a.b.c:
+com.rj.processing.plasmasoundhd.pd.effects.ASDR -> com.rj.processing.plasmasoundhd.pd.b.c:
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter attack -> a
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter sustain -> b
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter decay -> c
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter release -> d
-com.rj.processing.plasmasoundhd.pd.effects.Delay -> com.rj.processing.plasmasoundhd.a.b.i:
-com.rj.processing.plasmasoundhd.pd.effects.Effect -> com.rj.processing.plasmasoundhd.a.b.d:
+com.rj.processing.plasmasoundhd.pd.effects.Delay -> com.rj.processing.plasmasoundhd.pd.b.i:
+com.rj.processing.plasmasoundhd.pd.effects.Effect -> com.rj.processing.plasmasoundhd.pd.b.d:
     java.util.HashMap params -> f
     boolean yenabled -> g
     java.lang.String[] yenabledlist -> h
@@ -393,18 +399,18 @@ com.rj.processing.plasmasoundhd.pd.effects.Effect -> com.rj.processing.plasmasou
     void updateSettingsFromJSON$542c4c5a(org.json.JSONObject,android.content.SharedPreferences$Editor) -> a
     void saveJSONParameterToPrefs(org.json.JSONObject,android.content.SharedPreferences$Editor,com.rj.processing.plasmasoundhd.pd.instruments.Parameter) -> a
     org.json.JSONObject saveSettingsToJSON(org.json.JSONObject) -> a
-com.rj.processing.plasmasoundhd.pd.effects.Filter -> com.rj.processing.plasmasoundhd.a.b.g:
-com.rj.processing.plasmasoundhd.pd.effects.Reverb -> com.rj.processing.plasmasoundhd.a.b.f:
-com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff -> com.rj.processing.plasmasoundhd.a.b.a:
+com.rj.processing.plasmasoundhd.pd.effects.Filter -> com.rj.processing.plasmasoundhd.pd.b.g:
+com.rj.processing.plasmasoundhd.pd.effects.Reverb -> com.rj.processing.plasmasoundhd.pd.b.f:
+com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff -> com.rj.processing.plasmasoundhd.pd.b.a:
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter lownote -> a
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter steps -> b
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter bpm -> c
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter notes -> d
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter scale -> e
     void saveJSONParameterToPrefs(org.json.JSONObject,android.content.SharedPreferences$Editor,com.rj.processing.plasmasoundhd.pd.instruments.Parameter) -> a
-com.rj.processing.plasmasoundhd.pd.effects.Tremolo -> com.rj.processing.plasmasoundhd.a.b.b:
-com.rj.processing.plasmasoundhd.pd.effects.Vibrato -> com.rj.processing.plasmasoundhd.a.b.e:
-com.rj.processing.plasmasoundhd.pd.effects.Volume -> com.rj.processing.plasmasoundhd.a.b.h:
+com.rj.processing.plasmasoundhd.pd.effects.Tremolo -> com.rj.processing.plasmasoundhd.pd.b.b:
+com.rj.processing.plasmasoundhd.pd.effects.Vibrato -> com.rj.processing.plasmasoundhd.pd.b.e:
+com.rj.processing.plasmasoundhd.pd.effects.Volume -> com.rj.processing.plasmasoundhd.pd.b.h:
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter amp -> a
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter ampglobal -> b
     com.rj.processing.plasmasoundhd.pd.instruments.Parameter on -> c
@@ -412,7 +418,7 @@ com.rj.processing.plasmasoundhd.pd.effects.Volume -> com.rj.processing.plasmasou
     void setVolume$133aeb() -> a
     void touchDown(android.view.MotionEvent,int,float,float,com.rj.processing.mt.Cursor) -> b
     void touchUp(android.view.MotionEvent,int,float,float,com.rj.processing.mt.Cursor) -> a
-com.rj.processing.plasmasoundhd.pd.instruments.Instrument -> com.rj.processing.plasmasoundhd.a.a.g:
+com.rj.processing.plasmasoundhd.pd.instruments.Instrument -> com.rj.processing.plasmasoundhd.pd.a.g:
     com.rj.processing.plasmasoundhd.pd.PDManager p -> i
     int MAX_INDEX -> a
     java.util.ArrayList effects -> j
@@ -442,7 +448,7 @@ com.rj.processing.plasmasoundhd.pd.instruments.Instrument -> com.rj.processing.p
     void updateSettings(android.content.SharedPreferences) -> a
     void updateSettingsFromJSON$1821cc79(org.json.JSONObject,android.content.SharedPreferences) -> a
     org.json.JSONObject saveSettingsToJSON(org.json.JSONObject) -> a
-com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets -> com.rj.processing.plasmasoundhd.a.a.f:
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets -> com.rj.processing.plasmasoundhd.pd.a.f:
     java.lang.String PRESETS -> a
     java.lang.String JSON_FILENAME -> b
     com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets singleton -> c
@@ -466,48 +472,48 @@ com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets -> com.rj.processing.
     org.json.JSONObject getDefaultPreset(android.content.Context) -> b
     org.json.JSONObject getPresetFromName(java.lang.String,android.content.Context) -> a
     java.lang.String[] getPresetNames(android.content.Context) -> c
-com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$1 -> com.rj.processing.plasmasoundhd.a.a.c:
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$1 -> com.rj.processing.plasmasoundhd.pd.a.c:
     com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets this$0 -> a
     android.content.Context val$c -> b
     com.rj.processing.plasmasoundhd.PlasmaActivity val$p -> c
     java.lang.String[] val$items -> d
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$2 -> com.rj.processing.plasmasoundhd.a.a.d:
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$2 -> com.rj.processing.plasmasoundhd.pd.a.d:
     com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets this$0 -> a
     android.content.Context val$c -> b
     com.rj.processing.plasmasoundhd.PlasmaActivity val$p -> c
     java.lang.String[] val$items -> d
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$3 -> com.rj.processing.plasmasoundhd.a.a.k:
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$3 -> com.rj.processing.plasmasoundhd.pd.a.k:
     com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets this$0 -> a
     android.content.Context val$c -> b
     com.rj.processing.plasmasoundhd.PlasmaActivity val$p -> c
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$4 -> com.rj.processing.plasmasoundhd.a.a.i:
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$4 -> com.rj.processing.plasmasoundhd.pd.a.i:
     com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets this$0 -> a
     android.content.Context val$c -> b
     com.rj.processing.plasmasoundhd.PlasmaActivity val$p -> c
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$5 -> com.rj.processing.plasmasoundhd.a.a.j:
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$5 -> com.rj.processing.plasmasoundhd.pd.a.j:
     com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets this$0 -> a
     android.content.Context val$c -> b
     com.rj.processing.plasmasoundhd.PlasmaActivity val$p -> c
     java.lang.String[] val$items -> d
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$6 -> com.rj.processing.plasmasoundhd.a.a.a:
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$6 -> com.rj.processing.plasmasoundhd.pd.a.a:
     com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets this$0 -> a
     android.widget.EditText val$text -> b
     android.content.Context val$c -> c
     com.rj.processing.plasmasoundhd.PlasmaActivity val$p -> d
     void onClick(android.content.DialogInterface,int) -> onClick
-com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$PresetListener -> com.rj.processing.plasmasoundhd.a.a.e:
+com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets$PresetListener -> com.rj.processing.plasmasoundhd.pd.a.e:
     void presetChanged$41803e97() -> a
-com.rj.processing.plasmasoundhd.pd.instruments.NonPDParameter -> com.rj.processing.plasmasoundhd.a.a.h:
+com.rj.processing.plasmasoundhd.pd.instruments.NonPDParameter -> com.rj.processing.plasmasoundhd.pd.a.h:
     void pushNormalValue(float) -> c
     void pushNormalValue(float,int) -> a
     float getDefaultValue() -> b
     float getDefaultValueNaive() -> c
-com.rj.processing.plasmasoundhd.pd.instruments.Parameter -> com.rj.processing.plasmasoundhd.a.a.b:
+com.rj.processing.plasmasoundhd.pd.instruments.Parameter -> com.rj.processing.plasmasoundhd.pd.a.b:
     boolean DEBUGGG -> a
     java.lang.String name -> b
     boolean enabled -> e
@@ -531,7 +537,7 @@ com.rj.processing.plasmasoundhd.pd.instruments.Parameter -> com.rj.processing.pl
     void pushDefaultNaive(int) -> a
     float getDefaultValue() -> b
     float getDefaultValueNaive() -> c
-com.rj.processing.plasmasoundhd.sequencer.Sequencer -> com.rj.processing.plasmasoundhd.d.b:
+com.rj.processing.plasmasoundhd.sequencer.Sequencer -> com.rj.processing.plasmasoundhd.c.b:
     int MAJOR -> a
     int MINOR -> b
     int PENTATONIC -> c
@@ -552,17 +558,17 @@ com.rj.processing.plasmasoundhd.sequencer.Sequencer -> com.rj.processing.plasmas
     void setFromSettings(com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff) -> a
     void start() -> a
     void stop() -> b
-com.rj.processing.plasmasoundhd.sequencer.Sequencer$SequenceThread -> com.rj.processing.plasmasoundhd.d.a:
+com.rj.processing.plasmasoundhd.sequencer.Sequencer$SequenceThread -> com.rj.processing.plasmasoundhd.c.a:
     boolean sequenceKeepRunning -> a
     com.rj.processing.plasmasoundhd.sequencer.Sequencer this$0 -> b
     void run() -> run
     float getNote(int) -> a
-com.rj.processing.plasmasoundhd.visuals.AudioStats -> com.rj.processing.plasmasoundhd.b.d:
+com.rj.processing.plasmasoundhd.visuals.AudioStats -> com.rj.processing.plasmasoundhd.a.d:
     com.rj.processing.plasmasoundhd.PlasmaActivity pa -> d
     processing.core.PFont font -> e
     void drawVis() -> a
     void touchEvent$6348cc67(float,float,float,float) -> a
-com.rj.processing.plasmasoundhd.visuals.Grid -> com.rj.processing.plasmasoundhd.b.a:
+com.rj.processing.plasmasoundhd.visuals.Grid -> com.rj.processing.plasmasoundhd.a.a:
     float crosshair_size -> d
     com.rj.processing.plasmasoundhd.PlasmaActivity pp -> e
     processing.core.PGraphics cache -> f
@@ -571,19 +577,19 @@ com.rj.processing.plasmasoundhd.visuals.Grid -> com.rj.processing.plasmasoundhd.
     float midiMin -> i
     void drawVis() -> a
     void touchEvent$6348cc67(float,float,float,float) -> a
-com.rj.processing.plasmasoundhd.visuals.PlasmaFluid -> com.rj.processing.plasmasoundhd.b.c:
+com.rj.processing.plasmasoundhd.visuals.PlasmaFluid -> com.rj.processing.plasmasoundhd.a.c:
     float FLUID_WIDTH -> d
     msafluid.MSAFluidSolver2D fluidSolver -> e
     processing.core.PImage imgFluid -> f
     void drawVis() -> a
     void touchEvent$6348cc67(float,float,float,float) -> a
-com.rj.processing.plasmasoundhd.visuals.Visual -> com.rj.processing.plasmasoundhd.b.b:
+com.rj.processing.plasmasoundhd.visuals.Visual -> com.rj.processing.plasmasoundhd.a.b:
     processing.core.PApplet p -> a
     float width -> b
     float height -> c
     void drawVis() -> a
     void touchEvent$6348cc67(float,float,float,float) -> a
-com.rj.processing.plasmasoundhd.waveform.Waveform -> com.rj.processing.plasmasoundhd.c.a:
+com.rj.processing.plasmasoundhd.waveform.Waveform -> com.rj.processing.plasmasoundhd.b.a:
     float[] points -> a
 msafluid.MSAFluidSolver2D -> a.a:
     float[] r -> a
@@ -728,6 +734,7 @@ org.puredata.android.service.PdService$PdBinder -> org.puredata.android.service.
 org.puredata.android.utils.Properties -> org.puredata.android.b.a:
     int version -> a
     boolean hasArmeabiV7a -> b
+org.puredata.core.AudioStatListener -> org.puredata.core.AudioStatListener:
 org.puredata.core.PdBase -> org.puredata.core.PdBase:
     java.util.Map bindings -> a
     java.util.Map patches -> b
@@ -737,8 +744,9 @@ org.puredata.core.PdBase -> org.puredata.core.PdBase:
     int openAudio(int,int,int,int) -> openAudio
     int process(short[],short[]) -> process
     int subscribe(java.lang.String) -> a
+    void unsubscribe(java.lang.String) -> b
     int openPatch(java.io.File) -> a
-    int openPatch(java.lang.String) -> b
+    int openPatch(java.lang.String) -> c
     int sendFloat(java.lang.String,float) -> sendFloat
     int sendMessage(java.lang.String,java.lang.String,java.lang.Object[]) -> a
     int blockSize() -> blockSize
@@ -753,10 +761,35 @@ org.puredata.core.PdBase -> org.puredata.core.PdBase:
     long openFile(java.lang.String,java.lang.String) -> openFile
     void closeFile(long) -> closeFile
     int getDollarZero(long) -> getDollarZero
-org.puredata.core.PdMidiReceiver -> org.puredata.core.a:
-org.puredata.core.PdReceiver -> org.puredata.core.b:
-org.puredata.core.utils.IoUtils -> org.puredata.core.a.a:
+org.puredata.core.PdMidiReceiver -> org.puredata.core.PdMidiReceiver:
+org.puredata.core.PdReceiver -> org.puredata.core.PdReceiver:
+    void print(java.lang.String) -> print
+    void receiveBang(java.lang.String) -> receiveBang
+    void receiveFloat(java.lang.String,float) -> receiveFloat
+    void receiveSymbol(java.lang.String,java.lang.String) -> receiveSymbol
+    void receiveList(java.lang.String,java.lang.Object[]) -> receiveList
+    void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[]) -> receiveMessage
+org.puredata.core.PdReceiver$Adapter -> org.puredata.core.PdReceiver$Adapter:
+    void print(java.lang.String) -> print
+    void receiveBang(java.lang.String) -> receiveBang
+    void receiveFloat(java.lang.String,float) -> receiveFloat
+    void receiveList(java.lang.String,java.lang.Object[]) -> receiveList
+    void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[]) -> receiveMessage
+    void receiveSymbol(java.lang.String,java.lang.String) -> receiveSymbol
+org.puredata.core.utils.IoUtils -> org.puredata.core.utils.IoUtils:
     java.util.List extractZipResource$77f93228(java.io.InputStream,java.io.File) -> a
+org.puredata.core.utils.PdDispatcher -> org.puredata.core.utils.PdDispatcher:
+    java.util.Map listeners -> a
+    void release() -> a
+    void finalize() -> finalize
+    void print(java.lang.String) -> print
+    void receiveBang(java.lang.String) -> receiveBang
+    void receiveFloat(java.lang.String,float) -> receiveFloat
+    void receiveSymbol(java.lang.String,java.lang.String) -> receiveSymbol
+    void receiveList(java.lang.String,java.lang.Object[]) -> receiveList
+    void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[]) -> receiveMessage
+org.puredata.core.utils.PdListener -> org.puredata.core.utils.PdListener:
+org.puredata.core.utils.PdListener$Adapter -> org.puredata.core.utils.PdListener$Adapter:
 processing.core.PApplet -> processing.core.PApplet:
     processing.core.PGraphics g -> a
     int screenWidth -> b
@@ -806,93 +839,101 @@ processing.core.PApplet -> processing.core.PApplet:
     boolean exitCalled -> T
     java.lang.Thread thread -> U
     boolean external -> V
-    java.lang.Object motionLock -> W
-    processing.core.PApplet$PMotionEvent[] motionEventQueue -> X
-    int motionEventCount -> Y
-    android.view.KeyEvent[] keyEventQueue -> Z
-    int keyEventCount -> aa
-    android.text.format.Time time -> ab
-    int perlin_octaves -> ac
-    float perlin_amp_falloff -> ad
-    int requestImageMax -> ae
-    byte[] ICON_IMAGE -> af
-    boolean keepTitlebar() -> i
+    processing.core.PApplet$RegisteredMethods sizeMethods -> W
+    processing.core.PApplet$RegisteredMethods preMethods -> X
+    processing.core.PApplet$RegisteredMethods drawMethods -> Y
+    processing.core.PApplet$RegisteredMethods postMethods -> Z
+    processing.core.PApplet$RegisteredMethods mouseEventMethods -> aa
+    processing.core.PApplet$RegisteredMethods keyEventMethods -> ab
+    processing.core.PApplet$RegisteredMethods disposeMethods -> ac
+    java.lang.Object motionLock -> ad
+    processing.core.PApplet$PMotionEvent[] motionEventQueue -> ae
+    int motionEventCount -> af
+    android.view.KeyEvent[] keyEventQueue -> ag
+    int keyEventCount -> ah
+    android.text.format.Time time -> ai
+    int perlin_octaves -> aj
+    float perlin_amp_falloff -> ak
+    int requestImageMax -> al
+    byte[] ICON_IMAGE -> am
+    boolean keepTitlebar() -> j
     void onCreate(android.os.Bundle) -> onCreate
     void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
     void onResume() -> onResume
     void onPause() -> onPause
     void onDestroy() -> onDestroy
-    android.view.SurfaceHolder getSurfaceHolder() -> j
+    android.view.SurfaceHolder getSurfaceHolder() -> k
     void surfaceWindowFocusChanged(boolean) -> a
     boolean surfaceTouchEvent(android.view.MotionEvent) -> a
     boolean surfaceKeyDown(int,android.view.KeyEvent) -> a
     boolean surfaceKeyUp(int,android.view.KeyEvent) -> b
-    int sketchWidth() -> k
-    int sketchHeight() -> l
-    java.lang.String sketchRenderer() -> m
+    int sketchWidth() -> l
+    int sketchHeight() -> m
+    java.lang.String sketchRenderer() -> d
     java.lang.String sketchColordepth() -> n
     void setup() -> b
     void draw() -> c
     processing.core.PGraphics createGraphics(int,int,java.lang.String) -> a
     processing.core.PImage createImage$3667cdc8(int,int) -> a
-    processing.core.PImage createImage$37df77b1(int,int,int) -> a
+    processing.core.PImage createImage$55d7fda4(int,int,java.lang.Object) -> a
     void run() -> run
     void handleDraw() -> o
     void dequeueMotionEvents() -> a
     void handleKeyEvent(android.view.KeyEvent) -> a
     void checkKeyEvent(android.view.KeyEvent) -> b
     void frameRate$133aeb() -> p
+    void dispose() -> e
     void println(java.lang.String) -> a
+    float abs(float) -> a
     int abs(int) -> a
-    float sqrt(float) -> a
+    float sqrt(float) -> b
     int max(int,int) -> b
+    int max(int,int,int) -> a
     int min(int,int) -> c
-    int floor(float) -> b
-    int round(float) -> c
-    float dist$7b59a85b$483d241b() -> q
-    processing.core.PFont loadFont(java.lang.String) -> b
-    processing.core.PFont createDefaultFont(float) -> d
-    java.io.InputStream createInput(java.lang.String) -> e
-    java.io.InputStream createInputRaw(java.lang.String) -> f
-    java.lang.String sketchPath(java.lang.String) -> g
+    int min(int,int,int) -> b
+    int floor(float) -> c
+    int round(float) -> d
+    processing.core.PFont createDefaultFont(float) -> e
+    processing.core.PFont createFont$40319127(java.lang.String) -> b
+    processing.core.PFont createFont$76a4badf(java.lang.String,float) -> a
     void arrayCopy(java.lang.Object,int,java.lang.Object,int,int) -> a
     void arrayCopy(java.lang.Object,java.lang.Object,int) -> a
     void arrayCopy(java.lang.Object,java.lang.Object) -> a
     int[] expand(int[]) -> a
     java.lang.Object expand(java.lang.Object) -> a
     int parseInt(java.lang.String) -> c
-    int parseInt$505cff29(java.lang.String) -> h
+    int parseInt$505cff29(java.lang.String) -> e
     int color(float,float,float) -> a
-    void tellPDE(java.lang.String) -> i
+    void tellPDE(java.lang.String) -> f
     void onStart() -> onStart
     void onStop() -> onStop
     void hint(int) -> b
     void line(float,float,float,float) -> a
     void rectMode(int) -> c
     void rect(float,float,float,float) -> b
-    void ellipseMode$13462e() -> r
+    void ellipseMode$13462e() -> q
     void image$30ffae25(processing.core.PImage) -> a
     void image$10264f1b(processing.core.PImage,float,float) -> a
-    void textAlign$255f295() -> s
+    void textAlign$255f295() -> r
     void textFont(processing.core.PFont) -> a
-    void textMode$13462e() -> t
+    void textMode$13462e() -> s
     void text$44bc263f(java.lang.String) -> d
-    void pushStyle() -> u
-    void popStyle() -> v
-    void noStroke() -> w
+    void pushStyle() -> t
+    void popStyle() -> u
+    void noStroke() -> v
     void stroke(int) -> d
     void stroke(int,float) -> a
     void stroke(float,float,float,float) -> c
-    void fill$13462e() -> x
+    void fill$13462e() -> w
     void fill(int,float) -> b
     void fill(float,float,float,float) -> d
-    void background$13462e() -> y
-    void colorMode$255e752() -> z
-    void colorMode$3b79ad2e() -> A
+    void background$13462e() -> x
+    void colorMode$255e752() -> y
+    void colorMode$3b79ad2e() -> z
     float red(int) -> e
     float green(int) -> f
     float blue(int) -> g
-processing.core.PApplet$PMotionEvent -> processing.core.d:
+processing.core.PApplet$PMotionEvent -> processing.core.e:
     int action -> a
     float motionX -> b
     float motionY -> c
@@ -900,8 +941,13 @@ processing.core.PApplet$PMotionEvent -> processing.core.d:
     int mouseX -> e
     int mouseY -> f
     processing.core.PApplet this$0 -> g
-processing.core.PApplet$RendererChangeException -> processing.core.e:
-processing.core.PApplet$SketchSurfaceView -> processing.core.f:
+processing.core.PApplet$RegisteredMethods -> processing.core.c:
+    int count -> a
+    java.lang.Object[] objects -> b
+    java.lang.reflect.Method[] methods -> c
+    processing.core.PApplet this$0 -> d
+processing.core.PApplet$RendererChangeException -> processing.core.f:
+processing.core.PApplet$SketchSurfaceView -> processing.core.g:
     processing.core.PGraphics getGraphics() -> a
 processing.core.PApplet$SketchSurfaceView2D -> processing.core.PApplet$SketchSurfaceView2D:
     processing.core.PGraphicsAndroid2D g2 -> a
@@ -928,35 +974,27 @@ processing.core.PApplet$SketchSurfaceView3D -> processing.core.PApplet$SketchSur
     boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
     boolean onKeyUp(int,android.view.KeyEvent) -> onKeyUp
 processing.core.PFont -> processing.core.b:
-    int glyphCount -> o
-    processing.core.PFont$Glyph[] glyphs -> p
-    java.lang.String name -> q
-    java.lang.String psname -> r
+    int glyphCount -> i
+    processing.core.PFont$Glyph[] glyphs -> j
+    java.lang.String name -> k
+    java.lang.String psname -> l
     int size -> a
     boolean smooth -> b
     int ascent -> c
     int descent -> d
-    int[] ascii -> s
-    boolean lazy -> t
-    android.graphics.Typeface typeface -> u
-    boolean subsetting -> v
+    int[] ascii -> m
+    boolean lazy -> n
+    android.graphics.Typeface typeface -> o
+    boolean subsetting -> p
     android.graphics.Bitmap lazyBitmap -> e
     android.graphics.Canvas lazyCanvas -> f
     android.graphics.Paint lazyPaint -> g
     int[] lazySamples -> h
-    processing.core.PApplet parent -> w
-    int maxTexWidth -> x
-    int maxTexHeight -> y
-    int offsetX -> i
-    int offsetY -> j
-    int lineHeight -> k
-    processing.core.PTexture[] textures -> l
-    int currentTex -> m
-    int lastTex -> n
-    char[] EXTRA_CHARS -> z
-    char[] CHARSET -> A
-    java.util.HashMap typefaceMap -> B
-    java.lang.String[] fontList -> C
+    java.util.HashMap cacheMap -> q
+    char[] EXTRA_CHARS -> r
+    char[] CHARSET -> s
+    java.util.HashMap typefaceMap -> t
+    java.lang.String[] fontList -> u
     android.graphics.Typeface getTypeface() -> a
     android.graphics.Typeface findTypeface(java.lang.String) -> a
     processing.core.PFont$Glyph getGlyph(char) -> a
@@ -965,66 +1003,83 @@ processing.core.PFont -> processing.core.b:
     float ascent() -> b
     float descent() -> c
     float width(char) -> b
-    void initTexture(processing.core.PApplet,int,int) -> a
-    boolean addTexture() -> d
-    void setFirstTexture() -> e
-    void setTexture(int) -> a
-    void addAllGlyphsToTexture() -> f
-    void updateGlyphsTexCoords() -> g
-processing.core.PFont$Glyph -> processing.core.l:
+    void setCache(processing.core.PGraphics,java.lang.Object) -> a
+    java.lang.Object getCache(processing.core.PGraphics) -> a
+    int getGlyphCount() -> d
+    processing.core.PFont$Glyph getGlyph(int) -> a
+processing.core.PFont$Glyph -> processing.core.o:
     processing.core.PImage image -> a
-    processing.core.PFont$Glyph$TextureInfo texture -> b
-    int value -> c
-    int height -> d
-    int width -> e
+    int value -> b
+    int height -> c
+    int width -> d
+    int index -> e
     int setWidth -> f
     int topExtent -> g
     int leftExtent -> h
-    boolean fromStream -> j
-    processing.core.PFont this$0 -> i
-    void readBitmap(java.io.DataInputStream) -> a
-    void addToTexture() -> a
-processing.core.PFont$Glyph$TextureInfo -> processing.core.s:
-    int tex -> a
-    int[] crop -> b
-    float u0 -> c
-    float u1 -> d
-    float v0 -> e
-    float v1 -> f
-    processing.core.PFont$Glyph this$1 -> g
+    boolean fromStream -> i
+    processing.core.PFont this$0 -> j
+processing.core.PFontTexture -> processing.core.n:
+    processing.core.PApplet parent -> c
+    processing.core.PGraphicsAndroid3D a3d -> d
+    processing.core.PFont font -> e
+    int maxTexWidth -> f
+    int maxTexHeight -> g
+    int offsetX -> h
+    int offsetY -> i
+    int lineHeight -> j
+    processing.core.PTexture[] textures -> a
+    int currentTex -> b
+    int lastTex -> k
+    processing.core.PFontTexture$TextureInfo[] glyphTexinfos -> l
+    java.util.HashMap texinfoMap -> m
+    boolean addTexture() -> b
+    void setFirstTexture() -> a
+    void setTexture(int) -> a
+    void addAllGlyphsToTexture() -> c
+    processing.core.PFontTexture$TextureInfo getTexInfo(processing.core.PFont$Glyph) -> a
+    processing.core.PFontTexture$TextureInfo addToTexture(processing.core.PFont$Glyph) -> b
+    void addToTexture(int,processing.core.PFont$Glyph) -> a
+processing.core.PFontTexture$TextureInfo -> processing.core.i:
+    int texIndex -> a
+    int width -> f
+    int height -> g
+    int[] crop -> h
+    float u0 -> b
+    float u1 -> c
+    float v0 -> d
+    float v1 -> e
+    int[] pixels -> i
+    processing.core.PFontTexture this$0 -> j
     void updateUV() -> a
-processing.core.PFramebuffer -> processing.core.m:
+processing.core.PFramebuffer -> processing.core.p:
     processing.core.PApplet parent -> a
     processing.core.PGraphicsAndroid3D a3d -> b
-    javax.microedition.khronos.opengles.GL10 gl -> c
-    javax.microedition.khronos.opengles.GL11ExtensionPack gl11xp -> d
-    int glFboID -> e
-    int glDepthBufferID -> f
-    int glStencilBufferID -> g
-    int width -> h
-    int height -> i
+    int glFboID -> c
+    int glDepthBufferID -> d
+    int glStencilBufferID -> e
+    int width -> f
+    int height -> g
+    int depthBits -> h
+    int stencilBits -> i
     int numColorBuffers -> j
     int[] colorBufferAttchPoints -> k
-    int[] glColorBufferTargets -> l
-    int[] glColorBufferIDs -> m
-    boolean screenFb -> n
-    boolean noDepth -> o
-    boolean FboMode -> p
-    processing.core.PTexture backupTexture -> q
-    java.nio.IntBuffer pixelBuffer -> r
+    processing.core.PTexture[] colorBufferTex -> l
+    boolean screenFb -> m
+    boolean noDepth -> n
+    boolean fboMode -> o
+    processing.core.PTexture backupTexture -> p
+    java.nio.IntBuffer pixelBuffer -> q
     void delete() -> a
-    void setColorBuffer(processing.core.PTexture) -> a
-    void addDepthBuffer(int) -> a
-    void addStencilBuffer(int) -> b
     void bind() -> b
     void disableDepthTest() -> c
     void finish() -> d
     void readPixels() -> e
     void getPixels(int[]) -> a
+    void setColorBuffer(processing.core.PTexture) -> a
+    void release() -> f
+    void createPixelBuffer() -> g
     void copyToTexture(java.nio.IntBuffer,int,int) -> a
-    void allocatePixelBuffer() -> f
-    void deleteFramebuffer() -> g
-processing.core.PGraphics -> processing.core.i:
+processing.core.PGraphics -> processing.core.l:
     int width1 -> a
     int height1 -> b
     boolean smooth -> c
@@ -1067,20 +1122,20 @@ processing.core.PGraphics -> processing.core.i:
     float strokeG -> aA
     float strokeB -> aB
     float strokeA -> aC
-    int strokeRi -> aL
-    int strokeGi -> aM
-    int strokeBi -> aN
-    int strokeAi -> aO
+    int strokeRi -> aD
+    int strokeGi -> aE
+    int strokeBi -> aF
+    int strokeAi -> aG
     float strokeWeight -> u
     int strokeJoin -> v
     int strokeCap -> w
-    int rectMode -> aP
-    int ellipseMode -> aQ
-    int shapeMode -> aR
-    int imageMode -> aS
+    int rectMode -> aH
+    int ellipseMode -> aI
+    int shapeMode -> aJ
+    int imageMode -> aK
     processing.core.PFont textFont -> x
-    int textAlign -> aT
-    int textAlignY -> aU
+    int textAlign -> aL
+    int textAlignY -> aM
     int textMode -> y
     float textSize -> z
     float textLeading -> A
@@ -1094,59 +1149,59 @@ processing.core.PGraphics -> processing.core.i:
     float emissiveG -> I
     float emissiveB -> J
     float shininess -> K
-    processing.core.PStyle[] styleStack -> aV
-    int styleStackDepth -> aW
+    processing.core.PStyle[] styleStack -> aN
+    int styleStackDepth -> aO
     int backgroundColor -> L
-    boolean backgroundAlpha -> aX
+    boolean backgroundAlpha -> aP
     float backgroundR -> M
     float backgroundG -> N
     float backgroundB -> O
-    float backgroundA -> aY
-    int backgroundRi -> aZ
-    int backgroundGi -> ba
-    int backgroundBi -> bb
-    int backgroundAi -> bc
+    float backgroundA -> aQ
+    int backgroundRi -> aR
+    int backgroundGi -> aZ
+    int backgroundBi -> ba
+    int backgroundAi -> bb
     android.graphics.Bitmap bitmap -> P
     float calcR -> Q
     float calcG -> R
     float calcB -> S
     float calcA -> T
-    int calcRi -> bd
-    int calcGi -> be
-    int calcBi -> bf
-    int calcAi -> bg
-    int calcColor -> bh
-    boolean calcAlpha -> bi
-    float[] cacheHsbValue -> bj
+    int calcRi -> bc
+    int calcGi -> bd
+    int calcBi -> be
+    int calcAi -> bf
+    int calcColor -> bg
+    boolean calcAlpha -> bh
+    float[] cacheHsbValue -> bi
     int shape -> U
     float[][] vertices -> V
     int vertexCount -> W
-    boolean bezierInited -> bk
-    int bezierDetail -> bl
-    processing.core.PMatrix3D bezierBasisMatrix -> bm
-    boolean curveInited -> bn
-    int curveDetail -> bo
-    float curveTightness -> bp
+    boolean bezierInited -> bj
+    int bezierDetail -> bk
+    processing.core.PMatrix3D bezierBasisMatrix -> bl
+    boolean curveInited -> bm
+    int curveDetail -> bn
+    float curveTightness -> bo
     int curveVertexCount -> X
-    float[] sinLUT -> bq
-    float[] cosLUT -> br
+    float[] sinLUT -> bp
+    float[] cosLUT -> bq
     float textX -> Y
     float textY -> Z
     float textZ -> aa
-    char[] textBuffer -> bs
-    char[] textWidthBuffer -> bt
-    boolean edge -> bu
+    char[] textBuffer -> br
+    char[] textWidthBuffer -> bs
+    boolean edge -> bt
     boolean autoNormal -> ab
     float normalX -> ac
     float normalY -> ad
     float normalZ -> ae
-    int textureMode -> bv
+    int textureMode -> bu
     float textureU -> af
     float textureV -> ag
-    processing.core.PImage textureImage -> bw
-    int sphereDetailU -> bx
-    int sphereDetailV -> by
-    java.util.HashMap warnings -> bz
+    processing.core.PImage textureImage -> bv
+    int sphereDetailU -> bw
+    int sphereDetailV -> bx
+    java.util.HashMap warnings -> by
     void setParent(processing.core.PApplet) -> a
     void setPrimary(boolean) -> a
     void setSize(int,int) -> a
@@ -1162,7 +1217,8 @@ processing.core.PGraphics -> processing.core.i:
     void beginShape(int) -> a
     void textureMode$13462e() -> v
     void texture(processing.core.PImage) -> a
-    void vertexCheck() -> w
+    void noTexture() -> w
+    void vertexCheck() -> x
     void vertex(float,float) -> a
     void vertex(float,float,float,float) -> a
     void vertexTexture(float,float) -> b
@@ -1173,15 +1229,15 @@ processing.core.PGraphics -> processing.core.i:
     void rectMode(int) -> f
     void rect(float,float,float,float) -> d
     void rectImpl(float,float,float,float) -> c
-    void ellipseMode$13462e() -> x
+    void ellipseMode$13462e() -> y
     void smooth() -> g
     void noSmooth() -> h
     void image$30ffae25(processing.core.PImage) -> b
     void image$10264f1b(processing.core.PImage,float,float) -> a
     void imageImpl$4e22df25(processing.core.PImage,float,float,float,float,int,int) -> a
     void textAlign(int,int) -> c
-    float textAscent() -> y
-    float textDescent() -> z
+    float textAscent() -> z
+    float textDescent() -> A
     void textFont(processing.core.PFont) -> a
     void textFont(processing.core.PFont,float) -> a
     void textMode(int) -> g
@@ -1195,12 +1251,12 @@ processing.core.PGraphics -> processing.core.i:
     void pushMatrix() -> i
     void popMatrix() -> j
     void resetMatrix() -> k
-    void pushStyle() -> A
-    void popStyle() -> B
+    void pushStyle() -> B
+    void popStyle() -> C
     void strokeWeight(float) -> b
     void strokeJoin(int) -> d
     void strokeCap(int) -> c
-    void noStroke() -> C
+    void noStroke() -> D
     void stroke(int) -> h
     void stroke(int,float) -> a
     void stroke(float,float,float,float) -> e
@@ -1211,19 +1267,19 @@ processing.core.PGraphics -> processing.core.i:
     void fill(int,float) -> b
     void fill(float,float,float,float) -> f
     void fillFromCalc() -> n
-    void ambientFromCalc() -> D
-    void specularFromCalc() -> E
+    void ambientFromCalc() -> E
+    void specularFromCalc() -> F
     void shininess(float) -> c
-    void emissiveFromCalc() -> F
-    void noLights() -> G
-    void lightFalloff$483d242b() -> H
-    void lightSpecular$483d242b() -> I
+    void emissiveFromCalc() -> G
+    void noLights() -> H
+    void lightFalloff$483d242b() -> I
+    void lightSpecular$483d242b() -> J
     void background(int) -> j
     void backgroundImpl() -> o
     void colorMode$255e752(float) -> d
     void colorMode(int,float,float,float) -> a
     void colorMode(int,float,float,float,float) -> a
-    void colorCalc(int) -> q
+    void colorCalc(int) -> p
     void colorCalc(int,float) -> c
     void colorCalc(float,float) -> c
     void colorCalc(float,float,float) -> a
@@ -1236,13 +1292,10 @@ processing.core.PGraphics -> processing.core.i:
     void showWarning(java.lang.String) -> a
     void showMethodWarning(java.lang.String) -> b
     void showVariationWarning(java.lang.String) -> c
-    void showMissingWarning(java.lang.String) -> d
-    void defaultFontOrDeath(java.lang.String) -> e
+    void defaultFontOrDeath(java.lang.String) -> d
     void defaultFontOrDeath(java.lang.String,float) -> b
-    boolean is3D() -> J
-    void blend(int) -> n
-    void noBlend() -> K
-processing.core.PGraphicsAndroid2D -> processing.core.h:
+    void screenBlend(int) -> n
+processing.core.PGraphicsAndroid2D -> processing.core.j:
     android.graphics.Canvas canvas -> ah
     boolean breakShape -> ai
     float[] transform -> aj
@@ -1270,7 +1323,7 @@ processing.core.PGraphicsAndroid2D -> processing.core.h:
     void triangle(float,float,float,float,float,float) -> a
     void quad(float,float,float,float,float,float,float,float) -> a
     void rectImpl(float,float,float,float) -> c
-    void drawPath() -> M
+    void drawPath() -> L
     void smooth() -> g
     void noSmooth() -> h
     void imageImpl$4e22df25(processing.core.PImage,float,float,float,float,int,int) -> a
@@ -1294,166 +1347,193 @@ processing.core.PGraphicsAndroid2D -> processing.core.h:
     processing.core.PImage getImpl$37df77b1(int,int) -> b
     processing.core.PImage get() -> r
     void set(int,int,int) -> a
-processing.core.PGraphicsAndroid3D -> processing.core.q:
-    processing.core.PGraphicsAndroid3D$A3DRenderer renderer -> aL
+processing.core.PGraphicsAndroid3D -> processing.core.u:
     javax.microedition.khronos.opengles.GL10 gl -> ah
     javax.microedition.khronos.opengles.GL11 gl11 -> ai
     javax.microedition.khronos.opengles.GL11Ext gl11x -> aj
     javax.microedition.khronos.opengles.GL11ExtensionPack gl11xp -> ak
-    float cameraFOV -> aM
-    float cameraX -> aN
-    float cameraY -> aO
-    float cameraZ -> aP
-    float cameraNear -> aQ
-    float cameraFar -> aR
-    float cameraAspect -> aS
-    float[] glmodelview -> aT
-    float[] glmodelviewInv -> aU
-    float[] glprojection -> aV
-    float[] pcamera -> aW
-    float[] pcameraInv -> aX
-    processing.core.PMatrix3D modelview -> aY
-    processing.core.PMatrix3D modelviewInv -> aZ
-    processing.core.PMatrix3D projection -> ba
-    processing.core.PMatrix3D camera -> bb
-    processing.core.PMatrix3D cameraInv -> bc
-    boolean modelviewUpdated -> bd
-    boolean projectionUpdated -> be
-    boolean projectionMode -> bf
-    boolean matricesAllocated -> bg
-    boolean manipulatingCamera -> bh
-    boolean scalingDuringCamManip -> bi
-    boolean lights -> bj
-    int lightCount -> bk
-    int[] lightType -> bl
-    float[][] lightPosition -> bm
-    float[][] lightNormal -> bn
-    float[] lightFalloffConstant -> bo
-    float[] lightFalloffLinear -> bp
-    float[] lightFalloffQuadratic -> bq
-    float[] lightSpotAngle -> br
-    float[] lightSpotAngleCos -> bs
-    float[] lightSpotConcentration -> bt
-    float[][] lightDiffuse -> bu
-    float[][] lightSpecular -> bv
-    float[] currentLightSpecular -> bw
-    float currentLightFalloffConstant -> bx
-    float currentLightFalloffLinear -> by
-    float currentLightFalloffQuadratic -> bz
-    float[] zeroLight -> bA
-    float[] baseLight -> bB
-    boolean lightsAllocated -> bC
-    int numMultitextures -> bD
-    int numTexBuffers -> bE
-    int multitexureBlendMode -> bF
-    processing.core.PTexture[] renderTextures -> bG
-    processing.core.PImage[] multitextureImages -> bH
-    processing.core.PImage[] multitextureImages0 -> bI
-    float[] multitextureU -> bJ
-    float[] multitextureV -> bK
-    float[][] vertexU -> bL
-    float[][] vertexV -> bM
-    processing.core.PImage[][] vertexTex -> bN
-    float[] renderUa -> bO
-    float[] renderVa -> bP
-    float[] renderUb -> bQ
-    float[] renderVb -> bR
-    float[] renderUc -> bS
-    float[] renderVc -> bT
-    int[][] points -> bU
-    int lineCount -> bV
-    int[][] lines -> bW
-    int triangleCount -> bX
-    int[][] triangles -> bY
-    java.nio.IntBuffer vertexBuffer -> bZ
-    java.nio.IntBuffer colorBuffer -> ca
-    java.nio.IntBuffer normalBuffer -> cb
-    java.nio.IntBuffer[] texCoordBuffer -> cc
-    int[] vertexArray -> cd
-    int[] colorArray -> ce
-    int[] normalArray -> cf
-    int[][] texCoordArray -> cg
-    java.nio.IntBuffer getsetBuffer -> ch
-    processing.core.PTexture getsetTexture -> ci
-    boolean buffersAllocated -> cj
-    java.nio.IntBuffer textVertexBuffer -> ck
-    java.nio.IntBuffer textTexCoordBuffer -> cl
-    int[] textVertexArray -> cm
-    int[] textTexCoordArray -> cn
-    int textVertexCount -> co
-    int shapeFirst -> cp
-    int shapeLast -> cq
-    int[] vertexOrder -> cr
-    int pathCount -> cs
-    int[] pathOffset -> ct
-    int[] pathLength -> cu
-    int faceCount -> cv
-    int[] faceOffset -> cw
-    int[] faceLength -> cx
-    processing.core.PImage[][] faceTextures -> cy
-    float[] colorFloats -> cz
-    java.nio.IntBuffer pixelBuffer -> cA
-    java.util.Set glTextureObjects -> cB
-    java.util.Set glVertexBuffers -> cC
-    java.util.Set glFrameBuffers -> cD
-    java.util.Set glRenderBuffers -> cE
-    boolean recordingShape -> cF
-    int numRecordedTextures -> cG
-    processing.core.PShape3D recordedShape -> cH
-    java.util.ArrayList recordedVertices -> cI
-    java.util.ArrayList recordedColors -> cJ
-    java.util.ArrayList recordedNormals -> cK
-    java.util.ArrayList[] recordedTexCoords -> cL
-    java.util.ArrayList recordedChildren -> cM
-    java.util.Stack fbStack -> cN
-    processing.core.PFramebuffer screenFramebuffer -> cO
-    processing.core.PFramebuffer currentFramebuffer -> cP
-    processing.core.PFramebuffer offscreenFramebuffer -> cQ
-    processing.core.PImage[] offscreenImages -> cR
-    processing.core.PTexture[] offscreenTextures -> cS
-    int offscreenIndex -> cT
-    int[] offscreenTexCrop -> cU
-    int offscreenDepthBits -> al
-    int offscreenStencilBits -> am
-    boolean usingGLMatrixStack -> an
-    processing.core.PGraphicsAndroid3D$A3DMatrixStack modelviewStack -> cV
-    processing.core.PGraphicsAndroid3D$A3DMatrixStack projectionStack -> cW
-    int[] screenTexCrop -> cX
-    boolean clearColorBuffer -> cY
-    boolean clearColorBuffer0 -> cZ
-    boolean blend -> da
-    int blendMode -> db
-    boolean npotTexSupported -> ao
-    boolean mipmapGeneration -> ap
-    boolean matrixGetSupported -> aq
-    boolean vboSupported -> ar
-    boolean fboSupported -> as
-    boolean blendEqSupported -> at
-    boolean texenvCrossbarSupported -> au
-    int maxTextureSize -> av
-    float maxPointSize -> aw
-    float maxLineWidth -> ax
-    int maxTextureUnits -> ay
-    java.lang.String OPENGL_VENDOR -> az
-    java.lang.String OPENGL_RENDERER -> aA
-    java.lang.String OPENGL_VERSION -> aB
-    boolean BIG_ENDIAN -> aC
+    processing.core.PGraphicsAndroid3D a3d -> aZ
+    processing.core.PGraphicsAndroid3D$A3DRenderer renderer -> ba
+    boolean glParamsRead -> al
+    boolean npotTexSupported -> am
+    boolean mipmapGeneration -> an
+    boolean matrixGetSupported -> ao
+    boolean vboSupported -> ap
+    boolean fboSupported -> aq
+    boolean blendEqSupported -> ar
+    boolean texenvCrossbarSupported -> as
+    int maxTextureSize -> at
+    float maxPointSize -> au
+    float maxLineWidth -> av
+    int maxTextureUnits -> aw
+    java.lang.String OPENGL_VENDOR -> ax
+    java.lang.String OPENGL_RENDERER -> ay
+    java.lang.String OPENGL_VERSION -> az
+    java.lang.String OPENGL_EXTENSIONS -> aA
+    java.util.Set pGraphicsAndroid3DObjects -> bb
+    java.util.Set pTextureObjects -> bc
+    java.util.Set pFramebufferObjects -> bd
+    java.util.Set pShape3DObjects -> be
+    java.util.Set pFontTextureObjects -> bf
+    java.util.Set glTextureObjects -> bg
+    java.util.Set glVertexBuffers -> bh
+    java.util.Set glFrameBuffers -> bi
+    java.util.Set glRenderBuffers -> bj
+    float cameraFOV -> bk
+    float cameraX -> bl
+    float cameraY -> bm
+    float cameraZ -> bn
+    float cameraNear -> bo
+    float cameraFar -> bp
+    float cameraAspect -> bq
+    boolean manipulatingCamera -> br
+    boolean scalingDuringCamManip -> bs
+    float[] glmodelview -> bt
+    float[] glmodelviewInv -> bu
+    float[] glprojection -> bv
+    float[] pcamera -> bw
+    float[] pcameraInv -> bx
+    float[] pprojection -> by
+    float[] gltemp -> aB
+    processing.core.PMatrix3D modelview -> bz
+    processing.core.PMatrix3D modelviewInv -> bA
+    processing.core.PMatrix3D projection -> bB
+    processing.core.PMatrix3D camera -> aC
+    processing.core.PMatrix3D cameraInv -> bC
+    boolean sizeChanged -> bD
+    boolean modelviewUpdated -> bE
+    boolean projectionUpdated -> bF
+    int matrixMode -> bG
+    boolean matricesAllocated -> bH
+    boolean usingGLMatrixStack -> aD
+    processing.core.PGraphicsAndroid3D$GLMatrixStack modelviewStack -> bI
+    processing.core.PGraphicsAndroid3D$GLMatrixStack projectionStack -> bJ
+    boolean lights -> bK
+    int lightCount -> bL
+    int[] lightType -> bM
+    float[][] lightPosition -> bN
+    float[][] lightNormal -> bO
+    float[] lightFalloffConstant -> bP
+    float[] lightFalloffLinear -> bQ
+    float[] lightFalloffQuadratic -> bR
+    float[] lightSpotAngle -> bS
+    float[] lightSpotAngleCos -> bT
+    float[] lightSpotConcentration -> bU
+    float[][] lightDiffuse -> bV
+    float[][] lightSpecular -> bW
+    float[] currentLightSpecular -> bX
+    float currentLightFalloffConstant -> bY
+    float currentLightFalloffLinear -> bZ
+    float currentLightFalloffQuadratic -> ca
+    float[] zeroLight -> cb
+    float[] baseLight -> cc
+    boolean lightsAllocated -> cd
+    int pointCount -> ce
+    int[][] points -> cf
+    int lineCount -> cg
+    int[][] lines -> ch
+    int triangleCount -> ci
+    int[][] triangles -> cj
+    java.nio.IntBuffer vertexBuffer -> ck
+    java.nio.IntBuffer colorBuffer -> cl
+    java.nio.IntBuffer normalBuffer -> cm
+    java.nio.IntBuffer[] texCoordBuffer -> cn
+    int[] vertexArray -> co
+    int[] colorArray -> cp
+    int[] normalArray -> cq
+    int[][] texCoordArray -> cr
+    boolean geometryAllocated -> cs
+    int shapeFirst -> ct
+    int shapeLast -> cu
+    int[] vertexOrder -> cv
+    int pathCount -> cw
+    int[] pathOffset -> cx
+    int[] pathLength -> cy
+    int faceCount -> cz
+    int[] faceOffset -> cA
+    int[] faceLength -> cB
+    int[] faceMinIndex -> cC
+    int[] faceMaxIndex -> cD
+    processing.core.PImage[][] faceTextures -> cE
+    processing.core.PGraphicsAndroid3D$GeometryBuffer geoBuffer -> cF
+    boolean USE_GEO_BUFFER -> cG
+    boolean GEO_BUFFER_ACCUM_ALL -> aE
+    boolean UPDATE_GEO_BUFFER_MATRIX_STACK -> aF
+    boolean UPDATE_GL_MATRIX_STACK -> aG
+    int GEO_BUFFER_COUNT -> cH
+    float GEO_BUFFER_SIZE -> aH
+    int GEO_BUFFER_MAXSIZE -> cI
+    int numTextures -> cJ
+    int shapeTextures -> cK
+    int numTexBuffers -> cL
+    int texBlendMode -> cM
+    processing.core.PTexture[] renderTextures -> cN
+    processing.core.PImage[] textureImages -> cO
+    processing.core.PImage[] textureImages0 -> cP
+    float[] texturesU -> cQ
+    float[] texturesV -> cR
+    float[][] vertexU -> aI
+    float[][] vertexV -> aJ
+    processing.core.PImage[][] vertexTex -> cS
+    float[] renderUa -> cT
+    float[] renderVa -> cU
+    float[] renderUb -> cV
+    float[] renderVb -> cW
+    float[] renderUc -> cX
+    float[] renderVc -> cY
+    int screenBlendMode -> cZ
+    processing.core.PFontTexture textTex -> da
+    java.nio.IntBuffer textVertexBuffer -> db
+    java.nio.IntBuffer textTexCoordBuffer -> dc
+    int[] textVertexArray -> dd
+    int[] textTexCoordArray -> de
+    int textVertexCount -> df
+    boolean textBlockMode -> dg
+    int textBlockTex -> dh
+    java.util.Stack fbStack -> di
+    processing.core.PFramebuffer screenFramebuffer -> dj
+    processing.core.PFramebuffer currentFramebuffer -> dk
+    processing.core.PFramebuffer offscreenFramebuffer -> dl
+    processing.core.PImage[] offscreenImages -> dm
+    processing.core.PTexture[] offscreenTextures -> dn
+    processing.core.PTexture$Parameters[] offscreenParams -> do
+    int offscreenIndex -> dp
+    int[] offscreenTexCrop -> dq
+    int offscreenDepthBits -> aK
+    int offscreenStencilBits -> aL
+    boolean recordingShape -> dr
+    int recTexturesCount -> ds
+    boolean mergeRecShapes -> dt
+    java.lang.String recShapeName -> du
+    processing.core.PShape3D recordedShape -> dv
+    java.util.ArrayList recordedVertices -> aM
+    java.util.ArrayList recordedColors -> aN
+    java.util.ArrayList recordedNormals -> aO
+    java.util.ArrayList[] recordedTexCoords -> aP
+    java.util.ArrayList recordedChildren -> dw
+    java.util.ArrayList recordedIndices -> aQ
+    processing.core.PTexture texture -> dx
+    int[] texCrop -> dy
+    boolean clearColorBuffer -> dz
+    boolean clearColorBuffer0 -> dA
+    java.nio.IntBuffer pixelBuffer -> dB
+    java.nio.IntBuffer getsetBuffer -> dC
+    processing.core.PTexture getsetTexture -> dD
+    float[] colorFloats -> dE
+    int[] viewport -> dF
+    boolean BIG_ENDIAN -> aR
     void setPrimary(boolean) -> a
     void setSize(int,int) -> a
     void allocate() -> a
-    void delete() -> L
+    void delete() -> K
     void dispose() -> b
+    void registerPGLObject(java.lang.Object) -> a
+    void unregisterPGLObject(java.lang.Object) -> b
     int createGLResource(int) -> o
     void deleteGLResource(int,int) -> d
-    void createScreenTexture() -> V
-    void drawScreenTexture() -> W
-    void copyToScreenTexture(java.nio.IntBuffer) -> a
-    void createOffscreenFramebuffer() -> X
-    void drawOffscreenTexture(int) -> q
-    void swapOffscreenIndex() -> Y
-    void pushFramebuffer() -> M
+    void pushFramebuffer() -> L
     void setFramebuffer(processing.core.PFramebuffer) -> a
-    void popFramebuffer() -> N
+    void popFramebuffer() -> M
     void requestDraw() -> c
     void beginDraw() -> d
     void endDraw() -> e
@@ -1461,21 +1541,21 @@ processing.core.PGraphicsAndroid3D -> processing.core.q:
     void hint(int) -> e
     void beginShape(int) -> a
     void texture(processing.core.PImage) -> a
+    void noTexture() -> w
     void vertex(float,float,float,float) -> a
-    void vertexCheck() -> w
-    void clearMultitextures() -> Z
-    void clearMultitextures0() -> aa
+    void vertexCheck() -> x
     void endShape$13462e() -> f
-    void addLineBreak() -> ab
+    void renderPoints$255f295(int) -> q
+    void addLineBreak() -> V
     void addLine(int,int) -> f
     void renderLines$255f295(int) -> r
     void addTriangle(int,int,int) -> b
-    void expandBuffers() -> ac
+    void expandBuffers() -> W
     void smooth() -> g
     void noSmooth() -> h
     void textLineImpl(char[],int,int,float,float) -> a
     void textCharImpl(char,float,float) -> a
-    void renderTextModel() -> ad
+    void renderTextModel() -> X
     void pushMatrix() -> i
     void popMatrix() -> j
     void resetMatrix() -> k
@@ -1484,47 +1564,55 @@ processing.core.PGraphicsAndroid3D -> processing.core.q:
     void strokeJoin(int) -> d
     void strokeCap(int) -> c
     void fillFromCalc() -> n
-    void ambientFromCalc() -> D
-    void specularFromCalc() -> E
+    void ambientFromCalc() -> E
+    void specularFromCalc() -> F
     void shininess(float) -> c
-    void emissiveFromCalc() -> F
-    void noLights() -> G
-    void lightFalloff$483d242b() -> H
-    void lightSpecular$483d242b() -> I
-    void glEnableLights() -> ae
-    void glLightAmbient(int) -> s
-    void glLightNoAmbient(int) -> t
-    void glLightNoSpot(int) -> u
-    void glLightDiffuse(int) -> v
-    void glLightNoDiffuse(int) -> w
-    void glLightDirection(int) -> x
-    void glLightEnable(int) -> y
-    void glLightFalloff(int) -> z
-    void glLightPosition(int) -> A
-    void glLightSpecular(int) -> B
-    void glLightNoSpecular(int) -> C
+    void emissiveFromCalc() -> G
+    void noLights() -> H
+    void lightFalloff$483d242b() -> I
+    void lightSpecular$483d242b() -> J
+    void enableLighting() -> Y
+    void lightAmbient(int) -> s
+    void lightNoAmbient(int) -> t
+    void lightNoSpot(int) -> u
+    void lightDiffuse(int) -> v
+    void lightNoDiffuse(int) -> w
+    void lightDirection(int) -> x
+    void lightEnable(int) -> y
+    void lightFalloff(int) -> z
+    void lightPosition(int) -> A
+    void lightSpecular(int) -> B
+    void lightNoSpecular(int) -> C
     void backgroundImpl() -> o
-    void calcColorBuffer() -> af
+    void calcColorBuffer() -> Z
     void report(java.lang.String) -> d
     void loadPixels() -> p
     void updatePixels() -> q
-    void loadTexture() -> O
+    void loadTextureImpl$13462e() -> aa
+    void drawTexture() -> ab
+    void pixelsToTexture() -> ac
     processing.core.PImage getImpl$37df77b1(int,int) -> b
     processing.core.PImage get() -> r
     void set(int,int,int) -> a
+    void screenBlend(int) -> n
+    void showBlendWarning(java.lang.String) -> e
+    void setTextureBlend(processing.core.PTexture[],int) -> a
+    void modulateWithPrimaryColor$606618e2(processing.core.PTexture) -> a
+    void cleanupTextureBlend(int) -> D
+    void createOffscreenFramebuffer() -> ad
+    void drawOffscreenTexture(int) -> E
+    void swapOffscreenIndex() -> ae
+    processing.core.PTexture getTexture(processing.core.PImage) -> c
+    processing.core.PTexture addTexture(processing.core.PImage) -> d
     void drawTexture$6f78e1db(processing.core.PTexture,int,int,int,int,int,int) -> a
     void drawTexture(processing.core.PTexture,int[],int,int,int,int) -> a
     void copyToTexture$4d3739ad(processing.core.PTexture,java.nio.IntBuffer,int,int) -> a
-    void blend(int) -> n
-    void noBlend() -> K
-    void setMultitextureBlend(processing.core.PTexture[],int) -> a
-    void modulateWithPrimaryColor$606618e2(processing.core.PTexture) -> a
-    void clearMultitextureBlend(int) -> D
-    android.opengl.GLSurfaceView$Renderer getRenderer() -> P
+    void setSurfaceParams() -> af
+    int toFixed32(float) -> e
+    float toFloat32(int) -> p
+    android.opengl.GLSurfaceView$Renderer getRenderer() -> N
     android.opengl.GLSurfaceView$EGLConfigChooser getConfigChooser(int,int,int,int,int,int) -> a
-    float abs(float) -> e
-    boolean is3D() -> J
-processing.core.PGraphicsAndroid3D$A3DConfigChooser -> processing.core.t:
+processing.core.PGraphicsAndroid3D$A3DConfigChooser -> processing.core.w:
     int redTarget -> a
     int greenTarget -> b
     int blueTarget -> c
@@ -1544,42 +1632,73 @@ processing.core.PGraphicsAndroid3D$A3DConfigChooser -> processing.core.t:
     javax.microedition.khronos.egl.EGLConfig chooseConfig(javax.microedition.khronos.egl.EGL10,javax.microedition.khronos.egl.EGLDisplay) -> chooseConfig
     javax.microedition.khronos.egl.EGLConfig chooseBestConfig(javax.microedition.khronos.egl.EGL10,javax.microedition.khronos.egl.EGLDisplay,javax.microedition.khronos.egl.EGLConfig[]) -> a
     int findConfigAttrib$6739ccb4(javax.microedition.khronos.egl.EGL10,javax.microedition.khronos.egl.EGLDisplay,javax.microedition.khronos.egl.EGLConfig,int) -> a
-processing.core.PGraphicsAndroid3D$A3DMatrixStack -> processing.core.k:
-    java.util.Stack matrixStack -> a
-    float[] current -> b
-    processing.core.PGraphicsAndroid3D this$0 -> c
-    void push() -> a
-    void pop() -> b
-    void set(float[]) -> a
-processing.core.PGraphicsAndroid3D$A3DRenderer -> processing.core.p:
+processing.core.PGraphicsAndroid3D$A3DRenderer -> processing.core.s:
     processing.core.PGraphicsAndroid3D this$0 -> a
     void onDrawFrame(javax.microedition.khronos.opengles.GL10) -> onDrawFrame
     void onSurfaceChanged(javax.microedition.khronos.opengles.GL10,int,int) -> onSurfaceChanged
     void onSurfaceCreated(javax.microedition.khronos.opengles.GL10,javax.microedition.khronos.egl.EGLConfig) -> onSurfaceCreated
-processing.core.PImage -> processing.core.u:
-    int format -> aD
-    int[] pixels -> aE
-    int width -> aF
-    int height -> aG
-    processing.core.PApplet parent -> aH
-    android.graphics.Bitmap bitmap -> aI
-    processing.core.PTexture texture -> aJ
-    processing.core.PTexture$Parameters texParams -> a
-    boolean modified -> aK
-    int mx1 -> b
-    int my1 -> c
-    int mx2 -> d
-    int my2 -> e
-    byte[] TIFF_HEADER -> f
-    void delete() -> L
-    void loadTexture() -> O
-    void loadTexture$13462e() -> Q
-    processing.core.PTexture getTexture() -> R
-    void pixelsToTexture() -> a
-    void textureToPixels() -> S
-    processing.core.PTexture createTexture() -> T
-    void createTexParams$13462e() -> U
-    void createTexParams$255f295(int) -> p
+processing.core.PGraphicsAndroid3D$GLMatrixStack -> processing.core.t:
+    java.util.Stack matrixStack -> b
+    float[] current -> a
+    processing.core.PGraphicsAndroid3D this$0 -> c
+    void setIdentity() -> a
+    void push() -> b
+    void pop() -> c
+    void set(float[]) -> a
+processing.core.PGraphicsAndroid3D$GeometryBuffer -> processing.core.k:
+    int idxCount -> a
+    int vertCount -> b
+    int texCount -> c
+    short[] indicesArray -> g
+    int[] verticesArray -> h
+    int[] normalsArray -> i
+    int[] colorsArray -> j
+    int[][] texcoordsArray -> k
+    processing.core.PTexture[] texturesArray -> d
+    int minVertIndex -> l
+    int maxVertIndex -> m
+    processing.core.PGraphicsAndroid3D$GLMatrixStack stack -> e
+    java.nio.ShortBuffer indicesBuffer -> n
+    java.nio.IntBuffer verticesBuffer -> o
+    java.nio.IntBuffer normalsBuffer -> p
+    java.nio.IntBuffer colorsBuffer -> q
+    java.nio.IntBuffer[] texcoordsBuffer -> r
+    int allocTexStorage -> s
+    processing.core.PGraphicsAndroid3D this$0 -> f
+    void init$13462e() -> a
+    void init$59534c0c(processing.core.PTexture[],int) -> a
+    boolean newTextures(processing.core.PTexture[],int) -> b
+    void setTextures(processing.core.PTexture[],int) -> c
+    void add(int[][],int,int,float[][],int,int) -> a
+    void render() -> b
+    void record() -> c
+processing.core.PImage -> processing.core.x:
+    int format -> aS
+    int[] pixels -> aT
+    int width -> aU
+    int height -> aV
+    processing.core.PApplet parent -> aW
+    android.graphics.Bitmap bitmap -> aX
+    java.util.HashMap cacheMap -> a
+    java.util.HashMap paramMap -> b
+    boolean modified -> aY
+    int mx1 -> c
+    int my1 -> d
+    int mx2 -> e
+    int my2 -> f
+    byte[] TIFF_HEADER -> g
+    void delete() -> K
+    void setCache(processing.core.PGraphics,java.lang.Object) -> a
+    java.lang.Object getCache(processing.core.PGraphics) -> a
+    void setParams(processing.core.PGraphics,java.lang.Object) -> b
+    java.lang.Object getParams(processing.core.PGraphics) -> b
+    boolean isModified() -> O
+    void setModified() -> P
+    void setModified$1385ff() -> Q
+    int getModifiedX1() -> R
+    int getModifiedX2() -> S
+    int getModifiedY1() -> T
+    int getModifiedY2() -> U
     void loadPixels() -> p
     void updatePixels() -> q
     void updatePixelsImpl(int,int,int,int) -> a
@@ -1588,7 +1707,7 @@ processing.core.PImage -> processing.core.u:
     processing.core.PImage getImpl$37df77b1(int,int) -> b
     processing.core.PImage get() -> r
     void set(int,int,int) -> a
-processing.core.PMatrix3D -> processing.core.g:
+processing.core.PMatrix3D -> processing.core.h:
     float m00 -> a
     float m01 -> b
     float m02 -> c
@@ -1606,26 +1725,37 @@ processing.core.PMatrix3D -> processing.core.g:
     float m32 -> o
     float m33 -> p
     void set$52d32e8b(float,float,float,float,float,float,float,float,float,float,float,float) -> a
-processing.core.PShape -> processing.core.r:
+processing.core.PShape -> processing.core.v:
     java.lang.String name -> a
     int family -> b
     boolean visible -> d
     float strokeWeight -> c
     boolean style -> e
-processing.core.PShape3D -> processing.core.c:
-    int[] glTexCoordBufferID -> d
-    processing.core.PTexture[] renderTextures -> e
-    boolean[] texCoordSet -> f
-    boolean readFromOBJ -> g
-    int firstVertex -> h
-    int lastVertex -> i
-    int glMode -> j
-    boolean pointSprites -> k
-    processing.core.PImage[] textures -> l
-    float maxSpriteSize -> m
-    float[] spriteDistAtt -> n
+processing.core.PShape3D -> processing.core.d:
+    processing.core.PApplet papplet -> d
+    processing.core.PGraphicsAndroid3D a3d -> e
+    int glVertexBufferID -> f
+    int glColorBufferID -> g
+    int glNormalBufferID -> h
+    int[] glTexCoordBufferID -> i
+    int glIndexBufferID -> j
+    java.nio.ShortBuffer indexBuffer -> k
+    int indexCount -> l
+    boolean autoBounds -> m
+    boolean readFromOBJ -> n
+    int glMode -> o
+    boolean pointSprites -> p
+    processing.core.PImage[] textures -> q
+    float maxSpriteSize -> r
+    float[] spriteDistAtt -> s
+    processing.core.PTexture[] renderTextures -> t
+    int firstVertex -> u
+    int lastVertex -> v
+    int firstIndex -> w
+    int lastIndex -> x
+    processing.core.PShape createChild$227797f7(java.lang.String,int,int,int,int,processing.core.PImage[]) -> a
     processing.core.PShape createChild(java.lang.String,int,int,int,float,processing.core.PImage[]) -> a
-processing.core.PStyle -> processing.core.o:
+processing.core.PStyle -> processing.core.r:
     int imageMode -> a
     int rectMode -> b
     int ellipseMode -> c
@@ -1661,59 +1791,56 @@ processing.core.PStyle -> processing.core.o:
     float textSize -> G
     float textLeading -> H
 processing.core.PTexture -> processing.core.a:
-    int width -> c
-    int height -> d
-    processing.core.PApplet parent -> e
-    processing.core.PGraphicsAndroid3D a3d -> f
-    javax.microedition.khronos.opengles.GL10 gl -> g
-    int glID -> h
-    int glTarget -> i
-    int glFormat -> j
-    int glMinFilter -> k
-    int glMagFilter -> l
-    int glWrapS -> m
-    int glWrapT -> n
-    int glWidth -> a
-    int glHeight -> b
-    boolean usingMipmaps -> o
-    float maxTexCoordU -> p
-    float maxTexCoordV -> q
-    boolean flippedX -> r
-    boolean flippedY -> s
+    int width -> f
+    int height -> g
+    processing.core.PApplet parent -> h
+    processing.core.PGraphicsAndroid3D a3d -> i
+    processing.core.PImage img -> j
+    int glID -> a
+    int glTarget -> b
+    int glFormat -> k
+    int glMinFilter -> l
+    int glMagFilter -> m
+    int glWrapS -> n
+    int glWrapT -> o
+    int glWidth -> c
+    int glHeight -> d
+    boolean usingMipmaps -> p
+    float maxTexCoordU -> q
+    float maxTexCoordV -> r
+    boolean flippedX -> s
+    boolean flippedY -> e
     int[] tempPixels -> t
     processing.core.PFramebuffer tempFbo -> u
     void delete() -> a
     void set(int[]) -> a
-    void set(int[],int,int,int,int) -> a
-    void set$156292e0(int[],int,int,int,int) -> b
+    void set(int[],int,int,int,int,int) -> a
     void get(int[]) -> b
     void put(processing.core.PTexture) -> a
-    int getGLWidth() -> b
-    int getGLHeight() -> c
-    int getGLID() -> d
-    int getGLTarget() -> e
-    float getMaxTexCoordU() -> f
-    float getMaxTexCoordV() -> g
-    boolean isFlippedX() -> h
-    boolean isFlippedY() -> i
-    void setFlippedY$1385ff() -> j
+    float getMaxTexCoordU() -> b
+    float getMaxTexCoordV() -> c
+    boolean isFlippedX() -> d
+    boolean isFlippedY() -> e
+    void setFlippedY$1385ff() -> f
+    void bind() -> g
     int nextPowerOfTwo(int) -> a
-    void convertToRGBA$326d428e(int[],int[]) -> a
-    void convertToARGB$7543866e(int[],int[]) -> b
-    void createTexture(int,int) -> a
-    void deleteTexture() -> l
-    void setTexels(int,int,int,int,int[]) -> a
-    void bind() -> k
-processing.core.PTexture$Parameters -> processing.core.j:
+    void convertToRGBA(int[],int[],int,int,int) -> a
+    void convertToARGB(int[],int[],int) -> a
+    void release() -> h
+    void setTexels(int,int,int,int,int[]) -> b
+    void setTexels$57650c84(int,int,int,int,int[]) -> a
+processing.core.PTexture$Parameters -> processing.core.m:
     int target -> a
     int format -> b
     int sampling -> c
     int wrapU -> d
     int wrapV -> e
-processing.core.PVector -> processing.core.n:
+processing.core.PVector -> processing.core.q:
     float x -> a
     float y -> b
     float z -> c
     java.lang.String toString() -> toString
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
+processing.core.Processing15Activity -> processing.core.Processing15Activity:
+    void onCreate(android.os.Bundle) -> onCreate

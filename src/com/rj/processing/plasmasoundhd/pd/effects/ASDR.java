@@ -19,6 +19,8 @@ public  class ASDR extends Effect {
 	public Parameter release; 
 	
 	public ASDR() {
+		this.name = "asdr";
+
 		params = new HashMap<String, Parameter>();
 		attack = new Parameter(ATTACK, false);
 		attack.setMinMax(0f, 100);

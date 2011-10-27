@@ -16,4 +16,10 @@
       <item android:id="@+id/load_settings" android:icon="@drawable/ic_menu_upload"
           android:title="@string/load_settings"
           android:showAsAction="ifRoom" />
+      <item android:id="@+id/record" android:icon="@drawable/ic_menu_upload"
+          android:title="@string/record_settings"
+          android:showAsAction="never" />
+      <item android:id="@+id/about" android:icon="@drawable/ic_menu_upload"
+          android:title="@string/about_settings"
+          android:showAsAction="never" />
 </menu>

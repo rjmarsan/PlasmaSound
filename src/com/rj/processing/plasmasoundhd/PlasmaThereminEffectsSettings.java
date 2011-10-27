@@ -5,6 +5,7 @@ package com.rj.processing.plasmasoundhd;
 
 import org.json.JSONObject;
 
+import amir.android.icebreaking.RadioGroupPrefs;
 import amir.android.icebreaking.SeekBarPreferenceView;
 import android.app.Activity;
 import android.app.Fragment;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rj.processing.plasmasound.R;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets.PresetListener;
 
@@ -47,7 +49,7 @@ public class PlasmaThereminEffectsSettings extends Fragment implements OnSharedP
     
     
 	private SharedPreferences getSharedPreferences() {
-		return getActivity().getSharedPreferences(PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+		return getActivity().getSharedPreferences(PDActivity.SHARED_PREFERENCES_AUDIO, 0);
 	}
 
     
@@ -80,6 +82,8 @@ public class PlasmaThereminEffectsSettings extends Fragment implements OnSharedP
 			View v = group.getChildAt(i);
 			if (v instanceof SeekBarPreferenceView) {
 				((SeekBarPreferenceView)v).notifyChange();
+			}else if (v instanceof RadioGroupPrefs) {
+				((RadioGroupPrefs)v).notifyChange();
 			} else if (v instanceof ViewGroup)  {
 				notifyChange((ViewGroup)v);
 			}

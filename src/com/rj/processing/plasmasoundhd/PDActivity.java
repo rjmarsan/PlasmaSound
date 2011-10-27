@@ -3,30 +3,33 @@ package com.rj.processing.plasmasoundhd;
 import org.json.JSONObject;
 
 import processing.core.PApplet;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.TextView;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.MTManager;
@@ -47,6 +50,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	public PDManager pdman;
 	public Instrument inst;
+	public PlasmaSubFragment frag;
+	public PlasmaSubFragment sequencer;
+	public PlasmaSubFragment instrument;
 	
 	PowerManager.WakeLock wl;
 
@@ -71,12 +77,17 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	public int sketchWidth() { return this.screenWidth; }
 	public int sketchHeight() { return this.screenHeight; }
-	public String sketchRenderer() { return PApplet.OPENGL; }
+	public String sketchRenderer() { return PApplet.P3D; } 
 	public boolean keepTitlebar() { return Launcher.getUIType() != Launcher.GINGERBREAD_PHONE; }
 	/** return false to keep presets from being loaded **/
 	public boolean loadPresets() { return true; }
 	/** override to select a custom menu **/
-	int getMenu() { return com.rj.processing.plasmasoundhd.R.menu.main_menu; }
+	int getMenu() { 
+		if (frag != null) 
+			return frag.getMenu(); 
+		else 
+			return com.rj.processing.plasmasound.R.menu.main_menu; 
+	}
 	
 	
 	View loadingview;
@@ -84,18 +95,131 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	public void onCreate(final Bundle savedinstance) {
 		super.onCreate(savedinstance);
+		//runSequencer(false);
 		plzBeLandscape();
-		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasoundhd.R.layout.loadingscreenmall, null);
+		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreenmall, null);
 		this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
 			preferenceview = this.getLayoutInflater().inflate(
-							com.rj.processing.plasmasoundhd.R.layout.prefsoverlay,
+							com.rj.processing.plasmasound.R.layout.prefsoverlay,
 							null);
 			this.addContentView(preferenceview, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		}
 		hideBoth();
+		sequencer = new SequencerActivity(this);
+		instrument = new PlasmaSound(this);
+		if (Build.VERSION.SDK_INT < 11) 
+			runTheremin(false,true);
+		else
+			setupActionbar();
+	}
+	
+	void setupActionbar() {
+		if (getActionBar() == null) return;
+	    final ActionBar actionBar = getActionBar();
+	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	    // remove the activity title to make space for tabs
+	    actionBar.setDisplayShowTitleEnabled(false);
 
+	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.instrument_name)
+	            .setTabListener(new TabListener() {
+
+					@Override
+					public void onTabReselected(Tab arg0,
+							android.app.FragmentTransaction arg1) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onTabSelected(Tab tab,
+							android.app.FragmentTransaction ft) {
+						runTheremin(true, true);
+						//addTheremin(ft);
+						
+					}
+
+					@Override
+					public void onTabUnselected(Tab tab,
+							android.app.FragmentTransaction ft) {
+						//removeTheremin(ft);
+						
+					}
+				}), true);
+
+	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.sequencer_name)
+	            .setTabListener(new TabListener() {
+					@Override
+					public void onTabReselected(Tab tab,
+							android.app.FragmentTransaction ft) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onTabSelected(Tab tab,
+							android.app.FragmentTransaction ft) {
+						runSequencer(true, true);
+						//addSequencer(ft);
+						
+					}
+
+					@Override
+					public void onTabUnselected(Tab tab,
+							android.app.FragmentTransaction ft) {
+						//removeSequencer(ft);
+						
+					}
+				}));
+	}
+	
+	
+	public void runTheremin(boolean setup, boolean fragmentTransaction)  {
+		if (frag != null) frag.destroy();
+		frag = instrument;
+		if (setup) frag.setup();
+		if (fragmentTransaction) {
+			FragmentManager man = this.getSupportFragmentManager();
+			FragmentTransaction trans = man.beginTransaction();
+			removeSequencer(trans);
+			addTheremin(trans);
+			trans.commit();
+		}
+	}
+	
+	public void removeTheremin(FragmentTransaction trans) {
+		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		if (man.findFragmentByTag(PlasmaSound.TAG) != null)
+			trans.remove(instrument);
+	}
+	public void addTheremin(FragmentTransaction trans) {
+		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		if (man.findFragmentByTag(PlasmaSound.TAG) == null)
+			trans.add(instrument, PlasmaSound.TAG);
+	}
+	public void removeSequencer(FragmentTransaction ft) {
+		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		if (man.findFragmentByTag(SequencerActivity.TAG) != null)
+			ft.remove(sequencer);
+	}
+	public void addSequencer(FragmentTransaction trans) {
+		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		if (man.findFragmentByTag(SequencerActivity.TAG) == null)
+			trans.add(sequencer, SequencerActivity.TAG);
+	}
+	
+	public void runSequencer(boolean setup, boolean fragmentTransaction) {
+		if (frag != null) frag.destroy();
+		frag = sequencer;
+		if (setup) frag.setup();
+		if (fragmentTransaction) {
+			FragmentManager man = this.getSupportFragmentManager();
+			FragmentTransaction trans = man.beginTransaction();
+			removeTheremin(trans);
+			addSequencer(trans);
+			trans.commit();
+		}
 	}
 	
 	
@@ -114,6 +238,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    	    
 	    asyncSetup.execute(new Void[0]);
 	    debug();
+	    if (frag != null) frag.setup();
 	}
 	
 	AsyncTask<Void,Void,Void> asyncSetup = new AsyncTask<Void,Void,Void>() {
@@ -179,24 +304,28 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
 	@Override
 	public void touchAllUp(final Cursor c) {
-		
+		if (frag != null) frag.touchAllUp(c);
 	}
 	@Override
 	public void touchDown(final Cursor c) {
+		if (frag != null) frag.touchDown(c);
 	}
 	
 	@Override
 	public void touchMoved(final Cursor c) {
+		if (frag != null) frag.touchMoved(c);
 	}
 	
 	@Override
 	public void touchUp(final Cursor c) {
+		if (frag != null) frag.touchUp(c);
 	}
 	
 	
 	
 	@Override
 	public void draw() {	
+		if (frag != null) frag.draw();
 	}
 	
 	
@@ -208,7 +337,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "PlasmaSoundHDLock");
 		wl.acquire();
 		if (loadingview == null)
-			loadingview = this.findViewById(com.rj.processing.plasmasoundhd.R.id.loadingview);
+			loadingview = this.findViewById(com.rj.processing.plasmasound.R.id.loadingview);
 		loadingview.setVisibility(View.VISIBLE);
 		if (pdready == true) {
 		    pdready = false;
@@ -217,6 +346,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		readSettings();
 		
 		checkAndRemindThemToGiveMeAGoodRating();
+		if (frag != null) frag.onResume();
 	}
 	
 	
@@ -234,37 +364,32 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
         long timenow = System.currentTimeMillis();
         long elapsed = timenow - firstopened;
         long maxtime = 1000 * 60 * 15; //15 minute
-        if (elapsed > maxtime && !(mPrefs.getBoolean("popupshown", false) )) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Rate Plasma Sound!");
-			builder.setMessage("Plasma Sound is 100% ad free and cost free. Show your support by leaving a comment on the Market.");
-			
-//			TextView txt = new TextView(this);
-//			txt.setTextSize(15);
-//			txt.setText("Plasma Sound is written and maintained by me, RJ Marsan.\nIts 100% ad free and cost free, so show your support, or give me feedback by commenting on the Market \nor sending me an email. \nThis message won't be shown again. Promise!");
-//			txt.setLayoutParams(new LayoutParams(300, 200));
-//			txt.setPadding(10, 10, 10, 10);
-//			txt.setBackgroundColor(Color.CYAN);
-//			txt.setLines(6);
-			//builder.setView(txt);
-			
-			builder.setPositiveButton("Market", new OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse("market://details?id="+getApplication().getPackageName()));
-					startActivity(intent);
-					dialog.dismiss();
-				}});
-			builder.setNegativeButton("Never show again", new OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}});
-			AlertDialog alert = builder.create();
-			
-			alert.show();
-        	Editor e = mPrefs.edit();
-        	e.putBoolean("popupshown", true);
-        	e.commit();
+        if (!(mPrefs.getBoolean("popupshown", false))) {
+	        if (elapsed > maxtime) {
+	        	if (System.currentTimeMillis() % 10 == 1) {
+	        		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle("Rate Plasma Sound!");
+					builder.setMessage("Plasma Sound is 100% ad free and cost free. Show your support by leaving a comment on the Market.\n(This won't be shown again, I promise)");
+					
+					builder.setPositiveButton("Market", new OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							Intent intent = new Intent(Intent.ACTION_VIEW);
+							intent.setData(Uri.parse("market://details?id="+getApplication().getPackageName()));
+							startActivity(intent);
+							dialog.dismiss();
+						}});
+					builder.setNegativeButton("Never show again", new OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}});
+					AlertDialog alert = builder.create();
+					
+					alert.show();
+	        	}
+	        	Editor e = mPrefs.edit();
+	        	e.putBoolean("popupshown", true);
+	        	e.commit();
+	        }
         }
 	}
 	
@@ -285,22 +410,23 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	protected void onPause() {
 		super.onPause();
 		if (pdman != null) pdman.onPause();
-		wl.release();
+		if (wl != null && wl.isHeld()) wl.release();
+		if (frag != null) frag.onPause();
 	}
 	
 	@Override
 	public void onDestroy() {
 		if (pdman != null) pdman.cleanup();
 		super.onDestroy();
-		wl.release();
+		if (wl != null && wl.isHeld()) wl.release();
 	}
 
 
 	
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-	    final MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(getMenu(), menu);
+//	    final MenuInflater inflater = getMenuInflater();
+//	    inflater.inflate(getMenu(), menu);
 	    return true;
 	}
 	
@@ -312,22 +438,22 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
 	    switch (item.getItemId()) {
-	    case com.rj.processing.plasmasoundhd.R.id.sequencer_settings:
+	    case com.rj.processing.plasmasound.R.id.sequencer_settings:
 	        sequencerSettings();
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.sequencer:
+	    case com.rj.processing.plasmasound.R.id.sequencer:
 	        sequencer();
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.instrument_settings:
+	    case com.rj.processing.plasmasound.R.id.instrument_settings:
 	        instrumentSettings();
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.effects_settings:
+	    case com.rj.processing.plasmasound.R.id.effects_settings:
 	        effectSettings();
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
+	    case com.rj.processing.plasmasound.R.id.save_settings:
 	        saveSettings();
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
+	    case com.rj.processing.plasmasound.R.id.load_settings:
 	        loadSettings();
 	        return true;
 
@@ -342,8 +468,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 	
 	public void sequencer() {
-		final Intent i = new Intent(this, SequencerActivity.class);
-		this.startActivity(i);
+//		final Intent i = new Intent(this, SequencerActivity.class);
+//		this.startActivity(i);
+		runSequencer(true, true);
 	}
 
 	
@@ -353,9 +480,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			this.startActivity(i);
 			return;
 		}
-		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
-		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
-		View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
+		View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
+		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
 			fragment2.setVisibility(View.GONE);
 			fragment3.setVisibility(View.GONE);
@@ -363,7 +490,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				fragment.setVisibility(View.GONE);
 			} else {
 				fragment.setVisibility(View.VISIBLE);
-				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
+				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
 			}
 		}
 	}
@@ -374,9 +501,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			this.startActivity(i);
 			return;
 		}
-		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
-		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
-		View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
+		View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
+		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
 			fragment2.setVisibility(View.GONE);
 			fragment.setVisibility(View.GONE);
@@ -384,7 +511,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				fragment3.setVisibility(View.GONE);
 			} else {
 				fragment3.setVisibility(View.VISIBLE);
-				fragment3.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
+				fragment3.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
 			}
 		}
 	}
@@ -395,9 +522,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			this.startActivity(i);
 			return;
 		}
-		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
-		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
-		View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
+		View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
+		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
 			fragment2.setVisibility(View.GONE);
 			fragment3.setVisibility(View.GONE);
@@ -405,16 +532,16 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				fragment.setVisibility(View.GONE);
 			} else {
 				fragment.setVisibility(View.VISIBLE);
-				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
+				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
 			}
 		}
 	}
 	
 	public void hideBoth() {
 		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
-			View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
-			View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
-			View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
+			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
+			View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
+			View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
 			if (fragment != null && fragment2 != null) {
 				fragment2.setVisibility(View.GONE);
 				fragment.setVisibility(View.GONE);
@@ -429,8 +556,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
     @Override
     public void onBackPressed() {
 		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
-			View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
-			View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
+			View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
 			System.out.println("fragment1" +fragment.isShown()+ "   fragment2:"+fragment2.isShown());
 			if (fragment.isShown() || fragment2.isShown()) {
 				System.out.println("Hiding fragments");
@@ -476,6 +603,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
 	@Override
 	public void presetChanged(JSONObject preset) {
+		if (frag != null) frag.presetChanged(preset);
 	}
 
     

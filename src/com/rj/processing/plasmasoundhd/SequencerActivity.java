@@ -3,49 +3,59 @@ package com.rj.processing.plasmasoundhd;
 import org.json.JSONObject;
 
 import processing.core.PApplet;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.mt.MTManager;
-import com.rj.processing.mt.TouchListener;
 import com.rj.processing.plasmasoundhd.sequencer.Sequencer;
 
-public class SequencerActivity extends PDActivity {
-	
+public class SequencerActivity extends PlasmaSubFragment {
+	public static String TAG = "Sequencer";
+
+	public SequencerActivity(PDActivity p) {
+		super(p);
+	}
+
+
+
+
 	public Sequencer sequencer;
 	
 	public boolean loadPresets() { return false; }
-	int getMenu() { return com.rj.processing.plasmasoundhd.R.menu.sequencer_menu; }
+	int getMenu() { return com.rj.processing.plasmasound.R.menu.sequencer_menu; }
 
 	
 	@Override
 	public void setup() {
 		super.setup();
 		if (sequencer == null)
-			sequencer = new Sequencer(inst, 16, 10, 120);
+			sequencer = new Sequencer(p.inst, 16, 10, 120);
 		sequencer.start();
+	}
+	
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		if (sequencer != null) {
+			sequencer.stop();
+			sequencer = null;
+		}
 	}
 	
 	
 	@Override
-	public void onPause() {
+	public void pause() {
 		super.onPause();
 		if (sequencer != null) sequencer.stop();
 	}
 	
 	@Override
-	public void onStart() {
+	public void start() {
 		super.onStart();
 	    if (sequencer != null) sequencer.start();
 	}
 	
 	@Override
-	protected void onResume() {
+	protected void resume() {
 		super.onResume();
 		updateSequencer();
 	}
@@ -55,7 +65,7 @@ public class SequencerActivity extends PDActivity {
 	}
 	
 	public void updateSequencer() {
-		if (sequencer != null && inst != null) sequencer.setFromSettings(inst.sequencer);
+		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.sequencer);
 	}
 
 	
@@ -77,9 +87,9 @@ public class SequencerActivity extends PDActivity {
 	
 	
 	public void selectSpot(float x, float y) {
-		int gridx = (int)(x / screenWidth * sequencer.grid.length);
+		int gridx = (int)(x / p.width * sequencer.grid.length);
 		if (gridx < sequencer.grid.length && gridx >= 0) {
-			int gridy = (int)( (screenHeight-y) / screenHeight * sequencer.grid[gridx].length);
+			int gridy = (int)( (p.height-y) / p.height * sequencer.grid[gridx].length);
 			if (gridy < sequencer.grid[gridx].length && gridy >= 0) {
 				float value = sequencer.grid[gridx][gridy];
 				if (value <= 0) {
@@ -97,21 +107,26 @@ public class SequencerActivity extends PDActivity {
 	
 	@Override
 	public void draw() {
-		PApplet p = this;
-		background(0);
-		if (! pdready) return;
+		if (sequencer == null) return;
+		Sequencer sequencer = this.sequencer;
+		p.background(0);
+		if (! p.pdready) return;
 		updateSequencer();
-		sequencer.instrument = inst;
+		sequencer.instrument = p.inst;
+		//p.resetMatrix();
+		p.rectMode(PApplet.CORNER);
+		p.ellipseMode(PApplet.CORNER);
+
 		float[][] grid = sequencer.grid;
 		for (int i=0; i<grid.length; i++) {
-			float barwidth = screenWidth/grid.length;
-			float barheight = screenHeight/grid[i].length;
-			
+			float barwidth = p.width/grid.length;
+			float barheight = p.height/grid[i].length;
+
 			
 			if (sequencer.currentRow == i) {
-				p.fill(30);
+				p.fill(50);
 				p.noStroke();
-				p.rect(i*barwidth, 0, barwidth, screenHeight);
+				p.rect(i*barwidth, 0, barwidth, p.height);
 			}
 			
 			for (int j=0; j<grid[i].length; j++) {

@@ -21,7 +21,7 @@ package com.rj.processing.plasmasound;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import com.rj.processing.plasmasoundhd.R;
+import com.rj.processing.plasmasound.R;
 
 public class PlasmaThereminSequencerSettings extends PreferenceActivity {
 

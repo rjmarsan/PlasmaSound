@@ -22,9 +22,9 @@
 </string-array>
 
 <string-array name="quantize_display">
-<item>Continuous Values</item>
-<item>Quantize notes (round)</item>
-<item>Slide notes (first value is rounded)</item>
+<item>Continuous</item>
+<item>Quantize</item>
+<item>Slide</item>
 </string-array>
 
 
@@ -40,8 +40,8 @@
 <item>Major</item>
 <item>Minor</item>
 <item>Pentatonic</item>
-<item>Whole Notes</item>
-<item>Half Notes</item>
+<item>Whole</item>
+<item>Half</item>
 </string-array>
 
 

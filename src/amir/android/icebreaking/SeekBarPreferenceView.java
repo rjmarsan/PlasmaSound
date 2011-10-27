@@ -9,20 +9,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.rj.processing.plasmasoundhd.PlasmaSound;
-import com.rj.processing.plasmasoundhd.R;
+import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.PDActivity;
 
 public class SeekBarPreferenceView extends LinearLayout implements
 		OnSeekBarChangeListener, OnCheckedChangeListener {
@@ -47,6 +46,13 @@ public class SeekBarPreferenceView extends LinearLayout implements
 
 	public SeekBarPreferenceView(final Context context) {
 		super(context);
+	}
+	
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		if (bar!=null) bar.setEnabled(enabled );// && ! (yEnabled && yaxis != null) );
+		if (yaxis!=null) yaxis.setEnabled(enabled);
 	}
 	
 
@@ -90,7 +96,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 		return mdefault;
 	}
 	private SharedPreferences getSharedPreferences() {
-		return getContext().getSharedPreferences(PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+		return getContext().getSharedPreferences(PDActivity.SHARED_PREFERENCES_AUDIO, 0);
 	}
 	private String getKey() {
 		return key;

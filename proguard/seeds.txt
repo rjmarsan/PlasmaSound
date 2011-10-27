@@ -1,3 +1,13 @@
+com.rj.processing.plasmasoundhd.pd.PDManager
+org.puredata.core.PdReceiver$Adapter
+org.puredata.core.PdMidiReceiver
+org.puredata.core.PdReceiver
+org.puredata.core.AudioStatListener
+org.puredata.core.PdBase
+org.puredata.core.utils.PdListener
+org.puredata.core.utils.PdDispatcher
+org.puredata.core.utils.IoUtils
+org.puredata.core.utils.PdListener$Adapter
 org.puredata.core.PdBase
 org.puredata.core.PdBase: void clearSearchPath()
 org.puredata.core.PdBase: void addToSearchPath(java.lang.String)
@@ -36,6 +46,34 @@ org.puredata.core.PdBase: void closeFile(long)
 org.puredata.core.PdBase: int getDollarZero(long)
 org.puredata.core.PdBase: int readArrayNative(float[],int,java.lang.String,int,int)
 org.puredata.core.PdBase: int writeArrayNative(java.lang.String,int,float[],int,int)
+org.puredata.core.utils.PdDispatcher
+org.puredata.core.utils.PdDispatcher: void print(java.lang.String)
+org.puredata.core.utils.PdDispatcher: void receiveBang(java.lang.String)
+org.puredata.core.utils.PdDispatcher: void receiveFloat(java.lang.String,float)
+org.puredata.core.utils.PdDispatcher: void receiveSymbol(java.lang.String,java.lang.String)
+org.puredata.core.utils.PdDispatcher: void receiveList(java.lang.String,java.lang.Object[])
+org.puredata.core.utils.PdDispatcher: void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[])
+org.puredata.core.PdReceiver$Adapter
+org.puredata.core.PdReceiver$Adapter: void print(java.lang.String)
+org.puredata.core.PdReceiver$Adapter: void receiveBang(java.lang.String)
+org.puredata.core.PdReceiver$Adapter: void receiveFloat(java.lang.String,float)
+org.puredata.core.PdReceiver$Adapter: void receiveSymbol(java.lang.String,java.lang.String)
+org.puredata.core.PdReceiver$Adapter: void receiveList(java.lang.String,java.lang.Object[])
+org.puredata.core.PdReceiver$Adapter: void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[])
+com.rj.processing.plasmasoundhd.pd.AudioStatListener
+com.rj.processing.plasmasoundhd.pd.AudioStatListener: void print(java.lang.String)
+com.rj.processing.plasmasoundhd.pd.AudioStatListener: void receiveBang(java.lang.String)
+com.rj.processing.plasmasoundhd.pd.AudioStatListener: void receiveFloat(java.lang.String,float)
+com.rj.processing.plasmasoundhd.pd.AudioStatListener: void receiveSymbol(java.lang.String,java.lang.String)
+com.rj.processing.plasmasoundhd.pd.AudioStatListener: void receiveList(java.lang.String,java.lang.Object[])
+com.rj.processing.plasmasoundhd.pd.AudioStatListener: void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[])
+org.puredata.core.PdReceiver
+org.puredata.core.PdReceiver: void print(java.lang.String)
+org.puredata.core.PdReceiver: void receiveBang(java.lang.String)
+org.puredata.core.PdReceiver: void receiveFloat(java.lang.String,float)
+org.puredata.core.PdReceiver: void receiveSymbol(java.lang.String,java.lang.String)
+org.puredata.core.PdReceiver: void receiveList(java.lang.String,java.lang.Object[])
+org.puredata.core.PdReceiver: void receiveMessage(java.lang.String,java.lang.String,java.lang.Object[])
 amir.android.icebreaking.SeekBarPreference
 amir.android.icebreaking.SeekBarPreference: SeekBarPreference(android.content.Context,android.util.AttributeSet)
 amir.android.icebreaking.SeekBarPreferenceView
@@ -48,6 +86,15 @@ com.noisepages.nettoyeur.bluetooth.BluetoothSppConnection$State: com.noisepages.
 com.noisepages.nettoyeur.bluetooth.BluetoothSppConnection$State: com.noisepages.nettoyeur.bluetooth.BluetoothSppConnection$State valueOf(java.lang.String)
 com.noisepages.nettoyeur.bluetooth.midi.BluetoothMidiService$State: com.noisepages.nettoyeur.bluetooth.midi.BluetoothMidiService$State[] values()
 com.noisepages.nettoyeur.bluetooth.midi.BluetoothMidiService$State: com.noisepages.nettoyeur.bluetooth.midi.BluetoothMidiService$State valueOf(java.lang.String)
+org.puredata.core.utils.PdDispatcher
+org.puredata.core.utils.PdDispatcher: void receiveBang(java.lang.String)
+org.puredata.core.PdReceiver$Adapter
+org.puredata.core.PdReceiver$Adapter: void receiveBang(java.lang.String)
+org.puredata.core.PdReceiver
+org.puredata.core.PdReceiver: void receiveBang(java.lang.String)
+com.rj.processing.plasmasoundhd.pd.AudioStatListener
+com.rj.processing.plasmasoundhd.pd.AudioStatListener: void receiveBang(java.lang.String)
+processing.core.Processing15Activity
 processing.core.PApplet
 com.rj.processing.plasmasound.PlasmaSound
 com.rj.processing.plasmasoundhd.WaveformEditor

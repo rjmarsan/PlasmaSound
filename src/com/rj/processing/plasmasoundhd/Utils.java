@@ -10,6 +10,7 @@ import java.io.Serializable;
 import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
+import com.rj.processing.plasmasound.R;
 
 public class Utils {
 	 public static String objectToString(Serializable object) {

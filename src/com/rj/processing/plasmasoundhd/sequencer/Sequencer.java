@@ -38,39 +38,51 @@ public class Sequencer {
 			int count = 0;
 
 			while(sequenceKeepRunning && grid != null) {
-				for (int i=0; i<grid.length; i++) {
-					
-					currentRow = i;
-					int countInternal = count;
-
-					for (int j=0; j<grid[i].length; j++) {
-						if (sequenceKeepRunning && grid[i][j] > 0) {
-							countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
-							sendNoteOn(i,j, grid[i][j], countInternal);
+				try {
+					for (int i=0; i<grid.length; i++) {
+						
+						currentRow = i;
+						int countInternal = count;
+	
+						for (int j=0; j<grid[i].length; j++) {
+							if (sequenceKeepRunning && grid[i][j] > 0) {
+								countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
+								sendNoteOn(i,j, grid[i][j], countInternal);
+							}
 						}
+						
+						try {
+							float bpm = Sequencer.this.bpm;
+							if (instrument != null) bpm = instrument.sequencer.bpm.getDefaultValue();
+							long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
+							long waitedtime = SystemClock.uptimeMillis() - lastpause;
+							if (sequenceKeepRunning && waittime - waitedtime > 0) Thread.sleep(waittime - waitedtime);
+							lastpause = SystemClock.uptimeMillis();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+						
+						countInternal = count; //reset the count so we can turn off those sequencers
+						for (int j=0; j<grid[i].length; j++) {
+							if (sequenceKeepRunning && grid[i][j] > 0) {
+								countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
+								sendNoteOff(i,j, grid[i][j], countInternal);
+							}
+						}
+						
+						count = countInternal;
+	
 					}
-					
+				} catch (Exception e) {
 					try {
 						float bpm = Sequencer.this.bpm;
 						if (instrument != null) bpm = instrument.sequencer.bpm.getDefaultValue();
 						long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
-						long waitedtime = SystemClock.uptimeMillis() - lastpause;
-						if (sequenceKeepRunning && waittime - waitedtime > 0) Thread.sleep(waittime - waitedtime);
-						lastpause = SystemClock.uptimeMillis();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+						if (sequenceKeepRunning) Thread.sleep(waittime);
+					} catch (InterruptedException ee) {
+						ee.printStackTrace();
 					}
-					
-					
-					countInternal = count; //reset the count so we can turn off those sequencers
-					for (int j=0; j<grid[i].length; j++) {
-						if (sequenceKeepRunning && grid[i][j] > 0) {
-							countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
-							sendNoteOff(i,j, grid[i][j], countInternal);
-						}
-					}
-					
-					count = countInternal;
 
 				}
 			}
@@ -168,13 +180,17 @@ public class Sequencer {
 	
 	
 	public void start() {
+		stop();
 		sequenceThread = new SequenceThread();
 		sequenceThread.sequenceKeepRunning = true;
 		sequenceThread.start();
 	}
 	
 	public void stop() {
-		sequenceThread.sequenceKeepRunning = false;
+		if (sequenceThread != null) {
+			sequenceThread.sequenceKeepRunning = false;
+			sequenceThread = null;
+		}
 	}
 	
 	public void setTempo(float bpm) {

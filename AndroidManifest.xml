@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest package="com.rj.processing.plasmasoundhd" android:versionCode="11" android:versionName="1.2.2" xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest package="com.rj.processing.plasmasound" android:versionCode="14" android:versionName="1.2.5" xmlns:android="http://schemas.android.com/apk/res/android"
 android:installLocation="preferExternal">
   <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="8"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
   
   <application android:label="Plasma Sound" android:icon="@drawable/icon" android:hardwareAccelerated="true">
   
-    <activity android:name="com.rj.processing.plasmasoundhd.Launcher"
-    		  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="landscape"
+    <activity android:name="com.rj.processing.plasmasoundhd.PDActivity"
+    		  android:theme="@android:style/Theme.Holo" android:screenOrientation="landscape"
     		  android:configChanges="orientation">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -15,36 +15,21 @@ android:installLocation="preferExternal">
       </intent-filter>
     </activity>
     
-    <activity android:name="com.rj.processing.plasmasoundhd.PlasmaSound"
-    		  android:theme="@android:style/Theme.Holo" android:screenOrientation="landscape"
-    		  android:configChanges="orientation">
-    </activity>
-    <activity android:name="com.rj.processing.plasmasoundhd.WaveformEditor"
-    		  android:theme="@android:style/Theme.Holo" android:screenOrientation="landscape"
-    		  android:configChanges="orientation">
-    </activity>
-    <activity android:name="com.rj.processing.plasmasoundhd.SequencerActivity"
-    		  android:theme="@android:style/Theme.Holo" android:screenOrientation="landscape"
-    		  android:configChanges="orientation">
-    </activity>
-    <activity android:name="com.rj.processing.plasmasound.PlasmaSound"
-    		  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="landscape"
-    		  android:configChanges="orientation">
-    </activity>    
-    
-    <activity android:name="com.rj.processing.plasmasound.PlasmaThereminEffectsSettings"
-    		  android:screenOrientation="sensor"
-    		  android:configChanges="orientation">
-    </activity>    
-    <activity android:name="com.rj.processing.plasmasound.PlasmaThereminAudioSettings"
-    		  android:screenOrientation="sensor"
-    		  android:configChanges="orientation">
-    </activity>    
-    <activity android:name="com.rj.processing.plasmasound.PlasmaThereminSequencerSettings"
-    		  android:screenOrientation="sensor"
-    		  android:configChanges="orientation">
-    </activity>    
-    
+
+        
+     <activity android:name="com.rj.processing.plasmasound.PlasmaThereminEffectsSettings"
+     		  android:screenOrientation="sensor"
+     		  android:configChanges="orientation">
+     </activity>    
+     <activity android:name="com.rj.processing.plasmasound.PlasmaThereminAudioSettings"
+     		  android:screenOrientation="sensor"
+     		  android:configChanges="orientation">
+     </activity>    
+     <activity android:name="com.rj.processing.plasmasound.PlasmaThereminSequencerSettings"
+     		  android:screenOrientation="sensor"
+     		  android:configChanges="orientation">
+     </activity>    
+        
         
   </application>
   

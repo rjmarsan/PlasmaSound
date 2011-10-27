@@ -12,6 +12,7 @@ import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.MTManager;
 import com.rj.processing.mt.Point;
 import com.rj.processing.mt.TouchListener;
+import com.rj.processing.plasmasound.R;
 import com.rj.processing.plasmasoundhd.waveform.Waveform;
 
 public class WaveformEditor extends PApplet implements TouchListener {
@@ -214,7 +215,7 @@ public class WaveformEditor extends PApplet implements TouchListener {
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 	    final MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(com.rj.processing.plasmasoundhd.R.menu.main_menu, menu);
+	    inflater.inflate(com.rj.processing.plasmasound.R.menu.main_menu, menu);
 	    return true;
 	}
 	
@@ -226,13 +227,13 @@ public class WaveformEditor extends PApplet implements TouchListener {
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
 	    switch (item.getItemId()) {
-	    case com.rj.processing.plasmasoundhd.R.id.instrument_settings:
+	    case com.rj.processing.plasmasound.R.id.instrument_settings:
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.effects_settings:
+	    case com.rj.processing.plasmasound.R.id.effects_settings:
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
+	    case com.rj.processing.plasmasound.R.id.save_settings:
 	        return true;
-	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
+	    case com.rj.processing.plasmasound.R.id.load_settings:
 	        return true;
 
 	    default:

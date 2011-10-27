@@ -27,13 +27,6 @@
             android:entryValues="@array/quantize"
             />
 
-     <ListPreference
-            android:key="waveform"
-            android:title="Waveform"
-            android:summary="kind of waveform generated"
-            android:defaultValue="1.0"
-            android:entries="@array/waveforms_display"
-            android:entryValues="@array/waveforms" />
      
      <amir.android.icebreaking.SeekBarPreference  
             android:key="midimax"
@@ -48,23 +41,13 @@
             android:defaultValue="70"
             android:max="127" />
 
-     <amir.android.icebreaking.SeekBarPreference  
-            android:key="attack"
-            android:title="Attack"
-            android:summary="attack of the note (in milliseconds)"
-            android:defaultValue="10"
-            android:max="2000"
-            android:text="/1000" 
-        	psnd:yenabled="false" />
-
-     <amir.android.icebreaking.SeekBarPreference  
-            android:key="decay"
-            android:title="Decay"
-            android:summary="release of the note on (in milliseconds)"
-            android:defaultValue="10"
-            android:max="2000"
-            android:text="/1000" 
-        	psnd:yenabled="false" />
+     <CheckBoxPreference 
+            android:key="show_plasma_fluid"
+            android:title="Show Plasma Fluid"
+            android:summaryOn="Disabling plasma uses up less CPU"
+            android:summaryOff="Enabling plasma is cool, but uses CPU"
+            android:defaultValue="true"
+         />
 
 
 </PreferenceScreen>

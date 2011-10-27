@@ -16,8 +16,21 @@ public class AudioStats extends Visual{
 	public AudioStats(final PApplet c, PlasmaActivity p) {
 		super(c);
 		this.pa = p;
-		font = c.loadFont("AmericanTypewriter-24.vlw");
+//		font = c.loadFont("AmericanTypewriter-24.vlw");
+//		c.textFont(font);
+//		c.textMode(PApplet.SCREEN);
+
+//		 
+//		font = c.createFont("DroidSerif-Bold", 24);
+//		c.textFont(font);
+//		
+//		c.textMode(PApplet.MODEL);
+
+		font = c.createFont("americantypewriter.ttf", 28);
 		c.textFont(font);
+		
+		c.textMode(PApplet.MODEL);
+
 	}
 
 	@Override
@@ -43,6 +56,7 @@ public class AudioStats extends Visual{
 			try {
 				String name = JSONPresets.getPresets().getCurrent().getString("name");
 				p.text("Preset: "+name, 10, 10);
+				//p.text
 				
 				
 			} catch (JSONException e) {

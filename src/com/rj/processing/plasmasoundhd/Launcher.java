@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import com.rj.processing.plasmasound.R;
 
 
 public class Launcher extends Activity {

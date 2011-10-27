@@ -15,15 +15,13 @@ import java.io.IOException;
 import org.puredata.android.io.AudioParameters;
 import org.puredata.android.io.PdAudio;
 import org.puredata.core.PdBase;
-import org.puredata.core.PdReceiver;
 import org.puredata.core.utils.IoUtils;
 
 import processing.core.PApplet;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.rj.processing.plasmasoundhd.PlasmaSound;
-import com.rj.processing.plasmasoundhd.R;
+import com.rj.processing.plasmasound.R;
 
 
 public class PDManager {
@@ -50,41 +48,6 @@ public class PDManager {
 		});
 	}
 	
-	public class AudioStatListener implements PdReceiver{
-		public float audiolevel = 0f;
-
-		@Override
-		public void print(final String s) {	
-			//Log.d("PDManager", "recieved print! "+s);
-
-		}
-
-		@Override
-		public void receiveBang(final String source) {
-			//Log.d("PDManager", "recieved bang! "+source);
-		}
-
-		@Override
-		public void receiveFloat(final String source, final float x) {
-			//Log.d("PDManager", "recieved float! "+source+" : "+x);
-			if (source.equalsIgnoreCase("mainlevel")) {
-				audiolevel = x;
-			}
-		}
-		@Override
-		public void receiveList(final String source, final Object... args) {
-			//Log.d("PDManager", "recieved list! "+source);
-		}
-		@Override
-		public void receiveMessage(final String source, final String symbol,
-				final Object... args) {	
-			//Log.d("PDManager", "recieved message! "+source);
-		}
-		@Override
-		public void receiveSymbol(final String source, final String symbol) {		
-			//Log.d("PDManager", "recieved symbol! "+source);
-		}
-	};
 	
 	AudioStatListener reciever = new AudioStatListener();
 

@@ -19,7 +19,7 @@ package com.rj.processing.plasmasound;
 
 
 import com.rj.processing.plasmasoundhd.PlasmaSound;
-import com.rj.processing.plasmasoundhd.R;
+import com.rj.processing.plasmasound.R;
 
 import android.app.Activity;
 import android.content.Context;

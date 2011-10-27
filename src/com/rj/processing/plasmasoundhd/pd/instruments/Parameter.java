@@ -144,7 +144,7 @@ public class Parameter {
 		if (isGlobal()) pushValue(abnormal);
 		else pushValue(abnormal, num);
 	}
-	
+  
 	public void pushDefaultNaive(final int num) {
 		if (isGlobal()) pushDefault();
 		else pushDefault(num);

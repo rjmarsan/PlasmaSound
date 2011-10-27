@@ -31,7 +31,7 @@ public class Grid extends Visual{
 		float midiMax = pp.getInst().midiMax;
 		float midiMin = pp.getInst().midiMin;
 		if (cacheImage == null || this.midiMin != midiMin || this.midiMax != midiMax) {
-			cache = p.createGraphics((int)width, (int)height, PApplet.A2D);
+			cache = p.createGraphics((int)width, (int)height, PApplet.P2D);
 			//p.println("NEW IMAGE NEW GIRD NEW GRID NEW GRID NEW GRID ");
 			cache.beginDraw();
 			//cache.background(0, 0, 0, 0);

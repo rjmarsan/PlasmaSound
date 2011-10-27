@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="instrument_settings">Instrument</string>
+        <string name="instrument_name">Continuum</string>
+        <string name="sequencer_name">Sequencer</string>
+            
+    
+    
+    <string name="instrument_settings">Continuum</string>
     <string name="effects_settings">Effects</string>
-    <string name="save_settings">Save</string>
-    <string name="load_settings">Load</string>
+    <string name="save_settings">Save Preset</string>
+    <string name="load_settings">Load Preset</string>
+    <string name="save_sequence_settings">Save Sequence</string>
+    <string name="load_sequence_settings">Load Sequence</string>
+    <string name="record_settings">Record</string>
     <string name="waveform_editor">Waveform</string>
     <string name="sequencer">Sequencer</string>
     <string name="sequencer_settings">Sequencer</string>
+    <string name="about_settings">About Plasma Sound</string>
+        
 </resources>
+
+
+    
+    
+    
+    <!-- 
+    The instrument tab should be renamed somethingPlasmaSound and should contain quantize, high low, and some configuration about the view (if there should be fluid, etc)
+    effects <y axis> should be moved to the above menu
+    
+    
+    
+    
+     -->

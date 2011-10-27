@@ -5,14 +5,14 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.widget.EditText;
 
-import com.rj.processing.plasmasoundhd.PlasmaSound;
+import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.Utils;
 
 public class Preset {
 	public static String PRESETS = "PRESETS";
 
-	public void showLoadMenu(final PlasmaSound p) {
-		SharedPreferences s = p.getSharedPreferences(PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+	public void showLoadMenu(final PDActivity p) {
+		SharedPreferences s = p.getSharedPreferences(PDActivity.SHARED_PREFERENCES_AUDIO, 0);
 		Object o = Utils.stringToObject(s.getString(PRESETS, ""));
 		try {
 			String[] nofinalitems = null;
@@ -37,8 +37,8 @@ public class Preset {
 		}
 	}
 	
-	public void showSaveMenu(final PlasmaSound p) {
-		SharedPreferences s = p.getSharedPreferences(PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+	public void showSaveMenu(final PDActivity p) {
+		SharedPreferences s = p.getSharedPreferences(PDActivity.SHARED_PREFERENCES_AUDIO, 0);
 		Object o = Utils.stringToObject(s.getString(PRESETS, ""));
 		try {
 			final String[] items = (String[])o;
@@ -62,7 +62,7 @@ public class Preset {
 		}
 	}
 	
-	public void showSaveAsMenu(final PlasmaSound p ) {
+	public void showSaveAsMenu(final PDActivity p ) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(p);
 		builder.setTitle("Name?");
 		builder.setMessage("Pick a name for the preset");
@@ -78,12 +78,12 @@ public class Preset {
 		alert.show();
 	}
 	
-	public void loadPreset(PlasmaSound p, Instrument e, String preset) {
-		SharedPreferences s = p.getSharedPreferences(PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+	public void loadPreset(PDActivity p, Instrument e, String preset) {
+		SharedPreferences s = p.getSharedPreferences(PDActivity.SHARED_PREFERENCES_AUDIO, 0);
 		e.updateSettings(null, preset);
 	}
 	
-	public void savePreset(PlasmaSound p, Instrument e, String preset) {
+	public void savePreset(PDActivity p, Instrument e, String preset) {
 		
 	}
 }

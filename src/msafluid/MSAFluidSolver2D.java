@@ -34,6 +34,8 @@
 package msafluid;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import android.util.Log;
 
@@ -688,28 +690,7 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 		Arrays.fill(gOld, 0);
 		Arrays.fill(bOld, 0);
 		
-		for (int i = 0; i < _numCells; i++) {
-			// clear old values
-//			uOld[i] = vOld[i] = 0; 
-//			rOld[i] = 0;
-//			gOld[i] = bOld[i] = 0;
-//			
-			// calc avg speed
-			//_avgSpeed += u[i] * u[i] + v[i] * v[i];
-			
-			// calc avg density
-//			r[i] = Math.min(1.0f, r[i]);
-//			g[i] = Math.min(1.0f, g[i]);
-//			b[i] = Math.min(1.0f, b[i]);
-//			final float density = Math.max(r[i], Math.max(g[i], b[i]));
-			//float density = r[i];
-			//_avgDensity += density;	// add it up
-			
-			// calc deviation (for uniformity)
-//			currentDeviation = density - _avgDensity;
-//			totalDeviations += currentDeviation * currentDeviation;
-			
-			// fade out old
+		for (int i = _numCells-1; i >= 0 ; i--) {
 			r[i] *= holdAmount;
 			g[i] *= holdAmount;
 			b[i] *= holdAmount;
@@ -724,14 +705,14 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	
 	
 	protected void addSourceUV() {
-		for (int i = 0; i < _numCells; i++) {
+		for (int i = _numCells-1; i >= 0 ; i--) {
 			u[i] += _dt * uOld[i];
 			v[i] += _dt * vOld[i];
 		}
 	}
 	
 	protected void addSourceRGB() {
-		for (int i = 0; i < _numCells; i++) {
+		for (int i = _numCells-1; i >= 0 ; i--) {
 			r[i] += _dt * rOld[i];
 			g[i] += _dt * gOld[i];
 			b[i] += _dt * bOld[i];		
@@ -741,7 +722,7 @@ D/MSAFluidSolver(13634): Adding force 4 (orig:dx2.1063147 dy:-0.9879706  ): [48,
 	
 	
 	protected void addSource(final float[] x, final float[] x0) {
-		for (int i = 0; i < _numCells; i++) {
+		for (int i = _numCells-1; i >= 0 ; i--) {
 			x[i] += _dt * x0[i];
 		}
 	}

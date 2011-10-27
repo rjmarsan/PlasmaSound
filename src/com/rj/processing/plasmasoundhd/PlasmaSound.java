@@ -1,8 +1,6 @@
 package com.rj.processing.plasmasoundhd;
 
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import processing.core.PApplet;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
@@ -10,9 +8,20 @@ import com.rj.processing.plasmasoundhd.visuals.Grid;
 import com.rj.processing.plasmasoundhd.visuals.PlasmaFluid;
 
 
-public class PlasmaSound extends PDActivity {
-	
+public class PlasmaSound extends PlasmaSubFragment {
+	public static String TAG = "PlasmaSound";
+	public PlasmaSound(PDActivity p) {
+		super(p);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public Visualization vis;
+	boolean settingup = false;
+
+	@Override
+	int getMenu() { return com.rj.processing.plasmasound.R.menu.main_menu; }
 
 	
 	
@@ -20,36 +29,41 @@ public class PlasmaSound extends PDActivity {
 	@Override
 	public void setup() {
 		super.setup();
-		
+		settingup = true;
 	    //VISUALS CODE
-	    vis = new Visualization(this);
-	    vis.addVisual(new PlasmaFluid(this)); 
-	    vis.addVisual(new Grid(this, this)); 
-	    vis.addVisual(new AudioStats(this, this)); 
+	    vis = new Visualization(p);
+	    vis.addVisual(new PlasmaFluid(p)); 
+	    vis.addVisual(new Grid(p, p)); 
+	    vis.addVisual(new AudioStats(p, p)); 
+	    settingup = false;
 	}
 	
-	
+	@Override
+	public void destroy() {
+		super.destroy();
+		vis = null;
+	}
 
 	@Override
 	public void touchAllUp(final Cursor c) {
-		if (inst!=null) inst.allUp();
+		if (p.inst!=null) p.inst.allUp();
 		
 	}
 	@Override
 	public void touchDown(final Cursor c) {
-		if (inst!=null) inst.touchDown(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
+		if (p.inst!=null) p.inst.touchDown(null, c.curId, c.currentPoint.x, p.width, c.currentPoint.y, p.height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 		
 	}
 	@Override
 	public void touchMoved(final Cursor c) {
-		if (inst!=null) inst.touchMove(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
+		if (p.inst!=null) p.inst.touchMove(null, c.curId, c.currentPoint.x, p.width, c.currentPoint.y, p.height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	
 	}
 	@Override
 	public void touchUp(final Cursor c) {
-		if (inst!=null) inst.touchUp(null, c.curId, c.currentPoint.x, width, c.currentPoint.y, height, c);
+		if (p.inst!=null) p.inst.touchUp(null, c.curId, c.currentPoint.x, p.width, c.currentPoint.y, p.height, c);
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	}
 	
@@ -57,12 +71,12 @@ public class PlasmaSound extends PDActivity {
 	
 	@Override
 	public void draw() {
-		if (pdready) {
-		    background(0);
+		if (p.pdready && !settingup) {
+		    p.background(0);
 		
 		    vis.drawVisuals();
 		    
-	//	    if (this.frameCount % 100 == 0) println(this.frameRate+"");
+		    if (p.frameCount % 1000 == 0) PApplet.println(p.frameRate+"");
 		}
 	
 	}

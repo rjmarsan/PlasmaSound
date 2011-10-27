@@ -19,6 +19,8 @@ public  class Volume extends Effect {
 	public Parameter off;
 	
 	public Volume() {
+		this.name = "volume";
+
 		params = new HashMap<String, Parameter>();
 		ampglobal = new Parameter(AMP_GLOBAL, true);
 		ampglobal.setMinMax(0f, 1f);

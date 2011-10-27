@@ -22,6 +22,7 @@ public abstract class Effect {
 	boolean yenabled = false;
 	String[] yenabledlist = {};
 	boolean enabled = true;
+	String name = "";
 
 	public Effect() {
 		params = new HashMap<String, Parameter>();
@@ -74,6 +75,7 @@ public abstract class Effect {
 	public void updateSettings(final SharedPreferences prefs,
 			final String preset) {
 		final ArrayList<String> yList = new ArrayList<String>();
+		
 		for (final Parameter p : params.values()) {
 			if (prefs.getBoolean(p.getName() + "_y", false)) {
 				// Log.d("EffectsSettings", "Adding :"+p.getName()+
@@ -92,6 +94,7 @@ public abstract class Effect {
 			if (newval >= 0)
 				p.setDefaultNaive(newval);
 		}
+		
 		this.yenabledlist = new String[yList.size()];
 		for (int i = 0; i < yenabledlist.length; i++) {
 			yenabledlist[i] = yList.get(i);
