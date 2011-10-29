@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Toast;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.MTManager;
@@ -176,6 +177,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	
 	public void runTheremin(boolean setup, boolean fragmentTransaction)  {
+		hideBoth();
 		if (frag != null) frag.destroy();
 		frag = instrument;
 		if (setup) frag.setup();
@@ -187,6 +189,20 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			trans.commit();
 		}
 	}
+	public void runSequencer(boolean setup, boolean fragmentTransaction) {
+		hideBoth();
+		if (frag != null) frag.destroy();
+		frag = sequencer;
+		if (setup) frag.setup();
+		if (fragmentTransaction) {
+			FragmentManager man = this.getSupportFragmentManager();
+			FragmentTransaction trans = man.beginTransaction();
+			removeTheremin(trans);
+			addSequencer(trans);
+			trans.commit();
+		}
+	}
+
 	
 	public void removeTheremin(FragmentTransaction trans) {
 		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
@@ -209,18 +225,6 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			trans.add(sequencer, SequencerActivity.TAG);
 	}
 	
-	public void runSequencer(boolean setup, boolean fragmentTransaction) {
-		if (frag != null) frag.destroy();
-		frag = sequencer;
-		if (setup) frag.setup();
-		if (fragmentTransaction) {
-			FragmentManager man = this.getSupportFragmentManager();
-			FragmentTransaction trans = man.beginTransaction();
-			removeTheremin(trans);
-			addSequencer(trans);
-			trans.commit();
-		}
-	}
 	
 	
 	
@@ -367,30 +371,62 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
         if (!(mPrefs.getBoolean("popupshown", false))) {
 	        if (elapsed > maxtime) {
 	        	if (System.currentTimeMillis() % 10 == 1) {
-	        		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.setTitle("Rate Plasma Sound!");
-					builder.setMessage("Plasma Sound is 100% ad free and cost free. Show your support by leaving a comment on the Market.\n(This won't be shown again, I promise)");
-					
-					builder.setPositiveButton("Market", new OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							Intent intent = new Intent(Intent.ACTION_VIEW);
-							intent.setData(Uri.parse("market://details?id="+getApplication().getPackageName()));
-							startActivity(intent);
-							dialog.dismiss();
-						}});
-					builder.setNegativeButton("Never show again", new OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}});
-					AlertDialog alert = builder.create();
-					
-					alert.show();
+	        		showRatingDialog();
 	        	}
 	        	Editor e = mPrefs.edit();
 	        	e.putBoolean("popupshown", true);
 	        	e.commit();
 	        }
         }
+	}
+	
+	void showRatingDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Rate Plasma Sound!");
+		builder.setMessage("Plasma Sound is 100% ad free and cost free. Show your support by leaving a comment on the Market.\n(This won't be shown again, I promise)");
+		
+		builder.setPositiveButton("Market", new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("market://details?id="+getApplication().getPackageName()));
+				startActivity(intent);
+				dialog.dismiss();
+			}});
+		builder.setNegativeButton("Never show again", new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}});
+		AlertDialog alert = builder.create();
+		
+		alert.show();
+	}
+	
+	void showAboutDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("About Plasma Sound!");
+		builder.setMessage("Plasma Sound is written by RJ Marsan, and is 100% ad free and cost free. Show your support by leaving a comment on the Market, or leave a donation below:");
+		
+		builder.setPositiveButton("Market", new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("market://details?id="+getApplication().getPackageName()));
+				startActivity(intent);
+				dialog.dismiss();
+			}});
+		
+		builder.setNeutralButton("Donate", new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				Toast.makeText(PDActivity.this, "Coming soon!", Toast.LENGTH_SHORT).show();
+				dialog.dismiss();
+			}});
+
+		builder.setNegativeButton("Never show again", new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}});
+		AlertDialog alert = builder.create();
+		
+		alert.show();
 	}
 	
 	@Override
@@ -441,6 +477,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    case com.rj.processing.plasmasound.R.id.sequencer_settings:
 	        sequencerSettings();
 	        return true;
+	    case com.rj.processing.plasmasound.R.id.instrument:
+	        instrument();
+	        return true;
 	    case com.rj.processing.plasmasound.R.id.sequencer:
 	        sequencer();
 	        return true;
@@ -455,6 +494,15 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	        return true;
 	    case com.rj.processing.plasmasound.R.id.load_settings:
 	        loadSettings();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
+	        loadSequenceSettings();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
+	        saveSequenceSettings();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.about:
+	        about();
 	        return true;
 
 	    default:
@@ -471,6 +519,12 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 //		final Intent i = new Intent(this, SequencerActivity.class);
 //		this.startActivity(i);
 		runSequencer(true, true);
+	}
+
+	public void instrument() {
+//		final Intent i = new Intent(this, SequencerActivity.class);
+//		this.startActivity(i);
+		runTheremin(true, true);
 	}
 
 	
@@ -575,6 +629,18 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public void loadSettings() {
 		JSONPresets.getPresets().showLoadMenu(this, this);
 	}
+	
+	public void saveSequenceSettings() {
+		JSONPresets.getPresets().showSaveMenu(this, this);
+	}
+	public void loadSequenceSettings() {
+		JSONPresets.getPresets().showLoadMenu(this, this);
+	}
+	
+	public void about() {
+		showAboutDialog();
+	}
+
 	
 	@Override
 	public void onActivityResult(final int i, final int j, final Intent res) {

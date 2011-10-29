@@ -32,7 +32,7 @@ public class PlasmaSound extends PlasmaSubFragment {
 		settingup = true;
 	    //VISUALS CODE
 	    vis = new Visualization(p);
-	    vis.addVisual(new PlasmaFluid(p)); 
+	    vis.addVisual(new PlasmaFluid(p, p)); 
 	    vis.addVisual(new Grid(p, p)); 
 	    vis.addVisual(new AudioStats(p, p)); 
 	    settingup = false;

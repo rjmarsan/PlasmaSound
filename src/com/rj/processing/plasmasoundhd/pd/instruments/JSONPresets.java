@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,14 +101,18 @@ public class JSONPresets {
 					"release", "amp", "filter", "decay" };
 			final SharedPreferences mPrefs = c.getSharedPreferences(
 					PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
-			for (String s : defaults) {
-				if (mPrefs.contains(s)) {
-					obj.put(s, mPrefs.getInt(s, 0));
-				}
-				if (mPrefs.contains(s+"_y")) {
-					obj.put(s+"_y", mPrefs.getBoolean(s+"_y", false));
-				}
+			Map<String,?> mapping = mPrefs.getAll();
+			for (String key : mapping.keySet()) {
+				obj.put(key, mapping.get(key));
 			}
+//			for (String s : defaults) {
+//				if (mPrefs.contains(s)) {
+//					obj.put(s, mPrefs.getInt(s, 0));
+//				}
+//				if (mPrefs.contains(s+"_y")) {
+//					obj.put(s+"_y", mPrefs.getBoolean(s+"_y", false));
+//				}
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -253,15 +258,15 @@ public class JSONPresets {
 				JSONObject presets = new JSONObject();
 				presetsobj.put("presets", presets);
 			}
-			if (currentsetting != null) {
-				presetsobj.put("default", currentsetting.getString("name"));
-			}
+			presetsobj.put("default", preset);
 			JSONObject presets = presetsobj.getJSONObject("presets");
 			JSONObject presetobj = new JSONObject();
 			presetobj.put("name", preset);
 			presetobj = e.saveSettingsToJSON(presetobj);
 			presets.put(preset, presetobj);
+			currentsetting = presetobj;
 			writePresets(presetsobj, c);
+			updateDefault(c);
 		} catch (Exception j ) {
 			j.printStackTrace();
 		}

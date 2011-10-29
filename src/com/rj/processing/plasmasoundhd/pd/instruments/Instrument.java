@@ -7,6 +7,7 @@ import org.puredata.core.PdBase;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
@@ -25,6 +26,7 @@ import com.rj.processing.plasmasoundhd.pd.effects.Volume;
 public class Instrument {
 	private static final String MIDI_MIN = "midimin";
 	private static final String MIDI_MAX = "midimax";
+	private static final String VISUAL_QUALITY = "visualqual";
 	private static final String WAVEFORM = "waveform";
 	private static final String QUANTIZE = "quantize_note_list";
 	private static final String QUAT_CONTINUOUS = "continuous";
@@ -46,6 +48,7 @@ public class Instrument {
 	private String patchName;
 	
 	public float midiMin = 0;
+	public int visualQuality = 2;
 	public float midiMax = 127;
 	public float waveform = 1;
 	public static int NCONTINUOUS = 0;
@@ -138,6 +141,10 @@ public class Instrument {
 		this.midiMax = val;
 	}
 	
+	public void setVisualQuality(final int val) {
+		this.visualQuality = val;
+	}
+	
 	private void sendMessage(final String s,final  float val) {
 		PdBase.sendFloat(s, val);
 	}
@@ -192,17 +199,27 @@ public class Instrument {
 			final float prefMidiMin = prefs.getInt(preset+MIDI_MIN, 70);
 			final float prefMidiMax = prefs.getInt(preset+MIDI_MAX, 86);
 			setMidiMin(prefMidiMin);
-			setMidiMax(prefMidiMax);			
+			setMidiMax(prefMidiMax);
+			
+			String defaultQuality = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? "1":"2";
+			Log.d("VisualQual", "presets have visual quality: "+prefs.contains(preset+VISUAL_QUALITY));
+			Log.d("VisualQual", "presets for visual quality: "+prefs.getString(preset+VISUAL_QUALITY, defaultQuality));
+			final int prefsQual = Integer.parseInt(prefs.getString(preset+VISUAL_QUALITY, defaultQuality));
+			Log.d("VisualQual", "presets for visual quality (as int): "+prefsQual);
+			setVisualQuality(prefsQual);
+
 			
 			final String s_waveform = prefs.getString(preset+WAVEFORM, "1.0");
 			final Float waveform = Float.parseFloat(s_waveform);
 			setWaveform(waveform);
 			
-			String quantval = prefs.getString(preset+QUANTIZE, QUAT_CONTINUOUS);
+			quantval = prefs.getString(preset+QUANTIZE, QUAT_CONTINUOUS);
 			if (quantval.equalsIgnoreCase(QUAT_QUANTIZE)) {
 				quantize = NQUANTIZE;
 			} else if (quantval.equalsIgnoreCase(QUAT_SLIDE)) {
 				quantize = NSLIDE;
+			} else {
+				quantize = NCONTINUOUS;
 			}
 			
 			for (final Effect e : effects) {
@@ -217,13 +234,15 @@ public class Instrument {
 	
 	public void updateSettingsFromJSON(JSONObject prefs, boolean savetoshared, SharedPreferences sprefs) {
 		try {
+			Log.d("INSTRUMENT", "Settings changed!!!!!!!!!!!");
 			Editor edit = sprefs.edit();
 			final float prefMidiMin = prefs.has(MIDI_MIN) ? prefs.getInt(MIDI_MIN) : 70;
 			if (savetoshared) edit.putInt(MIDI_MIN, (int)prefMidiMin);
 			final float prefMidiMax = prefs.has(MIDI_MAX) ? prefs.getInt(MIDI_MAX) : 86;
 			if (savetoshared) edit.putInt(MIDI_MAX, (int)prefMidiMax);
 			setMidiMin(prefMidiMin);
-			setMidiMax(prefMidiMax);			
+			setMidiMax(prefMidiMax);
+			
 			
 			final String s_waveform = prefs.has(WAVEFORM) ? prefs.getString(WAVEFORM) : "1.0";
 			final Float waveform = Float.parseFloat(s_waveform);
@@ -235,6 +254,8 @@ public class Instrument {
 				quantize = NQUANTIZE;
 			} else if (quantval.equalsIgnoreCase(QUAT_SLIDE)) {
 				quantize = NSLIDE;
+			} else {
+				quantize = NCONTINUOUS;
 			}
 			if (savetoshared) edit.putString(QUANTIZE, quantval);
 
@@ -254,10 +275,10 @@ public class Instrument {
 			prefs.put(MIDI_MIN, this.midiMin);
 			prefs.put(MIDI_MAX, this.midiMax);
 	
-			prefs.put(WAVEFORM, this.waveform+"");
+			prefs.put(WAVEFORM, this.waveform);
 
-			prefs.put(QUANTIZE, this.quantval+"");
-			
+			prefs.put(QUANTIZE, this.quantval);
+						
 			
 			for (final Effect e : effects) {
 				prefs = e.saveSettingsToJSON(prefs);

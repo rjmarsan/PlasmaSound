@@ -24,19 +24,26 @@ import android.preference.PreferenceActivity;
 import com.rj.processing.plasmasound.R;
 
 public class PlasmaThereminSequencerSettings extends PreferenceActivity {
-
+//
+//    @Override
+//    protected void onCreate(final Bundle icicle) {
+//        super.onCreate(icicle);
+//        getPreferenceManager().setSharedPreferencesName(
+//                PlasmaSound.SHARED_PREFERENCES_AUDIO);
+//        addPreferencesFromResource(R.xml.sequencersettings);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//    }
+	
     @Override
-    protected void onCreate(final Bundle icicle) {
+    public void onCreate(final Bundle icicle) {
         super.onCreate(icicle);
-        getPreferenceManager().setSharedPreferencesName(
-                PlasmaSound.SHARED_PREFERENCES_AUDIO);
-        addPreferencesFromResource(R.xml.sequencersettings);
+        this.setContentView(R.layout.sequencersettings);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+    
 
 
 }

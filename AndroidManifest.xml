@@ -18,15 +18,15 @@ android:installLocation="preferExternal">
 
         
      <activity android:name="com.rj.processing.plasmasound.PlasmaThereminEffectsSettings"
-     		  android:screenOrientation="sensor"
+     		  android:screenOrientation="landscape"
      		  android:configChanges="orientation">
      </activity>    
      <activity android:name="com.rj.processing.plasmasound.PlasmaThereminAudioSettings"
-     		  android:screenOrientation="sensor"
+     		  android:screenOrientation="landscape"
      		  android:configChanges="orientation">
      </activity>    
      <activity android:name="com.rj.processing.plasmasound.PlasmaThereminSequencerSettings"
-     		  android:screenOrientation="sensor"
+     		  android:screenOrientation="landscape"
      		  android:configChanges="orientation">
      </activity>    
         

@@ -16,12 +16,14 @@ public  class SequencerStuff extends Effect {
 	public final static String BPM = "sequence_bpm";
 	public final static String NOTES = "sequence_notes";
 	public final static String SCALE = "sequence_scale";
+	public final static String SYNCOPATED = "sequence_syncopated";
 	
 	public Parameter lownote; 
 	public Parameter steps; 
 	public Parameter bpm; 
 	public Parameter notes; 
 	public Parameter scale; 
+	public Parameter syncopated;
 	
 	public SequencerStuff() {
 		params = new HashMap<String, Parameter>();
@@ -50,6 +52,12 @@ public  class SequencerStuff extends Effect {
 		scale.setMinMax(0, 10);
 		scale.setDefault(1);
 		params.put(SCALE, scale );
+		
+
+		syncopated = new NonPDParameter(SYNCOPATED, false);
+		syncopated.setMinMax(0, 100);
+		syncopated.setDefault(0);
+		params.put(SYNCOPATED, syncopated );
 
 		
 		this.yenabledlist = new String[] {

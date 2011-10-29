@@ -25,19 +25,26 @@ import com.rj.processing.plasmasound.R;
 
 public class PlasmaThereminAudioSettings extends PreferenceActivity {
 
+//    @Override
+//    protected void onCreate(final Bundle icicle) {
+//        super.onCreate(icicle);
+//        getPreferenceManager().setSharedPreferencesName(
+//                PlasmaSound.SHARED_PREFERENCES_AUDIO);
+//        addPreferencesFromResource(R.xml.instrumentsettings);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//    }
+
+    
     @Override
-    protected void onCreate(final Bundle icicle) {
+    public void onCreate(final Bundle icicle) {
         super.onCreate(icicle);
-        getPreferenceManager().setSharedPreferencesName(
-                PlasmaSound.SHARED_PREFERENCES_AUDIO);
-        addPreferencesFromResource(R.xml.instrumentsettings);
+        this.setContentView(R.layout.instrumentsettings);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
+    
 
 }
 

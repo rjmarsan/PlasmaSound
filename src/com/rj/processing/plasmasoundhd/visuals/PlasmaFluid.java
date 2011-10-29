@@ -3,27 +3,33 @@ package com.rj.processing.plasmasoundhd.visuals;
 import msafluid.MSAFluidSolver2D;
 import processing.core.PApplet;
 import processing.core.PImage;
+import android.util.Log;
 import android.view.MotionEvent;
 
-import com.rj.processing.plasmasoundhd.Launcher;
-import com.rj.processing.plasmasoundhd.PlasmaSound;
+import com.rj.processing.plasmasoundhd.PDActivity;
 
 public class PlasmaFluid extends Visual {
-
-	
-	final float FLUID_WIDTH = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? 40 : 90;
+	final float [] FLUID_QUALITIES = {0, 40, 90};
+	int currentQuality = 1;
 
 	public MSAFluidSolver2D fluidSolver;
 
 	PImage imgFluid;
+	PDActivity pp;
 
-
-	public PlasmaFluid(final PApplet p) {
+	public PlasmaFluid(final PApplet p, PDActivity pp) {
 		super(p);
+		this.pp = pp;
 		initVis();
 	}
 	
 	private void setupFluid() {
+		if (pp.inst == null) {
+			currentQuality = -1;
+			return;
+		}
+		currentQuality = pp.inst.visualQuality % FLUID_QUALITIES.length;
+		float FLUID_WIDTH = FLUID_QUALITIES[currentQuality];
 	    // create fluid and set options
 	    fluidSolver = new MSAFluidSolver2D((int)(FLUID_WIDTH), (int)(FLUID_WIDTH * height/width));
 	    
@@ -38,15 +44,18 @@ public class PlasmaFluid extends Visual {
 		setupFluid();
 		
 		// textMode(SHAPE);
-		p.textMode(p.MODEL);
-		p.rectMode(p.CENTER);
-		p.ellipseMode(p.CENTER);
 	}
 
 	
 	public void drawVis() {
+		if (pp.inst == null || pp.inst.visualQuality % FLUID_QUALITIES.length != currentQuality) {
+			setupFluid();
+		}
 		p.pushStyle();
 		
+		p.textMode(p.MODEL);
+		p.rectMode(p.CENTER);
+		p.ellipseMode(p.CENTER);
 		drawFluid();
 		
 		
@@ -56,6 +65,7 @@ public class PlasmaFluid extends Visual {
 	}
 
 	private void drawFluid() {
+		if (currentQuality <= 0 || fluidSolver == null) return;
 	    fluidSolver.update();
 	    
 	    imgFluid.loadPixels();

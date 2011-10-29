@@ -90,7 +90,7 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	    
 	    //VISUALS CODE
 	    vis = new Visualization(this);
-	    vis.addVisual(new PlasmaFluid(this)); 
+	    vis.addVisual(new PlasmaFluid(this, null)); 
 	    vis.addVisual(new Grid(this, this)); 
 	    vis.addVisual(new AudioStats(this, this)); 
 	    

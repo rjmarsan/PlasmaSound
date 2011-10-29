@@ -1,5 +1,7 @@
 package com.rj.processing.plasmasoundhd.sequencer;
 
+import java.util.Arrays;
+
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -7,15 +9,18 @@ import com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
 public class Sequencer {
-	public static int MAJOR = 0;
-	public static int MINOR = 1;
-	public static int PENTATONIC = 2;
-	public static int WHOLE = 3;
-	public static int HALF = 4;
+	public static final int MAJOR = 0;
+	public static final int MINOR = 1;
+	public static final int PENTATONIC = 2;
+	public static final int WHOLE = 3;
+	public static final int HALF = 4;
+	
+	public static final float OFF = Float.NEGATIVE_INFINITY;
 	
 	public Instrument instrument;
 	public volatile float[][] grid;
 	public float bpm;
+	public float syncopated;
 	public int key = 0; /** c = 0, c# = 1... **/
 	public int mode = MAJOR; /** MAJOR or MINOR, etc **/
 	public SequenceThread sequenceThread;
@@ -45,7 +50,7 @@ public class Sequencer {
 						int countInternal = count;
 	
 						for (int j=0; j<grid[i].length; j++) {
-							if (sequenceKeepRunning && grid[i][j] > 0) {
+							if (sequenceKeepRunning && grid[i][j] != OFF) {
 								countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
 								sendNoteOn(i,j, grid[i][j], countInternal);
 							}
@@ -53,8 +58,17 @@ public class Sequencer {
 						
 						try {
 							float bpm = Sequencer.this.bpm;
-							if (instrument != null) bpm = instrument.sequencer.bpm.getDefaultValue();
+							float syncopation = Sequencer.this.syncopated;
+							if (instrument != null) {
+								bpm = instrument.sequencer.bpm.getDefaultValue();
+								syncopation = instrument.sequencer.syncopated.getDefaultValue();
+							}
 							long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
+							if (currentRow % 2 == 0) {
+								waittime = (long)(waittime + waittime * (syncopation/100f));
+							} else {
+								waittime = (long)(waittime - waittime * (syncopation/100f));
+							}
 							long waitedtime = SystemClock.uptimeMillis() - lastpause;
 							if (sequenceKeepRunning && waittime - waitedtime > 0) Thread.sleep(waittime - waitedtime);
 							lastpause = SystemClock.uptimeMillis();
@@ -65,7 +79,7 @@ public class Sequencer {
 						
 						countInternal = count; //reset the count so we can turn off those sequencers
 						for (int j=0; j<grid[i].length; j++) {
-							if (sequenceKeepRunning && grid[i][j] > 0) {
+							if (sequenceKeepRunning && grid[i][j] != OFF) {
 								countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
 								sendNoteOff(i,j, grid[i][j], countInternal);
 							}
@@ -105,8 +119,8 @@ public class Sequencer {
 			
 			
 			Log.d("Sequencer", "NOTE ON: "+index);
-			instrument.touchDown(null, index, note, 127, 0.72f, 1, null);
-			instrument.touchMove(null, index, note, 127, 0.72f, 1, null);
+			instrument.touchDown(null, index, note, 127, 1-val, 1, null);
+			instrument.touchMove(null, index, note, 127, 1-val, 1, null);
 			
 			
 			instrument.setMidiMin(midiMin);
@@ -150,6 +164,7 @@ public class Sequencer {
 		grid = new float[width][];
 		for (int i=0; i<width; i++) {
 			grid[i] = new float[height];
+			Arrays.fill(grid[i], OFF);
 		}
 		this.instrument = instrument;
 		this.bpm = bpm;
@@ -158,6 +173,10 @@ public class Sequencer {
 	public void setFromSettings(SequencerStuff s) {
 		int width = (int)s.steps.getDefaultValue();
 		int height = (int)s.notes.getDefaultValue();
+		float bpm = s.bpm.getDefaultValue();
+		float syncopated = s.syncopated.getDefaultValue();
+		setTempo(bpm);
+		setSyncopation(syncopated);
 		if (grid.length != width || grid[0].length != height) {
 			boolean restart = false;
 			if (sequenceThread != null && sequenceThread.sequenceKeepRunning == true) {
@@ -167,6 +186,7 @@ public class Sequencer {
 			float[][] grid = new float[width][];
 			for (int i=0; i<width; i++) {
 				grid[i] = new float[height];
+				Arrays.fill(grid[i], OFF);
 				for (int j=0; j<height; j++) {
 					if (i < this.grid.length && j < this.grid[i].length) {
 						grid[i][j] = this.grid[i][j];
@@ -195,6 +215,10 @@ public class Sequencer {
 	
 	public void setTempo(float bpm) {
 		this.bpm = bpm;
+	}
+	
+	public void setSyncopation(float syncopated) {
+		this.syncopated = syncopated;
 	}
 	
 	public void setMode(int mode) {

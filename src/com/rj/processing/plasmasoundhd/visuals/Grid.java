@@ -14,8 +14,8 @@ public class Grid extends Visual{
 	private final static int NUM_DASHES = 9;
 	PlasmaActivity pp;
 	//PImage dashed;
-	PGraphics cache;
-	PImage cacheImage;
+//	PGraphics cache;
+//	PImage cacheImage;
 	float midiMax;
 	float midiMin;
 	
@@ -30,19 +30,19 @@ public class Grid extends Visual{
 	public void drawVis() {
 		float midiMax = pp.getInst().midiMax;
 		float midiMin = pp.getInst().midiMin;
-		if (cacheImage == null || this.midiMin != midiMin || this.midiMax != midiMax) {
-			cache = p.createGraphics((int)width, (int)height, PApplet.P2D);
-			//p.println("NEW IMAGE NEW GIRD NEW GRID NEW GRID NEW GRID ");
-			cache.beginDraw();
-			//cache.background(0, 0, 0, 0);
-			drawVis(cache);
-			cache.endDraw();
-			if (cacheImage != null) cacheImage.delete();
-			cacheImage = cache.get();
+//		if (cacheImage == null || this.midiMin != midiMin || this.midiMax != midiMax) {
+//			cache = p.createGraphics((int)width, (int)height, PApplet.P2D);
+//			//p.println("NEW IMAGE NEW GIRD NEW GRID NEW GRID NEW GRID ");
+//			cache.beginDraw();
+//			//cache.background(0, 0, 0, 0);
+			drawVis(p);
+//			cache.endDraw();
+//			if (cacheImage != null) cacheImage.delete();
+//			cacheImage = cache.get();
 			this.midiMin = midiMin;
 			this.midiMax = midiMax;
-		}
-		p.image(cacheImage, 0, 0);
+//		}
+//		p.image(cacheImage, 0, 0);
 		
 		
 		final float num_lines = midiMax-midiMin;
@@ -81,7 +81,7 @@ public class Grid extends Visual{
 
 	}
 	
-	public void drawVis(PGraphics p) {
+	public void drawVis(PApplet p) {
 		p.rectMode(PApplet.CORNER);
 
 		float midiMax = 86;
@@ -102,9 +102,13 @@ public class Grid extends Visual{
 
 			} else if (space == 1 || space == 3 || space == 6 || space == 8 || space == 10) {//a black note! 
 				p.stroke(100, 100);
-				for (int q = 0; q<NUM_DASHES; q++) {
-					p.line(spacing * i, q*(height/NUM_DASHES)-20, spacing * i, (q+1)*(height/NUM_DASHES));
-					//p.image(dashed, spacing * i, 0);
+				if (num_lines < 30) { //don't bother drawing if there's too much stuff on screen
+					for (int q = 0; q<NUM_DASHES; q++) {
+						p.line(spacing * i, q*(height/NUM_DASHES)-20, spacing * i, (q+1)*(height/NUM_DASHES));
+						//p.image(dashed, spacing * i, 0);
+					}
+				} else if (num_lines < 50) {
+					p.line(spacing * i, 0, spacing * i, height);
 				}
 			} else {
 				p.stroke(183, 100);

@@ -8,15 +8,14 @@ import org.json.JSONObject;
 import amir.android.icebreaking.RadioGroupPrefs;
 import amir.android.icebreaking.SeekBarPreferenceView;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.rj.processing.plasmasound.R;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
@@ -69,7 +68,7 @@ public class PlasmaThereminAudioSettings  extends Fragment implements OnSharedPr
 
 	@Override
 	public void presetChanged(JSONObject preset) {
-		Log.d("SETTINGS", "Settings changed!!!!!!!!!!!");
+		Log.d("INSTSETTINGS", "Settings changed!!!!!!!!!!!");
 		if (this.getView() != null) {
 			ViewGroup v = (ViewGroup) this.getView();
 			notifyChange(v);
