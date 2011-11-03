@@ -1,5 +1,7 @@
 package com.rj.processing.plasmasoundhd;
 
+import java.io.File;
+
 import org.json.JSONObject;
 
 import processing.core.PApplet;
@@ -19,8 +21,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PowerManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
@@ -38,13 +40,15 @@ import com.rj.processing.mt.TouchListener;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
+import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 
-public class PDActivity extends PApplet implements TouchListener, PlasmaActivity, JSONPresets.PresetListener {
+public class PDActivity extends PApplet implements TouchListener, PlasmaActivity, JSONPresets.PresetListener, JSONSequencerPresets.PresetListener {
 
 	public static final String SHARED_PREFERENCES_AUDIO = "shared_prefs_audio";
 	public static final String SHARED_PREFERENCES_APPSTUFF = "appstufffz";
 	
 	public static final String PATCH_PATH = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? "simplesine.small.4.2.pd"  : "simplesine4.2.pd";
+//	public static final String PATCH_PATH = "simplesine4.2.pd";
 	
 	
 	public MTManager mtManager;
@@ -52,8 +56,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public PDManager pdman;
 	public Instrument inst;
 	public PlasmaSubFragment frag;
-	public PlasmaSubFragment sequencer;
-	public PlasmaSubFragment instrument;
+	public SequencerActivity sequencer;
+	public PlasmaSound instrument;
 	
 	PowerManager.WakeLock wl;
 
@@ -178,7 +182,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	public void runTheremin(boolean setup, boolean fragmentTransaction)  {
 		hideBoth();
-		if (frag != null) frag.destroy();
+		if (frag != null) frag.background();
 		frag = instrument;
 		if (setup) frag.setup();
 		if (fragmentTransaction) {
@@ -191,7 +195,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 	public void runSequencer(boolean setup, boolean fragmentTransaction) {
 		hideBoth();
-		if (frag != null) frag.destroy();
+		if (frag != null) frag.background();
 		frag = sequencer;
 		if (setup) frag.setup();
 		if (fragmentTransaction) {
@@ -265,13 +269,15 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		    inst.setMidiMax(87);
 		    
 			Log.v("PlasmaSoundSetup", "Reading settings");
+			loadPresets();
+			//readSettings();
 			if (loadPresets()) {
-				if (JSONPresets.getPresets().loadDefault(PDActivity.this, inst) == null) //if there is no defaults
-					readSettings();	    
+				if (JSONPresets.getPresets().loadDefault(PDActivity.this, inst) == null) {}//if there is no defaults
+					//readSettings();	    
 			} else {
-				readSettings();
+				//readSettings();
 			}
-			//readSettings();	    
+			readSettings();	    
 			Log.v("PlasmaSoundSetup", "Done!");
 			return null;
 		}
@@ -353,8 +359,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		if (frag != null) frag.onResume();
 	}
 	
-	
-	
+	 
+	 
 	public void checkAndRemindThemToGiveMeAGoodRating() {
         final SharedPreferences mPrefs = PDActivity.this.getSharedPreferences(SHARED_PREFERENCES_APPSTUFF, 0);
         long firstopened = mPrefs.getLong("firstopened", -1);
@@ -449,6 +455,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		if (wl != null && wl.isHeld()) wl.release();
 		if (frag != null) frag.onPause();
 	}
+
+	
 	
 	@Override
 	public void onDestroy() {
@@ -503,6 +511,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	        return true;
 	    case com.rj.processing.plasmasound.R.id.about:
 	        about();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.record:
+	        record();
 	        return true;
 
 	    default:
@@ -631,14 +642,45 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 	
 	public void saveSequenceSettings() {
-		JSONPresets.getPresets().showSaveMenu(this, this);
+		JSONSequencerPresets.getPresets().showSaveMenu(this, sequencer);
 	}
 	public void loadSequenceSettings() {
-		JSONPresets.getPresets().showLoadMenu(this, this);
+		JSONSequencerPresets.getPresets().showLoadMenu(this, sequencer);
 	}
 	
 	public void about() {
 		showAboutDialog();
+	}
+	
+	public void record() {
+		String name;
+		try {
+			name = JSONPresets.getPresets().getCurrent().getString("name");
+			if (sequencer.isAdded()) {
+				name += "_"+JSONSequencerPresets.getPresets().getCurrent().getString("name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			name = "errorerrorerror";
+		}
+		File outfolder = new File(Environment.getExternalStorageDirectory(), "Plasma Sound");
+		outfolder.mkdirs();
+		String filename = pdman.recordOnOff(outfolder, name, true);
+		if (filename != null) {
+		    Intent share = new Intent(Intent.ACTION_SEND);
+		    share.setType("audio/wav");
+
+		    Uri uri = Uri.fromFile(new File(filename));
+		    share.putExtra(Intent.EXTRA_STREAM, uri);
+		    share.putExtra(Intent.EXTRA_TEXT, "Check out the recording I made with Plasma Sound!");
+
+		    startActivity(Intent.createChooser(share, "Share Recording"));
+		    
+			Toast.makeText(this, "The recording is on your phone at: "+filename, Toast.LENGTH_LONG).show();
+
+		} else {
+			Toast.makeText(this, "Select record again to finish recording", Toast.LENGTH_LONG).show();
+		}
 	}
 
 	
@@ -649,8 +691,14 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 
     public void readSettings() {
+    	if (inst == null) {
+    		Log.d("ReadSettings", "Called with inst being null!");
+    		Thread.dumpStack();
+    		return;
+    	}
         final SharedPreferences mPrefs = PDActivity.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
-    	if (inst!=null) inst.updateSettings(mPrefs);
+		Log.d("ReadSettings", "Called with inst being all good");
+    	inst.updateSettings(this, mPrefs);
     }
 
     
@@ -659,12 +707,25 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
     public void onStop() {
     	super.onStop();
     	JSONPresets.getPresets().removeListener(this);
+    	JSONSequencerPresets.getPresets().removeListener(this);
     }
+    
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//		try {
+//			Log.d("PDActivity", "Destroying! saving!!!");
+//			JSONPresets.getPresets().savePreset(this, inst);
+//			JSONSequencerPresets.getPresets().savePreset(this, sequencer.sequencer);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//    	super.onSaveInstanceState(outState);
+//    }
     
     @Override
     public void onStart() {
     	super.onStart();
-    	JSONPresets.getPresets().addListener(this);
+    	JSONSequencerPresets.getPresets().addListener(this);
     }
 
 	@Override

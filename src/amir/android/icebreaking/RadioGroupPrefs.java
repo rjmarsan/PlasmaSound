@@ -174,6 +174,10 @@ public class RadioGroupPrefs extends RadioGroup implements
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 //		Log.d("RadioPrefs" ,String.format("view: %s, id: %s", findViewById(checkedId), checkedId+""));
 //		if (findViewById(checkedId) == null) return;
+		if (values[checkedId].equals(mDefault)) {
+			Log.d("RadioGroupPrefs", "Same thing: "+mDefault+ " exiting...");
+			return;
+		}
 		mDefault = values[checkedId];
 		if (values.length > checkedId) {
 			updatePreference(mDefault);

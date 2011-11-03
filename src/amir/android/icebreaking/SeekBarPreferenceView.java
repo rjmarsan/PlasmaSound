@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.ToggleButton;
 
 import com.rj.processing.plasmasound.R;
 import com.rj.processing.plasmasoundhd.PDActivity;
+import com.rj.processing.plasmasoundhd.Utils;
 
 public class SeekBarPreferenceView extends LinearLayout implements
 		OnSeekBarChangeListener, OnCheckedChangeListener {
@@ -39,6 +41,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	private ToggleButton yaxis;
 	private String title = "";
 	private String key = "";
+	private boolean midiAsText = false;
 
 	private float oldValue = 50;
 	private int mDefault = 0;
@@ -51,7 +54,8 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
-		if (bar!=null) bar.setEnabled(enabled );// && ! (yEnabled && yaxis != null) );
+		Log.d("SeekBarPrefs", "Setting enabled for "+getKey()+" to "+enabled);
+		if (bar!=null) bar.setEnabled(enabled);// && ! (yEnabled && yaxis != null) );
 		if (yaxis!=null) yaxis.setEnabled(enabled);
 	}
 	
@@ -67,6 +71,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	    yEnabled = attrs.getAttributeBooleanValue(psndns,"yenabled", false);
 	    title = attrs.getAttributeValue(psndns, "title" );
 	    key = attrs.getAttributeValue(psndns, "key" );
+	    midiAsText = attrs.getAttributeBooleanValue(psndns, "midiAsText", false );
 	    
 	    View v = onCreateView(this);
 	    //Log.d("SeekBar", "Added view : "+v);
@@ -138,7 +143,14 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	@Override
 	public void onProgressChanged(final SeekBar seekBar, final int progress,
 			final boolean fromUser) {
-		this.monitorBox.setText(progress + "");
+		setMonitorBox(progress);
+	}
+	
+	private void setMonitorBox(int progress) {
+		if (midiAsText)
+			this.monitorBox.setText(Utils.midiNoteToName(progress));
+		else
+			this.monitorBox.setText(progress + "");
 	}
 
 	@Override
@@ -152,7 +164,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 
 		seekBar.setProgress(progress);
 		this.oldValue = progress;
-		this.monitorBox.setText(progress + "");
+		setMonitorBox(progress);
 		updatePreference(progress);
 
 	}
@@ -174,7 +186,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView,final boolean isChecked) {
-		//Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
+		Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
 		if (buttonView == yaxis) {
 			updatePreferenceY(isChecked);
 			setBarState(!isChecked);
@@ -182,8 +194,8 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	}
 	
 	public void setBarState(boolean isEnabled) {
-		//Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
-		bar.setEnabled(isEnabled);
+		Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
+		if (isEnabled()) bar.setEnabled(isEnabled);
 	}
 
 
@@ -201,8 +213,8 @@ public class SeekBarPreferenceView extends LinearLayout implements
 
 		  boolean enabled = getSharedPreferences().getBoolean(getKey()+"_y", false);
 		  //Log.d("Preference", getTitle()+ "   enabled at start: "+enabled + "   y enabled: "+yEnabled);
-		  if (yaxis != null)
-			  enabled = yaxis.isChecked();
+//		  if (yaxis != null)
+//			  enabled = yaxis.isChecked();
 		  if (yEnabled)  {
 			  yaxis.setChecked(enabled);
 			  setBarState(!enabled);
@@ -217,7 +229,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 		bar.setOnSeekBarChangeListener(this);
 //		
 //		
-		this.monitorBox.setText(bar.getProgress() + "");
+		setMonitorBox(bar.getProgress());
 	}
 
 }

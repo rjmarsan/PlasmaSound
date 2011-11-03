@@ -294,7 +294,7 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 
     public void readSettings() {
         final SharedPreferences mPrefs = PlasmaSound.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
-    	if (inst!=null) inst.updateSettings(mPrefs);
+    	if (inst!=null) inst.updateSettings(this, mPrefs);
     }
 
     

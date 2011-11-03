@@ -33,6 +33,10 @@ public class PlasmaSubFragment extends android.support.v4.app.Fragment {
 	public void destroy() {	
 	}
 	
+	public void background() {	
+	}
+
+	
 	public void pause() {
 	}
 	

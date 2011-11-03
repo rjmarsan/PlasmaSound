@@ -1,17 +1,27 @@
 package com.rj.processing.plasmasoundhd;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import com.rj.processing.plasmasound.R;
+import android.view.Display;
+import android.view.WindowManager;
 
 
 public class Launcher extends Activity {
 	public static int GINGERBREAD_PHONE = 1;
 	public static int HONEYCOMB_TABLET = 3;
 	public static int ICS_PHONE = 4;
+	
+	public static int TOTAL_CRAP = 0;
+	public static int PRETTY_CRAP = 1;
+	public static int DECENT = 2;
+	public static int POWERFUL = 3;
+	public static int F_ING_POWERFUL = 4;
 	
 	
 	@Override
@@ -56,5 +66,51 @@ public class Launcher extends Activity {
 			return GINGERBREAD_PHONE;
 		}
 	}
+	
+	public static int getPhoneCPUPower(Context context) {
+		 DisplayMetrics metrics = new DisplayMetrics();
+		 Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		 display.getMetrics(metrics);
+		 int size = (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
+		 if (size == Configuration.SCREENLAYOUT_SIZE_NORMAL || size == Configuration.SCREENLAYOUT_SIZE_SMALL) {
+			 switch (metrics.densityDpi) {
+				 case DisplayMetrics.DENSITY_LOW:
+					 return TOTAL_CRAP;
+				 case DisplayMetrics.DENSITY_MEDIUM:
+					 return PRETTY_CRAP;
+				 case DisplayMetrics.DENSITY_HIGH:
+					 return DECENT;
+				 case 320 /**DisplayMetrics.DENSITY_XHIGH**/:
+					 return POWERFUL;
+			 }
+		 }
+		 else if (size == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+			 switch (metrics.densityDpi) {
+				 case DisplayMetrics.DENSITY_LOW:
+					 return TOTAL_CRAP;
+				 case DisplayMetrics.DENSITY_MEDIUM:
+					 return DECENT;
+				 case DisplayMetrics.DENSITY_HIGH:
+					 return POWERFUL;
+				 case 320 /**DisplayMetrics.DENSITY_XHIGH**/:
+					 return F_ING_POWERFUL;
+			 }
+		 }
+		 else if (size == 4/*Configuration.SCREENLAYOUT_SIZE_XLARGE*/) {
+			 switch (metrics.densityDpi) {
+				 case DisplayMetrics.DENSITY_LOW:
+					 return DECENT;
+				 case DisplayMetrics.DENSITY_MEDIUM:
+					 return POWERFUL;
+				 case DisplayMetrics.DENSITY_HIGH:
+					 return F_ING_POWERFUL;
+				 case 320 /**DisplayMetrics.DENSITY_XHIGH**/:
+					 return F_ING_POWERFUL;
+			 }
+		 }
+		 return DECENT;
+		 
+	}
+
 
 }

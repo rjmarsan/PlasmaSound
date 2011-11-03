@@ -11,6 +11,8 @@ package com.rj.processing.plasmasoundhd.pd;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 
 import org.puredata.android.io.AudioParameters;
 import org.puredata.android.io.PdAudio;
@@ -28,7 +30,8 @@ public class PDManager {
 	
 
 
-	
+	public boolean recording = false;
+	String recording_filename = "";
 	final PApplet p;
 	private static final int SAMPLE_RATE = 44100;
 	private static final String TAG = "Plasma Theremin";
@@ -126,5 +129,45 @@ public class PDManager {
 		PdBase.release();
 	}
 	
+	private static final char[] ILLEGAL_CHARACTERS = { '/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':' };
+	public String recordOnOff(File parentdir, String name, boolean addTimestamp) {
+		if (recording) {
+			String filename = recording_filename;
+			endRecord();
+			return filename;
+		} else {
+			String filename = name;
+			if (addTimestamp) {
+				Date d = new Date();
+				filename += "-"+d.toString();
+			}
+			filename = filename.replace(' ','_');
+			filename = filename.replace('/','_');
+			for (char c : ILLEGAL_CHARACTERS) {
+				filename = filename.replace(c, '.');
+			}
+			filename += ".wav";
+			filename = parentdir.getAbsolutePath()+"/" + filename;
+//			filename = parentdir.getAbsolutePath()+"ughfuckinghell.wav";
+			startRecord(filename);
+			return null;
+		}
+	}
+	
+	public void startRecord(String filename) {
+		Log.d("PdManager", "Starting recording at : "+filename);
+		recording = true;
+		recording_filename = filename;
+		// /PdBase.sendFloat("record_onoff", 1);
+		PdBase.sendSymbol("record_filename", filename);
+		PdBase.sendBang("record_start");
+	}
+	public void endRecord() {
+		Log.d("PdManager", "Ending recording at : "+recording_filename);
+		PdBase.sendBang("record_stop");
+		//PdBase.sendFloat("record_onoff", 1);
+		recording = false;
+		recording_filename = null;
+	}
 
 }

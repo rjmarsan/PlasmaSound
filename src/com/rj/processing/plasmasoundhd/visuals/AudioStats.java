@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 
 import com.rj.processing.plasmasoundhd.PlasmaActivity;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
+import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 
 public class AudioStats extends Visual{	
 	PlasmaActivity pa;
@@ -39,6 +40,7 @@ public class AudioStats extends Visual{
 		/** Not yet! **/
 		p.pushStyle();
 		p.rectMode(PApplet.CORNER);
+		p.ellipseMode(PApplet.CORNER);
 		float level = pa.getPD().getVolumeLevel();
 		if (level < 95) {
 			p.fill(120, 100);
@@ -62,6 +64,23 @@ public class AudioStats extends Visual{
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+		}
+//		if (JSONSequencerPresets.getPresets().getCurrent() != null) {
+//			try {
+//				String name = JSONSequencerPresets.getPresets().getCurrent().getString("name");
+//				p.text("Preset: "+name, 10, 10);
+//				//p.text
+//				
+//				
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//			}
+//		}
+		
+		if (pa.getPD().recording) {
+			p.fill(255,0,0,30+p.frameCount%100);
+			p.noStroke();
+			p.ellipse(width-60, 10, 30, 30);
 		}
 		
 		

@@ -2,6 +2,8 @@ package com.rj.processing.plasmasoundhd.pd;
 
 import org.puredata.core.PdReceiver;
 
+import android.util.Log;
+
 public class AudioStatListener implements PdReceiver{
 	public float audiolevel = 0f;
 

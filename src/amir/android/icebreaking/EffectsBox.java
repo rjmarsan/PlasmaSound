@@ -99,6 +99,10 @@ public class EffectsBox extends LinearLayout implements OnCheckedChangeListener 
 		editor.commit();	
 	}
 	
+	public void notifyChange() {
+		onCreateView();
+	}
+	
 
 	
 	@Override

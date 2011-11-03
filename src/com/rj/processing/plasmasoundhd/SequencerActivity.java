@@ -5,9 +5,11 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 import android.graphics.Point;
 
 import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 import com.rj.processing.plasmasoundhd.sequencer.Sequencer;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 
@@ -28,14 +30,21 @@ public class SequencerActivity extends PlasmaSubFragment {
 	public boolean loadPresets() { return false; }
 	int getMenu() { return com.rj.processing.plasmasound.R.menu.sequencer_menu; }
 
+	PFont font;
 	
 	@Override
 	public void setup() {
 		super.setup();
 	    stats = new AudioStats(p, p); 
-		if (sequencer == null)
+		if (sequencer == null) {
 			sequencer = new Sequencer(p.inst, 16, 10, 120);
-		updateSequencer();
+			updateSequencer();
+			JSONSequencerPresets.getPresets().loadDefault(p, sequencer);
+		}
+		font = p.createFont("americantypewriter.ttf", 28);
+		p.textFont(font);
+		
+		p.textMode(PApplet.MODEL);
 		sequencer.start();
 	}
 	
@@ -46,6 +55,14 @@ public class SequencerActivity extends PlasmaSubFragment {
 		if (sequencer != null) {
 			sequencer.stop();
 			sequencer = null;
+		}
+	}
+	
+	@Override
+	public void background() {
+		super.background();
+		if (sequencer != null) {
+			sequencer.stop();
 		}
 	}
 	
@@ -73,7 +90,7 @@ public class SequencerActivity extends PlasmaSubFragment {
 	}
 	
 	private void updateSequencer() {
-		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.sequencer);
+		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.sequencer, true);
 	}
 
 	
@@ -188,10 +205,20 @@ public class SequencerActivity extends PlasmaSubFragment {
 		p.ellipseMode(PApplet.CORNER);
 
 		float[][] grid = sequencer.grid;
-		for (int i=0; i<grid.length; i++) {
-			float barwidth = p.width/grid.length;
-			float barheight = p.height/grid[i].length;
+		float barwidth = p.width/grid.length;
+		
+		/** draw the names of the notes **/
+		float barheight = p.height/grid[0].length;
+		p.textAlign(PApplet.CENTER, PApplet.CENTER);
+		for (int i=0; i<grid[0].length; i++) {
+			p.fill(100);
+			p.noStroke();
+			p.textSize(barheight/3);
+			p.text(Utils.midiNoteToName((int)(sequencer.getNote(i))), barwidth/2, p.height-(barheight/2 + barheight*i));
+		}
 
+		
+		for (int i=0; i<grid.length; i++) {
 			
 			if (sequencer.currentRow == i) {
 				p.fill(50);
@@ -217,9 +244,14 @@ public class SequencerActivity extends PlasmaSubFragment {
 
 			
 		}
+		
+		
 		stats.drawVis();
 		
 	}
+	
+	
+	
 	
 	
 	

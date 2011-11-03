@@ -80,7 +80,7 @@ public class Preset {
 	
 	public void loadPreset(PDActivity p, Instrument e, String preset) {
 		SharedPreferences s = p.getSharedPreferences(PDActivity.SHARED_PREFERENCES_AUDIO, 0);
-		e.updateSettings(null, preset);
+		e.updateSettings(null, null, preset);
 	}
 	
 	public void savePreset(PDActivity p, Instrument e, String preset) {

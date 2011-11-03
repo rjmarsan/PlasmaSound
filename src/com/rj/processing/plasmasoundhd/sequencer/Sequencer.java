@@ -2,9 +2,17 @@ package com.rj.processing.plasmasoundhd.sequencer;
 
 import java.util.Arrays;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
@@ -15,7 +23,7 @@ public class Sequencer {
 	public static final int WHOLE = 3;
 	public static final int HALF = 4;
 	
-	public static final float OFF = Float.NEGATIVE_INFINITY;
+	public static final float OFF = -100f;
 	
 	public Instrument instrument;
 	public volatile float[][] grid;
@@ -84,7 +92,7 @@ public class Sequencer {
 								sendNoteOff(i,j, grid[i][j], countInternal);
 							}
 						}
-						
+						 
 						count = countInternal;
 	
 					}
@@ -118,7 +126,7 @@ public class Sequencer {
 			instrument.setMidiMax(127);
 			
 			
-			Log.d("Sequencer", "NOTE ON: "+index);
+			//Log.d("Sequencer", "NOTE ON: "+index);
 			instrument.touchDown(null, index, note, 127, 1-val, 1, null);
 			instrument.touchMove(null, index, note, 127, 1-val, 1, null);
 			
@@ -131,34 +139,35 @@ public class Sequencer {
 		private void sendNoteOff(int i, int j, float val, int index) {
 			if (instrument == null) return;
 			float note = getNote(j);
-			Log.d("Sequencer", "NOTE OFF: "+index);
+			//Log.d("Sequencer", "NOTE OFF: "+index);
 			instrument.touchUp(null, index, note, 127, 0.72f, 1, null);
 		}
 		
-		private float getNote(int column) {
-			if (instrument == null) return -1;
-			
-			int[] scale = pentatonic;
-			int scaletype = (int)instrument.sequencer.scale.getDefaultValue();
-			if (scaletype == MAJOR)
-				scale = majorscale;
-			else if (scaletype == MINOR)
-				scale = minorscale;
-			else if (scaletype == PENTATONIC)
-				scale = pentatonic;
-			else if (scaletype == WHOLE)
-				scale = wholenotes;
-			else if (scaletype == HALF)
-				scale = halfnotes;
-				
-			int octaves = column / scale.length;
-			int value = column % scale.length;
-			int baseNote = (int)instrument.sequencer.lownote.getDefaultValue();
-			
-			return baseNote + 12*octaves + scale[value];
-		}
 	}
 	
+	public float getNote(int column) {
+		if (instrument == null) return -1;
+		
+		int[] scale = pentatonic;
+		int scaletype = (int)instrument.sequencer.scale.getDefaultValue();
+		if (scaletype == MAJOR)
+			scale = majorscale;
+		else if (scaletype == MINOR)
+			scale = minorscale;
+		else if (scaletype == PENTATONIC)
+			scale = pentatonic;
+		else if (scaletype == WHOLE)
+			scale = wholenotes;
+		else if (scaletype == HALF)
+			scale = halfnotes;
+			
+		int octaves = column / scale.length;
+		int value = column % scale.length;
+		int baseNote = (int)instrument.sequencer.lownote.getDefaultValue();
+		
+		return baseNote + 12*octaves + scale[value];
+	}
+
 	
 	public Sequencer(Instrument instrument, int width, int height, float bpm) {
 		grid = new float[width][];
@@ -170,7 +179,7 @@ public class Sequencer {
 		this.bpm = bpm;
 	}
 	
-	public void setFromSettings(SequencerStuff s) {
+	public void setFromSettings(SequencerStuff s, boolean run) {
 		int width = (int)s.steps.getDefaultValue();
 		int height = (int)s.notes.getDefaultValue();
 		float bpm = s.bpm.getDefaultValue();
@@ -194,19 +203,76 @@ public class Sequencer {
 				}
 			}
 			this.grid = grid;
-			if (restart) start();
+			if (restart && run) start();
 		}
 	}
 	
 	
-	public void start() {
-		stop();
+	public JSONObject sequenceToJSON(JSONObject sequence) throws JSONException {
+		try {
+//			sequence.put("bpm", instrument.sequencer.bpm.getDefaultValue());
+//			sequence.put("syncopated", instrument.sequencer.syncopated.getDefaultValue());
+//			sequence.put("lownote", instrument.sequencer.lownote.getDefaultValue());
+//			sequence.put("notes", instrument.sequencer.notes.getDefaultValue());
+//			sequence.put("steps", instrument.sequencer.steps.getDefaultValue());
+//			sequence.put("scale", (int)instrument.sequencer.scale.getDefaultValue());
+			
+			instrument.sequencer.saveSettingsToJSON(sequence);
+
+			JSONArray array = new JSONArray();
+			for (int i=0; i<grid.length; i++) {
+				JSONArray subarray = new JSONArray();
+				for (int j=0; j<grid[i].length; j++) {
+					subarray.put(grid[i][j]);
+				}
+				array.put(subarray);
+			}
+			sequence.put("array", array);
+			return sequence;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	public void loadSequence(Context context, JSONObject sequence) {
+		SequencerStuff stuff = this.instrument.sequencer;
+			try {
+//				stuff.bpm.setDefault((float)sequence.getDouble("bpm"));
+//				stuff.syncopated.setDefault((float)sequence.getDouble("syncopated"));
+//				stuff.lownote.setDefault((float)sequence.getDouble("lownote"));
+//				stuff.notes.setDefault((float)sequence.getDouble("notes"));
+//				stuff.steps.setDefault((float)sequence.getDouble("steps"));
+//				stuff.scale.setDefault(sequence.getInt("scale"));
+				SharedPreferences prefs = context.getSharedPreferences(PDActivity.SHARED_PREFERENCES_AUDIO, 0);
+				Editor edit = prefs.edit();
+				stuff.updateSettingsFromJSON(sequence, true, edit);
+				edit.commit();
+				setFromSettings(stuff, true);
+				JSONArray array = sequence.getJSONArray("array");
+				for (int i=0; i<grid.length; i++) {
+					JSONArray subarray = array.getJSONArray(i);
+					for (int j=0; j<grid[i].length; j++) {
+						grid[i][j] = (float)subarray.getDouble(j);
+					}
+					array.put(subarray);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+	} 
+	
+	
+	
+	public synchronized void start() {
+		if (sequenceThread != null) sequenceThread.sequenceKeepRunning = false;
 		sequenceThread = new SequenceThread();
 		sequenceThread.sequenceKeepRunning = true;
 		sequenceThread.start();
 	}
 	
-	public void stop() {
+	public synchronized void stop() {
 		if (sequenceThread != null) {
 			sequenceThread.sequenceKeepRunning = false;
 			sequenceThread = null;

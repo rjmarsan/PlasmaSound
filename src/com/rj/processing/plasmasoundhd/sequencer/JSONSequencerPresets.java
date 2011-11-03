@@ -1,4 +1,4 @@
-package com.rj.processing.plasmasoundhd.pd.instruments;
+package com.rj.processing.plasmasoundhd.sequencer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -13,11 +13,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,24 +26,24 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.rj.processing.plasmasound.PlasmaSound;
 import com.rj.processing.plasmasoundhd.PDActivity;
-import com.rj.processing.plasmasoundhd.PlasmaActivity;
+import com.rj.processing.plasmasoundhd.SequencerActivity;
+import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
-public class JSONPresets {
+public class JSONSequencerPresets {
 	public static String PRESETS = "PRESETS";
-	public static String HAS_MY_PRESETS = "HAS_MY_PRESETS";
-	public static String JSON_FILENAME = "presets.json";
+	public static String HAS_MY_PRESETS = "HAS_MY_PRESETS_SEQUENCER";
+	public static String JSON_FILENAME = "sequences.json";
 	public static interface PresetListener {
 		public void presetChanged(JSONObject preset);
 	}
 	
 	
 	
-	private static JSONPresets singleton;
-	public static JSONPresets getPresets() {
+	private static JSONSequencerPresets singleton;
+	public static JSONSequencerPresets getPresets() {
 		if (singleton == null) {
-			singleton = new JSONPresets();
+			singleton = new JSONSequencerPresets();
 		}
 		return singleton;
 	}
@@ -55,7 +55,7 @@ public class JSONPresets {
 	
 	
 	
-	public JSONPresets() {
+	public JSONSequencerPresets() {
 		listeners = new ArrayList<PresetListener>();
 	}
 	public void addListener(PresetListener listen) {
@@ -65,7 +65,7 @@ public class JSONPresets {
 		this.listeners.remove(listen);
 	}
 	public void notifyListeners(JSONObject preset) {
-		Log.d("Presets", "Notifying all "+listeners.size()+" listeners");
+		Log.d("Sequences", "Notifying all "+listeners.size()+" listeners");
 		for (PresetListener  l : listeners) l.presetChanged(preset);
 	}
 	
@@ -82,62 +82,20 @@ public class JSONPresets {
 		return currentsetting;
 	}
 	
-	/**
-	 * This is like getCurrent, but will fill in the default with the sharedPreferences if there is no
-	 * @param c
-	 * @return
-	 */
-	public JSONObject getCurrent(Context c) {
-		if (currentsetting == null) {
-			JSONObject newsetting = new JSONObject();
-			newsetting = readFromPreferences(c);
-			currentsetting = newsetting;
-		}
-		return currentsetting;
-	}
-
 	
 	
 	
-	public JSONObject readFromPreferences(Context c ) {
-		JSONObject obj = new JSONObject();
-		try {
-			obj.put("name", "From Preferences");
-//			String[] defaults = { "vibspeed", "midimax", "quantize_note_list",
-//					"delayfeedback", "sustain", "tremolospeed", "tremolodepth",
-//					"midimin", "waveform", "vibdepth", "filt", "revebrtime",
-//					"reverbfeedback", "delaytime", "volume", "attack",
-//					"release", "amp", "filter", "decay" };
-			final SharedPreferences mPrefs = c.getSharedPreferences(
-					PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
-			Map<String,?> mapping = mPrefs.getAll();
-			for (String key : mapping.keySet()) {
-				obj.put(key, mapping.get(key));
-			}
-//			for (String s : defaults) {
-//				if (mPrefs.contains(s)) {
-//					obj.put(s, mPrefs.getInt(s, 0));
-//				}
-//				if (mPrefs.contains(s+"_y")) {
-//					obj.put(s+"_y", mPrefs.getBoolean(s+"_y", false));
-//				}
-//			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return obj;
-	}
 
 	
 	
 	
 
-	public void showLoadMenu(final Context c, final PlasmaActivity p) {
+	public void showLoadMenu(final Context c, final SequencerActivity p) {
 		try {
 			final String[] items = getPresetNames(c);
 			if (items == null || items.length <= 0) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(c);
-				builder.setTitle("No saved instances");
+				builder.setTitle("No Saved Sequences");
 				builder.setPositiveButton("OK", null);
 				AlertDialog alert;
 				alert = builder.create();
@@ -154,11 +112,11 @@ public class JSONPresets {
 			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a saved instance");
+			builder.setTitle("Pick a saved sequence");
 			AlertDialog alert;
 			builder.setSingleChoiceItems(items, selection, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
-			        loadPreset(c,p.getInst(), items[item]);
+			        loadPreset(c,p.sequencer, items[item]);
 			        dialog.dismiss();
 			    }
 			});
@@ -169,7 +127,7 @@ public class JSONPresets {
 		}
 	}
 	
-	public void showSaveMenu(final Context c, final PlasmaActivity p) {
+	public void showSaveMenu(final Context c, final SequencerActivity p) {
 		try {
 			final String[] items = getPresetNames(c);
 			if (items == null || items.length <= 0) {
@@ -178,10 +136,10 @@ public class JSONPresets {
 			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a saved instance");
+			builder.setTitle("Pick a saved sequence");
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
-			        savePreset(c,p.getInst(), items[item]);
+			        savePreset(c,p.sequencer, items[item]);
 			    }
 			});
 			builder.setPositiveButton("New", new DialogInterface.OnClickListener() {  
@@ -202,15 +160,15 @@ public class JSONPresets {
 		}
 	}
 	
-	public void showDeleteMenu(final Context c, final PlasmaActivity p) {
+	public void showDeleteMenu(final Context c, final SequencerActivity p) {
 		try {
 			final String[] items = getPresetNames(c);
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a preset to delete.  WARNING: IT'S FINAL");
+			builder.setTitle("Pick a sequence to delete.  WARNING: IT'S FINAL");
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
-			        deletePreset(c,p.getInst(), items[item]);
+			        deletePreset(c,p.sequencer, items[item]);
 			    }
 			});
 			AlertDialog alert = builder.create();
@@ -221,16 +179,16 @@ public class JSONPresets {
 	}
 
 	
-	public void showSaveAsMenu(final Context c, final PlasmaActivity p ) {
+	public void showSaveAsMenu(final Context c, final SequencerActivity p ) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(c);
 		builder.setTitle("Name?");
-		builder.setMessage("Pick a name for the preset");
+		builder.setMessage("Pick a name for the sequence");
 		final EditText text = new EditText(c);
 		builder.setView(text);
 		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
 			public void onClick(DialogInterface dialog, int whichButton) {  
 			  String value = text.getText().toString();  
-			  savePreset(c, p.getInst(), value);
+			  savePreset(c, p.sequencer, value);
 			}  
 			}); 
 		AlertDialog alert = builder.create();
@@ -238,28 +196,24 @@ public class JSONPresets {
 	}
 	
 	
-	public JSONObject loadDefault(Context c, Instrument e) {
+	public JSONObject loadDefault(Context c, Sequencer s) {
 		JSONObject jpreset = getDefaultPreset(c);
 		if (jpreset == null) return null;
 		currentsetting = jpreset;
-		final SharedPreferences mPrefs = c.getSharedPreferences(
-				PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
-		e.updateSettingsFromJSON(jpreset, true, mPrefs);
+		s.loadSequence(c,jpreset);
 		this.notifyListeners(jpreset);
 		return jpreset;
 	}
 	
-	public void loadPreset(Context c, Instrument e, String preset) {
+	public void loadPreset(Context c, Sequencer e, String preset) {
 		JSONObject jpreset = getPresetFromName(preset, c);
 		currentsetting = jpreset;
-		final SharedPreferences mPrefs = c.getSharedPreferences(
-				PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
-		e.updateSettingsFromJSON(jpreset, true, mPrefs);
+		e.loadSequence(c,jpreset);
 		this.notifyListeners(jpreset);
 		updateDefault(c);
 	}
-
-	public void savePreset(Context c, Instrument e) {
+	
+	public void savePreset(Context c, Sequencer e) {
 		try {
 			savePreset(c, e, currentsetting.getString("name"));
 		} catch (Exception ee) {
@@ -267,7 +221,7 @@ public class JSONPresets {
 		}
 	}
 	
-	public void savePreset(Context c, Instrument e, String preset) {
+	public void savePreset(Context c, Sequencer e, String preset) {
 		try {
 			JSONObject presetsobj = getPresets(c);
 			if (presetsobj == null) {
@@ -279,7 +233,7 @@ public class JSONPresets {
 			JSONObject presets = presetsobj.getJSONObject("presets");
 			JSONObject presetobj = new JSONObject();
 			presetobj.put("name", preset);
-			presetobj = e.saveSettingsToJSON(presetobj);
+			presetobj = e.sequenceToJSON(presetobj);
 			presets.put(preset, presetobj);
 			currentsetting = presetobj;
 			writePresets(presetsobj, c);
@@ -290,7 +244,7 @@ public class JSONPresets {
 	}
 	
 
-	public void deletePreset(Context c, Instrument e, String preset) {
+	public void deletePreset(Context c, Sequencer e, String preset) {
 		try {
 			JSONObject presetsobj = getPresets(c);
 			JSONObject presets = presetsobj.getJSONObject("presets");
@@ -320,7 +274,7 @@ public class JSONPresets {
 	}
 	public JSONObject getDefaultPresets(Context context) {
 		try {
-			InputStream is = context.getResources().openRawResource(com.rj.processing.plasmasound.R.raw.presets);
+			InputStream is = context.getResources().openRawResource(com.rj.processing.plasmasound.R.raw.sequences);
 			Writer writer = new StringWriter();
 			char[] buffer = new char[1024];
 			try {
@@ -341,7 +295,7 @@ public class JSONPresets {
 		}
 	}
 	
-	public JSONObject getPresetsInternal(Context context) {
+	private JSONObject getPresetsInternal(Context context) {
 		try {
 			File jsonFile = new File(context.getFilesDir(), JSON_FILENAME);
 			if (!jsonFile.exists()) return null;
@@ -349,7 +303,7 @@ public class JSONPresets {
 		    BufferedInputStream f = new BufferedInputStream(new FileInputStream(jsonFile));
 		    f.read(buffer);		
 			String jsonString = new String(buffer);
-			Log.d("Presets", "Presets:\n" +jsonString);
+			Log.d("Sequences", "Presets:\n" +jsonString);
 			JSONObject object = new JSONObject(jsonString);
 			return object;
 		} catch (Exception e) {
@@ -357,6 +311,7 @@ public class JSONPresets {
 		}
 		return null;
 	}
+	
 	
 	private void populateWithDefaults(Context context) {
 		SharedPreferences prefs = context.getSharedPreferences(PDActivity.SHARED_PREFERENCES_APPSTUFF, 0);
@@ -383,15 +338,14 @@ public class JSONPresets {
 		Editor edit = prefs.edit();
 		edit.putBoolean(HAS_MY_PRESETS, true);
 		edit.commit();
-	}	
-	
+	}
 	
 	public void writePresets(JSONObject json, Context context) {
 		try {
 			File jsonFile = new File(context.getFilesDir(), JSON_FILENAME);
 			
 			String out = json.toString(4);
-			Log.d("Presets", "Presets:"+out);
+			Log.d("Sequences", "Presets:"+out);
 		    BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(jsonFile));
 		    f.write(out.getBytes());
 		    f.flush();
