@@ -27,6 +27,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.rj.processing.plasmasound.PlasmaSound;
+import com.rj.processing.plasmasound.R;
 import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.PlasmaActivity;
 
@@ -137,7 +138,7 @@ public class JSONPresets {
 			final String[] items = getPresetNames(c);
 			if (items == null || items.length <= 0) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(c);
-				builder.setTitle("No saved instances");
+				builder.setTitle(R.string.preset_load_title_none);
 				builder.setPositiveButton("OK", null);
 				AlertDialog alert;
 				alert = builder.create();
@@ -154,7 +155,7 @@ public class JSONPresets {
 			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a saved instance");
+			builder.setTitle(R.string.preset_load_title);
 			AlertDialog alert;
 			builder.setSingleChoiceItems(items, selection, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
@@ -178,18 +179,18 @@ public class JSONPresets {
 			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a saved instance");
+			builder.setTitle(R.string.preset_save_title);
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
 			        savePreset(c,p.getInst(), items[item]);
 			    }
 			});
-			builder.setPositiveButton("New", new DialogInterface.OnClickListener() {  
+			builder.setPositiveButton(R.string.preset_save_new, new DialogInterface.OnClickListener() {  
 				public void onClick(DialogInterface dialog, int whichButton) {  
 					showSaveAsMenu(c, p);
 				}
 				}); 
-			builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {  
+			builder.setNegativeButton(R.string.preset_save_delete, new DialogInterface.OnClickListener() {  
 				public void onClick(DialogInterface dialog, int whichButton) {  
 					showDeleteMenu(c, p);
 				}
@@ -207,7 +208,7 @@ public class JSONPresets {
 			final String[] items = getPresetNames(c);
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a preset to delete.  WARNING: IT'S FINAL");
+			builder.setTitle(R.string.preset_delete_title);
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
 			        deletePreset(c,p.getInst(), items[item]);
@@ -223,11 +224,11 @@ public class JSONPresets {
 	
 	public void showSaveAsMenu(final Context c, final PlasmaActivity p ) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(c);
-		builder.setTitle("Name?");
-		builder.setMessage("Pick a name for the preset");
+		builder.setTitle(R.string.preset_saveas_title);
+		builder.setMessage(R.string.preset_saveas_message);
 		final EditText text = new EditText(c);
 		builder.setView(text);
-		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
+		builder.setPositiveButton(R.string.preset_saveas_ok, new DialogInterface.OnClickListener() {  
 			public void onClick(DialogInterface dialog, int whichButton) {  
 			  String value = text.getText().toString();  
 			  savePreset(c, p.getInst(), value);

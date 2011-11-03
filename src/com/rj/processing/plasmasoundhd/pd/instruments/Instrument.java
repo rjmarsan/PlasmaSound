@@ -196,13 +196,14 @@ public class Instrument {
 			
 			String defaultQuality = Launcher.getPhoneCPUPower(context) > Launcher.PRETTY_CRAP ? "0" : "1";
 			defaultQuality = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? defaultQuality : "2";
-			Log.d("VisualQual", "presets have visual quality: "+prefs.contains(preset+PSND.VISUAL_QUALITY));
-			Log.d("VisualQual", "presets for visual quality: "+prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality));
-			final int prefsQual = Integer.parseInt(prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality));
+//			Log.d("VisualQual", "presets have visual quality: "+prefs.contains(preset+PSND.VISUAL_QUALITY));
+//			Log.d("VisualQual", "presets for visual quality: "+prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality));
+			String qual = prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality);
+			final int prefsQual = Integer.parseInt(qual);
 			Editor edit = prefs.edit();
-			edit.putInt(preset+PSND.VISUAL_QUALITY, prefsQual);
+			edit.putString(preset+PSND.VISUAL_QUALITY, qual);
 			edit.commit(); //so the preference box sees our change.
-			Log.d("VisualQual", "presets for visual quality (as int): "+prefsQual);
+//			Log.d("VisualQual", "presets for visual quality (as int): "+prefsQual);
 			setVisualQuality(prefsQual);
 
 			

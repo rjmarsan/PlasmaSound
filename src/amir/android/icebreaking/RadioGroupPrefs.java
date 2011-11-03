@@ -20,6 +20,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.rj.processing.plasmasoundhd.PDActivity;
+import com.rj.processing.plasmasoundhd.Utils;
 
 public class RadioGroupPrefs extends RadioGroup implements
 		OnCheckedChangeListener {
@@ -56,6 +57,8 @@ public class RadioGroupPrefs extends RadioGroup implements
 	    Resources res = context.getResources();
 	    titles = res.getStringArray(Integer.parseInt(titleArrayRes.replace("@", "")));
 	    values = res.getStringArray(Integer.parseInt(valueArrayRes.replace("@", "")));
+	    key = Utils.getStringResource(context, key);
+	    title = Utils.getStringResource(context, title);
 	    
 	    for (int i=0; i<values.length; i++)  {
 	    	if (doesValueEqualOtherValue(values[i], mDefault)) mDefaultEntry = i;

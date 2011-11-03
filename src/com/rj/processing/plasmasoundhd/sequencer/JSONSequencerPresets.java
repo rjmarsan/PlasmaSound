@@ -17,7 +17,6 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,9 +25,9 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.rj.processing.plasmasound.R;
 import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.SequencerActivity;
-import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
 public class JSONSequencerPresets {
 	public static String PRESETS = "PRESETS";
@@ -95,7 +94,7 @@ public class JSONSequencerPresets {
 			final String[] items = getPresetNames(c);
 			if (items == null || items.length <= 0) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(c);
-				builder.setTitle("No Saved Sequences");
+				builder.setTitle(R.string.preset_seq_load_title_none);
 				builder.setPositiveButton("OK", null);
 				AlertDialog alert;
 				alert = builder.create();
@@ -112,7 +111,7 @@ public class JSONSequencerPresets {
 			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a saved sequence");
+			builder.setTitle(R.string.preset_seq_load_title);
 			AlertDialog alert;
 			builder.setSingleChoiceItems(items, selection, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
@@ -136,18 +135,18 @@ public class JSONSequencerPresets {
 			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a saved sequence");
+			builder.setTitle(R.string.preset_seq_save_title);
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
 			        savePreset(c,p.sequencer, items[item]);
 			    }
 			});
-			builder.setPositiveButton("New", new DialogInterface.OnClickListener() {  
+			builder.setPositiveButton(R.string.preset_seq_save_new, new DialogInterface.OnClickListener() {  
 				public void onClick(DialogInterface dialog, int whichButton) {  
 					showSaveAsMenu(c, p);
 				}
 				}); 
-			builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {  
+			builder.setNegativeButton(R.string.preset_seq_save_delete, new DialogInterface.OnClickListener() {  
 				public void onClick(DialogInterface dialog, int whichButton) {  
 					showDeleteMenu(c, p);
 				}
@@ -165,7 +164,7 @@ public class JSONSequencerPresets {
 			final String[] items = getPresetNames(c);
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(c);
-			builder.setTitle("Pick a sequence to delete.  WARNING: IT'S FINAL");
+			builder.setTitle(R.string.preset_seq_delete_title);
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
 			        deletePreset(c,p.sequencer, items[item]);
@@ -181,11 +180,11 @@ public class JSONSequencerPresets {
 	
 	public void showSaveAsMenu(final Context c, final SequencerActivity p ) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(c);
-		builder.setTitle("Name?");
-		builder.setMessage("Pick a name for the sequence");
+		builder.setTitle(R.string.preset_seq_saveas_title);
+		builder.setMessage(R.string.preset_seq_saveas_message);
 		final EditText text = new EditText(c);
 		builder.setView(text);
-		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
+		builder.setPositiveButton(R.string.preset_seq_saveas_ok, new DialogInterface.OnClickListener() {  
 			public void onClick(DialogInterface dialog, int whichButton) {  
 			  String value = text.getText().toString();  
 			  savePreset(c, p.sequencer, value);

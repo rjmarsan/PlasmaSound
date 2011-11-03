@@ -40,6 +40,7 @@ import com.rj.processing.mt.TouchListener;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
+import com.rj.processing.plasmasoundhd.pd.instruments.PSND;
 import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 
 public class PDActivity extends PApplet implements TouchListener, PlasmaActivity, JSONPresets.PresetListener, JSONSequencerPresets.PresetListener {
@@ -100,6 +101,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	public void onCreate(final Bundle savedinstance) {
 		super.onCreate(savedinstance);
+		PSND.readFromResources(this);
 		//runSequencer(false);
 		plzBeLandscape();
 		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreenmall, null);
@@ -388,8 +390,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	void showRatingDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Rate Plasma Sound!");
-		builder.setMessage("Plasma Sound is 100% ad free and cost free. Show your support by leaving a comment on the Market.\n(This won't be shown again, I promise)");
+		builder.setTitle(com.rj.processing.plasmasound.R.string.rating_dialog_title);
+		builder.setMessage(com.rj.processing.plasmasound.R.string.rating_dialog_message);
 		
 		builder.setPositiveButton("Market", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -406,11 +408,11 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		
 		alert.show();
 	}
-	
-	void showAboutDialog() {
+	 
+	void showAboutDialog() { 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("About Plasma Sound!");
-		builder.setMessage("Plasma Sound is written by RJ Marsan, and is 100% ad free and cost free. Show your support by leaving a comment on the Market, or leave a donation below:");
+		builder.setTitle(com.rj.processing.plasmasound.R.string.about_dialog_title);
+		builder.setMessage(com.rj.processing.plasmasound.R.string.about_dialog_message);
 		
 		builder.setPositiveButton("Market", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -672,14 +674,14 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
 		    Uri uri = Uri.fromFile(new File(filename));
 		    share.putExtra(Intent.EXTRA_STREAM, uri);
-		    share.putExtra(Intent.EXTRA_TEXT, "Check out the recording I made with Plasma Sound!");
+		    share.putExtra(Intent.EXTRA_TEXT, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_extra_text));
 
-		    startActivity(Intent.createChooser(share, "Share Recording"));
+		    startActivity(Intent.createChooser(share, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_extra_title)));
 		    
-			Toast.makeText(this, "The recording is on your phone at: "+filename, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
 
 		} else {
-			Toast.makeText(this, "Select record again to finish recording", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_toast_record_started), Toast.LENGTH_LONG).show();
 		}
 	}
 

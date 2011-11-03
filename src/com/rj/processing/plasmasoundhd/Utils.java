@@ -7,10 +7,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import android.content.Context;
 import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
-import com.rj.processing.plasmasound.R;
 
 public class Utils {
 	 public static String objectToString(Serializable object) {
@@ -49,4 +49,21 @@ public class Utils {
 			String note = noteString[noteIndex] + octave;
 			return note;
 		}
+		
+		public static String frmRes(Context context, int id) {
+			return context.getResources().getString(id);
+		}
+		
+		public static String getStringResource(Context context, String thingie) {
+			try {
+				String[] split = thingie.split("/");
+				String pack = split[0].replace("@", "");
+				String name = split[1];
+				int id = context.getResources().getIdentifier(name, pack, context.getPackageName());
+				return context.getResources().getString(id);
+		    } catch (Exception e) {
+		    	return thingie;
+		    }
+		}
+
 }

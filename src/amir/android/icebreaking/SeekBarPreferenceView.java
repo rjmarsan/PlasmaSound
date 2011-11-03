@@ -66,17 +66,21 @@ public class SeekBarPreferenceView extends LinearLayout implements
 		minimum = attrs.getAttributeIntValue(psndns, "min", 0);
 		interval = attrs.getAttributeIntValue(psndns, "interval", 1);
 		description = attrs.getAttributeValue(psndns, "summary");
+	    description = Utils.getStringResource(context,description);
 		subtext = attrs.getAttributeValue(androidns, "text");
 	    mDefault = attrs.getAttributeIntValue(psndns,"defaultValue", 0);
 	    yEnabled = attrs.getAttributeBooleanValue(psndns,"yenabled", false);
 	    title = attrs.getAttributeValue(psndns, "title" );
+	    title = Utils.getStringResource(context,title);
 	    key = attrs.getAttributeValue(psndns, "key" );
+	    key = Utils.getStringResource(context,key);
 	    midiAsText = attrs.getAttributeBooleanValue(psndns, "midiAsText", false );
 	    
 	    View v = onCreateView(this);
 	    //Log.d("SeekBar", "Added view : "+v);
 
 	}
+	
 	
 	@Override
 	protected void onFinishInflate() {

@@ -209,13 +209,15 @@ public class SequencerActivity extends PlasmaSubFragment {
 		
 		/** draw the names of the notes **/
 		float barheight = p.height/grid[0].length;
+		p.pushStyle();
 		p.textAlign(PApplet.CENTER, PApplet.CENTER);
 		for (int i=0; i<grid[0].length; i++) {
 			p.fill(100);
 			p.noStroke();
-			p.textSize(barheight/3);
-			p.text(Utils.midiNoteToName((int)(sequencer.getNote(i))), barwidth/2, p.height-(barheight/2 + barheight*i));
+			p.textSize(barheight/3.5f);
+			p.text(Utils.midiNoteToName((int)(sequencer.getNote(i))), p.width-barwidth/2, p.height-(barheight/2 + barheight*i));
 		}
+		p.popStyle();
 
 		
 		for (int i=0; i<grid.length; i++) {
