@@ -66,7 +66,7 @@ public class JSONPresets {
 		this.listeners.remove(listen);
 	}
 	public void notifyListeners(JSONObject preset) {
-		Log.d("Presets", "Notifying all "+listeners.size()+" listeners");
+		//Log.d("Presets", "Notifying all "+listeners.size()+" listeners");
 		for (PresetListener  l : listeners) l.presetChanged(preset);
 	}
 	
@@ -350,7 +350,7 @@ public class JSONPresets {
 		    BufferedInputStream f = new BufferedInputStream(new FileInputStream(jsonFile));
 		    f.read(buffer);		
 			String jsonString = new String(buffer);
-			Log.d("Presets", "Presets:\n" +jsonString);
+			//Log.d("Presets", "Presets:\n" +jsonString);
 			JSONObject object = new JSONObject(jsonString);
 			return object;
 		} catch (Exception e) {
@@ -392,7 +392,7 @@ public class JSONPresets {
 			File jsonFile = new File(context.getFilesDir(), JSON_FILENAME);
 			
 			String out = json.toString(4);
-			Log.d("Presets", "Presets:"+out);
+			//Log.d("Presets", "Presets:"+out);
 		    BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(jsonFile));
 		    f.write(out.getBytes());
 		    f.flush();

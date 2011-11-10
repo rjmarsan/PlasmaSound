@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest package="com.rj.processing.plasmasound" android:versionCode="15" android:versionName="2.0" xmlns:android="http://schemas.android.com/apk/res/android"
 android:installLocation="preferExternal">
-  <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="8"/>
+  <uses-sdk android:targetSdkVersion="14" android:minSdkVersion="8"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
       
-  <application android:label="Plasma Sound" android:icon="@drawable/icon" android:hardwareAccelerated="true">
+  <application android:label="@string/app_name" android:icon="@drawable/icon" android:hardwareAccelerated="true">
   
     <activity android:name="com.rj.processing.plasmasoundhd.PDActivity"
     		  android:theme="@android:style/Theme.Holo" android:screenOrientation="landscape"
-    		  android:configChanges="orientation">
+    		  android:configChanges="orientation|keyboard|navigation|touchscreen|keyboardHidden">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>

@@ -33,7 +33,10 @@ public class MiscDialogs {
 		
 		builder.setNeutralButton(R.string.rating_dialog_donate, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				Toast.makeText(context, "Coming soon!", Toast.LENGTH_SHORT).show();
+				String donatepack = context.getResources().getString(R.string.app_package_donate);
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("market://details?id="+donatepack));
+				context.startActivity(intent);
 				dialog.dismiss();
 			}});
 
@@ -57,6 +60,14 @@ public class MiscDialogs {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse("market://details?id="+context.getApplicationInfo().packageName));
+				context.startActivity(intent);
+				dialog.dismiss();
+			}});
+		builder.setNeutralButton(R.string.rating_dialog_donate, new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				String donatepack = context.getResources().getString(R.string.app_package_donate);
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("market://details?id="+donatepack));
 				context.startActivity(intent);
 				dialog.dismiss();
 			}});
@@ -150,7 +161,7 @@ public class MiscDialogs {
 		inflater.inflate(slides[c.count], blanklayout);
 
 		alert.setContentView(demoborder);
-		alert.setTitle(R.string.tutorial_dialog_title);
+		alert.setTitle(slidetitles[0]);
 //		demoborder.postInvalidateDelayed(2000);
 //		alert.getWindow().getDecorView().postInvalidateDelayed(2000);
 //		demoborder.getHandler().postAtTime(new Runnable() { public void run() {

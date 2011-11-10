@@ -64,7 +64,7 @@ public class JSONSequencerPresets {
 		this.listeners.remove(listen);
 	}
 	public void notifyListeners(JSONObject preset) {
-		Log.d("Sequences", "Notifying all "+listeners.size()+" listeners");
+		//Log.d("Sequences", "Notifying all "+listeners.size()+" listeners");
 		for (PresetListener  l : listeners) l.presetChanged(preset);
 	}
 	
@@ -302,7 +302,7 @@ public class JSONSequencerPresets {
 		    BufferedInputStream f = new BufferedInputStream(new FileInputStream(jsonFile));
 		    f.read(buffer);		
 			String jsonString = new String(buffer);
-			Log.d("Sequences", "Presets:\n" +jsonString);
+			//Log.d("Sequences", "Presets:\n" +jsonString);
 			JSONObject object = new JSONObject(jsonString);
 			return object;
 		} catch (Exception e) {
@@ -344,7 +344,7 @@ public class JSONSequencerPresets {
 			File jsonFile = new File(context.getFilesDir(), JSON_FILENAME);
 			
 			String out = json.toString(4);
-			Log.d("Sequences", "Presets:"+out);
+			//Log.d("Sequences", "Presets:"+out);
 		    BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(jsonFile));
 		    f.write(out.getBytes());
 		    f.flush();

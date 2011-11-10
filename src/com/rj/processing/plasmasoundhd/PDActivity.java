@@ -684,12 +684,12 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
     public void readSettings() {
     	if (inst == null) {
-    		Log.d("ReadSettings", "Called with inst being null!");
+    		//Log.d("ReadSettings", "Called with inst being null!");
     		Thread.dumpStack();
     		return;
     	}
         final SharedPreferences mPrefs = PDActivity.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);
-		Log.d("ReadSettings", "Called with inst being all good");
+		//Log.d("ReadSettings", "Called with inst being all good");
     	inst.updateSettings(this, mPrefs);
     }
 
@@ -705,7 +705,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 //    @Override
 //    protected void onSaveInstanceState(Bundle outState) {
 //		try {
-//			Log.d("PDActivity", "Destroying! saving!!!");
+//			//Log.d("PDActivity", "Destroying! saving!!!");
 //			JSONPresets.getPresets().savePreset(this, inst);
 //			JSONSequencerPresets.getPresets().savePreset(this, sequencer.sequencer);
 //		} catch (Exception e) {
