@@ -14,6 +14,9 @@ public class PlasmaSubFragment extends android.support.v4.app.Fragment {
 
 	PDActivity p;
 	
+	public PlasmaSubFragment() {
+		//eek! I wish fragments weren't lame and required this.
+	}
 	
 	public PlasmaSubFragment(PDActivity p) {
 		this.p = p;

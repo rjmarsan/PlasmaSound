@@ -99,6 +99,7 @@ public class PlasmaFluid extends Visual {
 	
 	// add force and dye to fluid, and create particles
 	public void addForce(final float x, final float y, float dx, float dy) {
+		if (fluidSolver == null) return;
 	        float colorMult = 5;
 	        colorMult=colorMult*y;
 	        final float velocityMult = 30.0f;

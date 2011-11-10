@@ -22,4 +22,7 @@
       <item android:id="@+id/about"  android:icon="@drawable/ic_menu_info_details"
           android:title="@string/about_settings"
           android:showAsAction="never" />
+      <item android:id="@+id/tutorial"  android:icon="@drawable/ic_menu_info_details"
+          android:title="@string/tutorial_settings"
+          android:showAsAction="never" />
 </menu>

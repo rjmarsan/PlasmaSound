@@ -49,6 +49,7 @@ public class RadioGroupPrefs extends RadioGroup implements
 		super(context, attrs);
 	    mDefault = attrs.getAttributeValue(psndns,"defaultValue");
 	    mDefault = getPersisted(mDefault);
+		Log.d("RadioGroupPrefs", "Default:, "+mDefault);
 	    title = attrs.getAttributeValue(psndns, "title" );
 	    key = attrs.getAttributeValue(psndns, "key" );
 	    titleArrayRes = attrs.getAttributeValue(androidns, "entries" );
@@ -65,8 +66,8 @@ public class RadioGroupPrefs extends RadioGroup implements
 	    }
 	    
 	    View v = onCreateView(this);
+		Log.d("RadioGroupPrefs", "Finished making view, notifying change");
 	    
-		
 	}
 	
 	private boolean doesValueEqualOtherValue(String val1, String val2) {
@@ -90,8 +91,14 @@ public class RadioGroupPrefs extends RadioGroup implements
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		Log.d("RadioGroupPrefs", "Finished inflate, checking "+mDefaultEntry);
 	    this.check(mDefaultEntry);
-		this.setOnCheckedChangeListener(this);
+		setOnCheckedChangeListener(this);
+//		getHandler().postDelayed(new Runnable() {
+//			public void run() {
+		notifyChange();
+//			}
+//		}, 1000); 
 	}
 	
 	private String getTitle() {
@@ -177,7 +184,7 @@ public class RadioGroupPrefs extends RadioGroup implements
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 //		Log.d("RadioPrefs" ,String.format("view: %s, id: %s", findViewById(checkedId), checkedId+""));
 //		if (findViewById(checkedId) == null) return;
-		if (values[checkedId].equals(mDefault)) {
+		if (doesValueEqualOtherValue(values[checkedId],mDefault)) {
 			Log.d("RadioGroupPrefs", "Same thing: "+mDefault+ " exiting...");
 			return;
 		}
@@ -193,7 +200,11 @@ public class RadioGroupPrefs extends RadioGroup implements
 
 	
 	public void notifyChange() {
+		Log.d("RadioGroupPrefs", "Notify change called! old value: "+mDefault);
+
 		String val = getPersisted(mDefault);
+		Log.d("RadioGroupPrefs", "Notify change called! new value: "+val);
+		mDefault = val;
 		for (int i=0; i<buttons.length; i++) {
 			buttons[i].setChecked(doesValueEqualOtherValue((String)buttons[i].getTag(),val));
 		}

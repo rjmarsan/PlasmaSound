@@ -16,6 +16,9 @@ import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 public class SequencerActivity extends PlasmaSubFragment {
 	public static String TAG = "Sequencer";
 
+	public SequencerActivity() {
+		//ewww
+	}
 	public SequencerActivity(PDActivity p) {
 		super(p);
 	}

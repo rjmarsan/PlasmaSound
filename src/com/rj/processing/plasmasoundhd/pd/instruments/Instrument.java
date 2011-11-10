@@ -194,15 +194,19 @@ public class Instrument {
 			setMidiMin(prefMidiMin);
 			setMidiMax(prefMidiMax);
 			
-			String defaultQuality = Launcher.getPhoneCPUPower(context) > Launcher.PRETTY_CRAP ? "0" : "1";
+			String defaultQuality = "1";//Launcher.getPhoneCPUPower(context) > Launcher.PRETTY_CRAP ? "1" : "0";
 			defaultQuality = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? defaultQuality : "2";
 //			Log.d("VisualQual", "presets have visual quality: "+prefs.contains(preset+PSND.VISUAL_QUALITY));
 //			Log.d("VisualQual", "presets for visual quality: "+prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality));
-			String qual = prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality);
+			String qual = defaultQuality;
+			if (prefs.contains(preset+PSND.VISUAL_QUALITY)) {
+				qual = prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality);
+			} else {
+				Editor edit = prefs.edit();
+				edit.putString(preset+PSND.VISUAL_QUALITY, qual);
+				edit.commit(); //so the preference box sees our change.
+			}
 			final int prefsQual = Integer.parseInt(qual);
-			Editor edit = prefs.edit();
-			edit.putString(preset+PSND.VISUAL_QUALITY, qual);
-			edit.commit(); //so the preference box sees our change.
 //			Log.d("VisualQual", "presets for visual quality (as int): "+prefsQual);
 			setVisualQuality(prefsQual);
 

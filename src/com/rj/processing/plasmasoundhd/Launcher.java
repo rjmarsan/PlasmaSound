@@ -75,12 +75,16 @@ public class Launcher extends Activity {
 		 if (size == Configuration.SCREENLAYOUT_SIZE_NORMAL || size == Configuration.SCREENLAYOUT_SIZE_SMALL) {
 			 switch (metrics.densityDpi) {
 				 case DisplayMetrics.DENSITY_LOW:
+					 //Log.d("PhonePower", "Size Normal  Density LOW");
 					 return TOTAL_CRAP;
 				 case DisplayMetrics.DENSITY_MEDIUM:
+					 //Log.d("PhonePower", "Size Normal  Density MED");
 					 return PRETTY_CRAP;
 				 case DisplayMetrics.DENSITY_HIGH:
+					 //Log.d("PhonePower", "Size Normal  Density HIGH");
 					 return DECENT;
 				 case 320 /**DisplayMetrics.DENSITY_XHIGH**/:
+					 //Log.d("PhonePower", "Size Normal  Density XHIGH");
 					 return POWERFUL;
 			 }
 		 }

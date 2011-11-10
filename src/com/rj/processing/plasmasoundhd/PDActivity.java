@@ -358,6 +358,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		readSettings();
 		
 		checkAndRemindThemToGiveMeAGoodRating();
+		checkAndGiveThemATutorial();
 		if (frag != null) frag.onResume();
 	}
 	
@@ -378,9 +379,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
         long maxtime = 1000 * 60 * 15; //15 minute
         if (!(mPrefs.getBoolean("popupshown", false))) {
 	        if (elapsed > maxtime) {
-	        	if (System.currentTimeMillis() % 10 == 1) {
+//	        	if (System.currentTimeMillis() % 10 == 1) {
 	        		showRatingDialog();
-	        	}
+//	        	}
 	        	Editor e = mPrefs.edit();
 	        	e.putBoolean("popupshown", true);
 	        	e.commit();
@@ -388,53 +389,26 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
         }
 	}
 	
+	public void checkAndGiveThemATutorial() {
+        final SharedPreferences mPrefs = PDActivity.this.getSharedPreferences(SHARED_PREFERENCES_APPSTUFF, 0);
+        if (!(mPrefs.getBoolean("tutorialshown", false))) {
+    		showTutorialDialog();
+        	Editor e = mPrefs.edit();
+        	e.putBoolean("tutorialshown", true);
+        	e.commit();
+        }
+	}
+
+	void showTutorialDialog() {
+		MiscDialogs.showTutorialDialog(this);
+	}
+	
 	void showRatingDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(com.rj.processing.plasmasound.R.string.rating_dialog_title);
-		builder.setMessage(com.rj.processing.plasmasound.R.string.rating_dialog_message);
-		
-		builder.setPositiveButton("Market", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+getApplication().getPackageName()));
-				startActivity(intent);
-				dialog.dismiss();
-			}});
-		builder.setNegativeButton("Never show again", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}});
-		AlertDialog alert = builder.create();
-		
-		alert.show();
+		MiscDialogs.showRatingDialog(this);
 	}
 	 
 	void showAboutDialog() { 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(com.rj.processing.plasmasound.R.string.about_dialog_title);
-		builder.setMessage(com.rj.processing.plasmasound.R.string.about_dialog_message);
-		
-		builder.setPositiveButton("Market", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+getApplication().getPackageName()));
-				startActivity(intent);
-				dialog.dismiss();
-			}});
-		
-		builder.setNeutralButton("Donate", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				Toast.makeText(PDActivity.this, "Coming soon!", Toast.LENGTH_SHORT).show();
-				dialog.dismiss();
-			}});
-
-		builder.setNegativeButton("Never show again", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}});
-		AlertDialog alert = builder.create();
-		
-		alert.show();
+		MiscDialogs.showAboutDialog(this);
 	}
 	
 	@Override
@@ -516,6 +490,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	        return true;
 	    case com.rj.processing.plasmasound.R.id.record:
 	        record();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.tutorial:
+	        showTutorialDialog();
 	        return true;
 
 	    default:
@@ -620,20 +597,33 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 
 	
-    @Override
-    public void onBackPressed() {
+	@Override
+    public boolean pOnBackPressed() {
 		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
 			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
 			View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
 			System.out.println("fragment1" +fragment.isShown()+ "   fragment2:"+fragment2.isShown());
 			if (fragment.isShown() || fragment2.isShown()) {
 				System.out.println("Hiding fragments");
-				hideBoth();
+				runOnUiThread(new Runnable() { public void run() {
+					hideBoth(); 
+				}});
+				return true;
 			} else {
-				//super.onBackPressed();
+				return false;
 			}
+		} else {
+			if (frag == sequencer) {
+				runTheremin(true, true);
+				return true;
+			}
+			return false;
 		}
     }
+	
+	@Override
+	public void onBackPressed() {
+	}
 
 
 	public void saveSettings() {

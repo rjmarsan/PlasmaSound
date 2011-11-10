@@ -10,6 +10,9 @@ import com.rj.processing.plasmasoundhd.visuals.PlasmaFluid;
 
 public class PlasmaSound extends PlasmaSubFragment {
 	public static String TAG = "PlasmaSound";
+	public PlasmaSound() {
+		//ewww
+	}
 	public PlasmaSound(PDActivity p) {
 		super(p);
 		// TODO Auto-generated constructor stub
