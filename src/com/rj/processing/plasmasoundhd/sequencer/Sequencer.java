@@ -49,11 +49,11 @@ public class Sequencer {
 		public void run() {
 			long lastpause = SystemClock.uptimeMillis();
 			int count = 0;
-
+			
 			while(sequenceKeepRunning && grid != null) {
 				try {
 					for (int i=0; i<grid.length; i++) {
-						
+						float[][] grid = Sequencer.this.grid;
 						currentRow = i;
 						int countInternal = count;
 	
@@ -192,19 +192,40 @@ public class Sequencer {
 				restart = true;
 				stop();
 			}
-			float[][] grid = new float[width][];
-			for (int i=0; i<width; i++) {
-				grid[i] = new float[height];
-				Arrays.fill(grid[i], OFF);
+			
+			float[][] grid = copyGrid(width, height, true);
+			this.grid = grid;
+			if (restart && run) start();
+		}
+	}
+	public float[][] copyGrid(boolean preserve) {
+		return copyGrid(grid.length, grid[0].length, preserve);
+	}
+	public float[][] copyGrid(int width, int height, boolean preserve) {
+		float[][] grid = new float[width][];
+		for (int i=0; i<width; i++) {
+			grid[i] = new float[height];
+			Arrays.fill(grid[i], OFF);
+			if (preserve) {
 				for (int j=0; j<height; j++) {
 					if (i < this.grid.length && j < this.grid[i].length) {
 						grid[i][j] = this.grid[i][j];
 					}
 				}
 			}
-			this.grid = grid;
-			if (restart && run) start();
 		}
+		return grid;
+	}
+	
+	public void clear() {
+		float[][] grid = copyGrid(false);
+		this.grid = grid;
+	}
+	
+	public void setSpot(int x, int y, float value) {
+		float[][] grid = copyGrid(true);
+		grid[x][y] = value;
+		this.grid = grid;
 	}
 	
 	

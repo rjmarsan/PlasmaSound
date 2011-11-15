@@ -6,13 +6,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.graphics.Color;
 import android.net.Uri;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.rj.processing.plasmasound.R;
 
@@ -21,7 +25,20 @@ public class MiscDialogs {
 	public static void showAboutDialog(final Context context) { 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(R.string.about_dialog_title);
-		builder.setMessage(R.string.about_dialog_message);
+		try {
+			PackageInfo pack = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			//builder.setMessage(context.getText(R.string.about_dialog_message));
+			TextView textcontent = new TextView(context);
+			textcontent.setMovementMethod(LinkMovementMethod.getInstance());
+			textcontent.setText(Html.fromHtml(String.format(context.getResources().getString(R.string.about_dialog_message),pack.versionName, ""+pack.versionCode)));
+			textcontent.setLinkTextColor(Color.GREEN);
+			textcontent.setPadding(5,5,5,5);
+			textcontent.setTextSize(15);
+			builder.setView(textcontent);
+		} catch (Exception e) {
+			e.printStackTrace();
+			builder.setMessage(context.getText(R.string.about_dialog_message));
+		}
 		
 		builder.setPositiveButton(R.string.rating_dialog_market, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -31,7 +48,7 @@ public class MiscDialogs {
 				dialog.dismiss();
 			}});
 		
-		builder.setNeutralButton(R.string.rating_dialog_donate, new OnClickListener() {
+		builder.setNegativeButton(R.string.rating_dialog_donate, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				String donatepack = context.getResources().getString(R.string.app_package_donate);
 				Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -40,10 +57,10 @@ public class MiscDialogs {
 				dialog.dismiss();
 			}});
 
-		builder.setNegativeButton(R.string.rating_dialog_neveragain, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}});
+//		builder.setNegativeButton(R.string.rating_dialog_, new OnClickListener() {
+//			public void onClick(DialogInterface dialog, int which) {
+//				dialog.dismiss();
+//			}});
 		AlertDialog alert = builder.create();
 		
 		alert.show();
@@ -54,7 +71,22 @@ public class MiscDialogs {
 	public static void showRatingDialog(final Context context) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(R.string.rating_dialog_title);
-		builder.setMessage(R.string.rating_dialog_message);
+		try {
+			PackageInfo pack = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			//builder.setMessage(context.getText(R.string.about_dialog_message));
+			TextView textcontent = new TextView(context);
+			textcontent.setMovementMethod(LinkMovementMethod.getInstance());
+			textcontent.setText(Html.fromHtml(context.getResources().getString(R.string.rating_dialog_message)));
+			textcontent.setLinkTextColor(Color.GREEN);
+			textcontent.setPadding(5,5,5,5);
+			textcontent.setTextSize(15);
+			builder.setView(textcontent);
+		} catch (Exception e) {
+			e.printStackTrace();
+			builder.setMessage(context.getText(R.string.about_dialog_message));
+		}
+
+		//builder.setMessage(R.string.rating_dialog_message);
 		
 		builder.setPositiveButton(R.string.rating_dialog_market, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {

@@ -95,6 +95,11 @@ public class SequencerActivity extends PlasmaSubFragment {
 	private void updateSequencer() {
 		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.sequencer, true);
 	}
+	
+	
+	public void clear() {
+		sequencer.clear();
+	}
 
 	
 	
@@ -119,7 +124,8 @@ public class SequencerActivity extends PlasmaSubFragment {
 					value = 1;
 					pointnstuff.startednow = true;
 				}
-				sequencer.grid[spot.x][spot.y] = value;
+				sequencer.setSpot(spot.x, spot.y, value);
+				//sequencer.grid[spot.x][spot.y] = value;
 			}
 
 			
@@ -155,7 +161,8 @@ public class SequencerActivity extends PlasmaSubFragment {
 				if (value != Sequencer.OFF) {
 					value = Sequencer.OFF;
 				}
-				sequencer.grid[spot.x][spot.y] = value;
+				sequencer.setSpot(spot.x, spot.y, value);
+				//sequencer.grid[spot.x][spot.y] = value;
 			}
 		}
 		selectedPoints.remove(c);

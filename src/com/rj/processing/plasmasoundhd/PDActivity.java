@@ -485,6 +485,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
 	        saveSequenceSettings();
 	        return true;
+	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
+	        clearSequenceSettings();
+	        return true;
 	    case com.rj.processing.plasmasound.R.id.about:
 	        about();
 	        return true;
@@ -639,6 +642,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public void loadSequenceSettings() {
 		JSONSequencerPresets.getPresets().showLoadMenu(this, sequencer);
 	}
+	public void clearSequenceSettings() {
+		sequencer.clear();
+	}
+
 	
 	public void about() {
 		showAboutDialog();
