@@ -18,7 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.R;
 
 public class MiscDialogs {
 

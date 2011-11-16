@@ -6,7 +6,7 @@ import processing.core.PApplet;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.R;
 import com.rj.processing.plasmasoundhd.visuals.Visual;
 
 public class Visualization {

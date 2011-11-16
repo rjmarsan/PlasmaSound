@@ -92,7 +92,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		if (frag != null) 
 			return frag.getMenu(); 
 		else 
-			return com.rj.processing.plasmasound.R.menu.main_menu; 
+			return com.rj.processing.plasmasoundhd.R.menu.main_menu; 
 	}
 	
 	
@@ -104,11 +104,11 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		PSND.readFromResources(this);
 		//runSequencer(false);
 		plzBeLandscape();
-		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreenmall, null);
+		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasoundhd.R.layout.loadingscreenmall, null);
 		this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
 			preferenceview = this.getLayoutInflater().inflate(
-							com.rj.processing.plasmasound.R.layout.prefsoverlay,
+							com.rj.processing.plasmasoundhd.R.layout.prefsoverlay,
 							null);
 			this.addContentView(preferenceview, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -129,7 +129,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    // remove the activity title to make space for tabs
 	    actionBar.setDisplayShowTitleEnabled(false);
 
-	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.instrument_name)
+	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasoundhd.R.string.instrument_name)
 	            .setTabListener(new TabListener() {
 
 					@Override
@@ -155,7 +155,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 					}
 				}), true);
 
-	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.sequencer_name)
+	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasoundhd.R.string.sequencer_name)
 	            .setTabListener(new TabListener() {
 					@Override
 					public void onTabReselected(Tab tab,
@@ -349,7 +349,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "PlasmaSoundHDLock");
 		wl.acquire();
 		if (loadingview == null)
-			loadingview = this.findViewById(com.rj.processing.plasmasound.R.id.loadingview);
+			loadingview = this.findViewById(com.rj.processing.plasmasoundhd.R.id.loadingview);
 		loadingview.setVisibility(View.VISIBLE);
 		if (pdready == true) {
 		    pdready = false;
@@ -458,43 +458,43 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
 	    switch (item.getItemId()) {
-	    case com.rj.processing.plasmasound.R.id.sequencer_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.sequencer_settings:
 	        sequencerSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.instrument:
+	    case com.rj.processing.plasmasoundhd.R.id.instrument:
 	        instrument();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.sequencer:
+	    case com.rj.processing.plasmasoundhd.R.id.sequencer:
 	        sequencer();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.instrument_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.instrument_settings:
 	        instrumentSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.effects_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.effects_settings:
 	        effectSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.save_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
 	        saveSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.load_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
 	        loadSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.load_sequence_settings:
 	        loadSequenceSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.save_sequence_settings:
 	        saveSequenceSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.clear_sequence_settings:
 	        clearSequenceSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.about:
+	    case com.rj.processing.plasmasoundhd.R.id.about:
 	        about();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.record:
+	    case com.rj.processing.plasmasoundhd.R.id.record:
 	        record();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.tutorial:
+	    case com.rj.processing.plasmasoundhd.R.id.tutorial:
 	        showTutorialDialog();
 	        return true;
 
@@ -527,9 +527,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			this.startActivity(i);
 			return;
 		}
-		View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
-		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
-		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
+		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+		View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
 			fragment2.setVisibility(View.GONE);
 			fragment3.setVisibility(View.GONE);
@@ -537,7 +537,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				fragment.setVisibility(View.GONE);
 			} else {
 				fragment.setVisibility(View.VISIBLE);
-				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
+				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
 			}
 		}
 	}
@@ -548,9 +548,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			this.startActivity(i);
 			return;
 		}
-		View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
-		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
-		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
+		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+		View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
 			fragment2.setVisibility(View.GONE);
 			fragment.setVisibility(View.GONE);
@@ -558,7 +558,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				fragment3.setVisibility(View.GONE);
 			} else {
 				fragment3.setVisibility(View.VISIBLE);
-				fragment3.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
+				fragment3.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
 			}
 		}
 	}
@@ -569,9 +569,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			this.startActivity(i);
 			return;
 		}
-		View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
-		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
-		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
+		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+		View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
 			fragment2.setVisibility(View.GONE);
 			fragment3.setVisibility(View.GONE);
@@ -579,16 +579,16 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				fragment.setVisibility(View.GONE);
 			} else {
 				fragment.setVisibility(View.VISIBLE);
-				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
+				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
 			}
 		}
 	}
 	
 	public void hideBoth() {
 		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
-			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
-			View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
-			View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
+			View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+			View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+			View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
 			if (fragment != null && fragment2 != null) {
 				fragment2.setVisibility(View.GONE);
 				fragment.setVisibility(View.GONE);
@@ -603,8 +603,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	@Override
     public boolean pOnBackPressed() {
 		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
-			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
-			View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
+			View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+			View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
 			System.out.println("fragment1" +fragment.isShown()+ "   fragment2:"+fragment2.isShown());
 			if (fragment.isShown() || fragment2.isShown()) {
 				System.out.println("Hiding fragments");
@@ -671,14 +671,14 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
 		    Uri uri = Uri.fromFile(new File(filename));
 		    share.putExtra(Intent.EXTRA_STREAM, uri);
-		    share.putExtra(Intent.EXTRA_TEXT, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_extra_text));
+		    share.putExtra(Intent.EXTRA_TEXT, Utils.frmRes(this, com.rj.processing.plasmasoundhd.R.string.export_extra_text));
 
-		    startActivity(Intent.createChooser(share, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_extra_title)));
+		    startActivity(Intent.createChooser(share, Utils.frmRes(this, com.rj.processing.plasmasoundhd.R.string.export_extra_title)));
 		    
-			Toast.makeText(this, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, Utils.frmRes(this, com.rj.processing.plasmasoundhd.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
 
 		} else {
-			Toast.makeText(this, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_toast_record_started), Toast.LENGTH_LONG).show();
+			Toast.makeText(this, Utils.frmRes(this, com.rj.processing.plasmasoundhd.R.string.export_toast_record_started), Toast.LENGTH_LONG).show();
 		}
 	}
 

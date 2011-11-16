@@ -1,7 +1,7 @@
 package com.rj.processing.plasmasoundhd;
 
 import com.rj.processing.mt.MTManager;
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.R;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
