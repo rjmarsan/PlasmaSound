@@ -31,7 +31,7 @@ public class SequencerActivity extends PlasmaSubFragment {
 	public HashMap<Cursor,PointAndStuff> selectedPoints = new HashMap<Cursor,PointAndStuff>();
 	private static class PointAndStuff { Point p; boolean modified; boolean startednow;}
 	public boolean loadPresets() { return false; }
-	int getMenu() { return com.rj.processing.plasmasound.R.menu.sequencer_menu; }
+	int getMenu() { return com.rj.processing.plasmasounddonate.R.menu.sequencer_menu; }
 
 	PFont font;
 	

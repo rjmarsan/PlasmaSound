@@ -22,7 +22,7 @@ import android.widget.ToggleButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasounddonate.R;
 
 public class SeekBarPreference extends Preference implements
 		OnSeekBarChangeListener, OnCheckedChangeListener, OnClickListener {

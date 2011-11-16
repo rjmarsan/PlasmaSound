@@ -17,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasounddonate.R;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets.PresetListener;
 

@@ -17,6 +17,7 @@ import android.view.ViewGroup.LayoutParams;
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.MTManager;
 import com.rj.processing.mt.TouchListener;
+import com.rj.processing.plasmasounddonate.R;
 import com.rj.processing.plasmasoundhd.PlasmaActivity;
 import com.rj.processing.plasmasoundhd.SequencerActivity;
 import com.rj.processing.plasmasoundhd.Visualization;
@@ -70,7 +71,7 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	
 	public void onCreate(final Bundle savedinstance) {
 		super.onCreate(savedinstance);
-		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreenmall, null);
+		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasounddonate.R.layout.loadingscreenmall, null);
 		this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 	
@@ -201,7 +202,7 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	protected void onResume() {
 		super.onResume();
 		if (loadingview == null)
-			loadingview = this.findViewById(com.rj.processing.plasmasound.R.id.loadingview);
+			loadingview = this.findViewById(com.rj.processing.plasmasounddonate.R.id.loadingview);
 		loadingview.setVisibility(View.VISIBLE);
 		if (pdready == true) {
 		    pdready = false;
@@ -227,7 +228,7 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 	    final MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(com.rj.processing.plasmasound.R.menu.main_menu, menu);
+	    inflater.inflate(com.rj.processing.plasmasounddonate.R.menu.main_menu, menu);
 	    return true;
 	}
 	
@@ -239,19 +240,19 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
 	    switch (item.getItemId()) {
-	    case com.rj.processing.plasmasound.R.id.sequencer:
+	    case com.rj.processing.plasmasounddonate.R.id.sequencer:
 	        sequencer();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.instrument_settings:
+	    case com.rj.processing.plasmasounddonate.R.id.instrument_settings:
 	        instrumentSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.effects_settings:
+	    case com.rj.processing.plasmasounddonate.R.id.effects_settings:
 	        effectSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.save_settings:
+	    case com.rj.processing.plasmasounddonate.R.id.save_settings:
 	        saveSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.load_settings:
+	    case com.rj.processing.plasmasounddonate.R.id.load_settings:
 	        loadSettings();
 	        return true;
 

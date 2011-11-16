@@ -1,6 +1,6 @@
 package com.rj.processing.plasmasoundhd.pd.instruments;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasounddonate.R;
 
 import android.content.Context;
 import android.content.res.Resources;

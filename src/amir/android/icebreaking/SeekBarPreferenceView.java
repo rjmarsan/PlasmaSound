@@ -21,7 +21,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasounddonate.R;
 import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.Utils;
 
