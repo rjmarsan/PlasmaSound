@@ -10,7 +10,7 @@ import com.rj.processing.mt.Cursor;
 
 public class PlasmaSubFragment extends android.support.v4.app.Fragment {	
 	public boolean loadPresets() { return false; }
-	int getMenu() { return com.rj.processing.plasmasound.R.menu.sequencer_menu; }
+	int getMenu() { return com.rj.processing.plasmasounddonate.R.menu.sequencer_menu; }
 
 	PDActivity p;
 	

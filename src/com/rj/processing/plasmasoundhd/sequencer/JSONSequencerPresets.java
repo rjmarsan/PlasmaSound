@@ -25,7 +25,7 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasounddonate.R;
 import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.SequencerActivity;
 
@@ -273,7 +273,7 @@ public class JSONSequencerPresets {
 	}
 	public JSONObject getDefaultPresets(Context context) {
 		try {
-			InputStream is = context.getResources().openRawResource(com.rj.processing.plasmasound.R.raw.sequences);
+			InputStream is = context.getResources().openRawResource(com.rj.processing.plasmasounddonate.R.raw.sequences);
 			Writer writer = new StringWriter();
 			char[] buffer = new char[1024];
 			try {

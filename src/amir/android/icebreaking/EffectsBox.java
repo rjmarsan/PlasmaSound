@@ -11,7 +11,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasounddonate.R;
 import com.rj.processing.plasmasoundhd.PDActivity;
 
 public class EffectsBox extends LinearLayout implements OnCheckedChangeListener {
