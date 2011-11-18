@@ -48,19 +48,20 @@ public class MiscDialogs {
 				dialog.dismiss();
 			}});
 		
-		builder.setNegativeButton(R.string.rating_dialog_donate, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				String donatepack = context.getResources().getString(R.string.app_package_donate);
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+donatepack));
-				context.startActivity(intent);
-				dialog.dismiss();
-			}});
-
-//		builder.setNegativeButton(R.string.rating_dialog_, new OnClickListener() {
+//Don't show this in the donate version!
+//		builder.setNegativeButton(R.string.rating_dialog_donate, new OnClickListener() {
 //			public void onClick(DialogInterface dialog, int which) {
+//				String donatepack = context.getResources().getString(R.string.app_package_donate);
+//				Intent intent = new Intent(Intent.ACTION_VIEW);
+//				intent.setData(Uri.parse("market://details?id="+donatepack));
+//				context.startActivity(intent);
 //				dialog.dismiss();
 //			}});
+
+		builder.setNegativeButton(R.string.tutorial_dialog_ok, new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}});
 		AlertDialog alert = builder.create();
 		
 		alert.show();
