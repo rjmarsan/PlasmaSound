@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+      <item android:id="@+id/sequencer_settings" android:icon="@drawable/ic_menu_sequencer_settings"
+          android:title="@string/sequencer_settings"
+          android:showAsAction="ifRoom|withText" />
+      <item android:id="@+id/effects_settings" android:icon="@drawable/ic_menu_effects_settings"
+          android:title="@string/effects_settings"
+          android:showAsAction="ifRoom|withText" />
+      <item android:id="@+id/save_sequence_settings" android:icon="@drawable/ic_menu_save_sequencer"
+          android:title="@string/save_sequence_settings"
+          android:showAsAction="ifRoom" />
+      <item android:id="@+id/load_sequence_settings" android:icon="@drawable/ic_menu_load_sequencer"
+          android:title="@string/load_sequence_settings"
+          android:showAsAction="ifRoom" />
+      <item android:id="@+id/clear_sequence_settings"
+          android:title="@string/clear_sequence_settings"
+          android:showAsAction="never" />
+      <item android:id="@+id/save_settings" android:icon="@drawable/ic_menu_save_effects"
+          android:title="@string/save_settings"
+          android:showAsAction="never" />
+      <item android:id="@+id/load_settings" android:icon="@drawable/ic_menu_load_effects"
+          android:title="@string/load_settings"
+          android:showAsAction="never" />
+      <item android:id="@+id/record"  android:icon="@drawable/ic_menu_record"
+          android:title="@string/record_settings"
+          android:showAsAction="never" />
+      <item android:id="@+id/about"   android:icon="@drawable/ic_menu_info_details"
+          android:title="@string/about_settings"
+          android:showAsAction="never" />
+      <item android:id="@+id/tutorial"  android:icon="@drawable/ic_menu_info_details"
+          android:title="@string/tutorial_settings"
+          android:showAsAction="never" />
+</menu>

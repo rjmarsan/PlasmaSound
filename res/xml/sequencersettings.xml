@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:psnd="http://schemas.rjmarsan.com/apk/res/plasmasound"
+        android:title="Settings"
+        android:key="plasmatheremin_audio_settings">
+
+     <ListPreference
+            android:key="sequence_scale"
+            android:title="Scale of sequencer"
+            android:summary="Major, Minor, Pentatonic, etc."
+            android:defaultValue="0.0"
+            android:entries="@array/sequencer_scalenames"
+            android:entryValues="@array/sequencer_scaletypes"
+            />
+
+     <amir.android.icebreaking.SeekBarPreference  
+            android:key="sequence_bpm"
+            android:title="Tempo"
+            android:summary="in Beats per Minute"
+            android:defaultValue="120"
+            android:max="330"
+            psnd:yenabled="false" />
+     <amir.android.icebreaking.SeekBarPreference  
+            android:key="sequence_lownote"
+            android:title="Low Note"
+            android:summary="Low note of the sequencer"
+            android:defaultValue="60"
+            android:max="127"
+            psnd:yenabled="false" />
+
+     <amir.android.icebreaking.SeekBarPreference  
+            android:key="sequence_steps"
+            android:title="Steps"
+            android:summary="steps in the sequencer"
+            android:defaultValue="8"
+            android:max="24"
+            android:text="steps" 
+        	psnd:yenabled="false" />
+
+     <amir.android.icebreaking.SeekBarPreference  
+            android:key="sequence_notes"
+            android:title="Notes"
+            android:summary="notes in each step"
+            android:defaultValue="5"
+            android:max="18"
+            android:text="notes" 
+        	psnd:yenabled="false" />
+
+
+</PreferenceScreen>

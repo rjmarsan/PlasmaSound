@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="instrument_name">Keyboard</string>
+        
+        
+        <string name="midimin">midimin</string>
+	    <string name="midimax">midimax</string>
+	    <string name="visualqual">visualqual</string>
+	    <string name="waveform">waveform</string>
+	    <string name="quantize_note_list">quantize_note_list</string>
+	    <string name="continuous">continuous</string>
+	    <string name="quantize">quantize</string>
+	    <string name="slide">slide</string>
+
+	
+	
+	    <string name="ampglob">ampglob</string>
+	    <string name="amp">amp</string>
+	    <string name="noteon">noteon</string>
+	    <string name="noteoff">noteoff</string>
+
+	
+	
+	    <string name="vibspeed">vibspeed</string>
+	    <string name="vibdepth">vibdepth</string>
+	    <string name="vibrato_onoff">vibrato_onoff</string>
+
+	
+	    <string name="tremolospeed">tremolospeed</string>
+	    <string name="tremolodepth">tremolodepth</string>
+	    <string name="tremolo_onoff">tremolo_onoff</string>
+
+	
+	    <string name="revebrtime">revebrtime</string>
+	    <string name="reverbfeedback">reverbfeedback</string>
+	    <string name="reverb_onoff">reverb_onoff</string>
+
+	
+	    <string name="filt">filt</string>
+	    <string name="filter_onoff">filter_onoff</string>
+
+	
+	    <string name="delaytime">delaytime</string>
+	    <string name="delayfeedback">delayfeedback</string>
+	    <string name="delay_onoff">delay_onoff</string>
+
+	
+	    <string name="attack">attack</string>
+	    <string name="sustain">sustain</string>
+	    <string name="decay">decay</string>
+	    <string name="release">release</string>
+
+	
+	
+	
+	
+	    <string name="sequence_lownote">sequence_lownote</string>
+	    <string name="sequence_steps">sequence_steps</string>
+	    <string name="sequence_bpm">sequence_bpm</string>
+	    <string name="sequence_notes">sequence_notes</string>
+	    <string name="sequence_scale">sequence_scale</string>
+	    <string name="sequence_syncopated">sequence_syncopated</string>
+        
+</resources>

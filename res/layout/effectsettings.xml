@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:psnd="http://schemas.rjmarsan.com/apk/res/plasmasound"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+            
+            
+            <amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	android:orientation="vertical"
+			    	psnd:key="volume">	
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_waveform" />
+	            </RelativeLayout>		
+				     <amir.android.icebreaking.SeekBarPreferenceView
+			     	style="@style/SettingsSliderBox"
+				        psnd:key="@string/amp"
+				        psnd:defaultValue="80"
+				        psnd:title="@string/str_volume_title"
+				        psnd:summary="@string/str_volume_summ"
+				        android:text="/100" 
+			        	psnd:yenabled="true" />  
+	            <amir.android.icebreaking.RadioGroupPrefs 
+			       style="@style/SettingsMultichoiceBox"
+	                psnd:key="@string/waveform"
+		            psnd:title="@string/str_waveform_title"
+		            psnd:summary="@string/str_waveform_summ"
+		            psnd:defaultValue="1"
+		            android:entries="@array/waveforms_display"
+		            android:entryValues="@array/waveforms"
+	                >
+	                
+	            </amir.android.icebreaking.RadioGroupPrefs>  
+		   </amir.android.icebreaking.EffectsBox>
+		   
+           
+		        
+           <amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	psnd:key="envelope"
+			    	android:orientation="vertical">		    
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_envelope" />
+	            </RelativeLayout>		        
+			     <amir.android.icebreaking.SeekBarPreferenceView
+			     	style="@style/SettingsSliderBox"
+			 		psnd:key="@string/attack"
+		            psnd:title="@string/str_attack_title"
+		            psnd:summary="@string/str_attack_summ"
+		            psnd:defaultValue="10"
+		            psnd:max="2000"
+		            android:text="/1000" 
+		        	psnd:yenabled="false" 
+			        />  
+			     <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox"
+			        psnd:key="@string/decay"
+		            psnd:title="@string/str_decay_title"
+		            psnd:summary="@string/str_decay_summ"
+		            psnd:defaultValue="10"
+		            psnd:max="2000"
+		            android:text="/1000" 
+		        	psnd:yenabled="false" />   
+		    </amir.android.icebreaking.EffectsBox>	
+                
+		        
+			<amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	psnd:key="delay"
+			    	android:orientation="vertical">		    
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_delay" />
+		            <ToggleButton 
+		                style="@style/SettingsTitleOnOff"
+		                android:id="@+id/onoff"/>
+	            </RelativeLayout>		        
+			     <amir.android.icebreaking.SeekBarPreferenceView
+			     	style="@style/SettingsSliderBox"
+			 		psnd:key="@string/delaytime"
+			        psnd:title="@string/str_delaytime_title"
+			        psnd:summary="@string/str_delaytime_summ"
+			        psnd:defaultValue="10"
+			        android:text="/100"
+			        psnd:max="200"
+			        />  
+			     <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox"
+			        psnd:key="@string/delayfeedback"
+			        psnd:defaultValue="32"
+			        psnd:title="@string/str_delayfeed_title"
+			        psnd:summary="@string/str_delayfeed_summ"
+			        android:text="/100" />   
+		    </amir.android.icebreaking.EffectsBox>	
+		    
+			    
+			    
+			    
+			    
+			<amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	android:orientation="vertical"
+			    	psnd:key="reverb">	
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_reverb" />
+		            <ToggleButton 
+		                style="@style/SettingsTitleOnOff"
+		                android:id="@+id/onoff"/>
+	            </RelativeLayout>			      
+			     <amir.android.icebreaking.SeekBarPreferenceView  
+			     	style="@style/SettingsSliderBox"
+			 		psnd:key="reverbtime"
+			        psnd:title="@string/str_reverbtime_title"
+			        psnd:summary="@string/str_reverbtime_summ"
+			        psnd:defaultValue="10"
+			        android:text="/1000"
+			        psnd:max="200"
+			        />  
+			     <amir.android.icebreaking.SeekBarPreferenceView
+			     	style="@style/SettingsSliderBox"
+			        psnd:key="@string/reverbfeedback"
+			        psnd:defaultValue="32"
+			        psnd:title="@string/str_reverbfeed_title"
+			        psnd:summary="@string/str_reverbfeed_summ"
+			        android:text="/100" />   
+			</amir.android.icebreaking.EffectsBox>
+		
+			    
+			    
+			    
+			<amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	android:orientation="vertical"
+			    	psnd:key="filter">	
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_filter" />
+		            <ToggleButton 
+		                style="@style/SettingsTitleOnOff"
+		                android:id="@+id/onoff"/>
+	            </RelativeLayout>
+			     <amir.android.icebreaking.SeekBarPreferenceView  
+			     	style="@style/SettingsSliderBox"
+			        psnd:key="@string/filt"
+			        psnd:defaultValue="80"
+			        psnd:title="@string/str_filter_title"
+			        psnd:summary="@string/str_filter_summ"
+			        android:text="/100" 
+			        psnd:yenabled="true" />  
+		    </amir.android.icebreaking.EffectsBox>
+		     
+			    
+			    
+			<amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	android:orientation="vertical"
+			    	psnd:key="vibrato">	    
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_vibrato" />
+		            <ToggleButton 
+		                style="@style/SettingsTitleOnOff"
+		                android:id="@+id/onoff"/>
+	            </RelativeLayout>
+			     <amir.android.icebreaking.SeekBarPreferenceView  
+			     	style="@style/SettingsSliderBox"
+			        psnd:key="@string/vibspeed"
+			        psnd:defaultValue="80"
+			        psnd:title="@string/str_vibratospeed_title"
+			        psnd:summary="@string/str_vibratospeed_summ"
+			        android:text="/100" 
+			        psnd:yenabled="true" />   
+			     <amir.android.icebreaking.SeekBarPreferenceView  
+			     	style="@style/SettingsSliderBox"
+			        psnd:key="@string/vibdepth"
+			        psnd:defaultValue="10"
+			        psnd:title="@string/str_vibratodepth_title"
+			        psnd:summary="@string/str_vibratodepth_summ"
+			        android:text="%" 
+			        psnd:yenabled="true"  />  
+		    </amir.android.icebreaking.EffectsBox>  
+		     		     
+		     
+			    
+			    
+			<amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	android:orientation="vertical"
+			    	psnd:key="tremolo">	    
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_tremolo" />
+		            <ToggleButton 
+		                style="@style/SettingsTitleOnOff"
+		                android:id="@+id/onoff"/>	            	          
+	            </RelativeLayout>
+			     <amir.android.icebreaking.SeekBarPreferenceView  
+			     	style="@style/SettingsSliderBox"
+			        psnd:key="@string/tremolospeed"
+			        psnd:defaultValue="80"
+			        psnd:title="@string/str_tremolospeed_title"
+			        psnd:summary="@string/str_tremolospeed_summ"
+			        android:text="/100" 
+			        psnd:yenabled="true"  />
+			     <amir.android.icebreaking.SeekBarPreferenceView  
+			     	style="@style/SettingsSliderBox"
+			        psnd:key="@string/tremolodepth"
+			        psnd:defaultValue="10"
+			        psnd:title="@string/str_tremolodepth_title"
+			        psnd:summary="@string/str_tremolodepth_summ"
+			        android:text="%" 
+			        psnd:yenabled="true"  />  
+		     </amir.android.icebreaking.EffectsBox> 
+		     		     
+				<ListView
+		     	android:layout_width="match_parent" android:layout_height="wrap_content"
+		     	android:id="@android:id/list" />
+		
+		</LinearLayout>
+</ScrollView>

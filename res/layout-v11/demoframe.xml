@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/dynocontent"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+    </ScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+        	android:layout_alignParentLeft="true"
+            android:text="@string/tutorial_dialog_ok" />
+	    <Button
+	        android:id="@+id/back"
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:layout_toLeftOf="@+id/next"
+	        android:paddingRight="5dp"
+	        android:text="@string/tutorial_dialog_back" />
+	    <Button
+	        android:id="@+id/next"
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:text="@string/tutorial_dialog_next" />
+    </RelativeLayout>
+
+</LinearLayout>

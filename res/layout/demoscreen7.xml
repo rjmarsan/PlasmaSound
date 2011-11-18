@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/TutorialBox"
+    android:orientation="vertical"
+    android:gravity="center"  >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+	   <ImageView
+	        android:id="@+id/keboard"
+	        android:paddingLeft="10dp"
+	        android:paddingRight="10dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/ic_menu_sequencer"/>
+	    <TextView
+	        android:id="@+id/textView2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/tutorial_dialog_sequencer" 
+	        />
+   </LinearLayout>
+   
+        
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="10dp" >
+	   <ImageView
+	        android:id="@+id/keboard"
+	        android:paddingRight="10dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/demo_sequenceredit"/>
+	    <TextView
+	        android:id="@+id/textView2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/tutorial_dialog_sequencerhelp" 
+	        />
+   </LinearLayout>
+
+</LinearLayout>

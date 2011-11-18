@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_height="80dp" >
+	<ToggleButton android:textOn="Y-Axis" android:textOff="Y-Axis"
+		android:layout_width="wrap_content" android:id="@+id/toggleyaxis"
+		android:layout_height="wrap_content" android:layout_above="@+id/seekbar"
+		android:layout_alignParentRight="true"></ToggleButton>
+	<SeekBar android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:id="@+id/seekbar"
+		android:layout_alignParentBottom="true" android:max="127"
+		android:progress="60"></SeekBar>
+	<TextView android:text="/100ms" android:id="@+id/unitstext"
+		android:layout_width="wrap_content" android:layout_above="@+id/seekbar"  
+		android:layout_height="wrap_content" android:layout_toLeftOf="@+id/toggleyaxis"
+		android:textSize="15dp" android:textColor="#aaa"
+		></TextView>
+	<TextView android:text="0" android:id="@+id/valuetext"
+		android:layout_width="wrap_content" android:layout_above="@+id/seekbar"
+		android:layout_height="wrap_content" android:layout_toLeftOf="@+id/unitstext"
+		android:textSize="18dp" android:textColor="#fff"
+		></TextView>
+	<TextView android:text="Tremolo Depth" android:id="@+id/title"
+		android:layout_width="wrap_content" android:layout_above="@+id/seekbar"
+		android:layout_height="wrap_content" android:layout_alignLeft="@+id/seekbar"
+		android:paddingLeft="22dp" android:paddingRight="8dp"
+		android:textSize="18dp" android:textColor="#fff"
+		></TextView>
+	<TextView android:text="Depth of the Tremolo (in Percent)"
+		android:id="@+id/subtext" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_toRightOf="@+id/title"
+		android:layout_above="@+id/seekbar"
+		android:textSize="14dp" android:textColor="#aaa"
+		></TextView>
+    </RelativeLayout>
+</LinearLayout>

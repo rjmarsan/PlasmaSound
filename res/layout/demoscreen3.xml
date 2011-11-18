@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/TutorialBox"
+    android:orientation="vertical"
+    android:gravity="center"  >
+
+    
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" 
+         android:paddingTop="10dp"
+        >
+	    <TextView
+	        android:id="@+id/textView3"
+	        android:paddingLeft="10dp"
+	        android:paddingTop="10dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/quanttype"
+	        android:text="@string/tutorial_dialog_keyboardquantize" 
+	        />
+	    <ImageView
+	        android:id="@+id/quanttype"
+	        android:layout_width="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/demo_keyboardtheremin"/>
+	</RelativeLayout>
+	
+    <ImageView
+        android:id="@+id/quantmode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    android:paddingTop="10dp"
+        android:src="@drawable/demo_quantizemode"/>
+    
+
+</LinearLayout>

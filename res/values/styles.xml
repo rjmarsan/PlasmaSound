@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+    <style name="SettingsTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">22dip</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    
+    <style name="SettingsTitleBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dip</item>
+        <item name="android:layout_marginTop">3dip</item>
+        <item name="android:layout_marginBottom">3dip</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:background">#3ddd</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    
+    <style name="SettingsTitleOnOff">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">50dip</item>
+        <item name="android:layout_marginTop">3dip</item>
+        <item name="android:layout_marginBottom">3dip</item>
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textOn">Enabled</item>
+        <item name="android:textOff">Disabled</item>
+        <item name="android:layout_centerHorizontal">true</item>       
+    </style>
+    
+    <style name="SettingsSliderBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dip</item>
+    </style>    
+    
+    <style name="SettingsMultichoiceBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>    
+        
+        
+        
+    <style name="TutorialBox">
+        <item name="android:layout_width">380dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>    
+        
+</resources>
+

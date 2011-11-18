@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/TutorialBox"
+    android:orientation="horizontal" >
+    
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tutorial_dialog_keyboardvert" 
+        android:layout_toLeftOf="@+id/leftalign"
+        android:layout_alignParentTop="true"
+        />
+
+    <ImageView
+        android:id="@+id/leftalign"
+        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/demo_yaxis"/>
+
+</RelativeLayout>
