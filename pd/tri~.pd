@@ -1,0 +1,22 @@
+#N canvas 357 28 601 418 10;
+#X obj 24 46 *~ 2;
+#X obj 24 69 -~ 1;
+#X obj 32 151 *~;
+#X obj 57 97 *~ 8.38861e+06;
+#X obj 57 122 clip~ -1 1;
+#X obj 33 174 outlet~;
+#X obj 24 15 phasor~ \$1;
+#X text 170 -10 triangle wave generator by jason plumb;
+#X text 170 28 basically take a sawtooth \, adjust the level \, and
+multiply it with a synchronized square wave.;
+#X text 173 83 the output ranges from 0 to 1...adjust as necessary.
+;
+#X obj 24 -25 inlet~;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 0 3 0;
+#X connect 2 0 5 0;
+#X connect 3 0 4 0;
+#X connect 4 0 2 1;
+#X connect 6 0 0 0;
+#X connect 10 0 6 0;

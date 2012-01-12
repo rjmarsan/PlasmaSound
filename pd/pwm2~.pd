@@ -1,0 +1,26 @@
+#N canvas 144 365 484 349 10;
+#X obj 91 206 clip~ 0 1e-06;
+#X obj 91 227 *~ 1e+06;
+#X text 166 118 duty (on);
+#X text 29 20 frequency;
+#X obj 91 248 outlet~;
+#X text 116 20 duty cycle (1-100%);
+#X obj 32 37 inlet~;
+#X obj 32 99 phasor~ \$1;
+#X obj 127 39 inlet~;
+#X obj 127 100 clip~ 0 1;
+#X obj 126 136 *~ -1;
+#X obj 127 156 +~ 1;
+#X obj 91 184 -~;
+#X text 30 282 This implements PWM \, or a square wave with audio rate
+controllable duty cycle. The output is an analog signal that varies
+from 0 to 1;
+#X connect 0 0 1 0;
+#X connect 1 0 4 0;
+#X connect 6 0 7 0;
+#X connect 7 0 12 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 1;
+#X connect 12 0 0 0;

@@ -1,0 +1,1 @@
+rm patch.zip ; zip patch.zip simplesine4.2.pd simplesine.small.4.2.pd waveforms1.1.pd vibrato.pd tremolo.pd tables.pd multisynth1.1.pd record.pd waveformselector.pd tri~.pd pwm2~.pd; cp patch.zip ~/gitstuff/adam/PlasmaThereminHD/res/raw/

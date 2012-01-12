@@ -29,7 +29,7 @@ public class Instrument {
 	
 	
 	
-	public static final int MAX_INDEX = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? 4 : 8; //phones support 4 touches, tablets support 8
+	public static int MAX_INDEX;
 	
 	
 	final private ArrayList<Effect> effects = new ArrayList<Effect>();
@@ -41,7 +41,7 @@ public class Instrument {
 	private String patchName;
 	
 	public float midiMin = 0;
-	public int visualQuality = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? 1 : 2;
+	public int visualQuality;
 	public float midiMax = 127;
 	public float waveform = 1;
 	public static int NCONTINUOUS = 0;
@@ -51,19 +51,23 @@ public class Instrument {
 	public String quantval;
 
 	public boolean ready = false;
+	TouchAbstraction touchabs;
 	
 	public Instrument(final PDManager p) {
+		MAX_INDEX = Launcher.getUIType() == Launcher.PHONE ? 4 : 8; //phones support 4 touches, tablets support 8;
+		touchabs = new TouchAbstraction(MAX_INDEX);
+		visualQuality  = Launcher.getUIType() == Launcher.PHONE ? 1 : 2;
 		this.p = p;
 		volume = new Volume();
 		sequencer = new SequencerStuff();
-		effects.add(volume);
+		effects.add(new ASDR());
 		//effects.add(sequencer);
 		effects.add(new Vibrato());
-		effects.add(new ASDR());
 		effects.add(new Tremolo());
 		effects.add(new Delay());
 		effects.add(new Reverb());
 		effects.add(new Filter());
+		effects.add(volume);
 	}
 	
 	public void setPatch(final String patch) {
@@ -82,17 +86,20 @@ public class Instrument {
 //		Log.d("Instrument", "TOUCH UP!!!!!! : "+index);
 		x=x/width;
 		y=y/height;
-		index ++;
+		//index ++;
+		index = touchabs.remove(c);
 		if (ready && index <= MAX_INDEX) {
 			for (final Effect e : effects) {
-				e.touchUp(me, index, x, 0, c);
+				//e.touchUp(me, index, x, 0, c); //the only reason I did this was to have the volume ramp down properly which I think is fixed anyway
+				e.touchUp(me, index, x, y, c); 
 			}
 		}
 	}
 	public void touchMove(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
 		x=x/width;
 		y=y/height;
-		index ++;
+		//index ++;
+		index = touchabs.move(c);
 		if (ready && index <= MAX_INDEX) {
 			setPitch(x, index, c, width);
 			for (final Effect e : effects) {
@@ -104,8 +111,8 @@ public class Instrument {
 //		Log.d("Instrument", "TOUCH DOWN!!!!!!: "+index);
 		x=x/width;
 		y=y/height;
-		index ++;
-		
+		//index ++;
+		index = touchabs.add(c);
 		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
 			setPitch(x, index, c, width);
@@ -120,7 +127,8 @@ public class Instrument {
 			//no.
 			for (int index=1; index<=MAX_INDEX; index++) {
 				for (final Effect e : effects) {
-					e.touchUp(null, index, 0, 0, null);
+					//e.touchUp(null, index, 0, 0, null);
+					e.allUp(); //don't think the abolve is necessary anymore.
 				}
 			}
 		}
@@ -195,7 +203,7 @@ public class Instrument {
 			setMidiMax(prefMidiMax);
 			
 			String defaultQuality = "1";//Launcher.getPhoneCPUPower(context) > Launcher.PRETTY_CRAP ? "1" : "0";
-			defaultQuality = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? defaultQuality : "2";
+			defaultQuality = Launcher.getUIType() == Launcher.PHONE ? defaultQuality : "2";
 //			Log.d("VisualQual", "presets have visual quality: "+prefs.contains(preset+PSND.VISUAL_QUALITY));
 //			Log.d("VisualQual", "presets for visual quality: "+prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality));
 			String qual = defaultQuality;

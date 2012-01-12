@@ -64,6 +64,14 @@ public  class Volume extends Effect {
 		off.pushValue(1, index);
 		//amp.pushValue(0, index);
 	}
+	
+	@Override
+	public void allUp() {
+		super.allUp();
+		for (int i=0; i<MAX_INDEX; i++) {
+			off.pushValue(1, i);
+		}
+	}
 
 
 }

@@ -24,12 +24,13 @@
 	    <string name="vibspeed">vibspeed</string>
 	    <string name="vibdepth">vibdepth</string>
 	    <string name="vibrato_onoff">vibrato_onoff</string>
-
+	    <string name="vibrato_waveform">vibwaveform</string>
 	
 	    <string name="tremolospeed">tremolospeed</string>
 	    <string name="tremolodepth">tremolodepth</string>
 	    <string name="tremolo_onoff">tremolo_onoff</string>
-
+	    <string name="tremolo_waveform">tremolowaveform</string>
+	    
 	
 	    <string name="revebrtime">revebrtime</string>
 	    <string name="reverbfeedback">reverbfeedback</string>

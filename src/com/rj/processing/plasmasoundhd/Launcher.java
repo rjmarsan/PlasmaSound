@@ -13,15 +13,17 @@ import android.view.WindowManager;
 
 
 public class Launcher extends Activity {
-	public static int GINGERBREAD_PHONE = 1;
-	public static int HONEYCOMB_TABLET = 3;
-	public static int ICS_PHONE = 4;
+	public static int PHONE = 1;
+	public static int TABLET = 3;
+	//public static int ICS_PHONE = 4;
 	
 	public static int TOTAL_CRAP = 0;
 	public static int PRETTY_CRAP = 1;
 	public static int DECENT = 2;
 	public static int POWERFUL = 3;
 	public static int F_ING_POWERFUL = 4;
+	
+	public static int size;
 	
 	
 	@Override
@@ -31,11 +33,11 @@ public class Launcher extends Activity {
 		
 		
 		Log.d("Launcher", "Launch type: "+getUIType());
-		if (getUIType() == HONEYCOMB_TABLET) {
+		if (getUIType() == TABLET) {
 			Intent intent = new Intent(this, com.rj.processing.plasmasoundhd.PlasmaSound.class);
 		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );        
 		    this.startActivityForResult(intent, 1);
-		} else if (getUIType() == GINGERBREAD_PHONE){
+		} else if (getUIType() == PHONE){
 			Intent intent = new Intent(this, com.rj.processing.plasmasoundhd.PlasmaSound.class);
 		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );        
 		    this.startActivityForResult(intent, 1);
@@ -59,11 +61,19 @@ public class Launcher extends Activity {
 		finish(); //lolhax
 	}
 	
+	
+	public static void setUiType(Context context) {
+		 DisplayMetrics metrics = new DisplayMetrics();
+		 Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		 display.getMetrics(metrics);
+		 size = (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
+	}
+	
 	public static int getUIType() {
-		if (Build.VERSION.SDK_INT >= 11) {
-			return HONEYCOMB_TABLET;
+		if (size == Configuration.SCREENLAYOUT_SIZE_LARGE || size == 4 /*Configuration.SCREENLAYOUT_SIZE_XLARGE*/) {
+			return TABLET;
 		} else {
-			return GINGERBREAD_PHONE;
+			return PHONE;
 		}
 	}
 	

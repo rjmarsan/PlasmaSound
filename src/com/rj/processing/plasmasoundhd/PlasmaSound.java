@@ -2,6 +2,9 @@ package com.rj.processing.plasmasoundhd;
 
 import processing.core.PApplet;
 
+import android.util.Log;
+import android.view.MenuItem;
+
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 import com.rj.processing.plasmasoundhd.visuals.Grid;
@@ -25,6 +28,12 @@ public class PlasmaSound extends PlasmaSubFragment {
 
 	@Override
 	int getMenu() { return com.rj.processing.plasmasound.R.menu.main_menu; }
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d("PlasmaSound", "onOptionsItemSelected called with "+item.getTitle().toString());
+		return super.onContextItemSelected(item);
+	}
 
 	
 	

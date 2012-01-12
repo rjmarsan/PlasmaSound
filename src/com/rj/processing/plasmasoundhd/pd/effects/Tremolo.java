@@ -24,7 +24,10 @@ public  class Tremolo extends Effect {
 		enabled.setMinMax(0, 1);
 		enabled.setDefaultNaive(1);
 		params.put(PSND.TREMOLO_ENABLED, enabled );
-
+		final Parameter tremwaveform = new Parameter(PSND.TREMOLO_WAVEFORM, false);
+		tremwaveform.setMinMax(0f, 100f);
+		tremwaveform.setDefault(1f);
+		params.put(PSND.TREMOLO_WAVEFORM, tremwaveform );
 		
 		this.yenabledlist = new String[] {
 				PSND.TREMOLO_SPEED,

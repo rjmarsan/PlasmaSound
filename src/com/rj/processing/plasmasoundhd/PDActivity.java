@@ -8,10 +8,7 @@ import processing.core.PApplet;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -48,9 +45,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public static final String SHARED_PREFERENCES_AUDIO = "shared_prefs_audio";
 	public static final String SHARED_PREFERENCES_APPSTUFF = "appstufffz";
 	
-	public static final String PATCH_PATH = Launcher.getUIType() == Launcher.GINGERBREAD_PHONE ? "simplesine.small.4.2.pd"  : "simplesine4.2.pd";
+	public static String PATCH_PATH;
 //	public static final String PATCH_PATH = "simplesine4.2.pd";
-	
+	public static boolean isHoneycombOrGreater = false;
 	
 	public MTManager mtManager;
 	
@@ -59,6 +56,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public PlasmaSubFragment frag;
 	public SequencerActivity sequencer;
 	public PlasmaSound instrument;
+	
+	MenuItem effectSettingsItem;
+	MenuItem keyboardSettingsItem;
+	MenuItem sequencerSettingsItem;
 	
 	PowerManager.WakeLock wl;
 
@@ -84,7 +85,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public int sketchWidth() { return this.screenWidth; }
 	public int sketchHeight() { return this.screenHeight; }
 	public String sketchRenderer() { return PApplet.P3D; } 
-	public boolean keepTitlebar() { return Launcher.getUIType() != Launcher.GINGERBREAD_PHONE; }
+	public boolean keepTitlebar() { return isHoneycombOrGreater; }
 	/** return false to keep presets from being loaded **/
 	public boolean loadPresets() { return true; }
 	/** override to select a custom menu **/
@@ -100,13 +101,14 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	View preferenceview;
 	
 	public void onCreate(final Bundle savedinstance) {
+		initStatics();
 		super.onCreate(savedinstance);
 		PSND.readFromResources(this);
 		//runSequencer(false);
 		plzBeLandscape();
 		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreenmall, null);
 		this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
+		if (isHoneycombOrGreater) {
 			preferenceview = this.getLayoutInflater().inflate(
 							com.rj.processing.plasmasound.R.layout.prefsoverlay,
 							null);
@@ -116,11 +118,19 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		hideBoth();
 		sequencer = new SequencerActivity(this);
 		instrument = new PlasmaSound(this);
-		if (Build.VERSION.SDK_INT < 11) 
+		if (!isHoneycombOrGreater) 
 			runTheremin(false,true);
 		else
 			setupActionbar();
 	}
+	
+	
+	public void initStatics() {
+		isHoneycombOrGreater = Build.VERSION.SDK_INT >= 11;
+		Launcher.setUiType(this);
+		PATCH_PATH = Launcher.getUIType() == Launcher.PHONE ? "simplesine.small.4.2.pd"  : "simplesine4.2.pd";
+	}
+	
 	
 	void setupActionbar() {
 		if (getActionBar() == null) return;
@@ -447,8 +457,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public boolean onCreateOptionsMenu(final Menu menu) {
 //	    final MenuInflater inflater = getMenuInflater();
 //	    inflater.inflate(getMenu(), menu);
+		//menu.
 	    return true;
 	}
+	
 	
 	/**
 	 * its 1:42, and where is Jake?
@@ -459,7 +471,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
 	    switch (item.getItemId()) {
 	    case com.rj.processing.plasmasound.R.id.sequencer_settings:
-	        sequencerSettings();
+	        sequencerSettings(item);
 	        return true;
 	    case com.rj.processing.plasmasound.R.id.instrument:
 	        instrument();
@@ -468,10 +480,11 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	        sequencer();
 	        return true;
 	    case com.rj.processing.plasmasound.R.id.instrument_settings:
-	        instrumentSettings();
+	        instrumentSettings(item);
 	        return true;
 	    case com.rj.processing.plasmasound.R.id.effects_settings:
-	        effectSettings();
+	        //item.setIcon(com.rj.processing.plasmasound.R.drawable.ic_menu_record);
+	        effectSettings(item);
 	        return true;
 	    case com.rj.processing.plasmasound.R.id.save_settings:
 	        saveSettings();
@@ -521,8 +534,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 
 	
-	public void instrumentSettings() {
-		if (Launcher.getUIType() == Launcher.GINGERBREAD_PHONE) {
+	public void instrumentSettings(MenuItem item) {
+		if (!isHoneycombOrGreater) {
 			final Intent i = new Intent(this, com.rj.processing.plasmasound.PlasmaThereminAudioSettings.class);
 			this.startActivity(i);
 			return;
@@ -531,6 +544,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
 		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
+			setAllSettingsIconsInactive();
 			fragment2.setVisibility(View.GONE);
 			fragment3.setVisibility(View.GONE);
 			if (fragment.isShown()) {
@@ -538,12 +552,24 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			} else {
 				fragment.setVisibility(View.VISIBLE);
 				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
+				setActiveInstrumentSettingsIcon(item);
 			}
 		}
 	}
 	
-	public void sequencerSettings() {
-		if (Launcher.getUIType() == Launcher.GINGERBREAD_PHONE) {
+	public void setActiveInstrumentSettingsIcon(MenuItem item) {
+		keyboardSettingsItem = item;
+		item.setIcon(com.rj.processing.plasmasound.R.drawable.ic_menu_keyboard_settings_active);
+	}
+	public void setInactiveInstrumentSettingsIcon() {
+		if (keyboardSettingsItem != null)
+			keyboardSettingsItem.setIcon(com.rj.processing.plasmasound.R.drawable.ic_menu_keyboard_settings);
+	}
+
+	
+	
+	public void sequencerSettings(MenuItem item) {
+		if (!isHoneycombOrGreater) {
 			final Intent i = new Intent(this, com.rj.processing.plasmasound.PlasmaThereminSequencerSettings.class);
 			this.startActivity(i);
 			return;
@@ -552,6 +578,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
 		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
+			setAllSettingsIconsInactive();
 			fragment2.setVisibility(View.GONE);
 			fragment.setVisibility(View.GONE);
 			if (fragment3.isShown()) {
@@ -559,12 +586,23 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			} else {
 				fragment3.setVisibility(View.VISIBLE);
 				fragment3.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
+				setActiveSequencerSettingsIcon(item);
 			}
 		}
 	}
+	public void setActiveSequencerSettingsIcon(MenuItem item) {
+		sequencerSettingsItem = item;
+		item.setIcon(com.rj.processing.plasmasound.R.drawable.ic_menu_sequencer_settings_active);
+	}
+	public void setInactiveSequencerSettingsIcon() {
+		if (sequencerSettingsItem != null)
+			sequencerSettingsItem.setIcon(com.rj.processing.plasmasound.R.drawable.ic_menu_sequencer_settings);
+	}
 
-	public void effectSettings() {
-		if (Launcher.getUIType() == Launcher.GINGERBREAD_PHONE) {
+
+
+	public void effectSettings(MenuItem item) {
+		if (!isHoneycombOrGreater) {
 			final Intent i = new Intent(this, com.rj.processing.plasmasound.PlasmaThereminEffectsSettings.class);
 			this.startActivity(i);
 			return;
@@ -573,6 +611,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
 		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
 		if (fragment != null && fragment2 != null) {
+			setAllSettingsIconsInactive();
 			fragment2.setVisibility(View.GONE);
 			fragment3.setVisibility(View.GONE);
 			if (fragment.isShown()) {
@@ -580,12 +619,28 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			} else {
 				fragment.setVisibility(View.VISIBLE);
 				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
+				setActiveEffectSettingsIcon(item);
 			}
 		}
 	}
+	public void setActiveEffectSettingsIcon(MenuItem item) {
+		effectSettingsItem = item;
+		item.setIcon(com.rj.processing.plasmasound.R.drawable.ic_menu_effects_settings_active);
+	}
+	public void setInactiveEffectSettingsIcon() {
+		if (effectSettingsItem != null)
+			effectSettingsItem.setIcon(com.rj.processing.plasmasound.R.drawable.ic_menu_effects_settings);
+	}
+	
+	public void setAllSettingsIconsInactive() {
+		setInactiveEffectSettingsIcon();
+		setInactiveInstrumentSettingsIcon();
+		setInactiveSequencerSettingsIcon();
+	}
+
 	
 	public void hideBoth() {
-		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
+		if (isHoneycombOrGreater) {
 			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
 			View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
 			View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
@@ -596,13 +651,14 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			if (fragment3 != null) {
 				fragment3.setVisibility(View.GONE);
 			}
+			setAllSettingsIconsInactive(); 
 		}
 	}
 
 	
 	@Override
     public boolean pOnBackPressed() {
-		if (Launcher.getUIType() != Launcher.GINGERBREAD_PHONE) {
+		if (isHoneycombOrGreater) {
 			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
 			View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
 			System.out.println("fragment1" +fragment.isShown()+ "   fragment2:"+fragment2.isShown());

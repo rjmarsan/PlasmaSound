@@ -1,0 +1,98 @@
+#N canvas 492 97 596 543 10;
+#X floatatom 36 76 5 0 0 0 - - -;
+#X floatatom 108 61 5 0 0 0 - - -;
+#X obj 30 119 s pitch1;
+#X obj 108 121 s amp1;
+#X obj 82 190 simplesine4.2;
+#X obj 351 449 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 188 452 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 374 184 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 222 188 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 218 242 s vibdepth1;
+#X obj 374 224 s vibspeed1;
+#X obj 346 275 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 342 313 s tremolospeed1;
+#X obj 191 277 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 187 311 s tremolodepth1;
+#X floatatom 408 75 5 0 0 0 - - -;
+#X floatatom 480 60 5 0 0 0 - - -;
+#X floatatom 218 75 5 0 0 0 - - -;
+#X floatatom 290 60 5 0 0 0 - - -;
+#X obj 213 118 s pitch2;
+#X obj 289 120 s amp2;
+#X obj 402 118 s pitch2;
+#X obj 480 120 s amp2;
+#X obj 10 379 r mainlevel;
+#X obj 23 410 print;
+#X obj 32 34 s noteon1;
+#X obj 100 36 s noteoff1;
+#X obj 33 9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 97 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 359 382 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 204 384 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 200 418 s delaytime;
+#X obj 355 420 s delayfeedback;
+#X obj 192 486 s filt1;
+#X obj 351 469 / 127;
+#X obj 499 228 s vibrato_onoff;
+#X obj 536 193 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 537 215 print;
+#X obj 347 487 s amp1;
+#X obj 529 259 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 530 281 print;
+#X obj 492 293 s tremolo_onoff;
+#X obj 535 357 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 536 379 print;
+#X obj 498 390 s delay_onoff;
+#X obj 30 236 s vibwaveform1;
+#X obj 21 213 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X obj 228 209 / 127;
+#X obj 264 213 * 100;
+#X obj 24 260 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X obj 33 283 s inssel;
+#X obj 20 307 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X obj 29 330 s tremolowaveform1;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 5 0 34 0;
+#X connect 6 0 33 0;
+#X connect 7 0 10 0;
+#X connect 8 0 47 0;
+#X connect 11 0 12 0;
+#X connect 13 0 14 0;
+#X connect 15 0 21 0;
+#X connect 16 0 22 0;
+#X connect 17 0 19 0;
+#X connect 18 0 20 0;
+#X connect 27 0 25 0;
+#X connect 28 0 26 0;
+#X connect 29 0 32 0;
+#X connect 30 0 31 0;
+#X connect 34 0 38 0;
+#X connect 36 0 35 0;
+#X connect 36 0 37 0;
+#X connect 39 0 40 0;
+#X connect 39 0 41 0;
+#X connect 42 0 43 0;
+#X connect 42 0 44 0;
+#X connect 46 0 45 0;
+#X connect 47 0 48 0;
+#X connect 48 0 9 0;
+#X connect 49 0 50 0;
+#X connect 51 0 52 0;

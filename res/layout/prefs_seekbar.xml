@@ -8,10 +8,10 @@
 		android:layout_width="wrap_content" android:id="@+id/toggleyaxis"
 		android:layout_height="wrap_content" android:layout_above="@+id/seekbar"
 		android:layout_alignParentRight="true"></ToggleButton>
-	<SeekBar android:layout_width="match_parent"
+	<amir.android.icebreaking.PSNDSeekBar android:layout_width="match_parent"
 		android:layout_height="wrap_content" android:id="@+id/seekbar"
 		android:layout_alignParentBottom="true" android:max="127"
-		android:progress="60"></SeekBar>
+		android:progress="60"></amir.android.icebreaking.PSNDSeekBar>
 	<TextView android:text="/100ms" android:id="@+id/unitstext"
 		android:layout_width="wrap_content" android:layout_above="@+id/seekbar"  
 		android:layout_height="wrap_content" android:layout_toLeftOf="@+id/toggleyaxis"

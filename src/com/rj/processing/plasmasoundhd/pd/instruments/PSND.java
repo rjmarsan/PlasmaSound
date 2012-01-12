@@ -27,11 +27,13 @@ public class PSND {
 	public static String VIBRATO_SPEED = "vibspeed";
 	public static String VIBRATO_DEPTH = "vibdepth";
 	public static String VIBRATO_ENABLED = "vibrato_onoff";
+	public static String VIBRATO_WAVEFORM = "vibwaveform";
 
 	
 	public static String TREMOLO_SPEED = "tremolospeed";
 	public static String TREMOLO_DEPTH = "tremolodepth";
 	public static String TREMOLO_ENABLED = "tremolo_onoff";
+	public static String TREMOLO_WAVEFORM = "tremolowaveform";
 
 	
 	public static String REVERB_TIME = "revebrtime";
@@ -90,11 +92,13 @@ public class PSND {
 		 VIBRATO_SPEED = r.getString(R.string.vibspeed);
 		 VIBRATO_DEPTH = r.getString(R.string.vibdepth);
 		 VIBRATO_ENABLED = r.getString(R.string.vibrato_onoff);
+		 VIBRATO_WAVEFORM = r.getString(R.string.vibrato_waveform);
 
 		
 		 TREMOLO_SPEED = r.getString(R.string.tremolospeed);
 		 TREMOLO_DEPTH = r.getString(R.string.tremolodepth);
 		 TREMOLO_ENABLED = r.getString(R.string.tremolo_onoff);
+		 TREMOLO_WAVEFORM = r.getString(R.string.tremolo_waveform);
 
 		
 		 REVERB_TIME = r.getString(R.string.revebrtime);

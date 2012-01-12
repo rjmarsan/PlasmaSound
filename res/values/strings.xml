@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Let me know if you need any clarifications on things, my email is rjmarsan@gmail.com
+%1$s/%2$s are replaced with numbers, and can be moved around, but need to stay in there.
+Thanks again for the help! I really appreciate it!
+ -->
+
 <resources>
     <string name="app_name">Plasma Sound</string>
-    <string name="app_package_donate">com.rj.processing.plasmasounddonate</string>
         
     
     <string name="instrument_name">Keyboard</string>
     <string name="sequencer_name">Sequencer</string>
             
     
-    
+   <!-- The strings for the menu -->
     <string name="instrument_settings">Keyboard</string>
     <string name="effects_settings">Effects</string>
     <string name="save_settings">Save Preset</string>
@@ -24,7 +29,7 @@
     <string name="clear_sequence_settings">Clear</string>
         
         
-        
+   <!-- dialogs (rate popup, tutorial popup, about popup) -->
     <string name="rating_dialog_title">Rate Plasma Sound!</string> 
     <string name="rating_dialog_market">Market</string> 
     <string name="rating_dialog_neveragain">Never show again!</string> 
@@ -54,6 +59,10 @@
     <string name="tutorial_dialog_done">Thats it! Experiment around. You can always find this tutorial in the settings menu.</string>
    
         
+    <string name="tutorial_dialog_keyboard_tablet">clicking on the Keyboard tab takes you to the keyboard</string>
+    <string name="tutorial_dialog_sequencer_tablet">clicking on the Sequencer tab takes you to the sequencer</string>
+        
+        
         
     <string name="tutorial_dialog_slide0">Welcome to Plasma Sound</string>
     <string name="tutorial_dialog_slide1">How to Use: Keyboard</string>
@@ -69,7 +78,7 @@
         
         
         
-        
+   <!-- Export, preset, and save popups -->
     <string name="export_extra_title">Share Recording</string> 
     <string name="export_extra_text">Check out the recording I made with Plasma Sound!</string> 
     <string name="export_toast_record_finished">The recording is on your phone at: </string> 
@@ -106,17 +115,91 @@
         
         
         
+        
+        
+        
+        
+        
+        
+   <!-- The strings for the settings menus -->
+    <string name="str_quantize_note">Quantize Note</string>
+    <string name="str_scale">Scale</string>
+    <string name="str_high_note_title">High Note</string>
+    <string name="str_high_note_summary">High note of the scale</string>
+    <string name="str_low_note_title">Low Note</string>
+    <string name="str_low_note_summary">Low note of the scale</string>
+        
+    <string name="str_visuals_title">Visuals</string>
+    <string name="str_plasma_quality">Plasma Quality</string>
+        
+        
+        
+    <string name="str_waveform">Waveform</string>
+    <string name="str_volume_title">Volume</string>
+    <string name="str_volume_summ">volume of each touch</string>
+    <string name="str_waveform_title">Waveform</string>
+    <string name="str_waveform_summ">kind of waveform generated</string>
+        
+    <string name="str_envelope">Envelope</string>
+    <string name="str_attack_title">Attack</string>
+    <string name="str_attack_summ">attack of the note (in milliseconds)</string>
+    <string name="str_decay_title">Decay</string>
+    <string name="str_decay_summ">release of the note on (in milliseconds)</string>
+        
+    <string name="str_delay">Delay</string>
+    <string name="str_delaytime_title">Time</string>
+    <string name="str_delaytime_summ">Time of Delay (in 100/seconds)</string>
+    <string name="str_delayfeed_title">Feedback</string>
+    <string name="str_delayfeed_summ">percent volume of the delay</string>
+        
+    <string name="str_reverb">Reverb</string>
+    <string name="str_reverbtime_title">Time</string>
+    <string name="str_reverbtime_summ">Time of Reverb (in milliseconds)</string>
+    <string name="str_reverbfeed_title">Feedback</string>
+    <string name="str_reverbfeed_summ">percent volume of the reverb</string>
+        
+    <string name="str_filter">Filter</string>
+    <string name="str_filter_title">Cutoff</string>
+    <string name="str_filter_summ">cutoff of the low-pass filter</string>
+
+    <string name="str_vibrato">Vibrato</string>
+    <string name="str_vibratospeed_title">Speed</string>
+    <string name="str_vibratospeed_summ">speed of the vibrato</string>
+    <string name="str_vibratodepth_title">Depth</string>
+    <string name="str_vibratodepth_summ">depth of the vibrato (in percent)</string>
+    <string name="str_vibratowaveform_title">Waveform</string>
+    <string name="str_vibratowaveform_summ">waveform the vibrato follows</string>
+
+    <string name="str_tremolo">Tremolo</string>
+    <string name="str_tremolospeed_title">Speed</string>
+    <string name="str_tremolospeed_summ">speed of the Tremolo</string>
+    <string name="str_tremolodepth_title">Depth</string>
+    <string name="str_tremolodepth_summ">depth of the Tremolo (in percent)</string>
+    <string name="str_tremolowaveform_title">Waveform</string>
+    <string name="str_tremolowaveform_summ">waveform the tremolo follows</string>
+        
+        
+        
+        
+        
+    <string name="str_seq_scale">Scale of Sequencer</string>
+    <string name="str_seq_scale_summ">Major, Minor, Pentatonic, etc.</string>
+        
+        
+    <string name="str_seq_params">Parameters</string>
+    <string name="str_seq_tempo">Tempo</string>
+    <string name="str_seq_tempo_summ">in Beats per Minute</string>
+    <string name="str_seq_sync">Syncopation</string>
+    <string name="str_seq_sync_summ">from 1 to 100</string>
+    <string name="str_seq_low">Low Note</string>
+    <string name="str_seq_low_summ">Low note of the sequencer</string>
+    <string name="str_seq_steps">Steps</string>
+    <string name="str_seq_steps_summ">steps in the sequencer</string>
+    <string name="str_seq_steps_text">steps</string>
+    <string name="str_seq_notes">Notes</string>
+    <string name="str_seq_notes_summ">notes in each step</string>
+    <string name="str_seq_notes_text">notes</string>
+        
+        
+        
 </resources>
-
-
-    
-    
-    
-    <!-- 
-    The instrument tab should be renamed somethingPlasmaSound and should contain quantize, high low, and some configuration about the view (if there should be fluid, etc)
-    effects <y axis> should be moved to the above menu
-    
-    
-    
-    
-     -->

@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
-    
-    <gradient
-        android:centerColor="#88002020"
-        android:endColor="#ff002020"
-        android:startColor="#00000000"
-        android:type="linear"
-    />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- This is the line -->
+    <item android:top="-2dp" android:right="-2dp" android:bottom="-2dp">
+	
+		<shape
+		    xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:shape="rectangle" >
+		    <gradient
+		        android:centerColor="#88002020"
+		        android:endColor="#ff002020"
+		        android:startColor="#00000000"
+		        android:type="linear"
+		    />
+		    <stroke android:width="2dp" android:color="#bb002020" />
+		    
+		</shape>
+	
+	</item>
+</layer-list>

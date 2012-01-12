@@ -209,7 +209,16 @@
 			        psnd:title="@string/str_vibratodepth_title"
 			        psnd:summary="@string/str_vibratodepth_summ"
 			        android:text="%" 
-			        psnd:yenabled="true"  />  
+			        psnd:yenabled="true"  /> 
+	            <amir.android.icebreaking.RadioGroupPrefs 
+			       style="@style/SettingsMultichoiceBox"
+	                psnd:key="@string/vibrato_waveform"
+		            psnd:title="@string/str_tremolowaveform_title"
+		            psnd:summary="@string/str_tremolowaveform_summ"
+		            psnd:defaultValue="1"
+		            android:entries="@array/waveforms_display"
+		            android:entryValues="@array/waveforms"
+	                />
 		    </amir.android.icebreaking.EffectsBox>  
 		     		     
 		     
@@ -243,7 +252,16 @@
 			        psnd:title="@string/str_tremolodepth_title"
 			        psnd:summary="@string/str_tremolodepth_summ"
 			        android:text="%" 
-			        psnd:yenabled="true"  />  
+			        psnd:yenabled="true"  /> 
+	            <amir.android.icebreaking.RadioGroupPrefs 
+			       style="@style/SettingsMultichoiceBox"
+	                psnd:key="@string/tremolo_waveform"
+		            psnd:title="@string/str_tremolowaveform_title"
+		            psnd:summary="@string/str_tremolowaveform_summ"
+		            psnd:defaultValue="1"
+		            android:entries="@array/waveforms_display"
+		            android:entryValues="@array/waveforms"
+	                />
 		     </amir.android.icebreaking.EffectsBox> 
 		     		     
 				<ListView

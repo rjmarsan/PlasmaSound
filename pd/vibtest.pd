@@ -1,0 +1,37 @@
+#N canvas -1 22 522 428 10;
+#X obj 69 243 s pitch1;
+#X obj 143 251 s amp1;
+#X obj 252 201 s vibdepth1;
+#X obj 67 45 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 4700 1;
+#X obj 252 23 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 12700 1;
+#X obj 428 188 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 428 340 / 127;
+#X obj 133 43 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 12700 1;
+#X obj 133 195 / 127;
+#X obj 65 209 / 1;
+#X obj 343 214 s vibspeed1;
+#X obj 335 17 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 436 385 s delayfeedback;
+#X obj 252 175 / 1;
+#X obj 335 169 / 127;
+#X msg 390 160 -30;
+#X msg 289 163 100;
+#X msg 230 248 -0.5;
+#X connect 3 0 9 0;
+#X connect 4 0 13 0;
+#X connect 5 0 6 0;
+#X connect 6 0 12 0;
+#X connect 7 0 8 0;
+#X connect 8 0 1 0;
+#X connect 9 0 0 0;
+#X connect 11 0 14 0;
+#X connect 13 0 2 0;
+#X connect 14 0 10 0;
+#X connect 15 0 10 0;
+#X connect 16 0 2 0;
+#X connect 17 0 2 0;

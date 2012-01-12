@@ -26,6 +26,11 @@ public  class Vibrato extends Effect {
 		enabled.setDefault(1);
 		params.put(PSND.VIBRATO_ENABLED, enabled );
 
+		final Parameter vibwaveform = new Parameter(PSND.VIBRATO_WAVEFORM, false);
+		vibwaveform.setMinMax(0f, 100f);
+		vibwaveform.setDefault(1f);
+		params.put(PSND.VIBRATO_WAVEFORM, vibwaveform );
+
 		
 		this.yenabledlist = new String[] {
 				PSND.VIBRATO_SPEED,

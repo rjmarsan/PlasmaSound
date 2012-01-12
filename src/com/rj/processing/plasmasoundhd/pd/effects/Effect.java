@@ -36,7 +36,8 @@ public abstract class Effect {
 		if (yenabled && enabled && index <= MAX_INDEX) {
 			for (final String effect : yenabledlist) {
 				final Parameter p = params.get(effect);
-				p.pushValueNaive(0, index);
+				//p.pushValueNaive(0, index);
+				p.pushValueNaive(1 - y, index); //let's give it a shot.  I think this was only made so the volume would ramp down
 			}
 		}
 	}
