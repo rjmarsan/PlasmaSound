@@ -43,19 +43,20 @@ public class MiscDialogs {
 		builder.setPositiveButton(R.string.rating_dialog_market, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+context.getApplicationInfo().packageName));
+				intent.setData(Uri.parse("http://www.amazon.com/gp/mas/dl/android?p="+context.getApplicationInfo().packageName));
 				context.startActivity(intent);
 				dialog.dismiss();
 			}});
 		
-		builder.setNegativeButton(R.string.rating_dialog_donate, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				String donatepack = context.getResources().getString(R.string.app_package_donate);
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+donatepack));
-				context.startActivity(intent);
-				dialog.dismiss();
-			}});
+// amazon version has no donate button, as I seriously don't feel like making one.
+//		builder.setNegativeButton(R.string.rating_dialog_donate, new OnClickListener() {
+//			public void onClick(DialogInterface dialog, int which) {
+//				String donatepack = context.getResources().getString(R.string.app_package_donate);
+//				Intent intent = new Intent(Intent.ACTION_VIEW);
+//				intent.setData(Uri.parse("http://www.amazon.com/gp/mas/dl/android?p="+donatepack));
+//				context.startActivity(intent);
+//				dialog.dismiss();
+//			}});
 
 //		builder.setNegativeButton(R.string.rating_dialog_, new OnClickListener() {
 //			public void onClick(DialogInterface dialog, int which) {
@@ -91,18 +92,18 @@ public class MiscDialogs {
 		builder.setPositiveButton(R.string.rating_dialog_market, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+context.getApplicationInfo().packageName));
+				intent.setData(Uri.parse("http://www.amazon.com/gp/mas/dl/android?p="+context.getApplicationInfo().packageName));
 				context.startActivity(intent);
 				dialog.dismiss();
 			}});
-		builder.setNeutralButton(R.string.rating_dialog_donate, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				String donatepack = context.getResources().getString(R.string.app_package_donate);
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+donatepack));
-				context.startActivity(intent);
-				dialog.dismiss();
-			}});
+//		builder.setNeutralButton(R.string.rating_dialog_donate, new OnClickListener() {
+//			public void onClick(DialogInterface dialog, int which) {
+//				String donatepack = context.getResources().getString(R.string.app_package_donate);
+//				Intent intent = new Intent(Intent.ACTION_VIEW);
+//				intent.setData(Uri.parse("market://details?id="+donatepack));
+//				context.startActivity(intent);
+//				dialog.dismiss();
+//			}});
 		builder.setNegativeButton(R.string.rating_dialog_neveragain, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
