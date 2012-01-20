@@ -54,7 +54,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
-		Log.d("SeekBarPrefs", "Setting enabled for "+getKey()+" to "+enabled);
+		//Log.d("SeekBarPrefs", "Setting enabled for "+getKey()+" to "+enabled);
 		if (bar!=null) bar.setEnabled(enabled);// && ! (yEnabled && yaxis != null) );
 		if (yaxis!=null) yaxis.setEnabled(enabled);
 	}
@@ -190,7 +190,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView,final boolean isChecked) {
-		Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
+		//Log.d("SeekBar", "CHECKEDDDDDDDD: "+getTitle());
 		if (buttonView == yaxis) {
 			updatePreferenceY(isChecked);
 			setBarState(!isChecked);
@@ -198,7 +198,7 @@ public class SeekBarPreferenceView extends LinearLayout implements
 	}
 	
 	public void setBarState(boolean isEnabled) {
-		Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
+		//Log.d("SeekBar", "preference: "+getTitle()+" Bar set enabled: "+isEnabled);
 		if (isEnabled()) bar.setEnabled(isEnabled);
 	}
 

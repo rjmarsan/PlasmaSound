@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Let me know if you need any clarifications on things, my email is rjmarsan@gmail.com
+%1$s/%2$s are replaced with numbers, and can be moved around, but need to stay in there.
+Thanks again for the help! I really appreciate it!
+ -->
+
+<resources>
+    <string name="app_name">Plasma Sound</string>
+        
+    
+    <string name="instrument_name">Teclado</string>
+    <string name="sequencer_name">Secuenciador</string>
+            
+    
+   <!-- The strings for the menu -->
+    <string name="instrument_settings">Teclado</string>
+    <string name="effects_settings">Efectos</string>
+    <string name="save_settings">Guardar Ajustes</string>
+    <string name="load_settings">Cargar Ajustes</string>
+    <string name="save_sequence_settings">Guardar Secuencia</string>
+    <string name="load_sequence_settings">Cargar Secuencia</string>
+    <string name="record_settings">Grabar</string>
+    <string name="waveform_editor">Editar Onda</string>
+    <string name="sequencer">Secuenciador</string>
+    <string name="sequencer_settings">Secuenciador</string>
+    <string name="about_settings">Sobre Plasma Sound</string>
+    <string name="tutorial_settings">Tutorial</string>
+    <string name="clear_sequence_settings">Borrar</string>
+        
+        
+   <!-- dialogs (rate popup, tutorial popup, about popup) -->
+    <string name="rating_dialog_title">Puntua Plasma Sound!</string> 
+    <string name="rating_dialog_market">Market</string> 
+    <string name="rating_dialog_neveragain">No volver a mostrar</string> 
+    <string name="rating_dialog_donate">Donar</string> 
+    <string name="rating_dialog_message">Plasma Sound es 100% gratis y sin publicidad. Colabora dejando un comentario sobre esta aplicacion en el Market.\n(Ya no aparecer� m�s esta pantalla!)</string>
+    <string name="about_dialog_title">Acerca de Plasma Sound</string> 
+    <string name="about_dialog_message">&lt;a href=&quot;http://plasmasound.rjmarsan.com&quot;&gt;Plasma Sound&lt;/a&gt; (version %1$s build %2$s) escrita por &lt;a href=&quot;http://rjmarsan.com&quot;&gt;RJ Marsan&lt;/a&gt;, y completamente gratuita. Colabora dejando un comentario sobre esta aplicacion en el Market, o dando una peque�a Donaci�n:</string>
+    <string name="tutorial_dialog_title">C�mo funciona Plasma Sound</string> 
+    <string name="tutorial_dialog_ok">OK</string> 
+    <string name="tutorial_dialog_back">Anterior</string> 
+    <string name="tutorial_dialog_next">Siguiente</string> 
+    <string name="tutorial_dialog_donebox">Hecho!</string> 
+    <string name="tutorial_dialog_message">Plasma Sound es un novesodo instrumento musical gratuito para Android. Aprende a utilizarlo.</string>
+    <string name="tutorial_dialog_message1">Plasma Sound tiene dos instrumentos principales: el Teclado y el Secuenciador.</string>
+    <string name="tutorial_dialog_keyboardhoriz">Mueve tus dedos horizonalmente para controlar las notas</string>
+    <string name="tutorial_dialog_keyboardvert">Mueve tus dedos en vertical para controlar el resto de parametros(volumen, tasa de tr�molo, etc)</string>
+    <string name="tutorial_dialog_keyboardmenu">Pulsando en el icono del teclado acceder�s a su correspondiente men� de opciones</string>
+    <string name="tutorial_dialog_keyboardquantize">Usando las opciones de Quantize Note, podr�s alternar entre Continous (similar a theremin), Quantize (Teclado Cl�sico), y Slide (una mezcla de ambos)</string>
+    <string name="tutorial_dialog_keyboardhighlow">Configura la nota alta y nota baja para controlar el rango de notas disponibles en el teclado.</string>
+    <string name="tutorial_dialog_effectsmenu">Pulsando en el icono de Efectos acceder�s a su correspondiente men� de opciones.</string>
+    <string name="tutorial_dialog_effectsmenutext">Controla los diferentes efectos, activalos o desactivalos, selecciona que se controlar� con el eje Y en la pantalla principal.</string>
+    <string name="tutorial_dialog_effectspresets">Guarda y carga los ajustes utilizando estos botones</string>
+    <string name="tutorial_dialog_keyboard">En modo Secuenciador, pulsa el icono Teclado para ir al modo Teclado.</string>
+    <string name="tutorial_dialog_sequencer">En modo Teclado, pulsa en el icono Secuenciador para ir al modo Secuenciador</string>
+    <string name="tutorial_dialog_sequencerhelp">Arrastrando arriba y abajo en el Secuenciador cambiar� el valor asociado del eje Y.</string>
+    <string name="tutorial_dialog_sequencerpresets">Guarda y carga secuencias usando estos botones</string>
+    <string name="tutorial_dialog_done">Esto es todo! Turno de experimentar! Puedes volver a consultar este tutorial en el men� de opciones.</string>
+   
+        
+    <string name="tutorial_dialog_keyboard_tablet">Pulsando en la pesta�a del Teclado acceder�s a el Teclado</string>
+    <string name="tutorial_dialog_sequencer_tablet">Pulsando en la pesta�a del Secuenciador acceder�s a el Secuenciador</string>
+        
+        
+        
+    <string name="tutorial_dialog_slide0">Bienvenido a Plasma Sound</string>
+    <string name="tutorial_dialog_slide1">C�mo usar: El Teclado</string>
+    <string name="tutorial_dialog_slide2">C�mo usar: El Teclado</string>
+    <string name="tutorial_dialog_slide3">C�mo usar: El Teclado</string>
+    <string name="tutorial_dialog_slide4">C�mo usar: El Teclado</string>
+    <string name="tutorial_dialog_slide5">C�mo usar: Los Efectos</string>
+    <string name="tutorial_dialog_slide6">C�mo usar: Los Efectos - Guardar</string>
+    <string name="tutorial_dialog_slide7">C�mo usar: El Secuenciador</string>
+    <string name="tutorial_dialog_slide8">C�mo usar: El Secuenciador - Guardar</string>
+    <string name="tutorial_dialog_slide9">Disfruta!</string>
+        
+        
+        
+        
+   <!-- Export, preset, and save popups -->
+    <string name="export_extra_title">Compartir Grabaci�n</string> 
+    <string name="export_extra_text">Escucha lo que he grabado con Plasma Sound!</string> 
+    <string name="export_toast_record_finished">La grabaci�n se ha guardado en: </string> 
+    <string name="export_toast_record_started">Selecciona Grabar otra vez para detener la grabaci�n</string> 
+
+        
+        
+        
+        
+        
+    <string name="preset_load_title">Selecciona un Perfil</string>
+    <string name="preset_load_title_none">No hay ning�n perfil guardado</string>
+    <string name="preset_save_title">Selecciona un Perfil</string>
+    <string name="preset_save_new">Nuevo</string>
+    <string name="preset_save_delete">Borrar</string>        
+    <string name="preset_delete_title">Selecciona el perfil que quieres borrar. �OJO! NO HAY VUELTA ATR�S</string>
+    <string name="preset_saveas_title">�Nombre?</string>
+    <string name="preset_saveas_message">Pon un nombre al perfil</string>
+    <string name="preset_saveas_ok">Ok</string>
+    
+        
+        
+    <string name="preset_seq_load_title">Selecciona una secuencia</string>
+    <string name="preset_seq_load_title_none">No hay ninguna secuencia guardada</string>
+    <string name="preset_seq_save_title">Selecciona una secuencia</string>
+    <string name="preset_seq_save_new">Nueva</string>
+    <string name="preset_seq_save_delete">Borrar</string>
+    <string name="preset_seq_delete_title">Selecciona la secuencia que quieres borrar. OJO! NO HAY VUELTA ATR�S</string>
+    <string name="preset_seq_saveas_title">�Nombre?</string>
+    <string name="preset_seq_saveas_message">Pon un nombre a la secuencia</string>
+    <string name="preset_seq_saveas_ok">Ok</string>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+   <!-- The strings for the settings menus -->
+    <string name="str_quantize_note">Quantize Note</string>
+    <string name="str_scale">Escala</string>
+    <string name="str_high_note_title">Nota Alta</string>
+    <string name="str_high_note_summary">Nota m�s alta de la escala</string>
+    <string name="str_low_note_title">Nota Baja</string>
+    <string name="str_low_note_summary">Nota m�s baja de la escala</string>
+        
+    <string name="str_visuals_title">Visualizaci�n</string>
+    <string name="str_plasma_quality">Calidad de Plasma</string>
+        
+        
+        
+    <string name="str_waveform">Onda</string>
+    <string name="str_volume_title">Volumen</string>
+    <string name="str_volume_summ">volumen de cada pulsaci�n</string>
+    <string name="str_waveform_title">Onda</string>
+    <string name="str_waveform_summ">Tipo de onda generada</string>
+        
+    <string name="str_envelope">Envelope</string>
+    <string name="str_attack_title">Ataque</string>
+    <string name="str_attack_summ">entrada de la nota (en milisegundos)</string>
+    <string name="str_decay_title">Cadencia</string>
+    <string name="str_decay_summ">salida de la nota (en milisegundos)</string>
+        
+    <string name="str_delay">Delay</string>
+    <string name="str_delaytime_title">Tiempo</string>
+    <string name="str_delaytime_summ">Duraci�n del Delay (en 100/segundos)</string>
+    <string name="str_delayfeed_title">Feedback</string>
+    <string name="str_delayfeed_summ">porcentaje del volumen del delay</string>
+        
+    <string name="str_reverb">Reverb</string>
+    <string name="str_reverbtime_title">Tiempo</string>
+    <string name="str_reverbtime_summ">Duraci�n del Reverb (in milliseconds)</string>
+    <string name="str_reverbfeed_title">Feedback</string>
+    <string name="str_reverbfeed_summ">porcentaje del volumen del reverb</string>
+        
+    <string name="str_filter">Filtro</string>
+    <string name="str_filter_title">Cutoff</string>
+    <string name="str_filter_summ">cutoff of the low-pass filter</string>
+
+    <string name="str_vibrato">Vibrato</string>
+    <string name="str_vibratospeed_title">Velocidad</string>
+    <string name="str_vibratospeed_summ">velocidad del vibrato</string>
+    <string name="str_vibratodepth_title">Profundidad</string>
+    <string name="str_vibratodepth_summ">profundidad del vibrato (in percent)</string>
+    <string name="str_vibratowaveform_title">onda</string>
+    <string name="str_vibratowaveform_summ">seguimiento de la onda del vibrato</string>
+
+    <string name="str_tremolo">Tremolo</string>
+    <string name="str_tremolospeed_title">Velocidad</string>
+    <string name="str_tremolospeed_summ">velocidad del Tremolo</string>
+    <string name="str_tremolodepth_title">Profundidad</string>
+    <string name="str_tremolodepth_summ">profundidad del tremolo (en porcentaje)</string>
+    <string name="str_tremolowaveform_title">onda</string>
+    <string name="str_tremolowaveform_summ">seguimiento de la onda del tremolo</string>
+        
+        
+        
+        
+        
+    <string name="str_seq_scale">Escala del Secuenciador</string>
+    <string name="str_seq_scale_summ">Mayor, Menor, Pentatonica, etc.</string>
+        
+        
+    <string name="str_seq_params">Parametros</string>
+    <string name="str_seq_tempo">Tiempo</string>
+    <string name="str_seq_tempo_summ">Golpes por minuto</string>
+    <string name="str_seq_sync">Sincopa</string>
+    <string name="str_seq_sync_summ">de 1 a 100</string>
+    <string name="str_seq_low">Nota Baja</string>
+    <string name="str_seq_low_summ">nota m�s baja del secuenciador</string>
+    <string name="str_seq_steps">Celdas</string>
+    <string name="str_seq_steps_summ">celdas del secuenciador</string>
+    <string name="str_seq_steps_text">casillas</string>
+    <string name="str_seq_notes">Notas</string>
+    <string name="str_seq_notes_summ">notas en cada celda</string>
+    <string name="str_seq_notes_text">notas</string>
+        
+        
+        
+</resources>

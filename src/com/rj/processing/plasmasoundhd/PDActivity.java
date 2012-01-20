@@ -193,10 +193,17 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	
 	public void runTheremin(boolean setup, boolean fragmentTransaction)  {
+		//Log.d("PDActivity", "Running theremin");
 		hideBoth();
-		if (frag != null) frag.background();
+		if (frag != null) {
+			//Log.d("PDActivity", "Backgrounding current");
+			frag.background();
+		}
 		frag = instrument;
-		if (setup) frag.setup();
+		if (setup) {
+			//Log.d("PDActivity", "Setting up theremin");
+			frag.setup();
+		}
 		if (fragmentTransaction) {
 			FragmentManager man = this.getSupportFragmentManager();
 			FragmentTransaction trans = man.beginTransaction();
@@ -206,10 +213,17 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		}
 	}
 	public void runSequencer(boolean setup, boolean fragmentTransaction) {
+		//Log.d("PDActivity", "Running sequencer");
 		hideBoth();
-		if (frag != null) frag.background();
+		if (frag != null) {
+			//Log.d("PDActivity", "Backgrounding current");
+			frag.background();
+		}
 		frag = sequencer;
-		if (setup) frag.setup();
+		if (setup) {
+			//Log.d("PDActivity", "Setting up sequencer");
+			frag.setup();
+		}
 		if (fragmentTransaction) {
 			FragmentManager man = this.getSupportFragmentManager();
 			FragmentTransaction trans = man.beginTransaction();
@@ -633,6 +647,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 	
 	public void setAllSettingsIconsInactive() {
+		//Log.d("PDActivity", "Hiding all icons");
 		setInactiveEffectSettingsIcon();
 		setInactiveInstrumentSettingsIcon();
 		setInactiveSequencerSettingsIcon();
@@ -748,7 +763,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
     public void readSettings() {
     	if (inst == null) {
     		//Log.d("ReadSettings", "Called with inst being null!");
-    		Thread.dumpStack();
+    		//Thread.dumpStack();
     		return;
     	}
         final SharedPreferences mPrefs = PDActivity.this.getSharedPreferences(SHARED_PREFERENCES_AUDIO, 0);

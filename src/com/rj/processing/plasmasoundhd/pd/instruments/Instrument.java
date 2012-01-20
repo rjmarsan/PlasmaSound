@@ -83,11 +83,13 @@ public class Instrument {
 	}
 	
 	public void touchUp(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
-//		Log.d("Instrument", "TOUCH UP!!!!!! : "+index);
+		//Log.d("Instrument", "TOUCH UP!!!!!! : "+c.curId+" index:"+index);
 		x=x/width;
 		y=y/height;
 		//index ++;
-		index = touchabs.remove(c);
+		if (c != null)
+			index = touchabs.remove(c);
+		//Log.d("Instrument", "TOUCH UP!!!!!! : new index:"+index);
 		if (ready && index <= MAX_INDEX) {
 			for (final Effect e : effects) {
 				//e.touchUp(me, index, x, 0, c); //the only reason I did this was to have the volume ramp down properly which I think is fixed anyway
@@ -96,10 +98,13 @@ public class Instrument {
 		}
 	}
 	public void touchMove(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
+		//Log.d("Instrument", "TOUCH MOVE!!!!!!: "+c.curId+" index:"+index);
 		x=x/width;
 		y=y/height;
 		//index ++;
-		index = touchabs.move(c);
+		if (c != null)
+			index = touchabs.move(c);
+		//Log.d("Instrument", "TOUCH MOVE!!!!!!: new index:"+index);
 		if (ready && index <= MAX_INDEX) {
 			setPitch(x, index, c, width);
 			for (final Effect e : effects) {
@@ -108,11 +113,13 @@ public class Instrument {
 		}
 	}
 	public void touchDown(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
-//		Log.d("Instrument", "TOUCH DOWN!!!!!!: "+index);
+		//Log.d("Instrument", "TOUCH DOWN!!!!!!: "+c.curId+" index:"+index);
 		x=x/width;
 		y=y/height;
 		//index ++;
-		index = touchabs.add(c);
+		if (c != null)
+			index = touchabs.add(c);
+		//Log.d("Instrument", "TOUCH DOWN!!!!!!: new index:"+index);
 		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
 			setPitch(x, index, c, width);
@@ -125,6 +132,7 @@ public class Instrument {
 		if (ready) {
 			//setVolume(0);
 			//no.
+			touchabs.allUp();
 			for (int index=1; index<=MAX_INDEX; index++) {
 				for (final Effect e : effects) {
 					//e.touchUp(null, index, 0, 0, null);

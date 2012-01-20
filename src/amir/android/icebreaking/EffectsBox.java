@@ -58,7 +58,7 @@ public class EffectsBox extends LinearLayout implements OnCheckedChangeListener 
 	
 	
 	public void toggleAllChildEffects(boolean enabled) {
-		Log.d("EffectsBox", "Toggling stuff!");
+		//Log.d("EffectsBox", "Toggling stuff!");
 		for (int i=0; i<this.getChildCount(); i++) {
 			View v = this.getChildAt(i);
 			//if (v instanceof SeekBarPreferenceView) {
@@ -71,13 +71,13 @@ public class EffectsBox extends LinearLayout implements OnCheckedChangeListener 
 	private boolean getPersistedBool(boolean mdefault) {
 		try  {
 			boolean val = (getSharedPreferences().getInt(getOnOffKey(), mdefault? 1:0 )) <= 0 ? false : true;
-			Log.d("EffectsBox", "getSharedBool! "+val);
+			//Log.d("EffectsBox", "getSharedBool! "+val);
 			return val;
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
 				boolean val = Boolean.parseBoolean(getSharedPreferences().getString(getOnOffKey(), "true"));
-				Log.d("EffectsBox", "getParsedBool! "+val);
+				//Log.d("EffectsBox", "getParsedBool! "+val);
 				return val;
 			} catch (Exception ee) { ee.printStackTrace(); }
 		}
@@ -93,7 +93,7 @@ public class EffectsBox extends LinearLayout implements OnCheckedChangeListener 
 	
 	
 	private void updateOnOffPreference(final boolean newValue) {
-		Log.d("EffectsBox", "Updating preference! "+newValue);
+		//Log.d("EffectsBox", "Updating preference! "+newValue);
 		final SharedPreferences.Editor editor = getEditor();
 		editor.putInt(getOnOffKey(), newValue ? 1 : 0);
 		editor.commit();	

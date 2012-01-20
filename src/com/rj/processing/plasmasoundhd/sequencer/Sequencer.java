@@ -47,69 +47,78 @@ public class Sequencer {
 		
 		@Override
 		public void run() {
-			long lastpause = SystemClock.uptimeMillis();
-			int count = 0;
-			
-			while(sequenceKeepRunning && grid != null) {
-				try {
-					for (int i=0; i<grid.length; i++) {
-						float[][] grid = Sequencer.this.grid;
-						currentRow = i;
-						int countInternal = count;
-	
-						for (int j=0; j<grid[i].length; j++) {
-							if (sequenceKeepRunning && grid[i][j] != OFF) {
-								countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
-								sendNoteOn(i,j, grid[i][j], countInternal);
-							}
-						}
-						
-						try {
-							float bpm = Sequencer.this.bpm;
-							float syncopation = Sequencer.this.syncopated;
-							if (instrument != null) {
-								bpm = instrument.sequencer.bpm.getDefaultValue();
-								syncopation = instrument.sequencer.syncopated.getDefaultValue();
-							}
-							long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
-							if (currentRow % 2 == 0) {
-								waittime = (long)(waittime + waittime * (syncopation/100f));
-							} else {
-								waittime = (long)(waittime - waittime * (syncopation/100f));
-							}
-							long waitedtime = SystemClock.uptimeMillis() - lastpause;
-							if (sequenceKeepRunning && waittime - waitedtime > 0) Thread.sleep(waittime - waitedtime);
-							lastpause = SystemClock.uptimeMillis();
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						
-						
-						countInternal = count; //reset the count so we can turn off those sequencers
-						for (int j=0; j<grid[i].length; j++) {
-							if (sequenceKeepRunning && grid[i][j] != OFF) {
-								countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
-								sendNoteOff(i,j, grid[i][j], countInternal);
-							}
-						}
-						 
-						count = countInternal;
-	
-					}
-				} catch (Exception e) {
+			try {
+				long lastpause = SystemClock.uptimeMillis();
+				int count = 0;
+				
+				while(sequenceKeepRunning && grid != null) {
+					Log.d("Sequencer", "Starting loop with sequence thread. sequenceKeepRunning: "+sequenceKeepRunning + " grid:"+grid+ " grid.length:"+grid.length);
 					try {
-						float bpm = Sequencer.this.bpm;
-						if (instrument != null) bpm = instrument.sequencer.bpm.getDefaultValue();
-						long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
-						if (sequenceKeepRunning) Thread.sleep(waittime);
-					} catch (InterruptedException ee) {
-						ee.printStackTrace();
+						for (int i=0; i<grid.length; i++) {
+							float[][] grid = Sequencer.this.grid;
+							currentRow = i;
+							int countInternal = count;
+		
+							for (int j=0; j<grid[i].length; j++) {
+								if (sequenceKeepRunning && grid[i][j] != OFF) {
+									countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
+									sendNoteOn(i,j, grid[i][j], countInternal);
+								}
+							}
+							
+							try {
+								float bpm = Sequencer.this.bpm;
+								float syncopation = Sequencer.this.syncopated;
+								if (instrument != null) {
+									bpm = instrument.sequencer.bpm.getDefaultValue();
+									syncopation = instrument.sequencer.syncopated.getDefaultValue();
+								}
+								long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
+								if (currentRow % 2 == 0) {
+									waittime = (long)(waittime + waittime * (syncopation/100f));
+								} else {
+									waittime = (long)(waittime - waittime * (syncopation/100f));
+								}
+								long waitedtime = SystemClock.uptimeMillis() - lastpause;
+								if (sequenceKeepRunning && waittime - waitedtime > 0) Thread.sleep(waittime - waitedtime);
+								lastpause = SystemClock.uptimeMillis();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							
+							
+							countInternal = count; //reset the count so we can turn off those sequencers
+							for (int j=0; j<grid[i].length; j++) {
+								if (sequenceKeepRunning && grid[i][j] != OFF) {
+									countInternal = (countInternal + 1)%Instrument.MAX_INDEX;
+									sendNoteOff(i,j, grid[i][j], countInternal);
+								}
+							}
+							 
+							count = countInternal;
+		
+						}
+					} catch (Exception e) {
+						try {
+							e.printStackTrace();
+							float bpm = Sequencer.this.bpm;
+							if (instrument != null) bpm = instrument.sequencer.bpm.getDefaultValue();
+							long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
+							if (sequenceKeepRunning) Thread.sleep(waittime);
+						} catch (InterruptedException ee) {
+							ee.printStackTrace();
+						}
+	
 					}
-
 				}
+				if (instrument != null) instrument.allUp();
+				currentRow = -1;
+			} catch (Exception e) {
+				e.printStackTrace();
+				//uber exception tracking
 			}
-			if (instrument != null) instrument.allUp();
-			currentRow = -1;
+			Log.d("Sequencer", "Done with sequence thread. sequenceKeepRunning: "+sequenceKeepRunning + " grid:"+grid);
+
 		}
 		
 		
@@ -287,6 +296,7 @@ public class Sequencer {
 	
 	
 	public synchronized void start() {
+		Log.d("Sequencer", "Starting sequencer...");
 		if (sequenceThread != null) sequenceThread.sequenceKeepRunning = false;
 		sequenceThread = new SequenceThread();
 		sequenceThread.sequenceKeepRunning = true;
@@ -294,6 +304,7 @@ public class Sequencer {
 	}
 	
 	public synchronized void stop() {
+		Log.d("Sequencer", "Stopping sequencer...");
 		if (sequenceThread != null) {
 			sequenceThread.sequenceKeepRunning = false;
 			sequenceThread = null;

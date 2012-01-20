@@ -2,6 +2,8 @@ package com.rj.processing.plasmasoundhd.pd.instruments;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.Point;
 
@@ -33,13 +35,24 @@ public class TouchAbstraction {
 			return lastindex;
 		}
 		current = (current + 1) % max;
-		cursors.put(c, current);
-		return current;
+		cursors.put(c, current+1);
+		return current+1;
 	}
 	public int move(Cursor c) {
 		if (!cursors.containsKey(c)) {
+			//Log.d("TouchAbstraction", "Can't find "+c+" curid;"+c.curId);
+			//first let's search the cursors to see if we have one already with the same curId
+			for (Cursor c2 : cursors.keySet()) {
+				if (c2.curId == c.curId) {
+					//Log.d("TouchAbstraction", "Found a replacement: "+c2+" curid;"+c2.curId);
+					cursors.put(c, cursors.get(c2));
+					return cursors.get(c);
+				}
+			}
+			
+			
 			current = (current + 1) % max;
-			cursors.put(c, current);
+			cursors.put(c, current+1);
 			return current;
 		}
 		return cursors.get(c);
@@ -51,6 +64,10 @@ public class TouchAbstraction {
 		lastcur = c;
 		lastindex = num;
 		return num;
+	}
+	
+	public void allUp() {
+		cursors.clear();
 	}
 	
 	
