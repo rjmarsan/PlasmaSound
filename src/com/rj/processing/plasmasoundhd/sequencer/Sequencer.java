@@ -136,8 +136,8 @@ public class Sequencer {
 			
 			
 			//Log.d("Sequencer", "NOTE ON: "+index);
-			instrument.touchDown(null, index, note, 127, 1-val, 1, null);
-			instrument.touchMove(null, index, note, 127, 1-val, 1, null);
+			instrument.touchDown(null, index+1, note, 127, 1-val, 1, null);
+			instrument.touchMove(null, index+1, note, 127, 1-val, 1, null);
 			
 			
 			instrument.setMidiMin(midiMin);
@@ -149,7 +149,7 @@ public class Sequencer {
 			if (instrument == null) return;
 			float note = getNote(j);
 			//Log.d("Sequencer", "NOTE OFF: "+index);
-			instrument.touchUp(null, index, note, 127, 0.72f, 1, null);
+			instrument.touchUp(null, index+1, note, 127, 0.72f, 1, null);
 		}
 		
 	}

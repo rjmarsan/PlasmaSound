@@ -1,0 +1,4 @@
+targetSdkVersion:impact=1:10:found=14
+uses-access-native:impact:5:org.puredata.core.PdBase
+
+impact-summary: [5]=1; [4]=0; [3]=0; [2]=0; [1]=1;

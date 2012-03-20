@@ -1,0 +1,2 @@
+PATH = $PATH:"/Users/rj/android-sdk/platform-tools/"
+export PATH
