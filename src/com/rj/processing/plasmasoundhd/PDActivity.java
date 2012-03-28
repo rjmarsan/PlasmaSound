@@ -753,6 +753,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				  .putExtra(Intent.EXTRA_STREAM, Uri.fromFile(myAudiofile))
 				  .putExtra("com.soundcloud.android.extra.title", name)
 				  .putExtra("com.soundcloud.android.extra.tags", new String[] {
+						  "Plasma Sound",
 		                  "soundcloud:created-with-client-id="+clientId
 		                  });
 				startActivityForResult(intent, 0);

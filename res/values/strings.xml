@@ -34,9 +34,9 @@ Thanks again for the help! I really appreciate it!
     <string name="rating_dialog_market">Market</string> 
     <string name="rating_dialog_neveragain">Never show again!</string> 
     <string name="rating_dialog_donate">Donate</string> 
-    <string name="rating_dialog_message">Plasma Sound is 100% ad free and cost free. Show your support by leaving a comment on the Market.\n(This won\'t be shown again, I promise)</string>
+    <string name="rating_dialog_message">Plasma Sound is 100% ad free and cost free. Show your support by leaving a comment on the Market, or follow us &lt;a href=&quot;http://twitter.com/plasmasound&quot;&gt;on twitter&lt;/a&gt;.\n(This won\'t be shown again, I promise)</string>
     <string name="about_dialog_title">About Plasma Sound</string> 
-    <string name="about_dialog_message">&lt;a href=&quot;http://plasmasound.rjmarsan.com&quot;&gt;Plasma Sound&lt;/a&gt; (version %1$s build %2$s) is written by &lt;a href=&quot;http://rjmarsan.com&quot;&gt;RJ Marsan&lt;/a&gt;, and is completely ad free and cost free. Show your support by leaving a comment on the Market, or leave a donation below:</string>
+    <string name="about_dialog_message">&lt;a href=&quot;http://plasmasound.rjmarsan.com&quot;&gt;Plasma Sound&lt;/a&gt; (version %1$s build %2$s) is written by &lt;a href=&quot;http://rjmarsan.com&quot;&gt;RJ Marsan&lt;/a&gt;, and is completely ad free and cost free. Show your support by leaving a comment on the Market, follow us on &lt;a href=&quot;http://twitter.com/plasmasound&quot;&gt;twitter&lt;/a&gt;, or leave a donation below:</string>
     <string name="tutorial_dialog_title">How to use Plasma Sound</string> 
     <string name="tutorial_dialog_ok">OK</string> 
     <string name="tutorial_dialog_back">Back</string> 
