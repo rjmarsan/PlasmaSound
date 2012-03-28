@@ -32,8 +32,12 @@ public class Visualization {
 		p.pushStyle();
 		p.colorMode(PApplet.RGB, 255);
 		
-		for (final Visual v : visuals) {
-			v.drawVis();
+		try {
+			for (final Visual v : visuals) {
+				v.drawVis();
+			}
+		} catch (java.util.ConcurrentModificationException e) {
+			//don't worry about it.
 		}
 		
 		p.popStyle();		

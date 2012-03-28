@@ -525,6 +525,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    case com.rj.processing.plasmasound.R.id.record:
 	        record();
 	        return true;
+	    case com.rj.processing.plasmasound.R.id.camera:
+	        camera();
+	        return true;
 	    case com.rj.processing.plasmasound.R.id.tutorial:
 	        showTutorialDialog();
 	        return true;
@@ -742,6 +745,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		String filename = pdman.recordOnOff(outfolder, name, true);
 		MiscDialogs.checkForSoundcloudAndDoThatOrNot(this, filename, name);
 	}
+
 	
 	public void neverShowSoundcloudAgain() {
         final SharedPreferences mPrefs = PDActivity.this.getSharedPreferences(SHARED_PREFERENCES_APPSTUFF, 0);
@@ -756,8 +760,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 
 	
-
-
+	public void camera() {
+		Log.d("Camera", "initializing camera!");
+		instrument.toggleCamera();
+	}
 	
 	
 	@Override
@@ -782,6 +788,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
     @Override
     public void onStop() {
     	super.onStop();
+    	instrument.removeCamera();
     	JSONPresets.getPresets().removeListener(this);
     	JSONSequencerPresets.getPresets().removeListener(this);
     }

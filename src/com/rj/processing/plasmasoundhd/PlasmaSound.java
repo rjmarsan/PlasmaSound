@@ -1,18 +1,19 @@
 package com.rj.processing.plasmasoundhd;
 
 import processing.core.PApplet;
-
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
+import com.rj.processing.plasmasoundhd.visuals.CameraVis;
 import com.rj.processing.plasmasoundhd.visuals.Grid;
 import com.rj.processing.plasmasoundhd.visuals.PlasmaFluid;
 
 
 public class PlasmaSound extends PlasmaSubFragment {
 	public static String TAG = "PlasmaSound";
+	
 	public PlasmaSound() {
 		//ewww
 	}
@@ -20,10 +21,11 @@ public class PlasmaSound extends PlasmaSubFragment {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 
 
 	public Visualization vis;
+	public CameraVis cameravis;
 	boolean settingup = false;
 
 	@Override
@@ -36,17 +38,43 @@ public class PlasmaSound extends PlasmaSubFragment {
 	}
 
 	
+	public void startCamera() {
+		Log.d(TAG, "Starting camera");
+	    cameravis.setupCamera();
+	}
+	
+	public void removeCamera() {
+		Log.d(TAG, "Stopping camera");
+		cameravis.destroyCamera();
+//		cameravis = null;
+//		vis.removeVisuals(cameravis);
+	}
+	
+	public void toggleCamera() {
+		if (cameravis != null && cameravis.isCameraRunning())
+			removeCamera();
+		else
+			startCamera();
+	}
+	
 	
 	
 	@Override
 	public void setup() {
 		super.setup();
+		if (vis != null)  {
+			Log.d(TAG, "For some reason we're calling setup twice?");
+			Thread.dumpStack();
+		}
 		settingup = true;
 	    //VISUALS CODE
 	    vis = new Visualization(p);
 	    vis.addVisual(new PlasmaFluid(p, p)); 
 	    vis.addVisual(new Grid(p, p)); 
 	    vis.addVisual(new AudioStats(p, p)); 
+	    vis.addVisual(new CameraVis(p, p));
+		cameravis = new CameraVis(p, p);
+	    vis.addVisual(cameravis);
 	    settingup = false;
 	}
 	

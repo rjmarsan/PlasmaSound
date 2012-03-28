@@ -21,6 +21,7 @@ Thanks again for the help! I really appreciate it!
     <string name="save_sequence_settings">Save Sequence</string>
     <string name="load_sequence_settings">Load Sequence</string>
     <string name="record_settings">Record</string>
+    <string name="camera_settings">Camera</string>
     <string name="waveform_editor">Waveform</string>
     <string name="sequencer">Sequencer</string>
     <string name="sequencer_settings">Sequencer</string>
