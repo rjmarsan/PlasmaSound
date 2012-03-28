@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:animateLayoutChanges="true">
 
     <ScrollView
         android:id="@+id/dynocontent"
         android:layout_width="400dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:animateLayoutChanges="true">
     </ScrollView>
 
 

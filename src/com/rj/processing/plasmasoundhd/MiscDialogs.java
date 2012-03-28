@@ -11,9 +11,12 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -159,9 +162,8 @@ public class MiscDialogs {
 //		if (1+1 == 2) return;
 
 		final Dialog alert = new Dialog(context);
-		alert.show();
 		final LayoutInflater inflater = context.getLayoutInflater();
-		final LinearLayout demoborder = (LinearLayout)inflater.inflate(R.layout.demoframe, null);
+		final LinearLayout demoborder = (LinearLayout)inflater.inflate(R.layout.demoframe, new LinearLayout(context), false);
 		final ViewGroup blanklayout = (ViewGroup)demoborder.findViewById(R.id.dynocontent);
 		final int[] slides = {
 				R.layout.demoscreen0,
@@ -192,7 +194,8 @@ public class MiscDialogs {
 		
 		inflater.inflate(slides[c.count], blanklayout);
 
-		alert.setContentView(demoborder);
+		//alert.setContentView(demoborder);
+		alert.setContentView(demoborder);//, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		alert.setTitle(slidetitles[0]);
 //		demoborder.postInvalidateDelayed(2000);
 //		alert.getWindow().getDecorView().postInvalidateDelayed(2000);
@@ -248,8 +251,25 @@ public class MiscDialogs {
 				if (c.count == slides.length ) {
 					alert.dismiss();
 				} else {
+					WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+					lp.copyFrom(alert.getWindow().getAttributes());
+					lp.width = alert.getWindow().getDecorView().getWidth();
+					lp.height = LayoutParams.WRAP_CONTENT; //alert.getWindow().getDecorView().getHeight();
+					alert.getWindow().setAttributes(lp);
+					
+					Log.d("MISCDialogs", "lp.height: "+alert.getWindow().getDecorView().getWidth()+"   context.height/2:"+(context.height));
+					if (alert.getWindow().getDecorView().getWidth() > context.height) {
+						//if the alert is at least twice as high as the screen, clamp the alert when we scroll
+						LayoutParams p = blanklayout.getLayoutParams();
+						p.width = blanklayout.getWidth();
+						p.height = blanklayout.getHeight();
+						blanklayout.setLayoutParams(p);
+					}
+
+					blanklayout.setVisibility(View.INVISIBLE);
 					blanklayout.removeAllViews();
 					inflater.inflate(slides[c.count], blanklayout);
+					blanklayout.setVisibility(View.VISIBLE);
 					alert.setTitle(slidetitles[c.count]);
 					if (c.count == slides.length - 1) {
 						next.setText(R.string.tutorial_dialog_donebox);
@@ -263,6 +283,11 @@ public class MiscDialogs {
 					}
 				} 
 			}});
+		
+		alert.show();
+
+
+
 	}
 
 
