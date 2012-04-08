@@ -83,7 +83,10 @@ Thanks again for the help! I really appreciate it!
     <string name="export_extra_text">Check out the recording I made with Plasma Sound!</string> 
     <string name="export_toast_record_finished">The recording is on your phone at: </string> 
     <string name="export_toast_record_started">Select record again to finish recording</string> 
-
+    <string name="export_check_dialog_title">Soundcloud?</string> 
+    <string name="export_check_dialog_text">Soundcloud is the easiest way to share recordings with Plasma Sound.  It\'s free, easy to use, and awesome.  If you\'d like, you can download it now, otherwise, we won\'t ask again.</string> 
+    <string name="export_check_dialog_soundcloud">Market</string> 
+    <string name="export_check_dialog_neveragain">Don\'t ask again!</string> 
         
         
         

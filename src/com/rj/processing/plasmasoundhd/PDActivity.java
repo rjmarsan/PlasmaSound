@@ -739,56 +739,23 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		File outfolder = new File(Environment.getExternalStorageDirectory(), "Plasma Sound");
 		outfolder.mkdirs();
 		String filename = pdman.recordOnOff(outfolder, name, true);
-		checkForSoundcloudAndDoThatOrNot(filename, name);
+		MiscDialogs.checkForSoundcloudAndDoThatOrNot(this, filename, name);
+	}
+	
+	public void neverShowSoundcloudAgain() {
+        final SharedPreferences mPrefs = PDActivity.this.getSharedPreferences(SHARED_PREFERENCES_APPSTUFF, 0);
+    	Editor e = mPrefs.edit();
+    	e.putBoolean("soundcloud_ask", false);
+    	e.commit();
+	}
+	
+	public boolean shouldShowSoundcloud() {
+        final SharedPreferences mPrefs = PDActivity.this.getSharedPreferences(SHARED_PREFERENCES_APPSTUFF, 0);
+        return mPrefs.getBoolean("soundcloud_ask", true);
 	}
 
 	
-	public void checkForSoundcloudAndDoThatOrNot(String filename, String name) {
-		if (filename != null) {
-			try {
-				//doing the soundcloud sharing
-				File myAudiofile = new File(filename);
-				String clientId = getResources().getString(com.rj.processing.plasmasound.R.string.soundcloud_api_clientid);
-				Intent intent = new Intent("com.soundcloud.android.SHARE")
-				  .putExtra(Intent.EXTRA_STREAM, Uri.fromFile(myAudiofile))
-				  .putExtra("com.soundcloud.android.extra.title", name)
-				  .putExtra("com.soundcloud.android.extra.tags", new String[] {
-						  "Plasma Sound",
-		                  "soundcloud:created-with-client-id="+clientId
-		                  });
-				startActivityForResult(intent, 0);
-			} catch (ActivityNotFoundException e) {
-			    // SoundCloud Android app not installed
-				//doing the default sharing
-			    Intent share = new Intent(Intent.ACTION_SEND);
-			    share.setType("audio/wav");
-	
-			    Uri uri = Uri.fromFile(new File(filename));
-			    share.putExtra(Intent.EXTRA_STREAM, uri);
-			    share.putExtra(Intent.EXTRA_TEXT, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_extra_text));
-	
-			    startActivity(Intent.createChooser(share, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_extra_title)));
-			    
-				Toast.makeText(this, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
-			}
-		} else {
-			Toast.makeText(this, Utils.frmRes(this, com.rj.processing.plasmasound.R.string.export_toast_record_started), Toast.LENGTH_LONG).show();
-		}
-	}
-	
-	/* from their github on how to do this */
-	private static boolean isCompatibleSoundCloudInstalled(Context context) {
-	    try {
-	        PackageInfo info = context.getPackageManager()
-	                                  .getPackageInfo("com.soundcloud.android",
-	                PackageManager.GET_META_DATA);
-	        // intent sharing only got introduced with version 22
-	        return info != null && info.versionCode >= 22;
-	    } catch (PackageManager.NameNotFoundException e) {
-	        // not installed at all
-	        return false;
-	    }
-	}
+
 
 	
 	

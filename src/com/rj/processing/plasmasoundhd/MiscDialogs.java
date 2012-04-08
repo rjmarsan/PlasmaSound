@@ -1,12 +1,16 @@
 package com.rj.processing.plasmasoundhd;
 
+import java.io.File;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.text.Html;
@@ -20,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rj.processing.plasmasound.R;
 
@@ -291,6 +296,97 @@ public class MiscDialogs {
 	}
 
 
+	
+	
+	public static void checkForSoundcloudAndDoThatOrNot(PDActivity context, String filename, String name) {
+		if (filename != null) {
+			Toast.makeText(context, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
+			try {
+				//doing the soundcloud sharing
+				File myAudiofile = new File(filename);
+				String clientId = context.getResources().getString(com.rj.processing.plasmasound.R.string.soundcloud_api_clientid);
+				Intent intent = new Intent("com.soundcloud.android.SHARE")
+				  .putExtra(Intent.EXTRA_STREAM, Uri.fromFile(myAudiofile))
+				  .putExtra("com.soundcloud.android.extra.title", name)
+				  .putExtra("com.soundcloud.android.extra.tags", new String[] {
+						  "Plasma Sound",
+		                  "soundcloud:created-with-client-id="+clientId
+		                  });
+				context.startActivityForResult(intent, 0);
+			} catch (ActivityNotFoundException e) {
+			    if (context.shouldShowSoundcloud()) {
+			    	doesTheUserWantToInstallSouncloud(context, filename, name);
+			    } else {
+			    	showRecordingShareChooser(context, filename, name);
+			    }
+			}
+		} else {
+			Toast.makeText(context, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_toast_record_started), Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	public static void showRecordingShareChooser(PDActivity context, String filename, String name) {
+	    // SoundCloud Android app not installed
+		//doing the default sharing
+	    Intent share = new Intent(Intent.ACTION_SEND);
+	    share.setType("audio/wav");
+
+	    Uri uri = Uri.fromFile(new File(filename));
+	    share.putExtra(Intent.EXTRA_STREAM, uri);
+	    share.putExtra(Intent.EXTRA_TEXT, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_extra_text));
+
+	    context.startActivity(Intent.createChooser(share, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_extra_title)));
+	}
+	
+	public static void doesTheUserWantToInstallSouncloud(final PDActivity context,final String filename,final String name) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(R.string.export_check_dialog_title);
+		try {
+			PackageInfo pack = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			//builder.setMessage(context.getText(R.string.about_dialog_message));
+			TextView textcontent = new TextView(context);
+			textcontent.setMovementMethod(LinkMovementMethod.getInstance());
+			textcontent.setText(Html.fromHtml(context.getResources().getString(R.string.export_check_dialog_text)));
+			textcontent.setLinkTextColor(Color.GREEN);
+			textcontent.setPadding(5,5,5,5);
+			textcontent.setTextSize(15);
+			builder.setView(textcontent);
+		} catch (Exception e) {
+			e.printStackTrace();
+			builder.setMessage(context.getText(R.string.export_check_dialog_text));
+		}
+
+		//builder.setMessage(R.string.rating_dialog_message);
+		
+		builder.setPositiveButton(R.string.export_check_dialog_soundcloud, new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.soundcloud.android")));
+				dialog.dismiss();
+			}});
+		builder.setNeutralButton(R.string.export_check_dialog_neveragain, new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				context.neverShowSoundcloudAgain();
+				dialog.dismiss();
+		    	showRecordingShareChooser(context, filename, name);
+			}});
+		AlertDialog alert = builder.create();
+		
+		alert.show();
+	}
+	
+	/* from their github on how to do this */
+	private static boolean isCompatibleSoundCloudInstalled(Context context) {
+	    try {
+	        PackageInfo info = context.getPackageManager()
+	                                  .getPackageInfo("com.soundcloud.android",
+	                PackageManager.GET_META_DATA);
+	        // intent sharing only got introduced with version 22
+	        return info != null && info.versionCode >= 22;
+	    } catch (PackageManager.NameNotFoundException e) {
+	        // not installed at all
+	        return false;
+	    }
+	}
 	
 	
 }
