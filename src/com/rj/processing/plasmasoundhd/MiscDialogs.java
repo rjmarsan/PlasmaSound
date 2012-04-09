@@ -51,24 +51,24 @@ public class MiscDialogs {
 		builder.setPositiveButton(R.string.rating_dialog_market, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+context.getApplicationInfo().packageName));
+				intent.setData(MarketPackages.getMarketPackageUri(context));
 				context.startActivity(intent);
 				dialog.dismiss();
 			}});
-		
-		builder.setNegativeButton(R.string.rating_dialog_donate, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				String donatepack = context.getResources().getString(R.string.app_package_donate);
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+donatepack));
-				context.startActivity(intent);
-				dialog.dismiss();
-			}});
-
-//		builder.setNegativeButton(R.string.rating_dialog_, new OnClickListener() {
-//			public void onClick(DialogInterface dialog, int which) {
-//				dialog.dismiss();
-//			}});
+		if (MarketPackages.supportsDonation(context)) {
+			builder.setNegativeButton(R.string.rating_dialog_donate, new OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(MarketPackages.getMarketDonateUri(context));
+					context.startActivity(intent);
+					dialog.dismiss();
+				}});
+		} else {
+//			builder.setNegativeButton(R.string.rating_dialog_neveragain, new OnClickListener() {
+//				public void onClick(DialogInterface dialog, int which) {
+//					dialog.dismiss();
+//				}});
+		}
 		AlertDialog alert = builder.create();
 		
 		alert.show();
@@ -99,18 +99,19 @@ public class MiscDialogs {
 		builder.setPositiveButton(R.string.rating_dialog_market, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+context.getApplicationInfo().packageName));
+				intent.setData(MarketPackages.getMarketPackageUri(context));
 				context.startActivity(intent);
 				dialog.dismiss();
 			}});
-		builder.setNeutralButton(R.string.rating_dialog_donate, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				String donatepack = context.getResources().getString(R.string.app_package_donate);
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id="+donatepack));
-				context.startActivity(intent);
-				dialog.dismiss();
-			}});
+		if (MarketPackages.supportsDonation(context)) {
+			builder.setNeutralButton(R.string.rating_dialog_donate, new OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(MarketPackages.getMarketDonateUri(context));
+					context.startActivity(intent);
+					dialog.dismiss();
+				}});
+		}
 		builder.setNegativeButton(R.string.rating_dialog_neveragain, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -300,7 +301,6 @@ public class MiscDialogs {
 	
 	public static void checkForSoundcloudAndDoThatOrNot(PDActivity context, String filename, String name) {
 		if (filename != null) {
-			Toast.makeText(context, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
 			try {
 				//doing the soundcloud sharing
 				File myAudiofile = new File(filename);
@@ -316,6 +316,7 @@ public class MiscDialogs {
 			} catch (ActivityNotFoundException e) {
 			    if (context.shouldShowSoundcloud()) {
 			    	doesTheUserWantToInstallSouncloud(context, filename, name);
+					context.neverShowSoundcloudAgain();
 			    } else {
 			    	showRecordingShareChooser(context, filename, name);
 			    }
@@ -336,6 +337,7 @@ public class MiscDialogs {
 	    share.putExtra(Intent.EXTRA_TEXT, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_extra_text));
 
 	    context.startActivity(Intent.createChooser(share, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_extra_title)));
+		Toast.makeText(context, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
 	}
 	
 	public static void doesTheUserWantToInstallSouncloud(final PDActivity context,final String filename,final String name) {
@@ -348,7 +350,7 @@ public class MiscDialogs {
 			textcontent.setMovementMethod(LinkMovementMethod.getInstance());
 			textcontent.setText(Html.fromHtml(context.getResources().getString(R.string.export_check_dialog_text)));
 			textcontent.setLinkTextColor(Color.GREEN);
-			textcontent.setPadding(5,5,5,5);
+			textcontent.setPadding(10,5,10,5);
 			textcontent.setTextSize(15);
 			builder.setView(textcontent);
 		} catch (Exception e) {
@@ -360,12 +362,11 @@ public class MiscDialogs {
 		
 		builder.setPositiveButton(R.string.export_check_dialog_soundcloud, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.soundcloud.android")));
+				context.startActivity(new Intent(Intent.ACTION_VIEW, MarketPackages.getSoundcloudUri(context)));
 				dialog.dismiss();
 			}});
 		builder.setNeutralButton(R.string.export_check_dialog_neveragain, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				context.neverShowSoundcloudAgain();
 				dialog.dismiss();
 		    	showRecordingShareChooser(context, filename, name);
 			}});

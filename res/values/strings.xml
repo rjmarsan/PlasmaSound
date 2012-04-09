@@ -83,10 +83,10 @@ Thanks again for the help! I really appreciate it!
     <string name="export_extra_text">Check out the recording I made with Plasma Sound!</string> 
     <string name="export_toast_record_finished">The recording is on your phone at: </string> 
     <string name="export_toast_record_started">Select record again to finish recording</string> 
-    <string name="export_check_dialog_title">Soundcloud?</string> 
+    <string name="export_check_dialog_title">Share with Soundcloud?</string> 
     <string name="export_check_dialog_text">Soundcloud is the easiest way to share recordings with Plasma Sound.  It\'s free, easy to use, and awesome.  If you\'d like, you can download it now, otherwise, we won\'t ask again.</string> 
-    <string name="export_check_dialog_soundcloud">Market</string> 
-    <string name="export_check_dialog_neveragain">Don\'t ask again!</string> 
+    <string name="export_check_dialog_soundcloud">Download Soundcloud</string> 
+    <string name="export_check_dialog_neveragain">Share Without It</string> 
         
         
         
@@ -165,22 +165,23 @@ Thanks again for the help! I really appreciate it!
     <string name="str_filter_title">Cutoff</string>
     <string name="str_filter_summ">cutoff of the low-pass filter</string>
 
-    <string name="str_vibrato">Vibrato</string>
+    <!--  I mixed up vibrato and tremolo, so this switches how they are displayed (my bad guys... my bad) -->
+    <string name="str_vibrato">Tremolo</string>
     <string name="str_vibratospeed_title">Speed</string>
-    <string name="str_vibratospeed_summ">speed of the vibrato</string>
+    <string name="str_vibratospeed_summ">speed of the tremolo</string>
     <string name="str_vibratodepth_title">Depth</string>
-    <string name="str_vibratodepth_summ">depth of the vibrato (in percent)</string>
+    <string name="str_vibratodepth_summ">depth of the tremolo (in percent)</string>
     <string name="str_vibratowaveform_title">Waveform</string>
-    <string name="str_vibratowaveform_summ">waveform the vibrato follows</string>
+    <string name="str_vibratowaveform_summ">waveform the tremolo follows</string>
 
-    <string name="str_tremolo">Tremolo</string>
+    <string name="str_tremolo">Vibrato</string>
     <string name="str_tremolospeed_title">Speed</string>
-    <string name="str_tremolospeed_summ">speed of the Tremolo</string>
+    <string name="str_tremolospeed_summ">speed of the vibrato</string>
     <string name="str_tremolodepth_title">Depth</string>
-    <string name="str_tremolodepth_summ">depth of the Tremolo (in percent)</string>
+    <string name="str_tremolodepth_summ">depth of the vibrato (in percent)</string>
     <string name="str_tremolowaveform_title">Waveform</string>
-    <string name="str_tremolowaveform_summ">waveform the tremolo follows</string>
-        
+    <string name="str_tremolowaveform_summ">waveform the vibrato follows</string>
+    <!--  yeah.  -->
         
         
         
