@@ -1,7 +1,29 @@
-Plasma Sound for Android
-
+Plasma Sound
+------------
 
 This Android App is essentially a theremin/continuum/keyboard for Android, powered by PureData, in the form of LibPD, as well as Processing.  The background is MSAFluid, optimized for Android.
 
 
+Building
+--------
 
+So you want to build Plasma Sound? It's pretty easy.
+
+get pd-for-android:
+https://github.com/libpd/pd-for-android
+
+get my multitouch android library:
+https://github.com/rjmarsan/AndroidProcessingMultitouch
+
+add them to eclipse
+add Plasma Sound to eclipse, and re-add them as library projects.
+
+That should be it.
+
+
+
+License
+-------
+
+Plasma Sound's source code is BSD licensed (as is libpd, msafluid).  
+However, all the artwork, and the name Plasma Sound, is copywritten RJ Marsan, 2012 (I'm just a little afraid of someone repackaging my app for profit, etc.)
