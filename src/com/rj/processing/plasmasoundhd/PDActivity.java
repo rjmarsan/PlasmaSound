@@ -407,8 +407,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
         if (!(mPrefs.getBoolean("popupshown", false))) {
 	        if (elapsed > maxtime) {
 //	        	if (System.currentTimeMillis() % 10 == 1) {
+	    		if (getResources().getBoolean(com.rj.processing.plasmasound.R.bool.should_bug_about_donate)) {
 	        		showRatingDialog();
-//	        	}
+	        	}
 	        	Editor e = mPrefs.edit();
 	        	e.putBoolean("popupshown", true);
 	        	e.commit();

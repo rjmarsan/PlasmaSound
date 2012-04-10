@@ -3,4 +3,5 @@
     <bool name="android_market">true</bool>
     <bool name="amazon_appstore">false</bool>
     <bool name="supports_donate">true</bool>
+    <bool name="should_bug_about_donate">true</bool>
 </resources>
