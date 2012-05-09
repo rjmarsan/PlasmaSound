@@ -11,7 +11,8 @@ Thanks again for the help! I really appreciate it!
     
     <string name="instrument_name">Keyboard</string>
     <string name="sequencer_name">Sequencer</string>
-            
+    <string name="camera_name">Motion</string>
+    
     
    <!-- The strings for the menu -->
     <string name="instrument_settings">Keyboard</string>

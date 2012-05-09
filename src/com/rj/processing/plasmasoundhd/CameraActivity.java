@@ -1,26 +1,34 @@
-package com.rj.processing.plasmasoundhd.visuals;
+package com.rj.processing.plasmasoundhd;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.util.HashMap;
+
+import org.json.JSONObject;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 import android.graphics.ImageFormat;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.SurfaceHolder.Callback;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
-import com.rj.processing.plasmasoundhd.PlasmaActivity;
+import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
+import com.rj.processing.plasmasoundhd.sequencer.Sequencer;
+import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 
-public class CameraVis extends Visual implements Camera.PreviewCallback {
-	public final String TAG = "CameraViz "+this;
-	PlasmaActivity pp;
+public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewCallback {
+	public static String TAG = "Camera";
+
+	PFont font;
+	
 	SurfaceView cameraview;
 	SurfaceHolder holder;
 	RelativeLayout cameraholder;
@@ -40,14 +48,74 @@ public class CameraVis extends Visual implements Camera.PreviewCallback {
 
 	
 	
-	public CameraVis(final PApplet p, PlasmaActivity pp) {
-		super(p);
-		this.pp = pp;
-
-//		p.runOnUiThread(new Runnable() { public void run() {
-//			makeUI();
-//		}});
+	public CameraActivity() {
+		//ewww
 	}
+	public CameraActivity(PDActivity p) {
+		super(p);
+		font = p.createFont("americantypewriter.ttf", 28);
+	}
+
+	
+	@Override
+	public void setup() {
+		super.setup();
+		setupCamera();
+	}
+	
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		destroyCamera();
+	}
+	
+	@Override
+	public void background() {
+		super.background();
+		destroyCamera();
+	}
+	
+	
+	@Override
+	public void pause() {
+		super.onPause();
+		//destroyCamera();
+	}
+	
+	@Override
+	public void start() {
+		super.onStart();
+		//setupCamera();
+	}
+	
+	@Override
+	protected void resume() {
+		super.onResume();
+		//setupCamera();
+	}
+	
+	@Override
+	public void presetChanged(JSONObject preset) {
+	}
+	
+	@Override
+	public void touchAllUp(final Cursor c) {
+	}
+	
+	@Override
+	public void touchDown(final Cursor c) {
+	}
+
+	@Override
+	public void touchMoved(final Cursor c) {
+	}
+	@Override
+	public void touchUp(final Cursor c) {
+	}
+	
+	
+	
 	
 	public void setupCamera() {
 		p.runOnUiThread(new Runnable() { public void run() {
@@ -64,6 +132,7 @@ public class CameraVis extends Visual implements Camera.PreviewCallback {
 	}
 	
 	private void destroyCameraInner() {
+		Log.d(TAG, "destroyCameraInner called");
 		try {
 	        camera.setPreviewCallback(null);
 			camera.release();
@@ -73,6 +142,7 @@ public class CameraVis extends Visual implements Camera.PreviewCallback {
 			e.printStackTrace(); 
 			//otherwise we really don't care.
 		}
+		Log.d(TAG, "destoryCamera done");
 		
 	}
 	private void destroyCameraUI() {
@@ -88,19 +158,10 @@ public class CameraVis extends Visual implements Camera.PreviewCallback {
 	}
 
 	
-	/** A safe way to get an instance of the Camera object. */
-	public static Camera getCameraInstance(){
-	    Camera c = null;
-	    try {
-	        c = Camera.open(1); // attempt to get a Camera instance
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    }
-	    return c;
-	}
-
-	
 	private void makeUI() {
+		Log.d(TAG, "makeUI called");
+		if (camera != null) return; //no need to redo this.
+		Log.d(TAG, "actually making ui");
 		if (cameraholder == null) {
 			cameraholder = new RelativeLayout(p);
 			p.addContentView(cameraholder, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -137,7 +198,7 @@ public class CameraVis extends Visual implements Camera.PreviewCallback {
 	}
 	private void setupCameraInner(SurfaceHolder holder) {
 		Log.d(TAG, "camera starting to be setting up");
-		if (camera != null) return; //wow. all done.
+		if (isCameraRunning()) return; //wow. all done.
 		try {
 			Log.d(TAG, "making camera");
 			camera = getCameraInstance();
@@ -176,6 +237,18 @@ public class CameraVis extends Visual implements Camera.PreviewCallback {
 	}
 
 	
+	
+	/** A safe way to get an instance of the Camera object. */
+	public static Camera getCameraInstance(){
+	    Camera c = null;
+	    try {
+	        c = Camera.open(1); // attempt to get a Camera instance
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    return c;
+	}
+
 	
 	
 	// Camera.PreviewCallback stuff:
@@ -228,11 +301,17 @@ public class CameraVis extends Visual implements Camera.PreviewCallback {
 		System.arraycopy(thedata, 0, lastframe, 0, camwidth*camheight);
 	}
 
-
-
-
+	
+	
+	
+	
+	
+	
 	@Override
-	public void drawVis() {
+	public void draw() {
+		//Log.d(TAG, "draw()");
+
+		p.background(0);
 		if (showImage) {
 		    p.image(gBuffer, p.width - gBuffer.width - 20, p.height - gBuffer.height - 20);
 			float left = p.width - gBuffer.width - 20f;
@@ -245,13 +324,16 @@ public class CameraVis extends Visual implements Camera.PreviewCallback {
 					p.rect(left + x*width, top + y*height, width, height);
 				}
 			}
+		} else {
+			p.text("Setting up the camera...", 100, 100);
 		}
 	}
-
-	@Override
-	public void touchEvent(MotionEvent me, int i, float x, float y, float vx,
-			float vy, float size) {
-		
-	}
+	
+	
+	
+	
+	
+	
+	
 
 }

@@ -58,6 +58,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public Instrument inst;
 	public PlasmaSubFragment frag;
 	public SequencerActivity sequencer;
+	public CameraActivity cameratab;
 	public PlasmaSound instrument;
 	
 	MenuItem effectSettingsItem;
@@ -121,6 +122,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		hideBoth();
 		sequencer = new SequencerActivity(this);
 		instrument = new PlasmaSound(this);
+		cameratab = new CameraActivity(this);
 		if (!isHoneycombOrGreater) 
 			runTheremin(false,true);
 		else
@@ -144,52 +146,42 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
 	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.instrument_name)
 	            .setTabListener(new TabListener() {
-
 					@Override
-					public void onTabReselected(Tab arg0,
-							android.app.FragmentTransaction arg1) {
-						// TODO Auto-generated method stub
-						
+					public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1) {
 					}
-
 					@Override
-					public void onTabSelected(Tab tab,
-							android.app.FragmentTransaction ft) {
+					public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
 						runTheremin(true, true);
-						//addTheremin(ft);
-						
 					}
-
 					@Override
-					public void onTabUnselected(Tab tab,
-							android.app.FragmentTransaction ft) {
-						//removeTheremin(ft);
-						
+					public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 					}
 				}), true);
 
 	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.sequencer_name)
 	            .setTabListener(new TabListener() {
 					@Override
-					public void onTabReselected(Tab tab,
-							android.app.FragmentTransaction ft) {
-						// TODO Auto-generated method stub
-						
+					public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
 					}
-
 					@Override
-					public void onTabSelected(Tab tab,
-							android.app.FragmentTransaction ft) {
+					public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
 						runSequencer(true, true);
-						//addSequencer(ft);
-						
 					}
-
 					@Override
-					public void onTabUnselected(Tab tab,
-							android.app.FragmentTransaction ft) {
-						//removeSequencer(ft);
-						
+					public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+					}
+				}));
+	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.camera_name)
+	            .setTabListener(new TabListener() {
+					@Override
+					public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+					}
+					@Override
+					public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+						runCamera(true, true);
+					}
+					@Override
+					public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 					}
 				}));
 	}
@@ -211,6 +203,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			FragmentManager man = this.getSupportFragmentManager();
 			FragmentTransaction trans = man.beginTransaction();
 			removeSequencer(trans);
+			removeCamera(trans);
 			addTheremin(trans);
 			trans.commit();
 		}
@@ -231,7 +224,26 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			FragmentManager man = this.getSupportFragmentManager();
 			FragmentTransaction trans = man.beginTransaction();
 			removeTheremin(trans);
+			removeCamera(trans);
 			addSequencer(trans);
+			trans.commit();
+		}
+	}
+	public void runCamera(boolean setup, boolean fragmentTransaction) {
+		hideBoth();
+		if (frag != null) {
+			frag.background();
+		}
+		frag = cameratab;
+		if (setup) {
+			frag.setup();
+		}
+		if (fragmentTransaction) {
+			FragmentManager man = this.getSupportFragmentManager();
+			FragmentTransaction trans = man.beginTransaction();
+			removeTheremin(trans);
+			removeSequencer(trans);
+			addCamera(trans);
 			trans.commit();
 		}
 	}
@@ -256,6 +268,16 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
 		if (man.findFragmentByTag(SequencerActivity.TAG) == null)
 			trans.add(sequencer, SequencerActivity.TAG);
+	}
+	public void removeCamera(FragmentTransaction ft) {
+		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		if (man.findFragmentByTag(CameraActivity.TAG) != null)
+			ft.remove(cameratab);
+	}
+	public void addCamera(FragmentTransaction trans) {
+		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		if (man.findFragmentByTag(CameraActivity.TAG) == null)
+			trans.add(cameratab, CameraActivity.TAG);
 	}
 	
 	
