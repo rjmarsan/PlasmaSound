@@ -41,10 +41,12 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	int[] diff;
 	byte[] cambuffer;
 	boolean showImage = false;
+	float[] sequencerdata = new float[1];
 	
-	int[] notegrid;
-	int notewidth = 24;
-	int noteheight = 16;
+
+	
+	public Sequencer sequencer;
+	AudioStats stats;
 
 	
 	
@@ -53,7 +55,6 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	}
 	public CameraActivity(PDActivity p) {
 		super(p);
-		font = p.createFont("americantypewriter.ttf", 28);
 	}
 
 	
@@ -61,6 +62,17 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	public void setup() {
 		super.setup();
 		setupCamera();
+		font = p.createFont("americantypewriter.ttf", 28);
+	    stats = new AudioStats(p, p); 
+		if (sequencer == null) {
+			sequencer = new Sequencer(p.inst, 16, 10, 120);
+			updateSequencer();
+			JSONSequencerPresets.getPresets().loadDefault(p, sequencer);
+		}
+		p.textFont(font);
+		
+		p.textMode(PApplet.MODEL);
+		sequencer.start();
 	}
 	
 
@@ -68,25 +80,36 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	public void destroy() {
 		super.destroy();
 		destroyCamera();
+		if (sequencer != null) {
+			sequencer.stop();
+			sequencer = null;
+		}
 	}
 	
 	@Override
 	public void background() {
 		super.background();
 		destroyCamera();
+		if (sequencer != null) {
+			sequencer.stop();
+		}
 	}
 	
 	
 	@Override
 	public void pause() {
 		super.onPause();
-		//destroyCamera();
+		destroyCamera();
+		if (sequencer != null) sequencer.stop();
+
 	}
 	
 	@Override
 	public void start() {
 		super.onStart();
 		//setupCamera();
+	    if (sequencer != null) sequencer.start();
+
 	}
 	
 	@Override
@@ -225,7 +248,6 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			thedata = new int[size];
 			lastframe = new int[size];
 			diff = new int[size];
-			notegrid = new int[notewidth*noteheight];
 			gBuffer = p.createImage(camwidth, camheight, PApplet.RGB);
 			camera.addCallbackBuffer(cambuffer);
 			camera.startPreview();
@@ -287,22 +309,48 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 		}
 	}
 	
-	
+	/**
+	 * 
+	 * ------------
+	 * |
+	 */
 	void doProcessing() {
-		for (int i=notegrid.length-1; i>=0; i-=1) notegrid[i] = 0;
+		if (sequencer == null || sequencer.grid == null || sequencer.grid[0] == null) return;
+		int notewidth = sequencer.grid.length;
+		int noteheight = sequencer.grid[0].length;
+		if (sequencerdata.length != notewidth * noteheight) {
+			sequencerdata = new float[notewidth*noteheight];
+		}
+		for (int i=sequencer.grid.length-1; i>=0; i-=1) 
+			for (int j=sequencer.grid[0].length-1; j>=0; j--)  
+				sequencerdata[j*notewidth+i] = sequencer.grid[i][j];
+		for (int i=sequencerdata.length-1; i>=0; i--) {
+			if (sequencerdata[i] == Sequencer.OFF)
+				sequencerdata[i] = 0.0f;
+			sequencerdata[i] *= 0.7f;
+		}
 		for (int i=thedata.length-1; i>=0; i--) {
-			diff[i] = (Math.abs(thedata[i] - lastframe[i]) > 30) ? 127 : 0;
+			diff[i] = (Math.abs(thedata[i] - lastframe[i]) > 50) ? 127 : 0;
 			int x = i % camwidth;
 			int y = i / camwidth;
-			int nx = (x * notewidth) / camwidth;
-			int ny = (y * noteheight) / camheight;
-			notegrid[ny * notewidth + nx] += diff[i];
+			int ii = notewidth - 1 -(x * notewidth) / camwidth;
+			int jj = noteheight - 1 -((y * noteheight) / camheight);
+			sequencerdata[jj*notewidth+ii] += diff[i]*0.0003f;
+			sequencerdata[jj*notewidth+ii] = Math.min(1, sequencerdata[jj*notewidth+ii]);
 		}
 		System.arraycopy(thedata, 0, lastframe, 0, camwidth*camheight);
+		for (int i=sequencerdata.length-1; i>=0; i--) {
+			if (sequencerdata[i] <= 0.03f)
+				sequencerdata[i] = Sequencer.OFF;
+			sequencer.grid[i%notewidth][i/notewidth]=sequencerdata[i];
+		}
 	}
 
 	
-	
+	private void updateSequencer() {
+		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.sequencer, true);
+	}
+
 	
 	
 	
@@ -312,21 +360,88 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 		//Log.d(TAG, "draw()");
 
 		p.background(0);
+		
 		if (showImage) {
-		    p.image(gBuffer, p.width - gBuffer.width - 20, p.height - gBuffer.height - 20);
-			float left = p.width - gBuffer.width - 20f;
-			float top = p.height - gBuffer.height - 20f;
-			float width = gBuffer.width / notewidth;
-			float height = gBuffer.height / noteheight;
-			for (int x = 0; x < notewidth; x ++) {
-				for (int y = 0; y < noteheight; y ++) {
-					p.fill(notegrid[y*notewidth+x]/30, 100);
-					p.rect(left + x*width, top + y*height, width, height);
-				}
+//		    p.stroke(0,0);
+//			float left = 0;
+//			float top = 0;
+//			float width = p.width / notewidth;
+//			float height = p.height / noteheight;
+//			for (int x = 0; x < notewidth; x ++) {
+//				for (int y = 0; y < noteheight; y ++) {
+//					p.fill(notegrid[y*notewidth+x]/30, 0, 0, 100);
+//					p.rect(left + x*width, top + y*height, width, height);
+//				}
+//			}
+			p.pushMatrix();
+			 p.scale(-1.0f, 1.0f);
+			 p.image(gBuffer, -p.width, 0, p.width, p.height);
+			 //image(img,-img.width,0);
+			p.popMatrix();			
+			if (sequencer == null) return;
+			Sequencer sequencer = this.sequencer;
+			if (! p.pdready) return;
+			updateSequencer();
+			sequencer.instrument = p.inst;
+			//p.resetMatrix();
+			p.rectMode(PApplet.CORNER);
+			p.ellipseMode(PApplet.CORNER);
+
+			float[][] grid = sequencer.grid;
+			float barwidth = p.width/grid.length;
+			
+			/** draw the names of the notes **/
+			float barheight = p.height/grid[0].length;
+			p.pushStyle();
+			p.textAlign(PApplet.CENTER, PApplet.CENTER);
+			for (int i=0; i<grid[0].length; i++) {
+				p.fill(100);
+				p.noStroke();
+				p.textSize(barheight/3.5f);
+				p.text(Utils.midiNoteToName((int)(sequencer.getNote(i))), p.width-barwidth/2, p.height-(barheight/2 + barheight*i));
 			}
+			p.popStyle();
+
+			
+			for (int i=0; i<grid.length; i++) {
+				
+				if (sequencer.currentRow == i) {
+					p.fill(50);
+					p.noStroke();
+					p.rect(i*barwidth, 0, barwidth, p.height);
+				}
+				
+				for (int j=0; j<grid[i].length; j++) {
+					if (grid[i][j] == Sequencer.OFF) {
+						p.fill(100, 30);
+						p.stroke(170);
+					}  else {
+						p.fill(200,60,60,80);
+						p.noStroke();
+						p.rect(i*barwidth, (grid[i].length - j - 1)*barheight + (barheight-barheight*grid[i][j]), barwidth, barheight*grid[i][j]);
+						p.fill(200,30,30, 50);
+						p.stroke(170);
+					}
+					
+					p.rect(i*barwidth, (grid[i].length - j - 1)*barheight, barwidth, barheight);
+
+				}
+
+				
+			}
+			
+			
+			stats.drawVis();
+
+			
+			
+			
 		} else {
 			p.text("Setting up the camera...", 100, 100);
 		}
+		
+		
+		
 	}
 	
 	
