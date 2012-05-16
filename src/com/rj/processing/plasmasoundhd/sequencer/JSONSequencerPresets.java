@@ -89,7 +89,7 @@ public class JSONSequencerPresets {
 	
 	
 
-	public void showLoadMenu(final Context c, final SequencerActivity p) {
+	public void showLoadMenu(final Context c, final Sequencer sequencer) {
 		try {
 			final String[] items = getPresetNames(c);
 			if (items == null || items.length <= 0) {
@@ -115,7 +115,7 @@ public class JSONSequencerPresets {
 			AlertDialog alert;
 			builder.setSingleChoiceItems(items, selection, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
-			        loadPreset(c,p.sequencer, items[item]);
+			        loadPreset(c,sequencer, items[item]);
 			        dialog.dismiss();
 			    }
 			});
@@ -126,11 +126,11 @@ public class JSONSequencerPresets {
 		}
 	}
 	
-	public void showSaveMenu(final Context c, final SequencerActivity p) {
+	public void showSaveMenu(final Context c, final Sequencer sequencer) {
 		try {
 			final String[] items = getPresetNames(c);
 			if (items == null || items.length <= 0) {
-				showSaveAsMenu(c, p);
+				showSaveAsMenu(c, sequencer);
 				return;
 			}
 			
@@ -138,17 +138,17 @@ public class JSONSequencerPresets {
 			builder.setTitle(R.string.preset_seq_save_title);
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
-			        savePreset(c,p.sequencer, items[item]);
+			        savePreset(c,sequencer, items[item]);
 			    }
 			});
 			builder.setPositiveButton(R.string.preset_seq_save_new, new DialogInterface.OnClickListener() {  
 				public void onClick(DialogInterface dialog, int whichButton) {  
-					showSaveAsMenu(c, p);
+					showSaveAsMenu(c, sequencer);
 				}
 				}); 
 			builder.setNegativeButton(R.string.preset_seq_save_delete, new DialogInterface.OnClickListener() {  
 				public void onClick(DialogInterface dialog, int whichButton) {  
-					showDeleteMenu(c, p);
+					showDeleteMenu(c, sequencer);
 				}
 				}); 
 
@@ -159,7 +159,7 @@ public class JSONSequencerPresets {
 		}
 	}
 	
-	public void showDeleteMenu(final Context c, final SequencerActivity p) {
+	public void showDeleteMenu(final Context c, final Sequencer p) {
 		try {
 			final String[] items = getPresetNames(c);
 			
@@ -167,7 +167,7 @@ public class JSONSequencerPresets {
 			builder.setTitle(R.string.preset_seq_delete_title);
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {
-			        deletePreset(c,p.sequencer, items[item]);
+			        deletePreset(c,p, items[item]);
 			    }
 			});
 			AlertDialog alert = builder.create();
@@ -178,7 +178,7 @@ public class JSONSequencerPresets {
 	}
 
 	
-	public void showSaveAsMenu(final Context c, final SequencerActivity p ) {
+	public void showSaveAsMenu(final Context c, final Sequencer sequencer ) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(c);
 		builder.setTitle(R.string.preset_seq_saveas_title);
 		builder.setMessage(R.string.preset_seq_saveas_message);
@@ -187,7 +187,7 @@ public class JSONSequencerPresets {
 		builder.setPositiveButton(R.string.preset_seq_saveas_ok, new DialogInterface.OnClickListener() {  
 			public void onClick(DialogInterface dialog, int whichButton) {  
 			  String value = text.getText().toString();  
-			  savePreset(c, p.sequencer, value);
+			  savePreset(c, sequencer, value);
 			}  
 			}); 
 		AlertDialog alert = builder.create();

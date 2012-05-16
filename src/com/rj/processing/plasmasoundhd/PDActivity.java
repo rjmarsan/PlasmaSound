@@ -545,15 +545,6 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    case com.rj.processing.plasmasound.R.id.load_settings:
 	        loadSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
-	        loadSequenceSettings();
-	        return true;
-	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
-	        saveSequenceSettings();
-	        return true;
-	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
-	        clearSequenceSettings();
-	        return true;
 	    case com.rj.processing.plasmasound.R.id.about:
 	        about();
 	        return true;
@@ -565,6 +556,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	        return true;
 
 	    default:
+	    	frag.onOptionsItemSelected(item);
 	        return super.onOptionsItemSelected(item);
 	    }
 	}
@@ -746,15 +738,6 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		JSONPresets.getPresets().showLoadMenu(this, this);
 	}
 	
-	public void saveSequenceSettings() {
-		JSONSequencerPresets.getPresets().showSaveMenu(this, sequencer);
-	}
-	public void loadSequenceSettings() {
-		JSONSequencerPresets.getPresets().showLoadMenu(this, sequencer);
-	}
-	public void clearSequenceSettings() {
-		sequencer.clear();
-	}
 
 	
 	public void about() {

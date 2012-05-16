@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import processing.core.PApplet;
 import processing.core.PFont;
 import android.graphics.Point;
+import android.view.MenuItem;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
@@ -264,9 +265,36 @@ public class SequencerActivity extends PlasmaSubFragment {
 	
 	
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
+	        loadSequenceSettings();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
+	        saveSequenceSettings();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
+	        clearSequenceSettings();
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
+
 	
 	
 	
+	public void saveSequenceSettings() {
+		JSONSequencerPresets.getPresets().showSaveMenu(this.getActivity(), this.sequencer);
+	}
+	public void loadSequenceSettings() {
+		JSONSequencerPresets.getPresets().showLoadMenu(this.getActivity(), this.sequencer);
+	}
+	public void clearSequenceSettings() {
+		clear();
+	}
+
 	
 
 }

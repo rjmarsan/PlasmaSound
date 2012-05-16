@@ -12,6 +12,7 @@ import android.graphics.Point;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -26,7 +27,7 @@ import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewCallback {
 	public static String TAG = "Camera";
 
-	public static float SEQUENCER_FADE_SPEED = 0.93f;
+	public static float SEQUENCER_FADE_SPEED = 0.97f;
 	PFont font;
 	
 	SurfaceView cameraview;
@@ -121,6 +122,10 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	
 	@Override
 	public void presetChanged(JSONObject preset) {
+	}
+
+	public void clear() {
+		sequencer.clear();
 	}
 
 	
@@ -490,6 +495,37 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	}
 	
 	
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
+	        loadSequenceSettings();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
+	        saveSequenceSettings();
+	        return true;
+	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
+	        clearSequenceSettings();
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
+
+	
+	
+	
+	public void saveSequenceSettings() {
+		JSONSequencerPresets.getPresets().showSaveMenu(this.getActivity(), this.sequencer);
+	}
+	public void loadSequenceSettings() {
+		JSONSequencerPresets.getPresets().showLoadMenu(this.getActivity(), this.sequencer);
+	}
+	public void clearSequenceSettings() {
+		clear();
+	}
 	
 	
 
