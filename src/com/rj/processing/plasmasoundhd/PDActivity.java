@@ -85,6 +85,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			}
 		}
 	};
+	Runnable postreadyrunnable = null;
 	
 	public int sketchWidth() { return this.screenWidth; }
 	public int sketchHeight() { return this.screenHeight; }
@@ -123,10 +124,11 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		sequencer = new SequencerActivity(this);
 		instrument = new PlasmaSound(this);
 		cameratab = new CameraActivity(this);
-		if (!isHoneycombOrGreater) 
+		if (!isHoneycombOrGreater)  {
 			runTheremin(false,true);
-		else
-			setupActionbar();
+		} else {
+			setupActionbar(getIntent());
+		}
 	}
 	
 	
@@ -137,7 +139,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 	
 	
-	void setupActionbar() {
+	void setupActionbar(Intent intent) {
 		if (getActionBar() == null) return;
 	    final ActionBar actionBar = getActionBar();
 	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -184,6 +186,9 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 					public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 					}
 				}));
+	    
+	    if (intent.getCategories().contains("android.intent.category.DESK_DOCK"))
+	    	actionBar.selectTab(actionBar.getTabAt(2 /*runCamera*/));
 	}
 	
 	
@@ -196,8 +201,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		}
 		frag = instrument;
 		if (setup) {
-			//Log.d("PDActivity", "Setting up theremin");
-			frag.setup();
+			if (pdready)
+				frag.setup();
+			else
+				postreadyrunnable = new Runnable() { public void run() { frag.setup(); } };
 		}
 		if (fragmentTransaction) {
 			FragmentManager man = this.getSupportFragmentManager();
@@ -217,8 +224,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		}
 		frag = sequencer;
 		if (setup) {
-			//Log.d("PDActivity", "Setting up sequencer");
-			frag.setup();
+			if (pdready)
+				frag.setup();
+			else
+				postreadyrunnable = new Runnable() { public void run() { frag.setup(); } };
 		}
 		if (fragmentTransaction) {
 			FragmentManager man = this.getSupportFragmentManager();
@@ -236,7 +245,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		}
 		frag = cameratab;
 		if (setup) {
-			frag.setup();
+			if (pdready)
+				frag.setup();
+			else
+				postreadyrunnable = new Runnable() { public void run() { frag.setup(); } };
 		}
 		if (fragmentTransaction) {
 			FragmentManager man = this.getSupportFragmentManager();
@@ -297,7 +309,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    	    
 	    asyncSetup.execute(new Void[0]);
 	    debug();
-	    if (frag != null) frag.setup();
+	    if (frag != null && pdready) frag.setup();
 	}
 	
 	AsyncTask<Void,Void,Void> asyncSetup = new AsyncTask<Void,Void,Void>() {
@@ -339,6 +351,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			pdready = true;
 			startingup = false;
 			loadingview.setVisibility(View.GONE);
+			if (postreadyrunnable != null) postreadyrunnable.run();
 		}
 	};
 	
@@ -547,9 +560,6 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    case com.rj.processing.plasmasound.R.id.record:
 	        record();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.camera:
-	        camera();
-	        return true;
 	    case com.rj.processing.plasmasound.R.id.tutorial:
 	        showTutorialDialog();
 	        return true;
@@ -716,7 +726,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				return false;
 			}
 		} else {
-			if (frag == sequencer) {
+			if (frag != instrument) {
 				runTheremin(true, true);
 				return true;
 			}
@@ -782,11 +792,6 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 
 	
-	public void camera() {
-		Log.d("Camera", "initializing camera!");
-		instrument.toggleCamera();
-	}
-	
 	
 	@Override
 	public void onActivityResult(final int i, final int j, final Intent res) {
@@ -810,9 +815,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
     @Override
     public void onStop() {
     	super.onStop();
-    	instrument.removeCamera();
     	JSONPresets.getPresets().removeListener(this);
     	JSONSequencerPresets.getPresets().removeListener(this);
+		if (frag != null) frag.onStop();
+
     }
     
 //    @Override

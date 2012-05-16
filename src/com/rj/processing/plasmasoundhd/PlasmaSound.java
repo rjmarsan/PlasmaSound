@@ -25,7 +25,6 @@ public class PlasmaSound extends PlasmaSubFragment {
 
 
 	public Visualization vis;
-	public CameraVis cameravis;
 	boolean settingup = false;
 
 	@Override
@@ -35,28 +34,7 @@ public class PlasmaSound extends PlasmaSubFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.d("PlasmaSound", "onOptionsItemSelected called with "+item.getTitle().toString());
 		return super.onContextItemSelected(item);
-	}
-
-	
-	public void startCamera() {
-		Log.d(TAG, "Starting camera");
-	    cameravis.setupCamera();
-	}
-	
-	public void removeCamera() {
-		Log.d(TAG, "Stopping camera");
-		cameravis.destroyCamera();
-//		cameravis = null;
-//		vis.removeVisuals(cameravis);
-	}
-	
-	public void toggleCamera() {
-		if (cameravis != null && cameravis.isCameraRunning())
-			removeCamera();
-		else
-			startCamera();
-	}
-	
+	}	
 	
 	
 	@Override
@@ -73,8 +51,6 @@ public class PlasmaSound extends PlasmaSubFragment {
 	    vis.addVisual(new Grid(p, p)); 
 	    vis.addVisual(new AudioStats(p, p)); 
 	    vis.addVisual(new CameraVis(p, p));
-		cameravis = new CameraVis(p, p);
-	    vis.addVisual(cameravis);
 	    settingup = false;
 	}
 	

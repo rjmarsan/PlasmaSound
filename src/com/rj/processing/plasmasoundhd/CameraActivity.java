@@ -1,7 +1,6 @@
 package com.rj.processing.plasmasoundhd;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -14,8 +13,8 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceView;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
@@ -27,6 +26,7 @@ import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewCallback {
 	public static String TAG = "Camera";
 
+	public static float SEQUENCER_FADE_SPEED = 0.93f;
 	PFont font;
 	
 	SurfaceView cameraview;
@@ -116,28 +116,13 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	protected void resume() {
 		super.onResume();
 		//setupCamera();
+		updateSequencer();
 	}
 	
 	@Override
 	public void presetChanged(JSONObject preset) {
 	}
-	
-	@Override
-	public void touchAllUp(final Cursor c) {
-	}
-	
-	@Override
-	public void touchDown(final Cursor c) {
-	}
 
-	@Override
-	public void touchMoved(final Cursor c) {
-	}
-	@Override
-	public void touchUp(final Cursor c) {
-	}
-	
-	
 	
 	
 	public void setupCamera() {
@@ -315,6 +300,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	 * |
 	 */
 	void doProcessing() {
+		float lowcutoff = 0.03f;
 		if (sequencer == null || sequencer.grid == null || sequencer.grid[0] == null) return;
 		int notewidth = sequencer.grid.length;
 		int noteheight = sequencer.grid[0].length;
@@ -325,9 +311,9 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			for (int j=sequencer.grid[0].length-1; j>=0; j--)  
 				sequencerdata[j*notewidth+i] = sequencer.grid[i][j];
 		for (int i=sequencerdata.length-1; i>=0; i--) {
-			if (sequencerdata[i] == Sequencer.OFF)
-				sequencerdata[i] = 0.0f;
-			sequencerdata[i] *= 0.7f;
+//			if (sequencerdata[i] != Sequencer.OFF && sequencerdata[i] < lowcutoff)
+//				sequencerdata[i] = 0.00001f;
+			sequencerdata[i] *= SEQUENCER_FADE_SPEED;
 		}
 		for (int i=thedata.length-1; i>=0; i--) {
 			diff[i] = (Math.abs(thedata[i] - lastframe[i]) > 50) ? 127 : 0;
@@ -340,7 +326,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 		}
 		System.arraycopy(thedata, 0, lastframe, 0, camwidth*camheight);
 		for (int i=sequencerdata.length-1; i>=0; i--) {
-			if (sequencerdata[i] <= 0.03f)
+			if (sequencerdata[i] < -0.f)
 				sequencerdata[i] = Sequencer.OFF;
 			sequencer.grid[i%notewidth][i/notewidth]=sequencerdata[i];
 		}
@@ -446,6 +432,62 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	
 	
 	
+	
+	
+	@Override
+	public void touchAllUp(final Cursor c) {
+	}
+	@Override
+	public void touchDown(final Cursor c) {
+	}
+
+	@Override
+	public void touchUp(final Cursor c) {
+		Point spot = getSpot(c.currentPoint.x, c.currentPoint.y);
+		if (spot == null) return;
+		int width = sequencer.grid.length;
+		int height = sequencer.grid[0].length;
+		if (spot.x >= 0 && spot.x < width && spot.y >= 0 && spot.y < height) {
+			float value = sequencer.grid[spot.x][spot.y];
+			if (value != Sequencer.OFF) {
+				value = Sequencer.OFF;
+			} else {
+				value = 1.f;
+			}
+			sequencer.setSpot(spot.x, spot.y, value);
+		}
+	
+	}
+	
+	private boolean outsideRange(Cursor c) {
+		if (com.rj.processing.mt.Point.distanceSquared(c.firstPoint, c.currentPoint) > 50) return true;
+		return false;
+	}
+	
+//	private void addToSpot(Point p, float valueDiff) {
+//		int x = p.x;
+//		int y = p.y;
+//		int width = sequencer.grid.length;
+//		int height = sequencer.grid[0].length;
+//		if (x >= 0 && x < width && y >= 0 && y < height) {
+//			float val = sequencer.grid[x][y];
+//			val += valueDiff;
+//			val = Math.min(1,Math.max(0.001f,val));
+//			sequencer.grid[x][y] = val;
+//		}
+//	}
+	
+	
+	public Point getSpot(float x, float y) {
+		int gridx = (int)(x / p.width * sequencer.grid.length);
+		if (gridx < sequencer.grid.length && gridx >= 0) {
+			int gridy = (int)( (p.height-y) / p.height * sequencer.grid[gridx].length);
+			if (gridy < sequencer.grid[gridx].length && gridy >= 0) {
+				return new Point(gridx,gridy);
+			}
+		}
+		return null;
+	}
 	
 	
 	
