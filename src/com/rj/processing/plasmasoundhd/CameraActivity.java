@@ -10,7 +10,9 @@ import processing.core.PImage;
 import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
+import android.hardware.Camera.Size;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
@@ -27,7 +29,7 @@ import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewCallback {
 	public static String TAG = "Camera";
 
-	public static float SEQUENCER_FADE_SPEED = 0.97f;
+	public static float SEQUENCER_FADE_SPEED = 0.98f;
 	PFont font;
 	
 	SurfaceView cameraview;
@@ -43,6 +45,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	byte[] cambuffer;
 	boolean showImage = false;
 	float[] sequencerdata = new float[1];
+	float[] sequencerdata2 = new float[1];
 	
 
 	
@@ -224,10 +227,15 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			camera.setPreviewDisplay(holder);
 			camera.setPreviewCallbackWithBuffer(this);
 			Parameters params = camera.getParameters();
-			camwidth = 320;
-			camheight = 240;
+			Size previewsize = getSmallestPreviewSize(params);
+			camwidth = previewsize.width;
+			camheight = previewsize.height;
 			params.setPictureSize(camwidth, camheight);
 			params.setPreviewSize(camwidth, camheight);
+			if (!params.getSupportedPreviewFormats().contains(ImageFormat.YV12)) {
+				//handle it here.
+				return;
+			}
 			params.setPreviewFormat(ImageFormat.YV12);
 			//params.setAutoExposureLock(true);
 			camera.setParameters(params);
@@ -254,11 +262,43 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	public static Camera getCameraInstance(){
 	    Camera c = null;
 	    try {
-	        c = Camera.open(1); // attempt to get a Camera instance
+	    	for (int i=0; i<Camera.getNumberOfCameras(); i++) {
+	    		CameraInfo info = new CameraInfo();
+	    		Camera.getCameraInfo(i, info);
+	    		if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
+	    	        c = Camera.open(i); // attempt to get a Camera instance
+	    	        return c;
+	    		}
+	    	}
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    }
 	    return c;
+	}
+	
+	public static CameraInfo getInfoOfFrontFacingCamera() {
+    	for (int i=0; i<Camera.getNumberOfCameras(); i++) {
+    		CameraInfo info = new CameraInfo();
+    		Camera.getCameraInfo(i, info);
+    		if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
+    	        return info;
+    		}
+    	}
+    	return null;
+	}
+	
+	public static Size getSmallestPreviewSize(Parameters params) {
+		int camwidth = 10000;
+		int camheight = 10000;
+		Size returnsize = null;
+		for (Size size : params.getSupportedPreviewSizes()) {
+			if (size.height * size.width < camwidth * camheight) {
+				returnsize = size;
+				camwidth = size.width;
+				camheight = size.height;
+			}
+		}
+		return returnsize;
 	}
 
 	
@@ -311,14 +351,15 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 		int noteheight = sequencer.grid[0].length;
 		if (sequencerdata.length != notewidth * noteheight) {
 			sequencerdata = new float[notewidth*noteheight];
+			sequencerdata2 = new float[notewidth*noteheight];
 		}
 		for (int i=sequencer.grid.length-1; i>=0; i-=1) 
 			for (int j=sequencer.grid[0].length-1; j>=0; j--)  
 				sequencerdata[j*notewidth+i] = sequencer.grid[i][j];
 		for (int i=sequencerdata.length-1; i>=0; i--) {
-//			if (sequencerdata[i] != Sequencer.OFF && sequencerdata[i] < lowcutoff)
-//				sequencerdata[i] = 0.00001f;
-			sequencerdata[i] *= SEQUENCER_FADE_SPEED;
+			if (sequencerdata[i] == Sequencer.OFF)
+				sequencerdata[i] = 0.00001f;
+			sequencerdata[i] *= SEQUENCER_FADE_SPEED + Math.random()/1000f;
 		}
 		for (int i=thedata.length-1; i>=0; i--) {
 			diff[i] = (Math.abs(thedata[i] - lastframe[i]) > 50) ? 127 : 0;
@@ -330,10 +371,38 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			sequencerdata[jj*notewidth+ii] = Math.min(1, sequencerdata[jj*notewidth+ii]);
 		}
 		System.arraycopy(thedata, 0, lastframe, 0, camwidth*camheight);
-		for (int i=sequencerdata.length-1; i>=0; i--) {
-			if (sequencerdata[i] < -0.f)
-				sequencerdata[i] = Sequencer.OFF;
-			sequencer.grid[i%notewidth][i/notewidth]=sequencerdata[i];
+		nonMax(sequencerdata, sequencerdata2, 0.3f, notewidth, noteheight);
+		for (int i=sequencerdata2.length-1; i>=0; i--) {
+			if (sequencerdata2[i] < 0.03f)
+				sequencerdata2[i] = Sequencer.OFF;
+			sequencer.grid[i%notewidth][i/notewidth]=sequencerdata2[i];
+		}
+	}
+	
+	public void nonMax(float[] indata, float[] outdata, float supressAmount, int w, int h) {
+		for (int i=indata.length-1; i>=0; i--) {
+			int x = i % w;
+			int y = i / w;
+			float current = indata[(y)*w+x];
+			float north = 0, south = 0, east = 0, west = 0;
+			float northeast = 0, southeast = 0, northwest = 0, southwest = 0;
+			float southsouth = 0, northnorth = 0;
+			if (y > 0) 				north = indata[(y-1)*w+x];
+			if (y < h-1) 			south = indata[(y+1)*w+x];
+			if (y > 1) 				northnorth = indata[(y-2)*w+x];
+			if (y < h-2) 			southsouth = indata[(y+2)*w+x];
+			//if (x > 0) 				east = indata[(y)*w+x-1];
+			//if (x < w-1)			west = indata[(y)*w+x+1];
+			//if (y > 0 && x > 0) 	northeast = indata[(y-1)*w+x-1];
+			//if (y < h-1 && x > 0) 	southeast = indata[(y+1)*w+x-1];
+			//if (y > 0 && x < w-1) 	northwest = indata[(y-1)*w+x+1];
+			//if (y < h-1 && x < w-1) southwest = indata[(y+1)*w+x+1];
+			
+			if (current > north && current > south && current > northnorth && current > southsouth) {
+					outdata[(y)*w+x] = current;
+			} else {
+				outdata[(y)*w+x] = current * supressAmount;
+			}
 		}
 	}
 
