@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.rj.processing.plasmasoundhd.PDActivity;
+import com.rj.processing.plasmasoundhd.pd.effects.MotionStuff;
 import com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
@@ -69,8 +70,8 @@ public class CameraPatterns {
 								float bpm = CameraPatterns.this.bpm;
 								float syncopation = CameraPatterns.this.syncopated;
 								if (instrument != null) {
-									bpm = instrument.sequencer.bpm.getDefaultValue();
-									syncopation = instrument.sequencer.syncopated.getDefaultValue();
+									bpm = instrument.motion.bpm.getDefaultValue();
+									syncopation = instrument.motion.syncopated.getDefaultValue();
 								}
 								long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
 								if (currentRow % 2 == 0) {
@@ -101,7 +102,7 @@ public class CameraPatterns {
 						try {
 							e.printStackTrace();
 							float bpm = CameraPatterns.this.bpm;
-							if (instrument != null) bpm = instrument.sequencer.bpm.getDefaultValue();
+							if (instrument != null) bpm = instrument.motion.bpm.getDefaultValue();
 							long waittime = (long) (1/bpm * 1000 /*milliseconds*/ * 60 /*seconds*/);
 							if (sequenceKeepRunning) Thread.sleep(waittime);
 						} catch (InterruptedException ee) {
@@ -157,7 +158,7 @@ public class CameraPatterns {
 		if (instrument == null) return -1;
 		
 		int[] scale = pentatonic;
-		int scaletype = (int)instrument.sequencer.scale.getDefaultValue();
+		int scaletype = (int)instrument.motion.scale.getDefaultValue();
 		if (scaletype == MAJOR)
 			scale = majorscale;
 		else if (scaletype == MINOR)
@@ -171,7 +172,7 @@ public class CameraPatterns {
 			
 		int octaves = column / scale.length;
 		int value = column % scale.length;
-		int baseNote = (int)instrument.sequencer.lownote.getDefaultValue();
+		int baseNote = (int)instrument.motion.lownote.getDefaultValue();
 		
 		return baseNote + 12*octaves + scale[value];
 	}
@@ -187,7 +188,7 @@ public class CameraPatterns {
 		this.bpm = bpm;
 	}
 	
-	public void setFromSettings(SequencerStuff s, boolean run) {
+	public void setFromSettings(MotionStuff s, boolean run) {
 		int width = (int)s.steps.getDefaultValue();
 		int height = (int)s.notes.getDefaultValue();
 		float bpm = s.bpm.getDefaultValue();
@@ -239,14 +240,14 @@ public class CameraPatterns {
 	
 	public JSONObject sequenceToJSON(JSONObject sequence) throws JSONException {
 		try {
-//			sequence.put("bpm", instrument.sequencer.bpm.getDefaultValue());
-//			sequence.put("syncopated", instrument.sequencer.syncopated.getDefaultValue());
-//			sequence.put("lownote", instrument.sequencer.lownote.getDefaultValue());
-//			sequence.put("notes", instrument.sequencer.notes.getDefaultValue());
-//			sequence.put("steps", instrument.sequencer.steps.getDefaultValue());
-//			sequence.put("scale", (int)instrument.sequencer.scale.getDefaultValue());
+//			sequence.put("bpm", instrument.motion.bpm.getDefaultValue());
+//			sequence.put("syncopated", instrument.motion.syncopated.getDefaultValue());
+//			sequence.put("lownote", instrument.motion.lownote.getDefaultValue());
+//			sequence.put("notes", instrument.motion.notes.getDefaultValue());
+//			sequence.put("steps", instrument.motion.steps.getDefaultValue());
+//			sequence.put("scale", (int)instrument.motion.scale.getDefaultValue());
 			
-			instrument.sequencer.saveSettingsToJSON(sequence);
+			instrument.motion.saveSettingsToJSON(sequence);
 
 			JSONArray array = new JSONArray();
 			for (int i=0; i<grid.length; i++) {
@@ -266,7 +267,7 @@ public class CameraPatterns {
 	}
 	
 	public void loadSequence(Context context, JSONObject sequence) {
-		SequencerStuff stuff = this.instrument.sequencer;
+		MotionStuff stuff = this.instrument.motion;
 			try {
 //				stuff.bpm.setDefault((float)sequence.getDouble("bpm"));
 //				stuff.syncopated.setDefault((float)sequence.getDouble("syncopated"));

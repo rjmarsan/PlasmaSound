@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:psnd="http://schemas.rjmarsan.com/apk/res/plasmasound"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+            
+            
+            <amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	android:orientation="vertical"
+			    	psnd:key="volume">	
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_seq_scale" />
+	            </RelativeLayout>		
+	            <amir.android.icebreaking.RadioGroupPrefs 
+			       style="@style/SettingsMultichoiceBox"
+	                
+		            psnd:key="@string/motion_scale"
+		            psnd:title=""
+		            psnd:summary="@string/str_seq_scale_summ"
+		            psnd:defaultValue="0.0"
+		            android:entries="@array/sequencer_scalenames"
+		            android:entryValues="@array/sequencer_scaletypes"
+	                >
+	                
+	            </amir.android.icebreaking.RadioGroupPrefs>  
+		   </amir.android.icebreaking.EffectsBox>
+		   
+           
+		        
+           <amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	psnd:key="scale"
+			    	android:orientation="vertical">		    
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_seq_params" />
+	            </RelativeLayout>		        
+			     <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox" 
+			        psnd:key="@string/motion_bpm"
+		            psnd:title="@string/str_seq_tempo"
+		            psnd:summary="@string/str_seq_tempo_summ"
+		            psnd:defaultValue="120"
+		            psnd:max="430"
+		            psnd:yenabled="false" />
+			     
+			     <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox" 
+			        psnd:key="@string/motion_syncopated"
+		            psnd:title="@string/str_seq_sync"
+		            psnd:summary="@string/str_seq_sync_summ"
+		            psnd:defaultValue="0"
+		            psnd:max="100"
+		            psnd:yenabled="false" />
+			     
+			     
+			     <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox" 
+			        psnd:key="@string/motion_lownote"
+		            psnd:title="@string/str_seq_low"
+		            psnd:summary="@string/str_seq_low_summ"
+		            psnd:defaultValue="60"
+		            psnd:midiAsText="true"
+		            psnd:max="127"
+		            psnd:yenabled="false" />   
+		            
+			    <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox"  
+			        psnd:key="@string/motion_steps"
+		            psnd:title="@string/str_seq_steps"
+		            psnd:summary="@string/str_seq_steps_summ"
+		            psnd:defaultValue="8"
+		            psnd:max="24"
+		            psnd:text="@string/str_seq_steps_text" 
+		        	psnd:yenabled="false"  />   
+
+			    <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox"  
+			        psnd:key="@string/motion_notes"
+		            psnd:title="@string/str_seq_notes"
+		            psnd:summary="@string/str_seq_notes_summ"
+		            psnd:defaultValue="5"
+		            psnd:max="18"
+		            psnd:text="@string/str_seq_notes_text" 
+		        	psnd:yenabled="false"  />   
+			    			     
+			     			     
+		    </amir.android.icebreaking.EffectsBox>	
+                
+		        
+		     		     
+				<ListView
+		     	android:layout_width="match_parent" android:layout_height="wrap_content"
+		     	android:id="@android:id/list" />
+		
+		</LinearLayout>
+</ScrollView>

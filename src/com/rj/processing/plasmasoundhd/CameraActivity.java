@@ -22,6 +22,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
 import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasoundhd.sequencer.CameraPatterns;
 import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 import com.rj.processing.plasmasoundhd.sequencer.Sequencer;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
@@ -29,7 +30,7 @@ import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewCallback {
 	public static String TAG = "Camera";
 
-	public static float SEQUENCER_FADE_SPEED = 0.98f;
+	public static float SEQUENCER_FADE_SPEED = 0.994f;
 	PFont font;
 	
 	SurfaceView cameraview;
@@ -39,6 +40,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	int camwidth;
 	int camheight;
 	PImage gBuffer;
+	PImage iBuffer;
 	int[] thedata;
 	int[] lastframe;
 	int[] diff;
@@ -49,10 +51,13 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	
 
 	
-	public Sequencer sequencer;
+	public CameraPatterns sequencer;
 	AudioStats stats;
 
 	
+	@Override
+	int getMenu() { return com.rj.processing.plasmasound.R.menu.motion_menu; }
+
 	
 	public CameraActivity() {
 		//ewww
@@ -69,9 +74,9 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 		font = p.createFont("americantypewriter.ttf", 28);
 	    stats = new AudioStats(p, p); 
 		if (sequencer == null) {
-			sequencer = new Sequencer(p.inst, 16, 10, 120);
+			sequencer = new CameraPatterns(p.inst, 16, 10, 120);
 			updateSequencer();
-			JSONSequencerPresets.getPresets().loadDefault(p, sequencer);
+			//JSONSequencerPresets.getPresets().loadDefault(p, sequencer);
 		}
 		p.textFont(font);
 		
@@ -83,7 +88,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	@Override
 	public void destroy() {
 		super.destroy();
-		destroyCamera();
+		destroyCameraUI();
 		if (sequencer != null) {
 			sequencer.stop();
 			sequencer = null;
@@ -93,7 +98,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	@Override
 	public void background() {
 		super.background();
-		destroyCamera();
+		destroyCameraUI();
 		if (sequencer != null) {
 			sequencer.stop();
 		}
@@ -119,7 +124,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	@Override
 	protected void resume() {
 		super.onResume();
-		//setupCamera();
+		setupCamera();
 		updateSequencer();
 	}
 	
@@ -247,6 +252,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			lastframe = new int[size];
 			diff = new int[size];
 			gBuffer = p.createImage(camwidth, camheight, PApplet.RGB);
+			iBuffer = p.createImage(camwidth, camheight, PApplet.RGB);
 			camera.addCallbackBuffer(cambuffer);
 			camera.startPreview();
 			showImage = true;
@@ -307,13 +313,17 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	// ------------------------------------------------------
 	public void onPreviewFrame(byte[] data, Camera cam) {
 		//Log.d(TAG, "onPreviewFrame called");
-		// This is called every frame of the preview. Update our global PImage.
-		gBuffer.loadPixels();
 		// Decode our camera byte data into RGB data:
 		decodeYUV420SP(data, camwidth*camheight, thedata);
 		doProcessing();
-		byteArrayToRGB(diff, camwidth*camheight, gBuffer.pixels);
+		
+		gBuffer.loadPixels();
+		byteArrayToRGB(diff, camwidth*camheight, gBuffer.pixels, 0xaa000000);
 		gBuffer.updatePixels();
+		iBuffer.loadPixels();
+		byteArrayToRGB(lastframe, camwidth*camheight, iBuffer.pixels, 0x55000000);
+		iBuffer.updatePixels();
+
 		// Draw to screen:
 		camera.addCallbackBuffer(cambuffer);
 	}
@@ -323,19 +333,19 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	void decodeYUV420SP(byte[] yuv420sp, int size, int[] thedata) {
 		for (int i=size-1; i>=0; i--) {
 			int y = (0xff & ((int) yuv420sp[i])) - 16;
-			thedata[i] = (byte) y;
+			thedata[i] = y;
 		}
 	}
 	
 	// ---------------------------------------------------------------------
-	void byteArrayToRGB(int[] gray, int size, int[] rgb) {
+	void byteArrayToRGB(int[] gray, int size, int[] rgb, int mask) {
 		for (int i=size-1; i>=0; i--) {
 				int x = gray[i];
 				if (x < 0)
 					x = 0;
 				if (x > 255) 
 					x = 255;
-				rgb[i] = 0x99000000 | ((x << 16) & 0xff0000) | ((x << 8) & 0xff00) | ((x >> 0) & 0xff);
+				rgb[i] = mask | ((x << 16) & 0xff0000) | ((x << 8) & 0xff00) | ((x >> 0) & 0xff);
 		}
 	}
 	
@@ -359,7 +369,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 		for (int i=sequencerdata.length-1; i>=0; i--) {
 			if (sequencerdata[i] == Sequencer.OFF)
 				sequencerdata[i] = 0.00001f;
-			sequencerdata[i] *= SEQUENCER_FADE_SPEED + Math.random()/1000f;
+			sequencerdata[i] *= SEQUENCER_FADE_SPEED - Math.random()*0.000001f;
 		}
 		for (int i=thedata.length-1; i>=0; i--) {
 			diff[i] = (Math.abs(thedata[i] - lastframe[i]) > 50) ? 127 : 0;
@@ -369,11 +379,12 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			int jj = noteheight - 1 -((y * noteheight) / camheight);
 			sequencerdata[jj*notewidth+ii] += diff[i]*0.0003f;
 			sequencerdata[jj*notewidth+ii] = Math.min(1, sequencerdata[jj*notewidth+ii]);
+			lastframe[i] = (lastframe[i]+thedata[i])/2;
 		}
-		System.arraycopy(thedata, 0, lastframe, 0, camwidth*camheight);
+		//System.arraycopy(thedata, 0, lastframe, 0, camwidth*camheight);
 		nonMax(sequencerdata, sequencerdata2, 0.3f, notewidth, noteheight);
 		for (int i=sequencerdata2.length-1; i>=0; i--) {
-			if (sequencerdata2[i] < 0.03f)
+			if (sequencerdata2[i] < lowcutoff)
 				sequencerdata2[i] = Sequencer.OFF;
 			sequencer.grid[i%notewidth][i/notewidth]=sequencerdata2[i];
 		}
@@ -384,31 +395,21 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			int x = i % w;
 			int y = i / w;
 			float current = indata[(y)*w+x];
-			float north = 0, south = 0, east = 0, west = 0;
-			float northeast = 0, southeast = 0, northwest = 0, southwest = 0;
+			float north = 0, south = 0;
 			float southsouth = 0, northnorth = 0;
-			if (y > 0) 				north = indata[(y-1)*w+x];
-			if (y < h-1) 			south = indata[(y+1)*w+x];
-			if (y > 1) 				northnorth = indata[(y-2)*w+x];
-			if (y < h-2) 			southsouth = indata[(y+2)*w+x];
-			//if (x > 0) 				east = indata[(y)*w+x-1];
-			//if (x < w-1)			west = indata[(y)*w+x+1];
-			//if (y > 0 && x > 0) 	northeast = indata[(y-1)*w+x-1];
-			//if (y < h-1 && x > 0) 	southeast = indata[(y+1)*w+x-1];
-			//if (y > 0 && x < w-1) 	northwest = indata[(y-1)*w+x+1];
-			//if (y < h-1 && x < w-1) southwest = indata[(y+1)*w+x+1];
+			north = (y > 0) ? indata[(y-1)*w+x] : 0;
+			south = (y < h-1) ? indata[(y+1)*w+x] : 0;
+			northnorth = (y > 1) ? indata[(y-2)*w+x] : 0;
+			southsouth = (y < h-2) ? indata[(y+2)*w+x] : 0;
 			
-			if (current > north && current > south && current > northnorth && current > southsouth) {
-					outdata[(y)*w+x] = current;
-			} else {
-				outdata[(y)*w+x] = current * supressAmount;
-			}
+			boolean result = (current > north && current > south && current > northnorth && current > southsouth);
+			outdata[(y)*w+x] = result ? current : current * supressAmount;
 		}
 	}
 
 	
 	private void updateSequencer() {
-		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.sequencer, true);
+		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.motion, true);
 	}
 
 	
@@ -434,12 +435,17 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 //				}
 //			}
 			p.pushMatrix();
+			p.pushStyle();
 			 p.scale(-1.0f, 1.0f);
+			 //p.tint(255, 255);
+			 
 			 p.image(gBuffer, -p.width, 0, p.width, p.height);
-			 //image(img,-img.width,0);
+			 p.tint(255, 50);
+			 p.image(iBuffer, -p.width, 0, p.width, p.height);
+			p.popStyle();
 			p.popMatrix();			
 			if (sequencer == null) return;
-			Sequencer sequencer = this.sequencer;
+			CameraPatterns sequencer = this.sequencer;
 			if (! p.pdready) return;
 			updateSequencer();
 			sequencer.instrument = p.inst;
@@ -566,35 +572,35 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	
 	
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
-	        loadSequenceSettings();
-	        return true;
-	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
-	        saveSequenceSettings();
-	        return true;
-	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
-	        clearSequenceSettings();
-	        return true;
-	    default:
-	        return super.onOptionsItemSelected(item);
-	    }
-	}
-
-	
-	
-	
-	public void saveSequenceSettings() {
-		JSONSequencerPresets.getPresets().showSaveMenu(this.getActivity(), this.sequencer);
-	}
-	public void loadSequenceSettings() {
-		JSONSequencerPresets.getPresets().showLoadMenu(this.getActivity(), this.sequencer);
-	}
-	public void clearSequenceSettings() {
-		clear();
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//	    switch (item.getItemId()) {
+//	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
+//	        loadSequenceSettings();
+//	        return true;
+//	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
+//	        saveSequenceSettings();
+//	        return true;
+//	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
+//	        clearSequenceSettings();
+//	        return true;
+//	    default:
+//	        return super.onOptionsItemSelected(item);
+//	    }
+//	}
+//
+//	
+//	
+//	
+//	public void saveSequenceSettings() {
+//		JSONSequencerPresets.getPresets().showSaveMenu(this.getActivity(), this.sequencer);
+//	}
+//	public void loadSequenceSettings() {
+//		JSONSequencerPresets.getPresets().showLoadMenu(this.getActivity(), this.sequencer);
+//	}
+//	public void clearSequenceSettings() {
+//		clear();
+//	}
 	
 	
 

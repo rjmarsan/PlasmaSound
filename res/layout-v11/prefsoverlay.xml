@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/preferenceview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    >
+		
+	<fragment android:name="com.rj.processing.plasmasoundhd.PlasmaThereminAudioSettings"
+        android:id="@+id/audiosettings"
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true" 
+        android:visibility="gone"
+        />
+	<fragment android:name="com.rj.processing.plasmasoundhd.PlasmaThereminEffectsSettings"
+        android:id="@+id/instsettings"
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+         />
+	<fragment android:name="com.rj.processing.plasmasoundhd.PlasmaThereminSequencerSettings"
+        android:id="@+id/sequencersettings"
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+         />
+	<fragment android:name="com.rj.processing.plasmasoundhd.PlasmaThereminMotionSettings"
+        android:id="@+id/motionsettings"
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+         />
+	
+	
+</RelativeLayout>

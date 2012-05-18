@@ -26,6 +26,7 @@ Thanks again for the help! I really appreciate it!
     <string name="waveform_editor">Waveform</string>
     <string name="sequencer">Sequencer</string>
     <string name="sequencer_settings">Sequencer</string>
+    <string name="motion_settings">Motion</string>
     <string name="about_settings">About Plasma Sound</string>
     <string name="tutorial_settings">Tutorial</string>
     <string name="clear_sequence_settings">Clear</string>

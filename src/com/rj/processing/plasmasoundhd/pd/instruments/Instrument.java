@@ -18,6 +18,7 @@ import com.rj.processing.plasmasoundhd.pd.effects.ASDR;
 import com.rj.processing.plasmasoundhd.pd.effects.Delay;
 import com.rj.processing.plasmasoundhd.pd.effects.Effect;
 import com.rj.processing.plasmasoundhd.pd.effects.Filter;
+import com.rj.processing.plasmasoundhd.pd.effects.MotionStuff;
 import com.rj.processing.plasmasoundhd.pd.effects.Reverb;
 import com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff;
 import com.rj.processing.plasmasoundhd.pd.effects.Tremolo;
@@ -35,6 +36,7 @@ public class Instrument {
 	final private ArrayList<Effect> effects = new ArrayList<Effect>();
 	final private Volume volume;
 	final public SequencerStuff sequencer;
+	final public MotionStuff motion;
 	
 	
 	private int patch;
@@ -60,6 +62,7 @@ public class Instrument {
 		this.p = p;
 		volume = new Volume();
 		sequencer = new SequencerStuff();
+		motion = new MotionStuff();
 		effects.add(new ASDR());
 		//effects.add(sequencer);
 		effects.add(new Vibrato());
@@ -244,6 +247,7 @@ public class Instrument {
 				e.updateSettings(prefs, preset);
 			}
 			sequencer.updateSettings(prefs, preset);
+			motion.updateSettings(prefs, preset);
 		
 		} catch (final Exception e) { e.printStackTrace(); }
 	}

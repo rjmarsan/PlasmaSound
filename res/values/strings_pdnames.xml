@@ -61,5 +61,12 @@
 	    <string name="sequence_notes">sequence_notes</string>
 	    <string name="sequence_scale">sequence_scale</string>
 	    <string name="sequence_syncopated">sequence_syncopated</string>
-        
+	    
+	    <string name="motion_lownote">motion_lownote</string>
+	    <string name="motion_steps">motion_steps</string>
+	    <string name="motion_bpm">motion_bpm</string>
+	    <string name="motion_notes">motion_notes</string>
+	    <string name="motion_scale">motion_scale</string>
+	    <string name="motion_syncopated">motion_syncopated</string>
+	    
 </resources>

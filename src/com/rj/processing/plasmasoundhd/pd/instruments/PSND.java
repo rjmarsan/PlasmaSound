@@ -67,6 +67,14 @@ public class PSND {
 	public static String SEQUENCER_SYNCOPATED = "sequence_syncopated";
 	
 	
+	public static String MOTION_LOWNOTE = "motion_lownote";
+	public static String MOTION_STEPS = "motion_steps";
+	public static String MOTION_BPM = "motion_bpm";
+	public static String MOTION_NOTES = "motion_notes";
+	public static String MOTION_SCALE = "motion_scale";
+	public static String MOTION_SYNCOPATED = "motion_syncopated";
+
+	
 	
 	public static void readFromResources(Context context) {
 		Resources r = context.getResources();
@@ -130,6 +138,15 @@ public class PSND {
 		 SEQUENCER_NOTES = r.getString(R.string.sequence_notes);
 		 SEQUENCER_SCALE = r.getString(R.string.sequence_scale);
 		 SEQUENCER_SYNCOPATED = r.getString(R.string.sequence_syncopated);
+		 
+		 
+		 MOTION_LOWNOTE = r.getString(R.string.motion_lownote);
+		 MOTION_STEPS = r.getString(R.string.motion_steps);
+		 MOTION_BPM = r.getString(R.string.motion_bpm);
+		 MOTION_NOTES = r.getString(R.string.motion_notes);
+		 MOTION_SCALE = r.getString(R.string.motion_scale);
+		 MOTION_SYNCOPATED = r.getString(R.string.motion_syncopated);
+
 
 		
 		
