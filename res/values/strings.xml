@@ -193,7 +193,7 @@ Thanks again for the help! I really appreciate it!
     <string name="str_seq_scale_summ">Major, Minor, Pentatonic, etc.</string>
         
         
-    <string name="str_seq_params">Parameters</string>
+    <string name="str_seq_params">Sequencer Parameters</string>
     <string name="str_seq_tempo">Tempo</string>
     <string name="str_seq_tempo_summ">in Beats per Minute</string>
     <string name="str_seq_sync">Syncopation</string>
@@ -207,6 +207,14 @@ Thanks again for the help! I really appreciate it!
     <string name="str_seq_notes_summ">notes in each step</string>
     <string name="str_seq_notes_text">notes</string>
         
+    
+    
+    <string name="str_motion_params">Motion Parameters</string>
+    <string name="str_motion_threshold">Threshold</string>
+    <string name="str_motion_threshold_summ">Level to make a spot "active"</string>
+    <string name="str_motion_sensitivity">Sensitivity</string>
+    <string name="str_motion_sensitivity_summ">How quicky grid fills up</string>
+    
         
         
 </resources>

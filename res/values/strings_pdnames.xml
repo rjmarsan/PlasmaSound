@@ -68,5 +68,8 @@
 	    <string name="motion_notes">motion_notes</string>
 	    <string name="motion_scale">motion_scale</string>
 	    <string name="motion_syncopated">motion_syncopated</string>
+	    <string name="motion_threshold">motion_threshold</string>
+	    <string name="motion_sensitivity">motion_sensitivity</string>
+	    
 	    
 </resources>

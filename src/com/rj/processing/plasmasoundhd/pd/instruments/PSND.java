@@ -73,6 +73,8 @@ public class PSND {
 	public static String MOTION_NOTES = "motion_notes";
 	public static String MOTION_SCALE = "motion_scale";
 	public static String MOTION_SYNCOPATED = "motion_syncopated";
+	public static String MOTION_SENSITIVITY = "motion_sensitivity";
+	public static String MOTION_THRESHOLD = "motion_threshold";
 
 	
 	
@@ -146,6 +148,8 @@ public class PSND {
 		 MOTION_NOTES = r.getString(R.string.motion_notes);
 		 MOTION_SCALE = r.getString(R.string.motion_scale);
 		 MOTION_SYNCOPATED = r.getString(R.string.motion_syncopated);
+		 MOTION_SENSITIVITY = r.getString(R.string.motion_sensitivity);
+		 MOTION_THRESHOLD = r.getString(R.string.motion_threshold);
 
 
 		

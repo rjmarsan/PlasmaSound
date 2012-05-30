@@ -20,6 +20,40 @@
         android:orientation="vertical"
         android:layout_width="match_parent" android:layout_height="match_parent">
 
+
+            
+            
+           
+            
+           <amir.android.icebreaking.EffectsBox
+			    	android:layout_width="match_parent"
+			    	android:layout_height="wrap_content"
+			    	psnd:key="scale"
+			    	android:orientation="vertical">		    
+	            <RelativeLayout style="@style/SettingsTitleBox" >
+		            <TextView
+		                style="@style/SettingsTitle"
+		                android:text="@string/str_motion_params" />
+	            </RelativeLayout>		        
+			     <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox" 
+			        psnd:key="@string/motion_threshold"
+		            psnd:title="@string/str_motion_threshold"
+		            psnd:summary="@string/str_motion_threshold_summ"
+		            psnd:defaultValue="55"
+		            psnd:max="100"
+		            psnd:yenabled="false" />
+			     
+			     <amir.android.icebreaking.SeekBarPreferenceView 
+			     	style="@style/SettingsSliderBox" 
+			        psnd:key="@string/motion_sensitivity"
+		            psnd:title="@string/str_motion_sensitivity"
+		            psnd:summary="@string/str_motion_sensitivity_summ"
+		            psnd:defaultValue="40"
+		            psnd:max="100"
+		            psnd:yenabled="false" />
+		   </amir.android.icebreaking.EffectsBox>            
+            
             
             
             <amir.android.icebreaking.EffectsBox
@@ -46,7 +80,9 @@
 	            </amir.android.icebreaking.RadioGroupPrefs>  
 		   </amir.android.icebreaking.EffectsBox>
 		   
-           
+
+            
+            
 		        
            <amir.android.icebreaking.EffectsBox
 			    	android:layout_width="match_parent"

@@ -19,6 +19,8 @@ public  class MotionStuff extends Effect {
 	public Parameter notes; 
 	public Parameter scale; 
 	public Parameter syncopated;
+	public Parameter sensitivity;
+	public Parameter threshold;
 	
 	public MotionStuff() {
 		params = new HashMap<String, Parameter>();
@@ -53,6 +55,17 @@ public  class MotionStuff extends Effect {
 		syncopated.setMinMax(0, 100);
 		syncopated.setDefault(0);
 		params.put(PSND.MOTION_SYNCOPATED, syncopated );
+
+		
+		sensitivity = new NonPDParameter(PSND.MOTION_SENSITIVITY, false);
+		sensitivity.setMinMax(0, 100);
+		sensitivity.setDefault(40);
+		params.put(PSND.MOTION_SENSITIVITY, sensitivity );
+		
+		threshold = new NonPDParameter(PSND.MOTION_THRESHOLD, false);
+		threshold.setMinMax(0, 100);
+		threshold.setDefault(55);
+		params.put(PSND.MOTION_THRESHOLD, threshold );
 
 		
 		this.yenabledlist = new String[] {

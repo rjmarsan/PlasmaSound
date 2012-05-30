@@ -90,7 +90,7 @@ public class PlasmaSound extends PlasmaSubFragment {
 		if (p.pdready && !settingup) {
 		    p.background(0);
 		
-		    vis.drawVisuals();
+		    if (vis != null) vis.drawVisuals();
 		    
 		    if (p.frameCount % 1000 == 0) PApplet.println(p.frameRate+"");
 		}

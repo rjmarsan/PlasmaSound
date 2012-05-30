@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -49,7 +50,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 //	public static final String PATCH_PATH = "simplesine4.2.pd";
 	public static boolean isHoneycombOrGreater = false;
 	
+	
+	
 	public MTManager mtManager;
+	public Handler mHandler = new Handler(); 
 	
 	public PDManager pdman;
 	public Instrument inst;
@@ -531,8 +535,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		checkAndRemindThemToGiveMeAGoodRating();
 		checkAndGiveThemATutorial();
 		if (frag != null) {
-			frag.resume();
 			frag.onResume();
+			frag.resume();
 		}
 	}
 

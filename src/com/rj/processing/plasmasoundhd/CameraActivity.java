@@ -16,6 +16,7 @@ import android.hardware.Camera.Size;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
+import android.view.View;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.ViewGroup.LayoutParams;
@@ -49,6 +50,9 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	float[] sequencerdata = new float[1];
 	float[] sequencerdata2 = new float[1];
 	
+	
+	int threshold;
+	float sensitivity;
 
 	
 	public CameraPatterns sequencer;
@@ -137,7 +141,11 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	}
 
 	
-	
+	public void setupCameraDelayed() {
+		p.mHandler.postDelayed(new Runnable() { public void run() {
+			makeUI();
+		}}, 100);
+	}
 	public void setupCamera() {
 		p.runOnUiThread(new Runnable() { public void run() {
 			makeUI();
@@ -189,7 +197,8 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			//cameraholder.setBackgroundColor(Color.MAGENTA);
 		}
 		cameraview = new SurfaceView(p);
-		cameraholder.addView(cameraview, new LayoutParams(320, 240));
+		cameraholder.addView(cameraview, new LayoutParams(1,1));
+		//cameraview.setVisibility(View.INVISIBLE);
 		//cameraview.setBackgroundColor(Color.CYAN);
 		holder = cameraview.getHolder();
 		holder.addCallback(new Callback() {
@@ -371,13 +380,14 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 				sequencerdata[i] = 0.00001f;
 			sequencerdata[i] *= SEQUENCER_FADE_SPEED - Math.random()*0.000001f;
 		}
+		float diffmult = 0.001f * sensitivity / ((camwidth * camheight) / ((float)notewidth * noteheight));
 		for (int i=thedata.length-1; i>=0; i--) {
-			diff[i] = (Math.abs(thedata[i] - lastframe[i]) > 50) ? 127 : 0;
+			diff[i] = (Math.abs(thedata[i] - lastframe[i]) > threshold) ? 127 : 0;
 			int x = i % camwidth;
 			int y = i / camwidth;
 			int ii = notewidth - 1 -(x * notewidth) / camwidth;
 			int jj = noteheight - 1 -((y * noteheight) / camheight);
-			sequencerdata[jj*notewidth+ii] += diff[i]*0.0003f;
+			sequencerdata[jj*notewidth+ii] += diff[i]*diffmult;
 			sequencerdata[jj*notewidth+ii] = Math.min(1, sequencerdata[jj*notewidth+ii]);
 			lastframe[i] = (lastframe[i]+thedata[i])/2;
 		}
@@ -410,6 +420,10 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	
 	private void updateSequencer() {
 		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.motion, true);
+		if (p.inst.motion != null) {
+			threshold = (int)p.inst.motion.threshold.getDefaultValue();
+			sensitivity = p.inst.motion.sensitivity.getDefaultValue();
+		}
 	}
 
 	
