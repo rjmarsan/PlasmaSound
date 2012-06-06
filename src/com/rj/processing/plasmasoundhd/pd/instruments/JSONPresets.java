@@ -27,7 +27,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.rj.processing.plasmasound.PlasmaSound;
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.R;
 import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.PlasmaActivity;
 
@@ -321,7 +321,7 @@ public class JSONPresets {
 	}
 	public JSONObject getDefaultPresets(Context context) {
 		try {
-			InputStream is = context.getResources().openRawResource(com.rj.processing.plasmasound.R.raw.presets);
+			InputStream is = context.getResources().openRawResource(com.rj.processing.plasmasoundhd.R.raw.presets);
 			Writer writer = new StringWriter();
 			char[] buffer = new char[1024];
 			try {

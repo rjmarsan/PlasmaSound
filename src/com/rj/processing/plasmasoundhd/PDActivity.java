@@ -101,7 +101,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		if (frag != null) 
 			return frag.getMenu(); 
 		else 
-			return com.rj.processing.plasmasound.R.menu.main_menu; 
+			return com.rj.processing.plasmasoundhd.R.menu.main_menu; 
 	}
 	
 	
@@ -115,11 +115,11 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		PSND.readFromResources(this);
 		//runSequencer(false);
 		plzBeLandscape();
-		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasound.R.layout.loadingscreenmall, null);
+		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasoundhd.R.layout.loadingscreenmall, null);
 		this.addContentView(loadingview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		if (isHoneycombOrGreater) {
 			preferenceview = this.getLayoutInflater().inflate(
-							com.rj.processing.plasmasound.R.layout.prefsoverlay,
+							com.rj.processing.plasmasoundhd.R.layout.prefsoverlay,
 							null);
 			this.addContentView(preferenceview, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -151,7 +151,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    // remove the activity title to make space for tabs
 	    actionBar.setDisplayShowTitleEnabled(false);
 
-	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.instrument_name)
+	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasoundhd.R.string.instrument_name)
 	            .setTabListener(new TabListener() {
 					@Override
 					public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1) {
@@ -165,7 +165,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 					}
 				}), true);
 
-	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.sequencer_name)
+	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasoundhd.R.string.sequencer_name)
 	            .setTabListener(new TabListener() {
 					@Override
 					public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
@@ -178,7 +178,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 					public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 					}
 				}));
-	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasound.R.string.camera_name)
+	    actionBar.addTab(actionBar.newTab().setText(com.rj.processing.plasmasoundhd.R.string.camera_name)
 	            .setTabListener(new TabListener() {
 					@Override
 					public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
@@ -218,10 +218,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 	
 	public void setupSidebarList() {
-		View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
-		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
-		View fragment3 = this.findViewById(com.rj.processing.plasmasound.R.id.sequencersettings);
-		View fragment4 = this.findViewById(com.rj.processing.plasmasound.R.id.motionsettings);
+		View fragment = this.findViewById(com.rj.processing.plasmasoundhd.R.id.audiosettings);
+		View fragment2 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.instsettings);
+		View fragment3 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.sequencersettings);
+		View fragment4 = this.findViewById(com.rj.processing.plasmasoundhd.R.id.motionsettings);
 		sideviews.add(fragment);
 		sideviews.add(fragment2);
 		sideviews.add(fragment3);
@@ -461,7 +461,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
         if (!(mPrefs.getBoolean("popupshown", false))) {
 	        if (elapsed > maxtime) {
 //	        	if (System.currentTimeMillis() % 10 == 1) {
-	    		if (getResources().getBoolean(com.rj.processing.plasmasound.R.bool.should_bug_about_donate)) {
+	    		if (getResources().getBoolean(com.rj.processing.plasmasoundhd.R.bool.should_bug_about_donate)) {
 	        		showRatingDialog();
 	        	}
 	        	Editor e = mPrefs.edit();
@@ -558,7 +558,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "PlasmaSoundHDLock");
 		wl.acquire();
 		if (loadingview == null)
-			loadingview = this.findViewById(com.rj.processing.plasmasound.R.id.loadingview);
+			loadingview = this.findViewById(com.rj.processing.plasmasoundhd.R.id.loadingview);
 		loadingview.setVisibility(View.VISIBLE);
 		if (pdready == true) {
 		    pdready = false;
@@ -598,38 +598,38 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
 	    switch (item.getItemId()) {
-	    case com.rj.processing.plasmasound.R.id.sequencer_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.sequencer_settings:
 	        sequencerSettings(item);
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.motion_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.motion_settings:
 	        motionSettings(item);
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.instrument:
+	    case com.rj.processing.plasmasoundhd.R.id.instrument:
 	        instrument();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.sequencer:
+	    case com.rj.processing.plasmasoundhd.R.id.sequencer:
 	        sequencer();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.instrument_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.instrument_settings:
 	        instrumentSettings(item);
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.effects_settings:
-	        //item.setIcon(com.rj.processing.plasmasound.R.drawable.ic_menu_record);
+	    case com.rj.processing.plasmasoundhd.R.id.effects_settings:
+	        //item.setIcon(com.rj.processing.plasmasoundhd.R.drawable.ic_menu_record);
 	        effectSettings(item);
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.save_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.save_settings:
 	        saveSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.load_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.load_settings:
 	        loadSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.about:
+	    case com.rj.processing.plasmasoundhd.R.id.about:
 	        about();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.record:
+	    case com.rj.processing.plasmasoundhd.R.id.record:
 	        record();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.tutorial:
+	    case com.rj.processing.plasmasoundhd.R.id.tutorial:
 	        showTutorialDialog();
 	        return true;
 
@@ -676,34 +676,34 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
 	
 	public void instrumentSettings(MenuItem item) {
-		showSidebar(com.rj.processing.plasmasound.R.id.audiosettings,
+		showSidebar(com.rj.processing.plasmasoundhd.R.id.audiosettings,
 				com.rj.processing.plasmasound.PlasmaThereminAudioSettings.class, item, "keyboard",
-				com.rj.processing.plasmasound.R.drawable.ic_menu_keyboard_settings_active);
+				com.rj.processing.plasmasoundhd.R.drawable.ic_menu_keyboard_settings_active);
 	}
 	
 	public void sequencerSettings(MenuItem item) {
-		showSidebar(com.rj.processing.plasmasound.R.id.sequencersettings,
+		showSidebar(com.rj.processing.plasmasoundhd.R.id.sequencersettings,
 				com.rj.processing.plasmasound.PlasmaThereminSequencerSettings.class, item, "sequencer",
-				com.rj.processing.plasmasound.R.drawable.ic_menu_sequencer_settings_active);
+				com.rj.processing.plasmasoundhd.R.drawable.ic_menu_sequencer_settings_active);
 	}
 
 	public void effectSettings(MenuItem item) {
-		showSidebar(com.rj.processing.plasmasound.R.id.instsettings,
+		showSidebar(com.rj.processing.plasmasoundhd.R.id.instsettings,
 				com.rj.processing.plasmasound.PlasmaThereminEffectsSettings.class, item, "effect",
-				com.rj.processing.plasmasound.R.drawable.ic_menu_effects_settings_active);
+				com.rj.processing.plasmasoundhd.R.drawable.ic_menu_effects_settings_active);
 	}
 	
 	public void motionSettings(MenuItem item) {
-		showSidebar(com.rj.processing.plasmasound.R.id.motionsettings,
+		showSidebar(com.rj.processing.plasmasoundhd.R.id.motionsettings,
 				null                                                              , item, "motion",
-				com.rj.processing.plasmasound.R.drawable.ic_menu_sequencer_settings_active);
+				com.rj.processing.plasmasoundhd.R.drawable.ic_menu_sequencer_settings_active);
 	}
 	
 	public void setAllSettingsIconsInactive() {
-		setInactiveSettingsIcon("effect", com.rj.processing.plasmasound.R.drawable.ic_menu_effects_settings);
-		setInactiveSettingsIcon("motion", com.rj.processing.plasmasound.R.drawable.ic_menu_sequencer_settings);
-		setInactiveSettingsIcon("sequencer", com.rj.processing.plasmasound.R.drawable.ic_menu_sequencer_settings);
-		setInactiveSettingsIcon("keyboard", com.rj.processing.plasmasound.R.drawable.ic_menu_keyboard_settings);
+		setInactiveSettingsIcon("effect", com.rj.processing.plasmasoundhd.R.drawable.ic_menu_effects_settings);
+		setInactiveSettingsIcon("motion", com.rj.processing.plasmasoundhd.R.drawable.ic_menu_sequencer_settings);
+		setInactiveSettingsIcon("sequencer", com.rj.processing.plasmasoundhd.R.drawable.ic_menu_sequencer_settings);
+		setInactiveSettingsIcon("keyboard", com.rj.processing.plasmasoundhd.R.drawable.ic_menu_keyboard_settings);
 	}
 
 	
@@ -720,7 +720,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			} else {
 				clearSidebar();
 				fragment.setVisibility(View.VISIBLE);
-				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasound.R.drawable.gradient));
+				fragment.setBackgroundDrawable(getResources().getDrawable(com.rj.processing.plasmasoundhd.R.drawable.gradient));
 				setActiveSettingsIcon(item, name, iconid);
 			}
 		}

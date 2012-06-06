@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.R;
 
 public class MiscDialogs {
 
@@ -126,7 +126,7 @@ public class MiscDialogs {
 	
 //	public static void showTutorialDialog(final PDActivity context) { 
 //		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//		builder.setTitle(com.rj.processing.plasmasound.R.string.tutorial_dialog_title);
+//		builder.setTitle(com.rj.processing.plasmasoundhd.R.string.tutorial_dialog_title);
 //		final LayoutInflater inflater = context.getLayoutInflater();
 //		final LinearLayout blanklayout = new LinearLayout(context);
 //		final int[] slides = {
@@ -304,7 +304,7 @@ public class MiscDialogs {
 			try {
 				//doing the soundcloud sharing
 				File myAudiofile = new File(filename);
-				String clientId = context.getResources().getString(com.rj.processing.plasmasound.R.string.soundcloud_api_clientid);
+				String clientId = context.getResources().getString(com.rj.processing.plasmasoundhd.R.string.soundcloud_api_clientid);
 				Intent intent = new Intent("com.soundcloud.android.SHARE")
 				  .putExtra(Intent.EXTRA_STREAM, Uri.fromFile(myAudiofile))
 				  .putExtra("com.soundcloud.android.extra.title", name)
@@ -322,7 +322,7 @@ public class MiscDialogs {
 			    }
 			}
 		} else {
-			Toast.makeText(context, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_toast_record_started), Toast.LENGTH_LONG).show();
+			Toast.makeText(context, Utils.frmRes(context, com.rj.processing.plasmasoundhd.R.string.export_toast_record_started), Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -334,10 +334,10 @@ public class MiscDialogs {
 
 	    Uri uri = Uri.fromFile(new File(filename));
 	    share.putExtra(Intent.EXTRA_STREAM, uri);
-	    share.putExtra(Intent.EXTRA_TEXT, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_extra_text));
+	    share.putExtra(Intent.EXTRA_TEXT, Utils.frmRes(context, com.rj.processing.plasmasoundhd.R.string.export_extra_text));
 
-	    context.startActivity(Intent.createChooser(share, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_extra_title)));
-		Toast.makeText(context, Utils.frmRes(context, com.rj.processing.plasmasound.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
+	    context.startActivity(Intent.createChooser(share, Utils.frmRes(context, com.rj.processing.plasmasoundhd.R.string.export_extra_title)));
+		Toast.makeText(context, Utils.frmRes(context, com.rj.processing.plasmasoundhd.R.string.export_toast_record_finished)+filename, Toast.LENGTH_LONG).show();
 	}
 	
 	public static void doesTheUserWantToInstallSouncloud(final PDActivity context,final String filename,final String name) {

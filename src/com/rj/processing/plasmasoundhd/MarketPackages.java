@@ -1,6 +1,6 @@
 package com.rj.processing.plasmasoundhd;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.R;
 
 import android.content.Context;
 import android.net.Uri;

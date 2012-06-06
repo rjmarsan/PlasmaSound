@@ -32,7 +32,7 @@ public class SequencerActivity extends PlasmaSubFragment {
 	public HashMap<Cursor,PointAndStuff> selectedPoints = new HashMap<Cursor,PointAndStuff>();
 	private static class PointAndStuff { Point p; boolean modified; boolean startednow;}
 	public boolean loadPresets() { return false; }
-	int getMenu() { return com.rj.processing.plasmasound.R.menu.sequencer_menu; }
+	int getMenu() { return com.rj.processing.plasmasoundhd.R.menu.sequencer_menu; }
 
 	PFont font;
 	
@@ -268,13 +268,13 @@ public class SequencerActivity extends PlasmaSubFragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.load_sequence_settings:
 	        loadSequenceSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.save_sequence_settings:
 	        saveSequenceSettings();
 	        return true;
-	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
+	    case com.rj.processing.plasmasoundhd.R.id.clear_sequence_settings:
 	        clearSequenceSettings();
 	        return true;
 	    default:

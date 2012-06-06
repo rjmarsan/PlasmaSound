@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest package="com.rj.processing.plasmasound" 
-    android:versionCode="173" 
-    android:versionName="2.2.1" 
+<manifest package="com.rj.processing.plasmasoundhd" 
+    android:versionCode="180" 
+    android:versionName="2.3.0" 
     xmlns:android="http://schemas.android.com/apk/res/android"
 	android:installLocation="preferExternal">
-  <uses-sdk android:targetSdkVersion="14" android:minSdkVersion="8"/>
+  <uses-sdk android:targetSdkVersion="14" android:minSdkVersion="11"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
   <uses-permission android:name="android.permission.CAMERA"/>
- 
+	<supports-screens android:smallScreens="false"
+	                  android:normalScreens="false"
+	                  android:largeScreens="true"
+	                  android:xlargeScreens="true"
+	                  android:anyDensity="true"/> 
    <application android:label="@string/app_name" android:icon="@drawable/icon" android:hardwareAccelerated="true">
   
     <activity android:name="com.rj.processing.plasmasoundhd.PDActivity"
@@ -27,20 +31,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-<activity android:name="com.rj.processing.plasmasound.PlasmaThereminEffectsSettings"
-     		  android:screenOrientation="landscape"
-     		  android:configChanges="orientation">
-     </activity>    
-     <activity android:name="com.rj.processing.plasmasound.PlasmaThereminAudioSettings"
-     		  android:screenOrientation="landscape"
-     		  android:configChanges="orientation">
-     </activity>    
-     <activity android:name="com.rj.processing.plasmasound.PlasmaThereminSequencerSettings"
-     		  android:screenOrientation="landscape"
-     		  android:configChanges="orientation">
-     </activity>    
-        
-        
-  </application>
+    <activity
+        android:name="com.rj.processing.plasmasound.PlasmaThereminEffectsSettings"
+        android:configChanges="orientation"
+        android:screenOrientation="landscape" >
+    </activity>
+    <activity
+        android:name="com.rj.processing.plasmasound.PlasmaThereminAudioSettings"
+        android:configChanges="orientation"
+        android:screenOrientation="landscape" >
+    </activity>
+    <activity
+        android:name="com.rj.processing.plasmasound.PlasmaThereminSequencerSettings"
+        android:configChanges="orientation"
+        android:screenOrientation="landscape" >
+    </activity>
+</application>
   
 </manifest>

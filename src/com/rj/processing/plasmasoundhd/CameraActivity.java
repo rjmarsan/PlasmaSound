@@ -24,7 +24,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
 import com.rj.processing.mt.Cursor;
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.R;
 import com.rj.processing.plasmasoundhd.sequencer.CameraPatterns;
 import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 import com.rj.processing.plasmasoundhd.sequencer.Sequencer;
@@ -70,7 +70,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	private boolean cameraDead = false;
 	
 	@Override
-	int getMenu() { return com.rj.processing.plasmasound.R.menu.motion_menu; }
+	int getMenu() { return com.rj.processing.plasmasoundhd.R.menu.motion_menu; }
 
 	
 	public CameraActivity() {
@@ -663,13 +663,13 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 //	@Override
 //	public boolean onOptionsItemSelected(MenuItem item) {
 //	    switch (item.getItemId()) {
-//	    case com.rj.processing.plasmasound.R.id.load_sequence_settings:
+//	    case com.rj.processing.plasmasoundhd.R.id.load_sequence_settings:
 //	        loadSequenceSettings();
 //	        return true;
-//	    case com.rj.processing.plasmasound.R.id.save_sequence_settings:
+//	    case com.rj.processing.plasmasoundhd.R.id.save_sequence_settings:
 //	        saveSequenceSettings();
 //	        return true;
-//	    case com.rj.processing.plasmasound.R.id.clear_sequence_settings:
+//	    case com.rj.processing.plasmasoundhd.R.id.clear_sequence_settings:
 //	        clearSequenceSettings();
 //	        return true;
 //	    default:

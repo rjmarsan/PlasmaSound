@@ -23,7 +23,7 @@ import processing.core.PApplet;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.rj.processing.plasmasound.R;
+import com.rj.processing.plasmasoundhd.R;
 
 
 public class PDManager {

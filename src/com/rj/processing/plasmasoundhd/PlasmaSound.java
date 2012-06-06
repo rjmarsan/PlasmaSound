@@ -28,7 +28,7 @@ public class PlasmaSound extends PlasmaSubFragment {
 	boolean settingup = false;
 
 	@Override
-	int getMenu() { return com.rj.processing.plasmasound.R.menu.main_menu; }
+	int getMenu() { return com.rj.processing.plasmasoundhd.R.menu.main_menu; }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
