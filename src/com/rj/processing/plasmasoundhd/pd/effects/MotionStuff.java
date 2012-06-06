@@ -27,7 +27,7 @@ public  class MotionStuff extends Effect {
 		
 		lownote = new NonPDParameter(PSND.MOTION_LOWNOTE, false);
 		lownote.setMinMax(0, 100);
-		lownote.setDefault(53);
+		lownote.setDefault(72);
 		params.put(PSND.MOTION_LOWNOTE, lownote );
 
 		steps = new NonPDParameter(PSND.MOTION_STEPS, false);

@@ -118,7 +118,7 @@
 			        psnd:key="@string/motion_lownote"
 		            psnd:title="@string/str_seq_low"
 		            psnd:summary="@string/str_seq_low_summ"
-		            psnd:defaultValue="60"
+		            psnd:defaultValue="71"
 		            psnd:midiAsText="true"
 		            psnd:max="127"
 		            psnd:yenabled="false" />   

@@ -13,7 +13,8 @@
   
     <activity android:name="com.rj.processing.plasmasoundhd.PDActivity"
     		  android:theme="@style/PSNDStyle" android:screenOrientation="landscape"
-    		  android:configChanges="orientation|keyboard|navigation|touchscreen|keyboardHidden">
+    		  android:configChanges="orientation|keyboard|navigation|touchscreen|keyboardHidden|uiMode|screenLayout|screenSize|fontScale"
+    		  android:launchMode="singleTop">
     		
     		<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +23,6 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DESK_DOCK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

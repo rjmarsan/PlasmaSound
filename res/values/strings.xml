@@ -214,6 +214,13 @@ Thanks again for the help! I really appreciate it!
     <string name="str_motion_threshold_summ">Level to make a spot "active"</string>
     <string name="str_motion_sensitivity">Sensitivity</string>
     <string name="str_motion_sensitivity_summ">How quicky grid fills up</string>
+
+    
+    
+    <string name="str_motion_settingup">Setting up the camera&#8230;</string>
+    <string name="str_motion_deadcamera">:(\nThe camera! We\'ve lost it! \nSometimes this happens, but a quick restart should fix it.\nSorry!</string>
+    <string name="str_motion_howto">Directions: \n    1. Find somewhere bright\n    2. Place device somewhere stable\n    3. Face front camera towards you\n    4. Move in front of the device\n    5. Enjoy.</string>
+    <string name="str_motion_inactivity">It\'s a little quiet in here.  Try finding a brighter spot, and make sure you\'re facing the camera.\nYou can also increase the sensitivity in the Motion Settings</string>
     
         
         

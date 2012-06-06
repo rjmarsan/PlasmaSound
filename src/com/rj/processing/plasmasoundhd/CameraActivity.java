@@ -13,6 +13,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
@@ -23,6 +24,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 
 import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasound.R;
 import com.rj.processing.plasmasoundhd.sequencer.CameraPatterns;
 import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 import com.rj.processing.plasmasoundhd.sequencer.Sequencer;
@@ -31,7 +33,9 @@ import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewCallback {
 	public static String TAG = "Camera";
 
-	public static float SEQUENCER_FADE_SPEED = 0.994f;
+	public final static float SEQUENCER_FADE_SPEED = 0.994f;
+	public final static long DESCRIPTION_WAIT_TIME = 10*1000L;
+	public final static float INACTIVITY_THRESHOLD = 0.5f;
 	PFont font;
 	
 	SurfaceView cameraview;
@@ -49,7 +53,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	boolean showImage = false;
 	float[] sequencerdata = new float[1];
 	float[] sequencerdata2 = new float[1];
-	
+	float totalActivityOverTime = 0;
 	
 	int threshold;
 	float sensitivity;
@@ -58,6 +62,12 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	public CameraPatterns sequencer;
 	AudioStats stats;
 
+	private String settingUpString;
+	private String noActivityString;
+	private String infoString;
+	private String deadCameraString;
+	private long descriptionTimerTime = -1L;
+	private boolean cameraDead = false;
 	
 	@Override
 	int getMenu() { return com.rj.processing.plasmasound.R.menu.motion_menu; }
@@ -68,8 +78,14 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	}
 	public CameraActivity(PDActivity p) {
 		super(p);
+		settingUpString = p.getResources().getString(R.string.str_motion_settingup);
+		infoString = p.getResources().getString(R.string.str_motion_howto);
+		noActivityString = p.getResources().getString(R.string.str_motion_inactivity);
+		deadCameraString = p.getResources().getString(R.string.str_motion_deadcamera);
+		resetDescriptionTimer();
 	}
-
+	
+	
 	
 	@Override
 	public void setup() {
@@ -80,6 +96,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 		if (sequencer == null) {
 			sequencer = new CameraPatterns(p.inst, 16, 10, 120);
 			updateSequencer();
+			resetDescriptionTimer();
 			//JSONSequencerPresets.getPresets().loadDefault(p, sequencer);
 		}
 		p.textFont(font);
@@ -174,7 +191,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 		Log.d(TAG, "destoryCamera done");
 		
 	}
-	private void destroyCameraUI() {
+	public void destroyCameraUI() {
 		try {
 			destroyCameraInner();
 			cameraholder.removeAllViews();
@@ -184,6 +201,10 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			//otherwise we really don't care.
 		}
 		
+	}
+	
+	private void resetDescriptionTimer() {
+		descriptionTimerTime = SystemClock.uptimeMillis();
 	}
 
 	
@@ -265,8 +286,10 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			camera.addCallbackBuffer(cambuffer);
 			camera.startPreview();
 			showImage = true;
+			cameraDead = false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			cameraDead = true;
 		}
 		Log.d(TAG, "camera starting is done up");
 	}
@@ -274,7 +297,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	
 	
 	/** A safe way to get an instance of the Camera object. */
-	public static Camera getCameraInstance(){
+	public Camera getCameraInstance(){
 	    Camera c = null;
 	    try {
 	    	for (int i=0; i<Camera.getNumberOfCameras(); i++) {
@@ -286,6 +309,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	    		}
 	    	}
 	    } catch (Exception e) {
+	    	cameraDead = true;
 	    	e.printStackTrace();
 	    }
 	    return c;
@@ -387,17 +411,22 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			int y = i / camwidth;
 			int ii = notewidth - 1 -(x * notewidth) / camwidth;
 			int jj = noteheight - 1 -((y * noteheight) / camheight);
-			sequencerdata[jj*notewidth+ii] += diff[i]*diffmult;
+			float val = diff[i]*diffmult;
+			sequencerdata[jj*notewidth+ii] += val;
 			sequencerdata[jj*notewidth+ii] = Math.min(1, sequencerdata[jj*notewidth+ii]);
 			lastframe[i] = (lastframe[i]+thedata[i])/2;
 		}
 		//System.arraycopy(thedata, 0, lastframe, 0, camwidth*camheight);
 		nonMax(sequencerdata, sequencerdata2, 0.3f, notewidth, noteheight);
+		
+		float activity = 0f;
 		for (int i=sequencerdata2.length-1; i>=0; i--) {
+			activity += sequencerdata2[i];
 			if (sequencerdata2[i] < lowcutoff)
 				sequencerdata2[i] = Sequencer.OFF;
 			sequencer.grid[i%notewidth][i/notewidth]=sequencerdata2[i];
 		}
+		totalActivityOverTime = totalActivityOverTime * 0.3f + activity * 0.7f;
 	}
 	
 	public void nonMax(float[] indata, float[] outdata, float supressAmount, int w, int h) {
@@ -420,7 +449,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	
 	private void updateSequencer() {
 		if (sequencer != null && p.inst != null) sequencer.setFromSettings(p.inst.motion, true);
-		if (p.inst.motion != null) {
+		if (p.inst != null && p.inst.motion != null) {
 			threshold = (int)p.inst.motion.threshold.getDefaultValue();
 			sensitivity = p.inst.motion.sensitivity.getDefaultValue();
 		}
@@ -517,11 +546,56 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 			
 			
 		} else {
-			p.text("Setting up the camera...", 100, 100);
+			p.text(settingUpString, 100, 100);
+		}
+		
+		if (cameraDead) {
+			drawDeadText();
+		} else if (SystemClock.uptimeMillis() - descriptionTimerTime < DESCRIPTION_WAIT_TIME) {
+			drawInfoText();
+		} else if (totalActivityOverTime < INACTIVITY_THRESHOLD) {
+			drawHelpText();
 		}
 		
 		
 		
+	}
+	
+	
+	private void drawInfoText() {
+		p.pushStyle();
+		p.rectMode(PApplet.CENTER);
+		p.textAlign(PApplet.LEFT, PApplet.CENTER);
+		p.fill(100, 100);
+		p.noStroke();
+		p.rect(p.width/2, p.height/2, 540, 240);
+		p.fill(200,150);
+		p.text(infoString, p.width/2, p.height/2, 500,200);
+		p.popStyle();
+	}
+	
+	private void drawHelpText() {
+		p.pushStyle();
+		p.rectMode(PApplet.CENTER);
+		p.textAlign(PApplet.LEFT, PApplet.CENTER);
+		p.fill(120, 120, 20, 100);
+		p.noStroke();
+		p.rect(p.width/2, p.height/2, 540, 200);
+		p.fill(200,150);
+		p.text(noActivityString, p.width/2, p.height/2, 500,160);
+		p.popStyle();
+	}
+	
+	private void drawDeadText() {
+		p.pushStyle();
+		p.rectMode(PApplet.CENTER);
+		p.textAlign(PApplet.LEFT, PApplet.CENTER);
+		p.fill(120, 20, 20, 100);
+		p.noStroke();
+		p.rect(p.width/2, p.height/2, 540, 200);
+		p.fill(200,150);
+		p.text(deadCameraString, p.width/2, p.height/2, 500,160);
+		p.popStyle();
 	}
 	
 	

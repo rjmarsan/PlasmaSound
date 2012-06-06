@@ -67,6 +67,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	HashMap<String, MenuItem> settingsItems = new HashMap<String, MenuItem>();
 	
 	PowerManager.WakeLock wl;
+	Handler handler;
 
 	
 	boolean pdready = false;
@@ -87,6 +88,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		}
 	};
 	Runnable postreadyrunnable = null;
+	Runnable postresumerunnable = null;
 	
 	public int sketchWidth() { return this.screenWidth; }
 	public int sketchHeight() { return this.screenHeight; }
@@ -109,6 +111,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public void onCreate(final Bundle savedinstance) {
 		initStatics();
 		super.onCreate(savedinstance);
+		handler = new Handler();
 		PSND.readFromResources(this);
 		//runSequencer(false);
 		plzBeLandscape();
@@ -193,6 +196,27 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	    	actionBar.selectTab(actionBar.getTabAt(2 /*runCamera*/));
 	}
 	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+	    if (intent.getCategories().contains("android.intent.category.DESK_DOCK")) {
+			if (isHoneycombOrGreater)  {
+				
+				handler.post(new Runnable() {  public void run() {
+					if (getActionBar() == null) return;
+				    final ActionBar actionBar = getActionBar();
+				    actionBar.selectTab(actionBar.getTabAt(2 /*runCamera*/));
+				}});
+			}
+	    }
+	}
+	
+	@Override
+	public void onLowMemory() {
+		super.onLowMemory();
+		Log.d("PDActivity", "Running low on memory! ==========");
+	}
+	
 	public void setupSidebarList() {
 		View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);
 		View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
@@ -269,7 +293,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			removeTheremin(trans);
 			removeSequencer(trans);
 			addCamera(trans);
-			trans.commit();
+			//trans.commit();
+			trans.commitAllowingStateLoss();
 		}
 	}
 
@@ -471,9 +496,16 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		Log.d("PDActivity", "New configuation!");
 		plzBeLandscape();
 	}
 	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	    outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+	    super.onSaveInstanceState(outState);
+	}
+
 	public void plzBeLandscape() {
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -500,6 +532,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
     	super.onStop();
     	JSONPresets.getPresets().removeListener(this);
     	JSONSequencerPresets.getPresets().removeListener(this);
+		cameratab.destroyCameraUI(); //just to be safe.
 		if (frag != null) frag.background();
     }
     
@@ -512,9 +545,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	@Override
 	public void onDestroy() {
 		if (pdman != null) pdman.cleanup();
-		super.onDestroy();
 		if (frag != null) frag.destroy();
 		if (wl != null && wl.isHeld()) wl.release();
+		cameratab.destroyCameraUI(); //just to be safe.
+		super.onDestroy();
 	}
 	
 	@Override
@@ -537,6 +571,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		if (frag != null) {
 			frag.onResume();
 			frag.resume();
+		}
+		if (postresumerunnable != null) {
+			postresumerunnable.run();
+			postresumerunnable = null;
 		}
 	}
 
@@ -728,6 +766,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		runOnUiThread(new Runnable() { public void run() {
 			frag.destroy();
 			finish();
+			System.exit(0);
 		}});
 		return true;
 
