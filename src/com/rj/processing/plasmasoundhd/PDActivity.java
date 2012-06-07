@@ -532,7 +532,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
     	super.onStop();
     	JSONPresets.getPresets().removeListener(this);
     	JSONSequencerPresets.getPresets().removeListener(this);
-		cameratab.destroyCameraUI(); //just to be safe.
+		if (cameratab != null) cameratab.destroyCameraUI(); //just to be safe.
 		if (frag != null) frag.background();
     }
     
@@ -547,7 +547,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		if (pdman != null) pdman.cleanup();
 		if (frag != null) frag.destroy();
 		if (wl != null && wl.isHeld()) wl.release();
-		cameratab.destroyCameraUI(); //just to be safe.
+		if (cameratab != null) cameratab.destroyCameraUI(); //just to be safe.
 		super.onDestroy();
 	}
 	
