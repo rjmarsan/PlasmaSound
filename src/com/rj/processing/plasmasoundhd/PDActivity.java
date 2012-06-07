@@ -128,7 +128,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		sequencer = new SequencerActivity(this);
 		instrument = new PlasmaSound(this);
 		if (!isHoneycombOrGreater)  {
-			runTheremin(false,true);
+			runTheremin(true,true);
 		} else {
 			setupSidebarList();
 			cameratab = new CameraActivity(this); //honeycomb only at LEAST
