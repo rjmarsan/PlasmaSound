@@ -1,23 +1,40 @@
 package com.rj.processing.plasmasoundhd.pd.instruments;
 
 import java.util.HashMap;
-
-import android.util.Log;
+import java.util.LinkedList;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.Point;
 
 public class TouchAbstraction {
-
+    
+    public static final Point NULL_POINT = new Point(-10000,-10000);
+    public static final int SEQUENCER_OFFSET = -100000;
+    public static final int MOTION_OFFSET    = -200000;
+    public static final int MIDI_OFFSET      = -300000;
+    public static Cursor sequencerToCursorIndex(int index) {
+        return new Cursor(NULL_POINT, SEQUENCER_OFFSET + index);
+    }
+    public static Cursor motionToCursorIndex(int index) {
+        return new Cursor(NULL_POINT, MOTION_OFFSET + index);
+    }
+    public static Cursor midiToCursorIndex(int index) {
+        return new Cursor(NULL_POINT, MIDI_OFFSET + index);
+    }
+    
+    
 	public int max;
-	public int current = 0;
 	
 	public HashMap<Cursor, Integer>cursors = new HashMap<Cursor, Integer>();
+	public LinkedList<Integer> recentIndexes = new LinkedList<Integer>();
 	Cursor lastcur;
 	int lastindex;
 	
 	public TouchAbstraction(int max) {
 		this.max = max;
+		for (int i=1; i<=max; i++) {
+		    recentIndexes.add(i);
+		}
 	}
 	
 	
@@ -29,14 +46,30 @@ public class TouchAbstraction {
 		return false;
 	}
 	
+	public int findOpenIndex() {
+	    for (int i : recentIndexes) {
+	        if (!cursors.values().contains(i)) {
+	            return i;
+	        }
+	    }
+	    //crap. none of them are gone.
+	    //return the least recently used index.
+	    return recentIndexes.peekFirst();
+	}
+	public void useIndex(int index) {
+	    recentIndexes.remove(new Integer(index));
+	    recentIndexes.addLast(index);
+	}
+	
 	public int add(Cursor c) {
 		if (lastcur != null && isInRange(lastcur, c)) {
 			cursors.put(c, lastindex);
 			return lastindex;
 		}
-		current = (current + 1) % max;
-		cursors.put(c, current+1);
-		return current+1;
+		int index = findOpenIndex();
+		cursors.put(c, index);
+		useIndex(index);
+		return index;
 	}
 	public int move(Cursor c) {
 		if (!cursors.containsKey(c)) {
@@ -51,10 +84,12 @@ public class TouchAbstraction {
 			}
 			
 			
-			current = (current + 1) % max;
-			cursors.put(c, current+1);
-			return current;
+	        int index = findOpenIndex();
+	        cursors.put(c, index);
+	        useIndex(index);
+	        return index;
 		}
+		useIndex(cursors.get(c));
 		return cursors.get(c);
 	}
 	public int remove(Cursor c) {
@@ -70,6 +105,7 @@ public class TouchAbstraction {
 		cursors.clear();
 	}
 	
+
 	
 	
 }

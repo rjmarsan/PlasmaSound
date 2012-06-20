@@ -1,6 +1,7 @@
 package com.rj.processing.plasmasoundhd.sequencer;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,9 +13,11 @@ import android.content.SharedPreferences.Editor;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
+import com.rj.processing.plasmasoundhd.pd.instruments.TouchAbstraction;
 
 public class Sequencer {
 	public static final int MAJOR = 0;
@@ -40,7 +43,7 @@ public class Sequencer {
 	int[] pentatonic = {0, 3, 5, 7, 10};
 	int[] wholenotes = {0, 2, 4, 5, 7, 9, 11};
 	int[] halfnotes = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-	
+	HashMap<Integer,Cursor> cursorsForIndexes = new HashMap<Integer,Cursor>();
 	
 	public class SequenceThread extends Thread {
 		public boolean sequenceKeepRunning = true;
@@ -123,33 +126,43 @@ public class Sequencer {
 		
 		
 		
-		private void sendNoteOn(int i, int j, float val, int index) {
-			if (instrument == null) return;
-			
-			float note = getNote(j);
+        private void sendNoteOn(int i, int j, float val, int index) {
+            if (instrument == null)
+                return;
 
-			
-			float midiMin = instrument.midiMin;
-			float midiMax  = instrument.midiMax;
-			instrument.setMidiMin(0);
-			instrument.setMidiMax(127);
-			
-			
-			//Log.d("Sequencer", "NOTE ON: "+index);
-			instrument.touchDown(null, index+1, note, 127, 1-val, 1, null);
-			instrument.touchMove(null, index+1, note, 127, 1-val, 1, null);
-			
-			
-			instrument.setMidiMin(midiMin);
-			instrument.setMidiMax(midiMax);
+            float note = getNote(j);
 
-		}
+            float midiMin = instrument.midiMin;
+            float midiMax = instrument.midiMax;
+            instrument.setMidiMin(0);
+            instrument.setMidiMax(127);
+
+            Cursor c = TouchAbstraction.sequencerToCursorIndex(index);
+            if (cursorsForIndexes.containsKey(index)) {
+                c = cursorsForIndexes.get(index);
+            } else {
+                cursorsForIndexes.put(index, c);
+            }
+            // Log.d("Sequencer", "NOTE ON: "+index);
+            instrument.touchDown(null, index + 1, note, 127, 1 - val, 1, c);
+            instrument.touchMove(null, index + 1, note, 127, 1 - val, 1, c);
+
+            instrument.setMidiMin(midiMin);
+            instrument.setMidiMax(midiMax);
+
+        }
 		
 		private void sendNoteOff(int i, int j, float val, int index) {
 			if (instrument == null) return;
 			float note = getNote(j);
 			//Log.d("Sequencer", "NOTE OFF: "+index);
-			instrument.touchUp(null, index+1, note, 127, 0.72f, 1, null);
+            Cursor c = TouchAbstraction.sequencerToCursorIndex(index);
+            if (cursorsForIndexes.containsKey(index)) {
+                c = cursorsForIndexes.get(index);
+            } else {
+                cursorsForIndexes.put(index, c);
+            }
+			instrument.touchUp(null, index+1, note, 127, 0.72f, 1, c);
 		}
 		
 	}
