@@ -2,9 +2,7 @@ package com.rj.processing.plasmasoundhd.pd.effects;
 
 import java.util.HashMap;
 
-import android.view.MotionEvent;
-
-import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasoundhd.pd.Note;
 import com.rj.processing.plasmasoundhd.pd.instruments.PSND;
 import com.rj.processing.plasmasoundhd.pd.instruments.Parameter;
 
@@ -52,15 +50,15 @@ public  class Volume extends Effect {
 
 
 	@Override
-	public void touchDown(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
-		super.touchDown(me, index, x, y, c);
+	public void noteOn(Note note, int index) {
+		super.noteOn(note, index);
 		on.pushValue(1,index);
 		setVolume(1);
 	}
  	
 	@Override
-	public void touchUp(final MotionEvent me, final int index, final float x, final float y, final Cursor c) {
-		super.touchUp(me, index, x, y, c);
+	public void noteOff(Note note, int index) {
+		super.noteOff(note, index);
 		off.pushValue(1, index);
 		//amp.pushValue(0, index);
 	}

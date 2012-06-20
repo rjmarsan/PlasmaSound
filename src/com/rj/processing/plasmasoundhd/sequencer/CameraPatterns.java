@@ -15,12 +15,13 @@ import android.util.Log;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.PDActivity;
+import com.rj.processing.plasmasoundhd.pd.Note;
+import com.rj.processing.plasmasoundhd.pd.NoteInputSource;
 import com.rj.processing.plasmasoundhd.pd.effects.MotionStuff;
-import com.rj.processing.plasmasoundhd.pd.effects.SequencerStuff;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 import com.rj.processing.plasmasoundhd.pd.instruments.TouchAbstraction;
 
-public class CameraPatterns {
+public class CameraPatterns extends NoteInputSource {
 	public static final int MAJOR = 0;
 	public static final int MINOR = 1;
 	public static final int PENTATONIC = 2;
@@ -138,15 +139,10 @@ public class CameraPatterns {
 			instrument.setMidiMin(0);
 			instrument.setMidiMax(127);
 			
-            Cursor c = TouchAbstraction.sequencerToCursorIndex(index);
-            if (cursorsForIndexes.containsKey(index)) {
-                c = cursorsForIndexes.get(index);
-            } else {
-                cursorsForIndexes.put(index, c);
-            }
+            Note n = new Note(index, note, 1-val, CameraPatterns.this);
 			//Log.d("Sequencer", "NOTE ON: "+index);
-			instrument.touchDown(null, index+1, note, 127, 1-val, 1, c);
-			instrument.touchMove(null, index+1, note, 127, 1-val, 1, c);
+			instrument.noteOn(n);
+			instrument.noteUpdated(n);
 			
 			
 			instrument.setMidiMin(midiMin);
@@ -158,13 +154,8 @@ public class CameraPatterns {
 			if (instrument == null) return;
 			float note = getNote(j);
 			//Log.d("Sequencer", "NOTE Sequencer.OFF: "+index);
-            Cursor c = TouchAbstraction.sequencerToCursorIndex(index);
-            if (cursorsForIndexes.containsKey(index)) {
-                c = cursorsForIndexes.get(index);
-            } else {
-                cursorsForIndexes.put(index, c);
-            }
-			instrument.touchUp(null, index+1, note, 127, 0.72f, 1, c);
+            Note n = new Note(index, note, 1-val, CameraPatterns.this);
+			instrument.noteOff(n);
 		}
 		
 	}
@@ -337,5 +328,17 @@ public class CameraPatterns {
 	public void setMode(int mode) {
 		this.mode = mode;
 	}
+
+
+    @Override
+    public String getName() {
+        return "Camera Patterns";
+    }
+
+
+    @Override
+    public boolean isConnected() {
+        return true;
+    }
 
 }

@@ -8,10 +8,8 @@ import org.json.JSONObject;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
-import android.view.MotionEvent;
 
-import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasoundhd.pd.Note;
 import com.rj.processing.plasmasoundhd.pd.instruments.Parameter;
 
 public abstract class Effect {
@@ -31,29 +29,26 @@ public abstract class Effect {
 	public void initEffect() {
 	}
 
-	public void touchUp(final MotionEvent me, final int index, final float x,
-			final float y, final Cursor c) {
+	public void noteOff(Note note, int index) {
 		if (yenabled && enabled && index <= MAX_INDEX) {
 			for (final String effect : yenabledlist) {
 				final Parameter p = params.get(effect);
 				//p.pushValueNaive(0, index);
-				p.pushValueNaive(1 - y, index); //let's give it a shot.  I think this was only made so the volume would ramp down
+				p.pushValueNaive(1 - note.velocity, index); //let's give it a shot.  I think this was only made so the volume would ramp down
 			}
 		}
 	}
 
-	public void touchMove(final MotionEvent me, final int index, final float x,
-			final float y, final Cursor c) {
+	public void noteUpdated(Note note, int index) {
 		if (yenabled && enabled && index <= MAX_INDEX) {
 			for (final String effect : yenabledlist) {
 				final Parameter p = params.get(effect);
-				p.pushValueNaive(1 - y, index);
+				p.pushValueNaive(1 - note.velocity, index);
 			}
 		}
 	}
 
-	public void touchDown(final MotionEvent me, final int index, final float x,
-			final float y, final Cursor c) {
+	public void noteOn(Note note, int index) {
 		for (final Parameter param : params.values()) {
 			// if (!param.isGlobal())
 			param.pushDefaultNaive(index);
@@ -61,7 +56,7 @@ public abstract class Effect {
 		if (yenabled && enabled && index <= MAX_INDEX) {
 			for (final String effect : yenabledlist) {
 				final Parameter p = params.get(effect);
-				p.pushValueNaive(1 - y, index);
+				p.pushValueNaive(1 - note.velocity, index);
 			}
 		}
 	}

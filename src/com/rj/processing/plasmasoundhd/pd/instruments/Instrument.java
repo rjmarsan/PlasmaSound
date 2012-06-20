@@ -9,10 +9,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
-import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.Launcher;
+import com.rj.processing.plasmasoundhd.pd.Note;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.effects.ASDR;
 import com.rj.processing.plasmasoundhd.pd.effects.Delay;
@@ -84,50 +84,34 @@ public class Instrument {
 	public void initInstrument() {
 		patch = p.openPatch(patchName);
 	}
+
+	public void noteOff(Note note) {
+	    int index = touchabs.remove(note);
+        if (ready && index <= MAX_INDEX) {
+            for (final Effect e : effects) {
+                e.noteOff(note, index);
+            }
+        }
+	}
 	
-	public void touchUp(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
-		//Log.d("Instrument", "TOUCH UP!!!!!! : "+c.curId+" index:"+index);
-		x=x/width;
-		y=y/height;
-		//index ++;
-		if (c != null)
-			index = touchabs.remove(c);
-		//Log.d("Instrument", "TOUCH UP!!!!!! : new index:"+index);
-		if (ready && index <= MAX_INDEX) {
-			for (final Effect e : effects) {
-				//e.touchUp(me, index, x, 0, c); //the only reason I did this was to have the volume ramp down properly which I think is fixed anyway
-				e.touchUp(me, index, x, y, c); 
-			}
-		}
-	}
-	public void touchMove(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
-		//Log.d("Instrument", "TOUCH MOVE!!!!!!: "+c.curId+" index:"+index);
-		x=x/width;
-		y=y/height;
-		//index ++;
-		if (c != null)
-			index = touchabs.move(c);
-		//Log.d("Instrument", "TOUCH MOVE!!!!!!: new index:"+index);
-		if (ready && index <= MAX_INDEX) {
-			setPitch(x, index, c, width);
-			for (final Effect e : effects) {
-				e.touchMove(me, index, x, y, c);
-			}
-		}
-	}
-	public void touchDown(final MotionEvent me, int index, float x, final float width, float y, final float height, final Cursor c) {
-		//Log.d("Instrument", "TOUCH DOWN!!!!!!: "+c.curId+" index:"+index);
-		x=x/width;
-		y=y/height;
-		//index ++;
-		if (c != null)
-			index = touchabs.add(c);
+    public void noteUpdated(Note note) {
+        int index = touchabs.move(note);
+        if (ready && index <= MAX_INDEX) {
+            setPitch(note, index);
+            for (final Effect e : effects) {
+                e.noteUpdated(note, index);
+            }
+        }
+    }
+	
+	public void noteOn(Note note) {
+	    int index = touchabs.add(note);
 		//Log.d("Instrument", "TOUCH DOWN!!!!!!: new index:"+index);
 		if (ready && index <= MAX_INDEX) {
 			setVolume(1);
-			setPitch(x, index, c, width);
+			setPitch(note, index);
 			for (final Effect e : effects) {
-				e.touchDown(me, index, x, y, c);
+				e.noteOn(note, index);
 			}
 		}
 	}
@@ -165,19 +149,19 @@ public class Instrument {
 	}
 	
 	public void setPitch(final float val) {
-		float pitch = midiMin + ((val+(1/(2*midiMax-2*midiMin))) * (midiMax-midiMin));
-		if (quantize != NCONTINUOUS)
-			pitch = (float)Math.floor(pitch);
-		sendMessage("pitch", pitch);
+//		float pitch = midiMin + ((val+(1/(2*midiMax-2*midiMin))) * (midiMax-midiMin));
+//		if (quantize != NCONTINUOUS)
+//			pitch = (float)Math.floor(pitch);
+		sendMessage("pitch", val);
 	}
-	public void setPitch(final float val,final int index,final Cursor c, final float width) {
-		float pitch = midiMin + (val * (midiMax-midiMin));
-		if (quantize != NCONTINUOUS) {
-			if (quantize == NQUANTIZE || isCursorSnapped(c, width)) {
-				pitch = (float)Math.round(pitch); //too close! round!
-			} 
-		}
-		sendMessage("pitch", pitch, index);
+	public void setPitch(Note note, int index) {
+//		float pitch = midiMin + (val * (midiMax-midiMin));
+//		if (quantize != NCONTINUOUS) {
+//			if (quantize == NQUANTIZE || isCursorSnapped(c, width)) {
+//				pitch = (float)Math.round(pitch); //too close! round!
+//			} 
+//		}
+		sendMessage("pitch", note.midivalue, index);
 	}
 	public boolean isCursorSnapped(final Cursor c, final float width) {
 		if (c == null) return false;

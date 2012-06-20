@@ -35,6 +35,7 @@ import android.view.ViewGroup.LayoutParams;
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.MTManager;
 import com.rj.processing.mt.TouchListener;
+import com.rj.processing.plasmasoundhd.pd.NoteInputManager;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
@@ -57,6 +58,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	public PDManager pdman;
 	public Instrument inst;
+	public NoteInputManager noteManager;
 	public PlasmaSubFragment frag;
 	public SequencerActivity sequencer;
 	public CameraActivity cameratab;
@@ -360,6 +362,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			Log.v("PlasmaSoundSetup", "launching pd");
 		    pdready = false;
 		    pdman.onResume();
+		    
+		    noteManager = new NoteInputManager();
 		    
 			Log.v("PlasmaSoundSetup", "Starting instrument");
 		    //Make the Instrument
@@ -838,24 +842,6 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		//Log.d("ReadSettings", "Called with inst being all good");
     	inst.updateSettings(this, mPrefs);
     }
-
-    
-    
-
-
-    
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//		try {
-//			//Log.d("PDActivity", "Destroying! saving!!!");
-//			JSONPresets.getPresets().savePreset(this, inst);
-//			JSONSequencerPresets.getPresets().savePreset(this, sequencer.sequencer);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//    	super.onSaveInstanceState(outState);
-//    }
-    
 
     
 	@Override
