@@ -1,18 +1,18 @@
 package com.rj.processing.plasmasoundhd.visuals;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PImage;
 import android.view.MotionEvent;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.PlasmaActivity;
+import com.rj.processing.plasmasoundhd.PlasmaSound;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 
 public class Grid extends Visual{
 	private final float crosshair_size = 100;
 	private final static int NUM_DASHES = 9;
 	PlasmaActivity pp;
+	PlasmaSound keyboard;
 	//PImage dashed;
 //	PGraphics cache;
 //	PImage cacheImage;
@@ -20,9 +20,10 @@ public class Grid extends Visual{
 	float midiMin;
 	
 	
-	public Grid(final PApplet p, PlasmaActivity pp) {
+	public Grid(final PApplet p, PlasmaActivity pp, PlasmaSound keyboard) {
 		super(p);
 		this.pp = pp;
+		this.keyboard = keyboard;
 		//dashed = p.loadImage("dashed.png");
 	}
 
@@ -66,7 +67,7 @@ public class Grid extends Visual{
 				p.fill(255,0,0,50);
 				for (final Cursor c : pp.getMTManager().cursors) {
 					if (c != null && c.currentPoint != null) {
-						if (quantize == Instrument.NQUANTIZE || pp.getInst().isCursorSnapped(c,width)) {
+						if (quantize == Instrument.NQUANTIZE || keyboard.isCursorSnapped(c,width,pp.getInst())) {
 							final float x = c.currentPoint.x+spacing/2;
 							final int s = (int) (x/spacing);
 							p.rect(spacing*s-spacing/2f, 0, spacing, p.height);

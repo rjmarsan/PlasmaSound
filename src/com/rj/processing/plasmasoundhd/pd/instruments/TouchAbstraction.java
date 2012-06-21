@@ -39,6 +39,7 @@ public class TouchAbstraction {
 	
 	
 	public boolean isInRange(Note c, Note c2) {
+	    if (1==1) return false; //TODO FIX THIS
 		if (Note.distance(c, c2) < 30f) {
 			if (Math.abs(c.lastUpdate - c2.lastUpdate) < 1000L)
 				return true;

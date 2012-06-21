@@ -16,12 +16,13 @@ import android.util.Log;
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.pd.Note;
+import com.rj.processing.plasmasoundhd.pd.NoteInputManager;
 import com.rj.processing.plasmasoundhd.pd.NoteInputSource;
 import com.rj.processing.plasmasoundhd.pd.effects.MotionStuff;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 import com.rj.processing.plasmasoundhd.pd.instruments.TouchAbstraction;
 
-public class CameraPatterns extends NoteInputSource {
+public class CameraPatterns implements NoteInputSource {
 	public static final int MAJOR = 0;
 	public static final int MINOR = 1;
 	public static final int PENTATONIC = 2;
@@ -134,19 +135,11 @@ public class CameraPatterns extends NoteInputSource {
 			float note = getNote(j);
 
 			
-			float midiMin = instrument.midiMin;
-			float midiMax  = instrument.midiMax;
-			instrument.setMidiMin(0);
-			instrument.setMidiMax(127);
-			
             Note n = new Note(index, note, 1-val, CameraPatterns.this);
 			//Log.d("Sequencer", "NOTE ON: "+index);
 			instrument.noteOn(n);
 			instrument.noteUpdated(n);
 			
-			
-			instrument.setMidiMin(midiMin);
-			instrument.setMidiMax(midiMax);
 
 		}
 		
@@ -339,6 +332,11 @@ public class CameraPatterns extends NoteInputSource {
     @Override
     public boolean isConnected() {
         return true;
+    }
+
+
+    @Override
+    public void setManager(NoteInputManager manager) {        
     }
 
 }

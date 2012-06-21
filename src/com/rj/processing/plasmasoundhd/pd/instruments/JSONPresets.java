@@ -23,13 +23,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
 import android.widget.EditText;
 
-import com.rj.processing.plasmasound.PlasmaSound;
-import com.rj.processing.plasmasoundhd.R;
 import com.rj.processing.plasmasoundhd.PDActivity;
 import com.rj.processing.plasmasoundhd.PlasmaActivity;
+import com.rj.processing.plasmasoundhd.PlasmaSound;
+import com.rj.processing.plasmasoundhd.R;
 
 public class JSONPresets {
 	public static String PRESETS = "PRESETS";
@@ -110,7 +109,7 @@ public class JSONPresets {
 //					"reverbfeedback", "delaytime", "volume", "attack",
 //					"release", "amp", "filter", "decay" };
 			final SharedPreferences mPrefs = c.getSharedPreferences(
-					PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+					PDActivity.SHARED_PREFERENCES_AUDIO, 0);
 			Map<String,?> mapping = mPrefs.getAll();
 			for (String key : mapping.keySet()) {
 				obj.put(key, mapping.get(key));
@@ -244,7 +243,7 @@ public class JSONPresets {
 		if (jpreset == null) return null;
 		currentsetting = jpreset;
 		final SharedPreferences mPrefs = c.getSharedPreferences(
-				PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+				PDActivity.SHARED_PREFERENCES_AUDIO, 0);
 		e.updateSettingsFromJSON(jpreset, true, mPrefs);
 		this.notifyListeners(jpreset);
 		return jpreset;
@@ -254,7 +253,7 @@ public class JSONPresets {
 		JSONObject jpreset = getPresetFromName(preset, c);
 		currentsetting = jpreset;
 		final SharedPreferences mPrefs = c.getSharedPreferences(
-				PlasmaSound.SHARED_PREFERENCES_AUDIO, 0);
+				PDActivity.SHARED_PREFERENCES_AUDIO, 0);
 		e.updateSettingsFromJSON(jpreset, true, mPrefs);
 		this.notifyListeners(jpreset);
 		updateDefault(c);

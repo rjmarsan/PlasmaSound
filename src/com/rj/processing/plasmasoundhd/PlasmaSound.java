@@ -5,13 +5,17 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasoundhd.pd.Note;
+import com.rj.processing.plasmasoundhd.pd.NoteInputManager;
+import com.rj.processing.plasmasoundhd.pd.NoteInputSource;
+import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
 import com.rj.processing.plasmasoundhd.visuals.CameraVis;
 import com.rj.processing.plasmasoundhd.visuals.Grid;
 import com.rj.processing.plasmasoundhd.visuals.PlasmaFluid;
 
 
-public class PlasmaSound extends PlasmaSubFragment {
+public class PlasmaSound extends PlasmaSubFragment implements NoteInputSource {
 	public static String TAG = "PlasmaSound";
 	
 	public PlasmaSound() {
@@ -48,7 +52,7 @@ public class PlasmaSound extends PlasmaSubFragment {
 	    //VISUALS CODE
 	    vis = new Visualization(p);
 	    vis.addVisual(new PlasmaFluid(p, p)); 
-	    vis.addVisual(new Grid(p, p)); 
+	    vis.addVisual(new Grid(p, p, this)); 
 	    vis.addVisual(new AudioStats(p, p)); 
 	    vis.addVisual(new CameraVis(p, p));
 	    settingup = false;
@@ -67,22 +71,61 @@ public class PlasmaSound extends PlasmaSubFragment {
 	}
 	@Override
 	public void touchDown(final Cursor c) {
-		if (p.inst!=null) p.inst.touchDown(null, c.curId, c.currentPoint.x, p.width, c.currentPoint.y, p.height, c);
+	    if (p.inst != null) {
+    	    float pitch = getPitch(c, c.currentPoint.x, p.width, p.inst);
+    	    Note note = new Note(c.curId, pitch, c.currentPoint.y/p.height, this);
+    	    p.inst.noteOn(note);
+	    }
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 		
 	}
 	@Override
 	public void touchMoved(final Cursor c) {
-		if (p.inst!=null) p.inst.touchMove(null, c.curId, c.currentPoint.x, p.width, c.currentPoint.y, p.height, c);
+       if (p.inst != null) {
+            float pitch = getPitch(c, c.currentPoint.x, p.width, p.inst);
+            Note note = new Note(c.curId, pitch, c.currentPoint.y/p.height, this);
+            p.inst.noteUpdated(note);
+            //if (p.inst!=null) p.inst.touchMove(null, c.curId, c.currentPoint.x, p.width, c.currentPoint.y, p.height, c);
+        }
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	
 	}
 	@Override
 	public void touchUp(final Cursor c) {
-		if (p.inst!=null) p.inst.touchUp(null, c.curId, c.currentPoint.x, p.width, c.currentPoint.y, p.height, c);
+        if (p.inst != null) {
+            float pitch = getPitch(c, c.currentPoint.x, p.width, p.inst);
+            Note note = new Note(c.curId, pitch, c.currentPoint.y/p.height, this);
+            p.inst.noteOff(note);
+        }
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	}
 	
+	
+	
+
+    public float getPitch(Cursor c, float x, float width, Instrument inst) {
+        float val = x/width;
+        float pitch = inst.midiMin + (val * (inst.midiMax - inst.midiMin));
+        if (inst.quantize != Instrument.NCONTINUOUS) {
+            if (inst.quantize == Instrument.NQUANTIZE || isCursorSnapped(c, width, inst)) {
+                pitch = (float) Math.round(pitch); // too close! round!
+            }
+        }
+        return pitch;
+    }
+
+    public boolean isCursorSnapped(final Cursor c, final float width, Instrument inst) {
+        if (c == null)
+            return false;
+        final float spacing = (inst.midiMax - inst.midiMin) / width;
+        final int firstClosestX = Math.round((c.firstPoint.x) * spacing);
+        final int lastClosestX = Math.round((c.currentPoint.x) * spacing);
+        if (firstClosestX == lastClosestX) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 	
 	
 	@Override
@@ -96,6 +139,21 @@ public class PlasmaSound extends PlasmaSubFragment {
 		}
 	
 	}
+    @Override
+    public void setManager(NoteInputManager manager) {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public String getName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public boolean isConnected() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 	
 	
 	

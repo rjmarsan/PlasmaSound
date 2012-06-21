@@ -31,7 +31,9 @@ public class Instrument {
 	
 	
 	public static int MAX_INDEX;
-	
+    public static int NCONTINUOUS = 0;
+    public static int NQUANTIZE = 1;
+    public static int NSLIDE = 2;
 	
 	final private ArrayList<Effect> effects = new ArrayList<Effect>();
 	final private Volume volume;
@@ -46,9 +48,6 @@ public class Instrument {
 	public int visualQuality;
 	public float midiMax = 127;
 	public float waveform = 1;
-	public static int NCONTINUOUS = 0;
-	public static int NQUANTIZE = 1;
-	public static int NSLIDE = 2;
 	public int quantize = NCONTINUOUS;
 	public String quantval;
 
@@ -149,31 +148,10 @@ public class Instrument {
 	}
 	
 	public void setPitch(final float val) {
-//		float pitch = midiMin + ((val+(1/(2*midiMax-2*midiMin))) * (midiMax-midiMin));
-//		if (quantize != NCONTINUOUS)
-//			pitch = (float)Math.floor(pitch);
 		sendMessage("pitch", val);
 	}
 	public void setPitch(Note note, int index) {
-//		float pitch = midiMin + (val * (midiMax-midiMin));
-//		if (quantize != NCONTINUOUS) {
-//			if (quantize == NQUANTIZE || isCursorSnapped(c, width)) {
-//				pitch = (float)Math.round(pitch); //too close! round!
-//			} 
-//		}
 		sendMessage("pitch", note.midivalue, index);
-	}
-	public boolean isCursorSnapped(final Cursor c, final float width) {
-		if (c == null) return false;
-		final float spacing = (midiMax-midiMin)/width;
-		final int firstClosestX = Math.round((c.firstPoint.x) * spacing);
-		final int lastClosestX = Math.round((c.currentPoint.x) * spacing);
-		if (firstClosestX == lastClosestX) {
-			return true;
-		}
-		else {
-			return false;
-		}
 	}
 	
 	public void setVolume(final float amp) {
