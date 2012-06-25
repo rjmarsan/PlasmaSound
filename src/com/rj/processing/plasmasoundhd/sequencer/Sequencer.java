@@ -39,6 +39,7 @@ public class Sequencer implements NoteInputSource {
 	public int mode = MAJOR; /** MAJOR or MINOR, etc **/
 	public SequenceThread sequenceThread;
 	public int currentRow = -1;
+	public NoteInputManager manager;
 	
 	
 	int[] majorscale = {0, 4, 7};
@@ -116,7 +117,7 @@ public class Sequencer implements NoteInputSource {
 	
 					}
 				}
-				if (instrument != null) instrument.allUp();
+                if (manager != null) manager.clear(Sequencer.this);
 				currentRow = -1;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -129,25 +130,19 @@ public class Sequencer implements NoteInputSource {
 		
 		
         private void sendNoteOn(int i, int j, float val, int index) {
-            if (instrument == null)
-                return;
-
             float note = getNote(j);
-
-
-            Note n = new Note(index, note, 1-val, Sequencer.this);
+            Note n = new Note(index, Note.PRIMARY_NOTE, note, val, Sequencer.this);
             // Log.d("Sequencer", "NOTE ON: "+index);
-            instrument.noteOn(n);
-            instrument.noteUpdated(n);
+            if (manager != null) manager.noteOn(n);
+            if (manager != null) manager.noteUpdated(n);
 
         }
 		
 		private void sendNoteOff(int i, int j, float val, int index) {
-			if (instrument == null) return;
 			float note = getNote(j);
 			//Log.d("Sequencer", "NOTE OFF: "+index);
-            Note n = new Note(index, note, 1-val, Sequencer.this);
-			instrument.noteOff(n);
+            Note n = new Note(index, Note.PRIMARY_NOTE, note, val, Sequencer.this);
+            if (manager != null) manager.noteOff(n);
 		}
 		
 	}
@@ -336,7 +331,7 @@ public class Sequencer implements NoteInputSource {
 
     @Override
     public void setManager(NoteInputManager manager) {
-        
+        this.manager = manager;
     }
 
 }

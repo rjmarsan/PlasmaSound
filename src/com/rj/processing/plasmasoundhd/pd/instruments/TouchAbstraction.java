@@ -48,18 +48,22 @@ public class TouchAbstraction {
 	}
 	
 	public int findOpenIndex() {
-	    for (int i : recentIndexes) {
-	        if (!notemap.values().contains(i)) {
-	            return i;
-	        }
+	    synchronized (recentIndexes) {
+    	    for (int i : recentIndexes) {
+    	        if (!notemap.values().contains(i)) {
+    	            return i;
+    	        }
+    	    }
+    	    //crap. none of them are gone.
+    	    //return the least recently used index.
+    	    return recentIndexes.peekFirst();
 	    }
-	    //crap. none of them are gone.
-	    //return the least recently used index.
-	    return recentIndexes.peekFirst();
 	}
 	public void useIndex(int index) {
-	    recentIndexes.remove(new Integer(index));
-	    recentIndexes.addLast(index);
+	    synchronized (recentIndexes) {
+	        recentIndexes.remove(new Integer(index));
+	        recentIndexes.addLast(index);
+	    }
 	}
 	
 	public int add(Note c) {

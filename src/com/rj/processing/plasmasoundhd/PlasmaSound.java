@@ -18,18 +18,21 @@ import com.rj.processing.plasmasoundhd.visuals.PlasmaFluid;
 public class PlasmaSound extends PlasmaSubFragment implements NoteInputSource {
 	public static String TAG = "PlasmaSound";
 	
+	private NoteInputManager noteManager;
+	
 	public PlasmaSound() {
 		//ewww
 	}
 	public PlasmaSound(PDActivity p) {
 		super(p);
-		// TODO Auto-generated constructor stub
+	    grid = new Grid(p, p, this);
 	}
 	
 
 
 	public Visualization vis;
 	boolean settingup = false;
+	Grid grid;
 
 	@Override
 	int getMenu() { return com.rj.processing.plasmasoundhd.R.menu.main_menu; }
@@ -49,10 +52,11 @@ public class PlasmaSound extends PlasmaSubFragment implements NoteInputSource {
 			Thread.dumpStack();
 		}
 		settingup = true;
+		p.noteManager.addInputSource(this);
 	    //VISUALS CODE
 	    vis = new Visualization(p);
 	    vis.addVisual(new PlasmaFluid(p, p)); 
-	    vis.addVisual(new Grid(p, p, this)); 
+	    vis.addVisual(grid); 
 	    vis.addVisual(new AudioStats(p, p)); 
 	    vis.addVisual(new CameraVis(p, p));
 	    settingup = false;
@@ -67,14 +71,16 @@ public class PlasmaSound extends PlasmaSubFragment implements NoteInputSource {
 	@Override
 	public void touchAllUp(final Cursor c) {
 		if (p.inst!=null) p.inst.allUp();
+		if (noteManager != null) noteManager.clear(this);
 		
 	}
 	@Override
 	public void touchDown(final Cursor c) {
 	    if (p.inst != null) {
     	    float pitch = getPitch(c, c.currentPoint.x, p.width, p.inst);
-    	    Note note = new Note(c.curId, pitch, c.currentPoint.y/p.height, this);
-    	    p.inst.noteOn(note);
+    	    Note note = new Note(c.curId, Note.PRIMARY_NOTE, pitch, 1-c.currentPoint.y/p.height, this);
+    	    note.data = c;
+            if (noteManager != null) noteManager.noteOn(note);
 	    }
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 		
@@ -83,8 +89,9 @@ public class PlasmaSound extends PlasmaSubFragment implements NoteInputSource {
 	public void touchMoved(final Cursor c) {
        if (p.inst != null) {
             float pitch = getPitch(c, c.currentPoint.x, p.width, p.inst);
-            Note note = new Note(c.curId, pitch, c.currentPoint.y/p.height, this);
-            p.inst.noteUpdated(note);
+            Note note = new Note(c.curId, Note.PRIMARY_NOTE, pitch, 1-c.currentPoint.y/p.height, this);
+            note.data = c;
+            if (noteManager != null) noteManager.noteUpdated(note);
             //if (p.inst!=null) p.inst.touchMove(null, c.curId, c.currentPoint.x, p.width, c.currentPoint.y, p.height, c);
         }
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
@@ -94,8 +101,9 @@ public class PlasmaSound extends PlasmaSubFragment implements NoteInputSource {
 	public void touchUp(final Cursor c) {
         if (p.inst != null) {
             float pitch = getPitch(c, c.currentPoint.x, p.width, p.inst);
-            Note note = new Note(c.curId, pitch, c.currentPoint.y/p.height, this);
-            p.inst.noteOff(note);
+            Note note = new Note(c.curId, Note.PRIMARY_NOTE, pitch, 1-c.currentPoint.y/p.height, this);
+            note.data = c;
+            if (noteManager != null) noteManager.noteOff(note);  //p.inst.noteOff(note);
         }
 		if (vis!=null) vis.touchEvent(null, c.curId, c.currentPoint.x, c.currentPoint.y, c.velX, c.velY, 0f, c);
 	}
@@ -141,8 +149,8 @@ public class PlasmaSound extends PlasmaSubFragment implements NoteInputSource {
 	}
     @Override
     public void setManager(NoteInputManager manager) {
-        // TODO Auto-generated method stub
-        
+        this.noteManager = manager;
+        grid.setNoteManager(manager);
     }
     @Override
     public String getName() {
@@ -154,8 +162,7 @@ public class PlasmaSound extends PlasmaSubFragment implements NoteInputSource {
         // TODO Auto-generated method stub
         return false;
     }
-	
-	
+
 	
 	
 

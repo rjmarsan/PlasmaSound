@@ -95,6 +95,7 @@ public class CameraActivity extends PlasmaSubFragment implements Camera.PreviewC
 	    stats = new AudioStats(p, p); 
 		if (sequencer == null) {
 			sequencer = new CameraPatterns(p.inst, 16, 10, 120);
+	        p.noteManager.addInputSource(sequencer);
 			updateSequencer();
 			resetDescriptionTimer();
 			//JSONSequencerPresets.getPresets().loadDefault(p, sequencer);

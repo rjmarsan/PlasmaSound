@@ -36,6 +36,7 @@ import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.MTManager;
 import com.rj.processing.mt.TouchListener;
 import com.rj.processing.plasmasoundhd.pd.NoteInputManager;
+import com.rj.processing.plasmasoundhd.pd.OSCNoteInputSource;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.instruments.Instrument;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
@@ -63,6 +64,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	public SequencerActivity sequencer;
 	public CameraActivity cameratab;
 	public PlasmaSound instrument;
+	public OSCNoteInputSource oscIn;
 	
 	ArrayList<View> sideviews = new ArrayList<View>();
 	
@@ -127,15 +129,24 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		}
 		hideBoth();
-		sequencer = new SequencerActivity(this);
-		instrument = new PlasmaSound(this);
+		initFragments();
 		if (!isHoneycombOrGreater)  {
 			runTheremin(true,true);
 		} else {
 			setupSidebarList();
-			cameratab = new CameraActivity(this); //honeycomb only at LEAST
 			setupActionbar(getIntent());
 		}
+	}
+	
+	public void initFragments() {
+        noteManager = new NoteInputManager();
+        oscIn = new OSCNoteInputSource(6456);
+        noteManager.addInputSource(oscIn);
+        sequencer = new SequencerActivity(this);
+        instrument = new PlasmaSound(this);
+        if (isHoneycombOrGreater)  {
+            cameratab = new CameraActivity(this); //honeycomb only at LEAST
+        }
 	}
 	
 	
@@ -363,11 +374,12 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		    pdready = false;
 		    pdman.onResume();
 		    
-		    noteManager = new NoteInputManager();
 		    
 			Log.v("PlasmaSoundSetup", "Starting instrument");
 		    //Make the Instrument
+			if (inst != null) noteManager.unregisterListener(inst);
 		    inst = new Instrument(pdman);
+		    noteManager.registerListener(inst);
 			Log.v("PlasmaSoundSetup", "setting instrument patch");
 		    inst.setPatch(PATCH_PATH);
 		    inst.setMidiMin(70);

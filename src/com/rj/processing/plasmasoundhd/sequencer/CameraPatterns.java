@@ -38,7 +38,8 @@ public class CameraPatterns implements NoteInputSource {
 	public int mode = MAJOR; /** MAJOR or MINOR, etc **/
 	public SequenceThread sequenceThread;
 	public int currentRow = -1;
-	
+    public NoteInputManager manager;
+
 	
 	int[] majorscale = {0, 4, 7};
 	int[] minorscale = {0, 3, 7};
@@ -117,7 +118,7 @@ public class CameraPatterns implements NoteInputSource {
 	
 					}
 				}
-				if (instrument != null) instrument.allUp();
+                if (manager != null) manager.clear(CameraPatterns.this);
 				currentRow = -1;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -135,10 +136,10 @@ public class CameraPatterns implements NoteInputSource {
 			float note = getNote(j);
 
 			
-            Note n = new Note(index, note, 1-val, CameraPatterns.this);
+            Note n = new Note(index, Note.PRIMARY_NOTE, note, val, CameraPatterns.this);
 			//Log.d("Sequencer", "NOTE ON: "+index);
-			instrument.noteOn(n);
-			instrument.noteUpdated(n);
+            if (manager != null) manager.noteOn(n);
+            if (manager != null) manager.noteUpdated(n);
 			
 
 		}
@@ -147,8 +148,8 @@ public class CameraPatterns implements NoteInputSource {
 			if (instrument == null) return;
 			float note = getNote(j);
 			//Log.d("Sequencer", "NOTE Sequencer.OFF: "+index);
-            Note n = new Note(index, note, 1-val, CameraPatterns.this);
-			instrument.noteOff(n);
+            Note n = new Note(index, Note.PRIMARY_NOTE, note, val, CameraPatterns.this);
+            if (manager != null) manager.noteOff(n);
 		}
 		
 	}
@@ -336,7 +337,8 @@ public class CameraPatterns implements NoteInputSource {
 
 
     @Override
-    public void setManager(NoteInputManager manager) {        
+    public void setManager(NoteInputManager manager) {
+        this.manager = manager;
     }
 
 }

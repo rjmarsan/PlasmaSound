@@ -10,9 +10,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-import com.rj.processing.mt.Cursor;
 import com.rj.processing.plasmasoundhd.Launcher;
 import com.rj.processing.plasmasoundhd.pd.Note;
+import com.rj.processing.plasmasoundhd.pd.NoteInputListener;
+import com.rj.processing.plasmasoundhd.pd.NoteInputManager;
+import com.rj.processing.plasmasoundhd.pd.NoteInputSource;
 import com.rj.processing.plasmasoundhd.pd.PDManager;
 import com.rj.processing.plasmasoundhd.pd.effects.ASDR;
 import com.rj.processing.plasmasoundhd.pd.effects.Delay;
@@ -25,7 +27,7 @@ import com.rj.processing.plasmasoundhd.pd.effects.Tremolo;
 import com.rj.processing.plasmasoundhd.pd.effects.Vibrato;
 import com.rj.processing.plasmasoundhd.pd.effects.Volume;
 
-public class Instrument {
+public class Instrument implements NoteInputListener {
 	final PDManager p;
 	
 	
@@ -84,7 +86,8 @@ public class Instrument {
 		patch = p.openPatch(patchName);
 	}
 
-	public void noteOff(Note note) {
+	@Override
+	public void noteOff(NoteInputManager manager, Note note) {
 	    int index = touchabs.remove(note);
         if (ready && index <= MAX_INDEX) {
             for (final Effect e : effects) {
@@ -93,7 +96,8 @@ public class Instrument {
         }
 	}
 	
-    public void noteUpdated(Note note) {
+	@Override
+    public void noteUpdated(NoteInputManager manager, Note note) {
         int index = touchabs.move(note);
         if (ready && index <= MAX_INDEX) {
             setPitch(note, index);
@@ -103,7 +107,8 @@ public class Instrument {
         }
     }
 	
-	public void noteOn(Note note) {
+    @Override
+	public void noteOn(NoteInputManager manager, Note note) {
 	    int index = touchabs.add(note);
 		//Log.d("Instrument", "TOUCH DOWN!!!!!!: new index:"+index);
 		if (ready && index <= MAX_INDEX) {
@@ -111,6 +116,7 @@ public class Instrument {
 			setPitch(note, index);
 			for (final Effect e : effects) {
 				e.noteOn(note, index);
+				//e.noteUpdated(note, index);
 			}
 		}
 	}
@@ -151,7 +157,7 @@ public class Instrument {
 		sendMessage("pitch", val);
 	}
 	public void setPitch(Note note, int index) {
-		sendMessage("pitch", note.midivalue, index);
+		sendMessage("pitch", note.notevalue, index);
 	}
 	
 	public void setVolume(final float amp) {
@@ -283,6 +289,18 @@ public class Instrument {
 //		PdUtils.closePatch(patch);
 		PdBase.closePatch(patch);
 	}
+
+    @Override
+    public void interfaceConnected(NoteInputManager manager, NoteInputSource input) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void interfaceDisconnected(NoteInputManager manager, NoteInputSource input) {
+        // TODO Auto-generated method stub
+        
+    }
 
 
 }

@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.view.MenuItem;
 
 import com.rj.processing.mt.Cursor;
+import com.rj.processing.plasmasoundhd.pd.NoteInputSource;
 import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 import com.rj.processing.plasmasoundhd.sequencer.Sequencer;
 import com.rj.processing.plasmasoundhd.visuals.AudioStats;
@@ -42,6 +43,7 @@ public class SequencerActivity extends PlasmaSubFragment {
 	    stats = new AudioStats(p, p); 
 		if (sequencer == null) {
 			sequencer = new Sequencer(p.inst, 16, 10, 120);
+		     p.noteManager.addInputSource(sequencer);
 			updateSequencer();
 			JSONSequencerPresets.getPresets().loadDefault(p, sequencer);
 		}
@@ -281,7 +283,6 @@ public class SequencerActivity extends PlasmaSubFragment {
 	        return super.onOptionsItemSelected(item);
 	    }
 	}
-
 	
 	
 	
