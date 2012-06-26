@@ -63,7 +63,7 @@ public class Grid extends Visual{
 				         (quantize == Instrument.NSLIDE && 
 				         !keyboard.isCursorSnapped((Cursor)note.data,p.width,pp.getInst())) )) {
                     final float x = val*p.width;
-                    final float y = note.controlvalue*p.height;
+                    final float y = p.height-note.controlvalue*p.height;
                     p.line(x-crosshair_size, y, x+crosshair_size, y);
                     p.line(x, y-crosshair_size, x, y+crosshair_size);
 				} else {

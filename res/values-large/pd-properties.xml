@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pd_patch_name">simplesine4.2.pd</string>
+    <integer name="pd_patch_voices">8</integer>
+    <integer name="pd_default_quality">2</integer>
+</resources>

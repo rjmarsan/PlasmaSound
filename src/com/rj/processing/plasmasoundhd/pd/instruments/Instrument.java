@@ -57,9 +57,9 @@ public class Instrument implements NoteInputListener {
 	TouchAbstraction touchabs;
 	
 	public Instrument(final PDManager p) {
-		MAX_INDEX = Launcher.getUIType() == Launcher.PHONE ? 4 : 8; //phones support 4 touches, tablets support 8;
+		MAX_INDEX = PSND.PATCH_VOICES;
 		touchabs = new TouchAbstraction(MAX_INDEX);
-		visualQuality  = Launcher.getUIType() == Launcher.PHONE ? 1 : 2;
+		visualQuality  = PSND.DEFAULT_QUALITY;
 		this.p = p;
 		volume = new Volume();
 		sequencer = new SequencerStuff();
@@ -182,7 +182,7 @@ public class Instrument implements NoteInputListener {
 			setMidiMax(prefMidiMax);
 			
 			String defaultQuality = "1";//Launcher.getPhoneCPUPower(context) > Launcher.PRETTY_CRAP ? "1" : "0";
-			defaultQuality = Launcher.getUIType() == Launcher.PHONE ? defaultQuality : "2";
+			defaultQuality = PSND.DEFAULT_QUALITY+"";//Launcher.getUIType() == Launcher.PHONE ? defaultQuality : "2";
 //			Log.d("VisualQual", "presets have visual quality: "+prefs.contains(preset+PSND.VISUAL_QUALITY));
 //			Log.d("VisualQual", "presets for visual quality: "+prefs.getString(preset+PSND.VISUAL_QUALITY, defaultQuality));
 			String qual = defaultQuality;

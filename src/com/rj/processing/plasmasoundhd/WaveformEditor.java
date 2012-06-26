@@ -29,7 +29,7 @@ public class WaveformEditor extends PApplet implements TouchListener {
 	public int sketchWidth() { return this.screenWidth; }
 	public int sketchHeight() { return this.screenHeight; }
 	public String sketchRenderer() { return PApplet.OPENGL; }
-	  public boolean keepTitlebar() { return Launcher.getUIType() != Launcher.PHONE; }
+	  public boolean keepTitlebar() { return true; }
 	
 	public void onCreate(final Bundle savedinstance) {
 		super.onCreate(savedinstance);

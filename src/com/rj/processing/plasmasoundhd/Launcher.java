@@ -32,16 +32,6 @@ public class Launcher extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		
-		Log.d("Launcher", "Launch type: "+getUIType());
-		if (getUIType() == TABLET) {
-			Intent intent = new Intent(this, com.rj.processing.plasmasoundhd.PlasmaSound.class);
-		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );        
-		    this.startActivityForResult(intent, 1);
-		} else if (getUIType() == PHONE){
-			Intent intent = new Intent(this, com.rj.processing.plasmasoundhd.PlasmaSound.class);
-		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );        
-		    this.startActivityForResult(intent, 1);
-		}
 	}
 	
 	
@@ -62,69 +52,5 @@ public class Launcher extends Activity {
 	}
 	
 	
-	public static void setUiType(Context context) {
-		 DisplayMetrics metrics = new DisplayMetrics();
-		 Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		 display.getMetrics(metrics);
-		 size = (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
-	}
-	
-	public static int getUIType() {
-		if (size == Configuration.SCREENLAYOUT_SIZE_LARGE || size == 4 /*Configuration.SCREENLAYOUT_SIZE_XLARGE*/) {
-			return TABLET;
-		} else {
-			return PHONE;
-		}
-	}
-	
-	public static int getPhoneCPUPower(Context context) {
-		 DisplayMetrics metrics = new DisplayMetrics();
-		 Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		 display.getMetrics(metrics);
-		 int size = (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
-		 if (size == Configuration.SCREENLAYOUT_SIZE_NORMAL || size == Configuration.SCREENLAYOUT_SIZE_SMALL) {
-			 switch (metrics.densityDpi) {
-				 case DisplayMetrics.DENSITY_LOW:
-					 //Log.d("PhonePower", "Size Normal  Density LOW");
-					 return TOTAL_CRAP;
-				 case DisplayMetrics.DENSITY_MEDIUM:
-					 //Log.d("PhonePower", "Size Normal  Density MED");
-					 return PRETTY_CRAP;
-				 case DisplayMetrics.DENSITY_HIGH:
-					 //Log.d("PhonePower", "Size Normal  Density HIGH");
-					 return DECENT;
-				 case 320 /**DisplayMetrics.DENSITY_XHIGH**/:
-					 //Log.d("PhonePower", "Size Normal  Density XHIGH");
-					 return POWERFUL;
-			 }
-		 }
-		 else if (size == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-			 switch (metrics.densityDpi) {
-				 case DisplayMetrics.DENSITY_LOW:
-					 return TOTAL_CRAP;
-				 case DisplayMetrics.DENSITY_MEDIUM:
-					 return DECENT;
-				 case DisplayMetrics.DENSITY_HIGH:
-					 return POWERFUL;
-				 case 320 /**DisplayMetrics.DENSITY_XHIGH**/:
-					 return F_ING_POWERFUL;
-			 }
-		 }
-		 else if (size == 4/*Configuration.SCREENLAYOUT_SIZE_XLARGE*/) {
-			 switch (metrics.densityDpi) {
-				 case DisplayMetrics.DENSITY_LOW:
-					 return DECENT;
-				 case DisplayMetrics.DENSITY_MEDIUM:
-					 return POWERFUL;
-				 case DisplayMetrics.DENSITY_HIGH:
-					 return F_ING_POWERFUL;
-				 case 320 /**DisplayMetrics.DENSITY_XHIGH**/:
-					 return F_ING_POWERFUL;
-			 }
-		 }
-		 return DECENT;
-		 
-	}
-
 
 }

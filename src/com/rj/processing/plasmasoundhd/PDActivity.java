@@ -113,10 +113,10 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	View preferenceview;
 	
 	public void onCreate(final Bundle savedinstance) {
+	    PSND.readFromResources(this);
 		initStatics();
 		super.onCreate(savedinstance);
 		handler = new Handler();
-		PSND.readFromResources(this);
 		//runSequencer(false);
 		plzBeLandscape();
 		loadingview = this.getLayoutInflater().inflate(com.rj.processing.plasmasoundhd.R.layout.loadingscreenmall, null);
@@ -152,8 +152,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	
 	public void initStatics() {
 		isHoneycombOrGreater = Build.VERSION.SDK_INT >= 11;
-		Launcher.setUiType(this);
-		PATCH_PATH = Launcher.getUIType() == Launcher.PHONE ? "simplesine.small.4.2.pd"  : "simplesine4.2.pd";
+		PATCH_PATH = PSND.PATCH_NAME;//Launcher.getUIType() == Launcher.PHONE ? "simplesine.small.4.2.pd"  : "simplesine4.2.pd";
 	}
 	
 	

@@ -6,6 +6,11 @@ import android.content.Context;
 import android.content.res.Resources;
 
 public class PSND {
+    public static String PATCH_NAME = "simplesine4.2.pd";
+    public static int PATCH_VOICES = 4;
+    public static int DEFAULT_QUALITY = 1;
+    
+    
 	public static String MIDI_MIN = "midimin";
 	public static String MIDI_MAX = "midimax";
 	public static String VISUAL_QUALITY = "visualqual";
@@ -80,6 +85,10 @@ public class PSND {
 	
 	public static void readFromResources(Context context) {
 		Resources r = context.getResources();
+		
+		 PATCH_NAME = r.getString(R.string.pd_patch_name);
+         PATCH_VOICES = r.getInteger(R.integer.pd_patch_voices);
+         DEFAULT_QUALITY = r.getInteger(R.integer.pd_default_quality);
 		
 		 MIDI_MIN = r.getString(R.string.midimin);
 		 MIDI_MAX = r.getString(R.string.midimax);
