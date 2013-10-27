@@ -676,7 +676,6 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	}
 
 	
-	@Override
     public boolean shouldBackExit() {
 		if (isHoneycombOrGreater) {
 			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
@@ -687,21 +686,24 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 				runOnUiThread(new Runnable() { public void run() {
 					hideBoth(); 
 				}});
-				return true;
-			} else {
 				return false;
+			} else {
+				return true;
 			}
 		} else {
 			if (frag == sequencer) {
 				runTheremin(true, true);
-				return true;
+				return false;
 			}
-			return false;
+			return true;
 		}
     }
 	
 	@Override
 	public void onBackPressed() {
+		if (shouldBackExit()) {
+			super.onBackPressed();
+		}
 	}
 
 
