@@ -5,26 +5,23 @@ import java.io.File;
 import org.json.JSONObject;
 
 import processing.core.PApplet;
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
-import android.content.ActivityNotFoundException;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -32,7 +29,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Toast;
 
 import com.rj.processing.mt.Cursor;
 import com.rj.processing.mt.MTManager;
@@ -43,6 +39,7 @@ import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
 import com.rj.processing.plasmasoundhd.pd.instruments.PSND;
 import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class PDActivity extends PApplet implements TouchListener, PlasmaActivity, JSONPresets.PresetListener, JSONSequencerPresets.PresetListener {
 
 	public static final String SHARED_PREFERENCES_AUDIO = "shared_prefs_audio";
@@ -85,14 +82,18 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 		}
 	};
 	
-	public int sketchWidth() { return this.screenWidth; }
-	public int sketchHeight() { return this.screenHeight; }
+	@Override
+	public int sketchWidth() { return this.displayWidth; }
+	@Override
+	public int sketchHeight() { return this.displayHeight; }
+	@Override
 	public String sketchRenderer() { return PApplet.P3D; } 
+	@Override
 	public boolean keepTitlebar() { return isHoneycombOrGreater; }
 	/** return false to keep presets from being loaded **/
 	public boolean loadPresets() { return true; }
 	/** override to select a custom menu **/
-	int getMenu() { 
+	private int getMenu() { 
 		if (frag != null) 
 			return frag.getMenu(); 
 		else 
@@ -208,7 +209,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			frag.setup();
 		}
 		if (fragmentTransaction) {
-			FragmentManager man = this.getSupportFragmentManager();
+			FragmentManager man = this.getFragmentManager();
 			FragmentTransaction trans = man.beginTransaction();
 			removeSequencer(trans);
 			addTheremin(trans);
@@ -228,7 +229,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 			frag.setup();
 		}
 		if (fragmentTransaction) {
-			FragmentManager man = this.getSupportFragmentManager();
+			FragmentManager man = this.getFragmentManager();
 			FragmentTransaction trans = man.beginTransaction();
 			removeTheremin(trans);
 			addSequencer(trans);
@@ -238,22 +239,22 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
 	
 	public void removeTheremin(FragmentTransaction trans) {
-		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		FragmentManager man = this.getFragmentManager();
 		if (man.findFragmentByTag(PlasmaSound.TAG) != null)
 			trans.remove(instrument);
 	}
 	public void addTheremin(FragmentTransaction trans) {
-		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		FragmentManager man = this.getFragmentManager();
 		if (man.findFragmentByTag(PlasmaSound.TAG) == null)
 			trans.add(instrument, PlasmaSound.TAG);
 	}
 	public void removeSequencer(FragmentTransaction ft) {
-		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		FragmentManager man = this.getFragmentManager();
 		if (man.findFragmentByTag(SequencerActivity.TAG) != null)
 			ft.remove(sequencer);
 	}
 	public void addSequencer(FragmentTransaction trans) {
-		android.support.v4.app.FragmentManager man = this.getSupportFragmentManager();
+		FragmentManager man = this.getFragmentManager();
 		if (man.findFragmentByTag(SequencerActivity.TAG) == null)
 			trans.add(sequencer, SequencerActivity.TAG);
 	}
@@ -264,8 +265,8 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 	@Override
 	public void setup() {
 		hint(DISABLE_DEPTH_TEST);
-		hint(DISABLE_OPENGL_ERROR_REPORT);
-		hint(PApplet.DISABLE_ACCURATE_TEXTURES);
+		hint(DISABLE_OPENGL_ERRORS);
+		hint(PApplet.DISABLE_OPTIMIZED_STROKE);
 		hint(PApplet.DISABLE_DEPTH_MASK);
 		hint(PApplet.DISABLE_DEPTH_SORT);
 	    frameRate(60);
@@ -676,7 +677,7 @@ public class PDActivity extends PApplet implements TouchListener, PlasmaActivity
 
 	
 	@Override
-    public boolean pOnBackPressed() {
+    public boolean shouldBackExit() {
 		if (isHoneycombOrGreater) {
 			View fragment = this.findViewById(com.rj.processing.plasmasound.R.id.instsettings);
 			View fragment2 = this.findViewById(com.rj.processing.plasmasound.R.id.audiosettings);

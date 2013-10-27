@@ -26,8 +26,8 @@ public class WaveformEditor extends PApplet implements TouchListener {
 	private boolean redraw = true;
 	
 	
-	public int sketchWidth() { return this.screenWidth; }
-	public int sketchHeight() { return this.screenHeight; }
+	public int sketchWidth() { return this.displayWidth; }
+	public int sketchHeight() { return this.displayHeight; }
 	public String sketchRenderer() { return PApplet.OPENGL; }
 	  public boolean keepTitlebar() { return Launcher.getUIType() != Launcher.PHONE; }
 	
@@ -46,8 +46,8 @@ public class WaveformEditor extends PApplet implements TouchListener {
 	@Override
 	public void setup() {
 		hint(DISABLE_DEPTH_TEST);
-		hint(DISABLE_OPENGL_ERROR_REPORT);
-		hint(PApplet.DISABLE_ACCURATE_TEXTURES);
+		hint(DISABLE_OPENGL_ERRORS);
+//		hint(PApplet.DISABLE_ACCURATE_TEXTURES);
 		hint(PApplet.DISABLE_DEPTH_MASK);
 		hint(PApplet.DISABLE_DEPTH_SORT);
 	    frameRate(60);
@@ -67,11 +67,11 @@ public class WaveformEditor extends PApplet implements TouchListener {
 	}
 	
 	private void checkIfWaveformTooBig() {
-		if (waveform.points.length > screenWidth) {
+		if (waveform.points.length > displayWidth) {
 			originalWave = waveform;
-			waveform = new Waveform(screenWidth);
+			waveform = new Waveform(displayWidth);
 			float divisor = (float)originalWave.points.length / (float)waveform.points.length;
-			for (int i = 0; i < screenWidth; i++) {
+			for (int i = 0; i < displayWidth; i++) {
 				float val = originalWave.points[(int)(i*divisor)];
 				waveform.points[i] = val;
 			}
@@ -161,8 +161,8 @@ public class WaveformEditor extends PApplet implements TouchListener {
 	
 	private void changeWaveformFromPoint(float px, float py) {
 		float x = px;
-		float y = (py/(screenHeight/-2))+1;
-		float width = screenWidth/waveform.points.length;
+		float y = (py/(displayHeight/-2))+1;
+		float width = displayWidth/waveform.points.length;
 		int position = (int)(x/width);
 		//System.out.println("changing ("+px+","+py+") at["+position+"] to "+y+"");
 		if (position < waveform.points.length)
@@ -178,14 +178,14 @@ public class WaveformEditor extends PApplet implements TouchListener {
 		PApplet p = this;
 		background(0);
 		p.stroke(128);
-		p.line(0, screenHeight/2, screenWidth, screenHeight/2);
+		p.line(0, displayHeight/2, displayWidth, displayHeight/2);
 		if (waveform != null && waveform.points != null) {
-			float barwidth = screenWidth / waveform.points.length;
+			float barwidth = displayWidth / waveform.points.length;
 			float num = 0;
 			for (float point : waveform.points) {
 				p.fill(200,30,30,100);
 				p.noStroke();
-				p.rect(num*barwidth, screenHeight/2, barwidth, (screenHeight/2)*-point);
+				p.rect(num*barwidth, displayHeight/2, barwidth, (displayHeight/2)*-point);
 				num++;
 			}
 		}

@@ -61,8 +61,8 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 		}
 	};
 	
-	public int sketchWidth() { return this.screenWidth; }
-	public int sketchHeight() { return this.screenHeight; }
+	public int sketchWidth() { return this.displayWidth; }
+	public int sketchHeight() { return this.displayHeight; }
 	public String sketchRenderer() { return PApplet.OPENGL; }
 	public boolean keepTitlebar() { return false; }
 	
@@ -79,8 +79,8 @@ public class PlasmaSound extends PApplet implements TouchListener, PlasmaActivit
 	@Override
 	public void setup() {
 		hint(DISABLE_DEPTH_TEST);
-		hint(DISABLE_OPENGL_ERROR_REPORT);
-		hint(PApplet.DISABLE_ACCURATE_TEXTURES);
+		hint(DISABLE_OPENGL_ERRORS);
+//		hint(PApplet.DISABLE_ACCURATE_TEXTURES);
 		hint(PApplet.DISABLE_DEPTH_MASK);
 		hint(PApplet.DISABLE_DEPTH_SORT);
 	    frameRate(60);

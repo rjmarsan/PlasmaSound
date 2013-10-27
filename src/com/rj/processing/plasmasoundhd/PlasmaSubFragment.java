@@ -2,13 +2,16 @@ package com.rj.processing.plasmasoundhd;
 
 import org.json.JSONObject;
 
-import android.support.v4.app.Fragment;
+import android.annotation.TargetApi;
+import android.app.Fragment;
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.rj.processing.mt.Cursor;
 
-public class PlasmaSubFragment extends android.support.v4.app.Fragment {	
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+public class PlasmaSubFragment extends Fragment {	
 	public boolean loadPresets() { return false; }
 	int getMenu() { return com.rj.processing.plasmasound.R.menu.sequencer_menu; }
 

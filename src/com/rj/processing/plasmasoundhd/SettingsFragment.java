@@ -8,11 +8,13 @@ import org.json.JSONObject;
 import amir.android.icebreaking.EffectsBox;
 import amir.android.icebreaking.RadioGroupPrefs;
 import amir.android.icebreaking.SeekBarPreferenceView;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +24,10 @@ import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets.PresetListener;
 import com.rj.processing.plasmasoundhd.sequencer.JSONSequencerPresets;
 
-public abstract class SettingsFragment  extends Fragment implements OnSharedPreferenceChangeListener, PresetListener, JSONSequencerPresets.PresetListener {
-
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+public abstract class SettingsFragment extends Fragment implements OnSharedPreferenceChangeListener, PresetListener, JSONSequencerPresets.PresetListener {
+	PDActivity parent = null;
+	
     @Override
     public void onCreate(final Bundle icicle) {
         super.onCreate(icicle);
@@ -51,6 +55,9 @@ public abstract class SettingsFragment  extends Fragment implements OnSharedPref
     public void onAttach(Activity activity) {
     	super.onAttach(activity);
         getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        if (activity instanceof PDActivity) {
+        	parent = (PDActivity) activity;
+        }
     }
     
     @Override
@@ -64,7 +71,7 @@ public abstract class SettingsFragment  extends Fragment implements OnSharedPref
     }
     
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    	if (getActivity() != null) ((PDActivity)getActivity()).readSettings();
+    	if (parent != null) parent.readSettings();
     }
 
 	@Override

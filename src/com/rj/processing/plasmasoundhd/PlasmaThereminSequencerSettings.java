@@ -3,22 +3,13 @@ package com.rj.processing.plasmasoundhd;
 
 
 
-import org.json.JSONObject;
-
-import amir.android.icebreaking.RadioGroupPrefs;
-import amir.android.icebreaking.SeekBarPreferenceView;
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.rj.processing.plasmasound.R;
-import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets;
 import com.rj.processing.plasmasoundhd.pd.instruments.JSONPresets.PresetListener;
 
 public class PlasmaThereminSequencerSettings extends SettingsFragment implements OnSharedPreferenceChangeListener, PresetListener {
